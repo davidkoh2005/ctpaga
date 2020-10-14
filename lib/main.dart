@@ -1,0 +1,70 @@
+
+import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/loginPage.dart';
+import 'package:flutter/material.dart';
+
+void main() {
+  runApp(MyApp());
+}
+
+class MyApp extends StatelessWidget {
+  // This widget is the root of your application.
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'ctpaga',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+        visualDensity: VisualDensity.adaptivePlatformDensity,
+      ),
+      home: MyHomePage(title: 'ctpaga'),
+    );
+  }
+}
+
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key, this.title}) : super(key: key);
+
+  final String title;
+
+  @override
+  _MyHomePageState createState() => _MyHomePageState();
+}
+
+class _MyHomePageState extends State<MyHomePage> {
+
+  void initState() {
+    super.initState();
+    changePage();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+
+    var size = MediaQuery.of(context).size;
+
+    return WillPopScope(
+      onWillPop: () async =>false,
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: <Widget>[
+              Image(
+                image: AssetImage("assets/logo/logo.png"),
+                width: size.width/2,
+              ),
+            ]
+          ),
+        ),
+      ),
+    );
+  }
+
+  changePage() async{
+    // timeout and then shows login and registration
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
+  }
+}

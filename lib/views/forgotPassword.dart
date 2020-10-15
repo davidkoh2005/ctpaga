@@ -74,7 +74,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget buttonNext(){
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
-      onTap: () => null,
+      onTap: () => clickButtonNext(),
       child: Container(
         width:size.width - 100,
         height: size.height / 14,
@@ -114,7 +114,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  void _processSignIn() async{
+  void clickButtonNext() async{
     if (_formKeyForgotPassword.currentState.validate()) {
       _formKeyForgotPassword.currentState.save();
       //_onLoading();

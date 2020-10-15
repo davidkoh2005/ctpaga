@@ -2,7 +2,13 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/forgotPassword.dart';
 import 'package:ctpaga/views/registerPage.dart';
 import 'package:ctpaga/views/mainPage.dart';
+import 'package:ctpaga/env.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -14,8 +20,9 @@ class _LoginPageState extends State<LoginPage> {
   final FocusNode _emailFocus = FocusNode();  
   final FocusNode _passwordFocus = FocusNode();
   final _passwordController = TextEditingController();
-  String _email, _password;
-  bool passwordVisible = true;
+  String _email, _password, _messageError;
+  bool passwordVisible = true, _statusError = false;
+  var jsonResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -124,11 +131,28 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: Colors.green,
             ),
           ),
+          Visibility(
+            visible: _statusError,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
+                child: Text(
+                  _messageError == null? '' : _messageError,
+                  style: TextStyle(
+                    color: Colors.red
+                  ),
+                ),
+              ),
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
             child: FlatButton(
               onPressed: () {
-                _passwordController.clear();
+                setState(() {
+                  _passwordController.clear();
+                  _statusError = false;
+                });
                 Navigator.push(context, SlideLeftRoute(page: ForgotPassword()));
               },
               child: Text(
@@ -190,7 +214,13 @@ class _LoginPageState extends State<LoginPage> {
   Widget buttonRegister(){
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
-      onTap: () => Navigator.push(context, SlideLeftRoute(page: RegisterPage())),
+      onTap: () {
+        setState(() {
+          _passwordController.clear();
+          _statusError = false;
+        });
+        Navigator.push(context, SlideLeftRoute(page: RegisterPage()));
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 14,
@@ -218,7 +248,7 @@ class _LoginPageState extends State<LoginPage> {
         ),
         child: Center(
           child: Text(
-            'Registrar',
+            'Regístrate',
             style: TextStyle(
               color: Colors.white,
               fontSize: size.width / 20,
@@ -251,12 +281,107 @@ class _LoginPageState extends State<LoginPage> {
     return 'Ingrese un email válido';
   }
 
-  void clickButtonLogin() async{
-    Navigator.push(context, SlideLeftRoute(page: MainPage()));
-    /* if (_formKeyLogin.currentState.validate()) {
+   clickButtonLogin() async{
+     setState(() {
+       _statusError = false;
+     });
+    if (_formKeyLogin.currentState.validate()) {
       _formKeyLogin.currentState.save();
-      //_onLoading();
-    } */
+      _onLoading(); // show Loading
+
+      var result, response;
+
+      try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          response = await http.post(
+            urlApi+"login/",
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: jsonEncode({
+              'email': _email,
+              'password': _password,
+              'remember_me': false
+            }),
+          );
+          jsonResponse = jsonDecode(response.body);
+          if (jsonResponse['statusCode'] == 201) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('access_token', jsonResponse['access_token']);
+            _passwordController.clear();
+            Navigator.pop(context);
+            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+          } else if(jsonResponse['message'] == 'Unauthorized'){
+            setState(() {
+              _passwordController.clear();
+              _statusError = true;
+              _messageError = "Email o contraseña incorrectos";
+            });
+            Navigator.pop(context);
+            //print('Request failed: ${jsonResponse.message}.');
+          }  
+        }
+      } on SocketException catch (_) {
+        setState(() {
+          _statusError = true;
+          _messageError = "Sin conexión, inténtalo de nuevo mas tarde";
+        });
+        Navigator.pop(context);
+      } 
+    }
+  }
+
+  Future<void> _onLoading() async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cargando ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                      TextSpan(
+                        text: "...",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
 }

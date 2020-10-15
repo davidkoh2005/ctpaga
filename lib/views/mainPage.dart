@@ -2,7 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 
 import 'package:ctpaga/views/navbar/navbarDefault.dart';
 import 'package:ctpaga/views/registerPage.dart';
-import 'package:ctpaga/views/ProductPage.dart';
+import 'package:ctpaga/views/ProductsPage.dart';
 
 import 'package:flutter/material.dart';
 
@@ -31,7 +31,7 @@ class _MainPageState extends State<MainPage> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                buttonProduct(),
+                buttonProducts(),
                 buttonService(),
                 buttonQuantity(),
               ]
@@ -42,7 +42,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Widget buttonProduct(){
+  Widget buttonProducts(){
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -51,7 +51,7 @@ class _MainPageState extends State<MainPage> {
           setState((){
             clickBotton = 1;
           });
-          nextPage(ProductPage());
+          nextPage(ProductsPage());
         },
         child: Container(
           width:size.width - 100,
@@ -80,7 +80,7 @@ class _MainPageState extends State<MainPage> {
           ),
           child: Center(
             child: Text(
-              'Producto',
+              'Productos',
               style: TextStyle(
                 color: Colors.white,
                 fontSize: size.width / 20,

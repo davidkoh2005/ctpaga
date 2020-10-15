@@ -1,6 +1,13 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/env.dart';
+import 'package:ctpaga/views/mainPage.dart';
+
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class RegisterPage extends StatefulWidget {
 
@@ -17,8 +24,9 @@ class _RegisterPageState extends State<RegisterPage> {
   final FocusNode _emailFocus = FocusNode();  
   final FocusNode _passwordFocus = FocusNode();
   final FocusNode _passwordConfirmFocus = FocusNode();
-  String _name, _address, _phone, _email, _password, _passwordConfirm;
-  bool passwordVisible = true;
+  String _name, _address, _phone, _email, _password, _passwordConfirm, _messageError;
+  bool passwordVisible = true, _statusError = false;
+  var jsonResponse;
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +117,7 @@ class _RegisterPageState extends State<RegisterPage> {
               autofocus: false,
               focusNode: _phoneFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocus),
+              keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 icon: Icon(Icons.phone, color: Colors.green),
                 labelText: 'Teléfono',
@@ -119,7 +128,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   borderSide: BorderSide(color: Colors.green),
                 ),
               ),
-              onSaved: (String value) => _address = value,
+              onSaved: (String value) => _phone = value,
               validator: _validatePhone,
               textInputAction: TextInputAction.next,
               cursorColor: Colors.green,
@@ -128,6 +137,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
+              autofocus: false,
               maxLines: 1,
               keyboardType: TextInputType.emailAddress,
               focusNode: _emailFocus,
@@ -154,6 +164,7 @@ class _RegisterPageState extends State<RegisterPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
+              autofocus: false,
               maxLines: 1,
               keyboardType: TextInputType.text,
               obscureText: passwordVisible,
@@ -192,8 +203,9 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 50.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
             child: new TextFormField(
+              autofocus: false,
               maxLines: 1,
               keyboardType: TextInputType.text,
               obscureText: passwordVisible,
@@ -234,6 +246,19 @@ class _RegisterPageState extends State<RegisterPage> {
               cursorColor: Colors.green,
             ),
           ),
+
+          _statusError ? Center(
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(10.0, 15.0, 0.0, 50.0),
+                child: Text(
+                  _messageError == null? '' : _messageError,
+                  style: TextStyle(
+                    color: Colors.red
+                  ),
+                ),
+              ),
+            )
+          : Padding(padding: EdgeInsets.only(top: 50.0)),
         ],
       ),
     );
@@ -282,12 +307,111 @@ class _RegisterPageState extends State<RegisterPage> {
     );
   }
 
-  _clickButtonRegister(){
-    print("entro");
+  _clickButtonRegister() async{
+    setState(() {
+      _statusError = false;
+    });
     if (_formKeyRegister.currentState.validate()) {
       _formKeyRegister.currentState.save();
-      //_onLoading();
+      
+      _onLoading();
+
+      var result, response;
+
+      try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          response = await http.post(
+            urlApi+"signup/",
+            headers: <String, String>{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: jsonEncode({
+              'name': _name,
+              'email': _email,
+              'password': _password,
+              'password_confirmation': _passwordConfirm,
+              'address': _address,
+              'phone': _phone,
+            }),
+          );
+          
+          jsonResponse = jsonDecode(response.body);
+          if (jsonResponse['statusCode'] == 201) {
+            //TODO: Falta obtener el token
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('access_token', jsonResponse['access_token']);
+            Navigator.pop(context);
+            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+          } else if(jsonResponse['errors'] != null){
+            setState(() {
+              _statusError = true;
+              _messageError = 'El correo ya se encuentra registrado.';
+            });
+            Navigator.pop(context);
+            //print('Request failed: ${jsonResponse.message}.');
+          }  
+        }
+      } on SocketException catch (_) {
+        setState(() {
+          _statusError = true;
+          _messageError = "Sin conexión, inténtalo de nuevo mas tarde";
+        });
+        Navigator.pop(context);
+      } 
     }
+  }
+
+  Future<void> _onLoading() async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.transparent,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cargando ",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                      TextSpan(
+                        text: "...",
+                        style: TextStyle(
+                          color: Colors.green,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
   String _validateName(String value) {

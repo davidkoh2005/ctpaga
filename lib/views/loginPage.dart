@@ -68,17 +68,17 @@ class _LoginPageState extends State<LoginPage> {
               focusNode: _emailFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_passwordFocus),
               decoration: new InputDecoration(
-                  labelText: "Email",
-                  labelStyle: TextStyle(
-                    color: colorGreen
-                  ),
-                  icon: new Icon(
-                    Icons.mail,
-                    color: colorGreen,
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
-                  ), 
+                labelText: "Email",
+                labelStyle: TextStyle(
+                  color: colorGreen
+                ),
+                icon: new Icon(
+                  Icons.mail,
+                  color: colorGreen,
+                ),
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: colorGreen),
+                ),
               ),
               validator: _validateEmail,
               onSaved: (value) => _email = value.trim(),
@@ -171,7 +171,10 @@ class _LoginPageState extends State<LoginPage> {
   Widget buttonLogin(){
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
-      onTap: () => clickButtonLogin(),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
+        clickButtonLogin();
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 14,
@@ -306,29 +309,36 @@ class _LoginPageState extends State<LoginPage> {
               'password': _password,
             }),
           );
+
           jsonResponse = jsonDecode(response.body);
+
           if (jsonResponse['statusCode'] == 201) {
+
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
             _passwordController.clear();
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+
           } else if(jsonResponse['message'] == 'Unauthorized'){
+
             setState(() {
               _passwordController.clear();
               _statusError = true;
               _messageError = "Email o contraseña incorrectos";
             });
             Navigator.pop(context);
-            //print('Request failed: ${jsonResponse.message}.');
+
           }  
         }
       } on SocketException catch (_) {
+
         setState(() {
           _statusError = true;
           _messageError = "Sin conexión, inténtalo de nuevo mas tarde";
         });
         Navigator.pop(context);
+
       } 
     }
   }

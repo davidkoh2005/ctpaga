@@ -93,6 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: new TextFormField(
               autofocus: false,
               focusNode: _addressFocus,
+              keyboardType: TextInputType.emailAddress,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(

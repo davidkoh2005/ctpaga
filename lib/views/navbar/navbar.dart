@@ -45,6 +45,7 @@ class _NavbarState extends State<Navbar> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: size.width / 14,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ],

@@ -2,7 +2,11 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+
+import 'dart:async';
 
 class CreateProductPage extends StatefulWidget {
   @override
@@ -10,15 +14,18 @@ class CreateProductPage extends StatefulWidget {
 }
 
 class _CreateProductPageState extends State<CreateProductPage> {
+  final lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+  final _scrollController = ScrollController();
+  final FocusNode _nameFocus = FocusNode();  
+  final FocusNode _priceFocus = FocusNode();
+  final FocusNode _descriptionFocus = FocusNode();
 
-  bool statusProducts = false, 
-      statusCategory = false,
-      statusButton = false;
+  String _name, _description;
+  double _price;
+  bool _statusButton = false;
 
   @override
   Widget build(BuildContext context) {
-
-    var size = MediaQuery.of(context).size;
 
     return Scaffold(
         body: Column(
@@ -47,15 +54,142 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
     return Expanded(
       child: Container(
-        height: size.height - 100,
+        width: size.width-50,
         child: SafeArea(
           child: Scrollbar(
+            controller: _scrollController, 
+            isAlwaysShown: true,
             child: SingleChildScrollView(
+              controller: _scrollController, 
               child:Column(
                 children: <Widget>[
                   showImage(),
-                  
-
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Nombre",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+                    child: new TextFormField(
+                      maxLines: 1,
+                      textCapitalization:TextCapitalization.words,
+                      inputFormatters: [
+                        WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                        BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                      ], 
+                      autofocus: false,
+                      focusNode: _nameFocus,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
+                      validator: _validateName,
+                      onSaved: (value) => _name = value.trim(),
+                      textInputAction: TextInputAction.next,
+                      cursorColor: colorGrey,
+                      textAlign: TextAlign.center,
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: colorGrey),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Precio",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+                    child: new TextFormField(
+                      controller: lowPrice,
+                      maxLines: 1,
+                      inputFormatters: [  
+                        WhitelistingTextInputFormatter.digitsOnly,
+                      ],
+                      keyboardType: TextInputType.numberWithOptions(decimal: true),
+                      autofocus: false,
+                      focusNode: _priceFocus,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
+                      onSaved: (value) => _price = double.parse(value),
+                      textInputAction: TextInputAction.next,
+                      cursorColor: colorGrey,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: size.width / 10,
+                        color: colorGrey,
+                      ),
+                      decoration: InputDecoration(
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                      ),                  
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Descrición (optional)",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 50.0),
+                    child: new TextFormField(
+                      keyboardType: TextInputType.multiline,
+                      maxLines: 5,
+                      textCapitalization:TextCapitalization.sentences,
+                      autofocus: false,
+                      focusNode: _descriptionFocus,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(),
+                      onSaved: (value) => _description = value.trim(),
+                      cursorColor: colorGrey,
+                      decoration: InputDecoration(
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: colorGrey),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 50.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Catálogo de productos",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
                 ]
               ),
             ),
@@ -85,7 +219,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        setState(() => statusButton = true);
+        setState(() => _statusButton = true);
         nextPage();
       },
       child: Container(
@@ -98,8 +232,8 @@ class _CreateProductPageState extends State<CreateProductPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              statusButton? colorGreen : colorGrey,
-              statusButton? colorGreen : colorGrey,
+              _statusButton? colorGreen : colorGrey,
+              _statusButton? colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -111,7 +245,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
           child: Text(
             "CREAR PRODUCTO",
             style: TextStyle(
-              color: statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorGreen,
               fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
             ),
@@ -121,9 +255,23 @@ class _CreateProductPageState extends State<CreateProductPage> {
     );
   }
 
- 
   nextPage()async{
     await Future.delayed(Duration(milliseconds: 250));
     Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
+  }
+
+  String _validateName(String value) {
+    // This is just a regular expression for name
+    String p = '[a-zA-Z]';
+    RegExp regExp = new RegExp(p);
+
+    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+      // So, the name is valid
+      _name = value;
+      return null;
+    }
+
+    // The pattern of the name and surname didn't match the regex above.
+    return 'Ingrese nombre y apellido válido';
   }
 }

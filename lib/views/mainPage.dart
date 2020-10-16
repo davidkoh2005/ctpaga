@@ -1,6 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarMain.dart';
-import 'package:ctpaga/views/ProductsPage.dart';
+import 'package:ctpaga/views/productsPage.dart';
+import 'package:ctpaga/views/quantityPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
@@ -146,6 +147,7 @@ class _MainPageState extends State<MainPage> {
       child: GestureDetector(
         onTap: () {
           setState(() => clickBotton = 3);
+          nextPage(QuantityPage());
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -188,7 +190,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   nextPage(Widget page)async{
-    await Future.delayed(Duration(milliseconds: 250));
+    await Future.delayed(Duration(milliseconds: 150));
     setState(() => clickBotton = 0);
     Navigator.push(context, SlideLeftRoute(page: page));
   }

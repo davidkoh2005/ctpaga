@@ -1,6 +1,6 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/createProductPage.dart';
-import 'package:ctpaga/views/navbar/navbarProducts.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
@@ -12,21 +12,19 @@ class ProductsPage extends StatefulWidget {
 
 class _ProductsPageState extends State<ProductsPage> {
 
-  bool statusProducts = false, 
-      statusCategory = false,
-      statusButton = false;
+  bool _statusProducts = false, 
+      _statusCategory = false,
+      _statusButton = false;
 
   @override
   Widget build(BuildContext context) {
-
-    var size = MediaQuery.of(context).size;
 
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            NavbarProducts(),
+            NavbarTrolley("Productos"),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -35,12 +33,12 @@ class _ProductsPageState extends State<ProductsPage> {
                   SizedBox(height:20),
                   dropdownProducts(),
 
-                  statusProducts? listProducts()
+                  _statusProducts? listProducts()
                   : Padding(padding: EdgeInsets.all(5)),
 
                   dropdownCategory(),
 
-                  statusCategory? listCategory()
+                  _statusCategory? listCategory()
                   : Padding(padding: EdgeInsets.all(15)),
 
                   buttonCreateProduct(),
@@ -115,7 +113,7 @@ class _ProductsPageState extends State<ProductsPage> {
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
-        setState(() => statusButton = true);
+        setState(() => _statusButton = true);
         nextPage();
       },
       child: Container(
@@ -128,8 +126,8 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              statusButton? colorGreen : Colors.transparent,
-              statusButton? colorGreen : Colors.transparent,
+              _statusButton? colorGreen : Colors.transparent,
+              _statusButton? colorGreen : Colors.transparent,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -141,7 +139,7 @@ class _ProductsPageState extends State<ProductsPage> {
           child: Text(
             "CREAR PRODUCTO",
             style: TextStyle(
-              color: statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorGreen,
               fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
             ),
@@ -152,8 +150,8 @@ class _ProductsPageState extends State<ProductsPage> {
   }
 
   nextPage()async{
-    await Future.delayed(Duration(milliseconds: 250));
-    setState(() => statusButton = false);
+    await Future.delayed(Duration(milliseconds: 150));
+    setState(() => _statusButton = false);
     Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
   }
 }

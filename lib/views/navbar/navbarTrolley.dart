@@ -1,15 +1,17 @@
 import 'package:ctpaga/env.dart';
 import 'package:flutter/material.dart';
 
-class NavbarProducts extends StatefulWidget {
-  NavbarProducts();
+class NavbarTrolley extends StatefulWidget {
+  NavbarTrolley(this._title);
+  final String _title;
 
   @override
-  _NavbarProductsState createState() => _NavbarProductsState();
+  _NavbarTrolleyState createState() => _NavbarTrolleyState(this._title);
 }
 
-class _NavbarProductsState extends State<NavbarProducts> {
-  _NavbarProductsState();
+class _NavbarTrolleyState extends State<NavbarTrolley> {
+  _NavbarTrolleyState(this._title);
+  final String _title;
 
   @override
   Widget build(BuildContext context) {
@@ -39,10 +41,11 @@ class _NavbarProductsState extends State<NavbarProducts> {
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
-                      "Productos",
+                      _title,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: size.width / 14,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                   ],

@@ -1,3 +1,5 @@
+import 'package:ctpaga/env.dart';
+
 import 'package:flutter/material.dart';
 
 class ForgotPassword extends StatefulWidget {
@@ -58,7 +60,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   hintText: "Email",
                   icon: new Icon(
                     Icons.mail,
-                    color: Colors.green,
+                    color: colorGreen,
                   )
               ),
               validator: (value) => value.isEmpty? 'Email no puede estar vacío' : null ,
@@ -80,13 +82,13 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.green, 
+            color: colorGreen, 
             width: 1.0,
           ),
           gradient: LinearGradient(
             colors: [
-              Colors.green,
-              Colors.green,
+              colorGreen,
+              colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

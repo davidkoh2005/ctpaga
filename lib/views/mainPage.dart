@@ -1,8 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-
-import 'package:ctpaga/views/navbar/navbarDefault.dart';
-import 'package:ctpaga/views/registerPage.dart';
+import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/ProductsPage.dart';
+import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
 
@@ -19,26 +18,28 @@ class _MainPageState extends State<MainPage> {
     
     var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          NavbarDefault(false,'Princial',RegisterPage()),
-          Container(
-            height: size.height-190,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                buttonProducts(),
-                buttonService(),
-                buttonQuantity(),
-              ]
+    return WillPopScope(
+      onWillPop: () async =>false,
+      child: Scaffold(
+        body: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            NavbarMain(),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  buttonProducts(),
+                  buttonService(),
+                  buttonQuantity(),
+                ]
+              ),
             ),
-          ),
-        ],
-      ),
+          ],
+        ),
+      )
     );
   }
 
@@ -48,23 +49,21 @@ class _MainPageState extends State<MainPage> {
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
-          setState((){
-            clickBotton = 1;
-          });
+          setState(() => clickBotton = 1);
           nextPage(ProductsPage());
         },
         child: Container(
           width:size.width - 100,
-          height: size.height / 18,
+          height: size.height / 20,
           decoration: BoxDecoration(
             border: Border.all(
-              color: clickBotton == 1? Colors.green : Colors.grey, 
+              color: clickBotton == 1? colorGreen : colorGrey, 
               width: 1.0,
             ),
             gradient: LinearGradient(
               colors: [
-                clickBotton == 1? Colors.green : Colors.grey,
-                clickBotton == 1? Colors.green : Colors.grey,
+                clickBotton == 1? colorGreen : colorGrey,
+                clickBotton == 1? colorGreen : colorGrey,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -98,23 +97,21 @@ class _MainPageState extends State<MainPage> {
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            clickBotton = 2;
-          });
+          setState(() => clickBotton = 2);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
           width:size.width - 100,
-          height: size.height / 18,
+          height: size.height / 20,
           decoration: BoxDecoration(
             border: Border.all(
-              color: clickBotton == 2? Colors.green : Colors.grey, 
+              color: clickBotton == 2? colorGreen : colorGrey, 
               width: 1.0,
             ),
             gradient: LinearGradient(
               colors: [
-                clickBotton == 2? Colors.green : Colors.grey,
-                clickBotton == 2? Colors.green : Colors.grey,
+                clickBotton == 2? colorGreen : colorGrey,
+                clickBotton == 2? colorGreen : colorGrey,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -148,23 +145,21 @@ class _MainPageState extends State<MainPage> {
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
-          setState(() {
-            clickBotton = 3;
-          });
+          setState(() => clickBotton = 3);
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),
           width:size.width - 100,
-          height: size.height / 18,
+          height: size.height / 20,
           decoration: BoxDecoration(
             border: Border.all(
-              color: clickBotton == 3? Colors.green : Colors.grey, 
+              color: clickBotton == 3? colorGreen : colorGrey, 
               width: 1.0,
             ),
             gradient: LinearGradient(
               colors: [
-                clickBotton == 3? Colors.green : Colors.grey,
-                clickBotton == 3? Colors.green : Colors.grey,
+                clickBotton == 3? colorGreen : colorGrey,
+                clickBotton == 3? colorGreen : colorGrey,
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -194,9 +189,7 @@ class _MainPageState extends State<MainPage> {
 
   nextPage(Widget page)async{
     await Future.delayed(Duration(milliseconds: 250));
-    setState(() {
-      clickBotton = 0;
-    });
+    setState(() => clickBotton = 0);
     Navigator.push(context, SlideLeftRoute(page: page));
   }
 }

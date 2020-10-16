@@ -1,14 +1,15 @@
+import 'package:ctpaga/env.dart';
 import 'package:flutter/material.dart';
 
-class NavbarProduct extends StatefulWidget {
-  NavbarProduct();
+class NavbarProducts extends StatefulWidget {
+  NavbarProducts();
 
   @override
-  _NavbarProductState createState() => _NavbarProductState();
+  _NavbarProductsState createState() => _NavbarProductsState();
 }
 
-class _NavbarProductState extends State<NavbarProduct> {
-  _NavbarProductState();
+class _NavbarProductsState extends State<NavbarProducts> {
+  _NavbarProductsState();
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +21,7 @@ class _NavbarProductState extends State<NavbarProduct> {
         Container(
           width: size.width,
           height: size.height/5.5,
-          color: Colors.grey,
+          color: colorGrey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -29,13 +30,13 @@ class _NavbarProductState extends State<NavbarProduct> {
                 padding: EdgeInsets.only(top:40),
                 child: Row(
                   children: <Widget>[
-                      IconButton(
-                      iconSize: 80,
+                    IconButton(
+                      iconSize: 65,
                       icon: Icon(
                         Icons.keyboard_arrow_left,
-                        color: Colors.green,
+                        color: colorGreen,
                       ),
-                      onPressed: null
+                      onPressed: () => Navigator.pop(context),
                     ),
                     Text(
                       "Productos",
@@ -64,13 +65,13 @@ class _NavbarProductState extends State<NavbarProduct> {
         ),
 
         Container(
-          alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 70, left: 50),
+          alignment: Alignment.topCenter,
+          padding: EdgeInsets.only(top: 100, left: 120),
           child: ClipOval(
             child: Image.asset(
-              "assets/icons/perfil.png",
-              width: 120,
-              height: 120,
+              "assets/icons/carrito.png",
+              width: size.width/5,
+              height: size.width/5,
               fit: BoxFit.cover
             ),
           ),

@@ -1,16 +1,15 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/createProductPage.dart';
-import 'package:ctpaga/views/navbar/navbarProducts.dart';
+import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
 
-class ProductsPage extends StatefulWidget {
+class CreateProductPage extends StatefulWidget {
   @override
-  _ProductsPageState createState() => _ProductsPageState();
+  _CreateProductPageState createState() => _CreateProductPageState();
 }
 
-class _ProductsPageState extends State<ProductsPage> {
+class _CreateProductPageState extends State<CreateProductPage> {
 
   bool statusProducts = false, 
       statusCategory = false,
@@ -26,25 +25,15 @@ class _ProductsPageState extends State<ProductsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            NavbarProducts(),
+            Navbar('Nuevo Producto'),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
-                  SizedBox(height:20),
-                  dropdownProducts(),
-
-                  statusProducts? listProducts()
-                  : Padding(padding: EdgeInsets.all(5)),
-
-                  dropdownCategory(),
-
-                  statusCategory? listCategory()
-                  : Padding(padding: EdgeInsets.all(15)),
-
+                  formProduct(),
                   buttonCreateProduct(),
-
+                  SizedBox(height:20),
                 ]
               ),
             ),
@@ -53,67 +42,48 @@ class _ProductsPageState extends State<ProductsPage> {
       );
   }
 
-  Widget dropdownProducts(){
+  Widget formProduct(){
     var size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width,
-      height: 50,
-      color: colorGrey,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text(
-            "Productos",
-            style: TextStyle(
-              fontSize: size.width / 20,
+
+    return Expanded(
+      child: Container(
+        height: size.height - 100,
+        child: SafeArea(
+          child: Scrollbar(
+            child: SingleChildScrollView(
+              child:Column(
+                children: <Widget>[
+                  showImage(),
+                  
+
+                ]
+              ),
             ),
           ),
-          SizedBox(width:50),
-          Icon(
-            Icons.keyboard_arrow_down,
-            color: colorGreen,
-          ),
-        ]
+        ),
       ),
     );
   }
 
-  Widget dropdownCategory(){
+  showImage(){
+
     var size = MediaQuery.of(context).size;
-    return Container(
-      width: size.width,
-      height: 50,
-      color: colorGrey,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Text(
-            "Categoría",
-            style: TextStyle(
-              fontSize: size.width / 20,
-            ),
-          ),
-          SizedBox(width:50),
-          Icon(
-            Icons.keyboard_arrow_down,
-            color: colorGreen,
-          ),
-        ]
+
+    return GestureDetector(
+      onTap: () => print("entro"),
+      child: ClipOval(
+        child: Image(
+          image: AssetImage("assets/icons/addPhoto.png"),
+          width: size.width/4,
+          height: size.width/4,
+        ),
       ),
     );
-  }
-
-  Widget listProducts(){
-    return Container();
-  }
-
-  Widget listCategory(){
-    return Container();
   }
 
   Widget buttonCreateProduct(){
     var size = MediaQuery.of(context).size;
-    return  GestureDetector(
+    return GestureDetector(
       onTap: () {
         setState(() => statusButton = true);
         nextPage();
@@ -128,8 +98,8 @@ class _ProductsPageState extends State<ProductsPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              statusButton? colorGreen : Colors.transparent,
-              statusButton? colorGreen : Colors.transparent,
+              statusButton? colorGreen : colorGrey,
+              statusButton? colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -151,9 +121,9 @@ class _ProductsPageState extends State<ProductsPage> {
     );
   }
 
+ 
   nextPage()async{
     await Future.delayed(Duration(milliseconds: 250));
-    setState(() => statusButton = false);
     Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
   }
 }

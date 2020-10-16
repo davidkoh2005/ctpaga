@@ -73,19 +73,19 @@ class _RegisterPageState extends State<RegisterPage> {
                 BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
               ], 
               decoration: InputDecoration(
-                icon: Icon(Icons.person, color: Colors.green),
+                icon: Icon(Icons.person, color: colorGreen),
                 labelText: 'Nombre y Apellido',
                 labelStyle: TextStyle(
-                  color: Colors.green
+                  color: colorGreen
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                  borderSide: BorderSide(color: colorGreen),
                 ),
               ),
               onSaved: (String value) => _name = value,
               validator: _validateName,
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -96,19 +96,19 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
-                icon: Icon(Icons.home, color: Colors.green),
+                icon: Icon(Icons.home, color: colorGreen),
                 labelText: 'Dirección',
                 labelStyle: TextStyle(
-                  color: Colors.green
+                  color: colorGreen
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                  borderSide: BorderSide(color: colorGreen),
                 ),
               ),
               onSaved: (String value) => _address = value,
               validator: _validateAddress,
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -119,19 +119,19 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocus),
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                icon: Icon(Icons.phone, color: Colors.green),
+                icon: Icon(Icons.phone, color: colorGreen),
                 labelText: 'Teléfono',
                 labelStyle: TextStyle(
-                  color: Colors.green
+                  color: colorGreen
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.green),
+                  borderSide: BorderSide(color: colorGreen),
                 ),
               ),
               onSaved: (String value) => _phone = value,
               validator: _validatePhone,
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -145,20 +145,20 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   icon: new Icon(
                     Icons.mail,
-                    color: Colors.green,
+                    color: colorGreen,
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(color: colorGreen),
                   ),
               ),
               validator: _validateEmail,
               onSaved: (String value) => _email = value,
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -173,18 +173,18 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña',
                   labelStyle: TextStyle(
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: Colors.green
+                      color: colorGreen
                       ),
                     onPressed: () {
                       setState(() {
@@ -193,13 +193,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(color: colorGreen),
                   ),
               ),
               validator: _validatePassword,
               onSaved: (String value) => _password = value,
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -213,18 +213,18 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Confirmar Contraseña',
                   labelStyle: TextStyle(
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: Colors.green,
+                      color: colorGreen,
                       ),
                     onPressed: () {
                       setState(() {
@@ -233,7 +233,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
               validator: _validatePasswordConfirm,
@@ -243,7 +243,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 _clickButtonRegister();
               },
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
 
@@ -273,13 +273,13 @@ class _RegisterPageState extends State<RegisterPage> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.green, 
+            color: colorGreen, 
             width: 1.0,
           ),
           gradient: LinearGradient(
             colors: [
-              Colors.green,
-              Colors.green,
+              colorGreen,
+              colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -324,7 +324,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
           response = await http.post(
             urlApi+"signup/",
-            headers: <String, String>{
+            headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
             },
@@ -337,21 +337,24 @@ class _RegisterPageState extends State<RegisterPage> {
               'phone': _phone,
             }),
           );
-          
+
           jsonResponse = jsonDecode(response.body);
+
           if (jsonResponse['statusCode'] == 201) {
-            //TODO: Falta obtener el token
+
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+
           } else if(jsonResponse['errors'] != null){
+
             setState(() {
               _statusError = true;
               _messageError = 'El correo ya se encuentra registrado.';
             });
             Navigator.pop(context);
-            //print('Request failed: ${jsonResponse.message}.');
+
           }  
         }
       } on SocketException catch (_) {
@@ -381,7 +384,7 @@ class _RegisterPageState extends State<RegisterPage> {
               Container(
                 padding: EdgeInsets.all(5),
                 child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
                 ),
               ),
               Container(
@@ -399,7 +402,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       TextSpan(
                         text: "...",
                         style: TextStyle(
-                          color: Colors.green,
+                          color: colorGreen,
                           fontSize: size.width / 20,
                         )
                       ),

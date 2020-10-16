@@ -70,20 +70,20 @@ class _LoginPageState extends State<LoginPage> {
               decoration: new InputDecoration(
                   labelText: "Email",
                   labelStyle: TextStyle(
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   icon: new Icon(
                     Icons.mail,
-                    color: Colors.green,
+                    color: colorGreen,
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(color: colorGreen),
                   ), 
               ),
               validator: _validateEmail,
               onSaved: (value) => _email = value.trim(),
               textInputAction: TextInputAction.next,
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Padding(
@@ -98,18 +98,18 @@ class _LoginPageState extends State<LoginPage> {
               decoration: new InputDecoration(
                   labelText: "Contraseña",
                   labelStyle: TextStyle(
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: Colors.green
+                    color: colorGreen
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: Colors.green,
+                      color: colorGreen,
                       ),
                     onPressed: () {
                       setState(() {
@@ -118,7 +118,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: Colors.green),
+                    borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
               validator: (value) => value.isEmpty? 'Ingrese una contraseña válido': null,
@@ -128,7 +128,7 @@ class _LoginPageState extends State<LoginPage> {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 clickButtonLogin();
               },
-              cursorColor: Colors.green,
+              cursorColor: colorGreen,
             ),
           ),
           Visibility(
@@ -158,7 +158,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Text(
                 "Olvidé mi contraseña?",
                 style: TextStyle(
-                  color: Colors.green,
+                  color: colorGreen,
                 ),
               )
             )
@@ -177,13 +177,13 @@ class _LoginPageState extends State<LoginPage> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.green, 
+            color: colorGreen, 
             width: 1.0,
           ),
           gradient: LinearGradient(
             colors: [
-              Colors.green,
-              Colors.green,
+              colorGreen,
+              colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -226,13 +226,13 @@ class _LoginPageState extends State<LoginPage> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: Colors.green, 
+            color: colorGreen, 
             width: 1.0,
           ),
           gradient: LinearGradient(
             colors: [
-              Colors.green,
-              Colors.green,
+              colorGreen,
+              colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -304,7 +304,6 @@ class _LoginPageState extends State<LoginPage> {
             body: jsonEncode({
               'email': _email,
               'password': _password,
-              'remember_me': false
             }),
           );
           jsonResponse = jsonDecode(response.body);
@@ -351,7 +350,7 @@ class _LoginPageState extends State<LoginPage> {
               Container(
                 padding: EdgeInsets.all(5),
                 child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
                 ),
               ),
               Container(
@@ -369,7 +368,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextSpan(
                         text: "...",
                         style: TextStyle(
-                          color: Colors.green,
+                          color: colorGreen,
                           fontSize: size.width / 20,
                         )
                       ),

@@ -1,20 +1,17 @@
+import 'package:ctpaga/env.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatefulWidget {
-  Navbar(this._statusBack, this._title, this.urlNavigator);
-  final bool _statusBack;
+  Navbar(this._title);
   final String _title;
-  final Widget urlNavigator;
 
   @override
-  _NavbarState createState() => _NavbarState(this._statusBack, this._title, this.urlNavigator);
+  _NavbarState createState() => _NavbarState(this._title);
 }
 
 class _NavbarState extends State<Navbar> {
-  _NavbarState(this._statusBack, this._title, this.urlNavigator);
-  final bool _statusBack;
+  _NavbarState(this._title);
   final String _title;
-  final Widget urlNavigator;
 
   @override
   Widget build(BuildContext context) {
@@ -26,34 +23,31 @@ class _NavbarState extends State<Navbar> {
         Container(
           width: size.width,
           height: size.height/5.5,
-          color: Colors.grey,
+          color: colorGrey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Visibility(
-                visible: _statusBack,
-                child: Padding(
-                  padding: EdgeInsets.only(top:40),
-                  child: Row(
-                    children: <Widget>[
-                       IconButton(
-                        iconSize: 80,
-                        icon: Icon(
-                          Icons.keyboard_arrow_left,
-                          color: Colors.green,
-                        ),
-                        onPressed: null
+              Padding(
+                padding: EdgeInsets.only(top:40),
+                child: Row(
+                  children: <Widget>[
+                      IconButton(
+                      iconSize: 65,
+                      icon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: colorGreen,
                       ),
-                      Text(
-                        _title,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: size.width / 14,
-                        ),
+                      onPressed: () => Navigator.pop(context),
+                    ),
+                    Text(
+                      _title,
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: size.width / 14,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
 
@@ -71,20 +65,6 @@ class _NavbarState extends State<Navbar> {
             ]
           ),
         ),
-
-        Container(
-          alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 70, left: 50),
-          child: ClipOval(
-            child: Image.asset(
-              "assets/icons/perfil.png",
-              width: 120,
-              height: 120,
-              fit: BoxFit.cover
-            ),
-          ),
-        ),
-
       ],
     );
 

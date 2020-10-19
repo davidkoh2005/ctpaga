@@ -93,7 +93,7 @@ class _RegisterPageState extends State<RegisterPage> {
             child: new TextFormField(
               autofocus: false,
               focusNode: _addressFocus,
-              keyboardType: TextInputType.emailAddress,
+              keyboardType: TextInputType.text,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -497,6 +497,7 @@ class _RegisterPageState extends State<RegisterPage> {
     String epDigit= "(?=.*?[0-9])";                        // should contain at least one digit
     String epSpecialCharacter = "(?=.*?[-_!@#\$&*~])";  // should contain at least one Special character
     RegExp regExp = new RegExp(epUpperCase);
+
     if (!regExp.hasMatch(value)){
       errorValidate = errorValidate + '\n\n Una letra mayúscula.';
     }

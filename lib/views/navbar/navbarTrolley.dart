@@ -1,4 +1,7 @@
+import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/menuPage.dart';
 import 'package:ctpaga/env.dart';
+
 import 'package:flutter/material.dart';
 
 class NavbarTrolley extends StatefulWidget {
@@ -60,7 +63,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                     Icons.menu,
                     color: Colors.white,
                     ),
-                  onPressed: null,
+                  onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
                 )
               )
             ]

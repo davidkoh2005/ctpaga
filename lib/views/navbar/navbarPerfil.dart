@@ -4,19 +4,15 @@ import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
 
-class Navbar extends StatefulWidget {
-  Navbar(this._title, this._statusMenu);
-  final String _title;
-  final bool _statusMenu;
+class NavbarPerfil extends StatefulWidget {
+  NavbarPerfil();
 
   @override
-  _NavbarState createState() => _NavbarState(this._title, this._statusMenu);
+  _NavbarPerfilState createState() => _NavbarPerfilState();
 }
 
-class _NavbarState extends State<Navbar> {
-  _NavbarState(this._title, this._statusMenu);
-  final String _title;
-  final bool _statusMenu;
+class _NavbarPerfilState extends State<NavbarPerfil> {
+  _NavbarPerfilState();
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +33,7 @@ class _NavbarState extends State<Navbar> {
                 padding: EdgeInsets.only(top:40),
                 child: Row(
                   children: <Widget>[
-                      IconButton(
+                    IconButton(
                       iconSize: 65,
                       icon: Icon(
                         Icons.keyboard_arrow_left,
@@ -46,7 +42,7 @@ class _NavbarState extends State<Navbar> {
                       onPressed: () => Navigator.pop(context),
                     ),
                     Text(
-                      _title,
+                      "Perfil",
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: size.width / 14,
@@ -57,23 +53,34 @@ class _NavbarState extends State<Navbar> {
                 ),
               ),
 
-              Visibility(
-                visible: _statusMenu,
-                child: Padding(
-                  padding: EdgeInsets.only(top:40, right:20),
-                  child: IconButton(
-                    iconSize: size.width / 10,
-                    icon: Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                      ),
-                    onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
-                  )
+              Padding(
+                padding: EdgeInsets.only(top:40, right:20),
+                child: IconButton(
+                  iconSize: size.width / 10,
+                  icon: Icon(
+                    Icons.menu,
+                    color: Colors.white,
+                    ),
+                  onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
                 )
               )
             ]
           ),
         ),
+
+        Container(
+          alignment: Alignment.topCenter,
+          padding: EdgeInsets.only(top: 60, left: 60),
+          child: ClipOval(
+            child: Image.asset(
+              "assets/icons/perfil.png",
+              width: size.width/3,
+              height: size.width/3,
+              fit: BoxFit.cover
+            ),
+          ),
+        ),
+
       ],
     );
 

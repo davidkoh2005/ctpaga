@@ -65,6 +65,7 @@ class _MyHomePageState extends State<MyHomePage> {
   changePage() async{
     // timeout and then shows login and registration
     await Future.delayed(Duration(seconds: 2));
+    //TODO: verificar si esta logueado
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 }

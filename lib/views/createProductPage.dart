@@ -32,7 +32,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar('Nuevo Producto'),
+            Navbar('Nuevo Producto', true),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -204,7 +204,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
     var size = MediaQuery.of(context).size;
 
     return GestureDetector(
-      onTap: () => print("entro"),
+      onTap: () => print("entro"),//TODO: ruta
       child: ClipOval(
         child: Image(
           image: AssetImage("assets/icons/addPhoto.png"),

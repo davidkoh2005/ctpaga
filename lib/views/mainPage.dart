@@ -17,8 +17,6 @@ class _MainPageState extends State<MainPage> {
   @override
   Widget build(BuildContext context) {
     
-    var size = MediaQuery.of(context).size;
-
     return WillPopScope(
       onWillPop: () async =>false,
       child: Scaffold(
@@ -51,16 +49,12 @@ class _MainPageState extends State<MainPage> {
       child: GestureDetector(
         onTap: () {
           setState(() => clickBotton = 1);
-          nextPage(ProductsPage());
+          nextPage(ProductsPage(true));
         },
         child: Container(
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: clickBotton == 1? colorGreen : colorGrey, 
-              width: 1.0,
-            ),
             gradient: LinearGradient(
               colors: [
                 clickBotton == 1? colorGreen : colorGrey,
@@ -70,13 +64,6 @@ class _MainPageState extends State<MainPage> {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(5, 5),
-                blurRadius: 10,
-              )
-            ],
           ),
           child: Center(
             child: Text(
@@ -105,10 +92,6 @@ class _MainPageState extends State<MainPage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: clickBotton == 2? colorGreen : colorGrey, 
-              width: 1.0,
-            ),
             gradient: LinearGradient(
               colors: [
                 clickBotton == 2? colorGreen : colorGrey,
@@ -118,13 +101,6 @@ class _MainPageState extends State<MainPage> {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(5, 5),
-                blurRadius: 10,
-              )
-            ],
           ),
           child: Center(
             child: Text(
@@ -154,10 +130,6 @@ class _MainPageState extends State<MainPage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            border: Border.all(
-              color: clickBotton == 3? colorGreen : colorGrey, 
-              width: 1.0,
-            ),
             gradient: LinearGradient(
               colors: [
                 clickBotton == 3? colorGreen : colorGrey,
@@ -167,13 +139,6 @@ class _MainPageState extends State<MainPage> {
               end: Alignment.bottomRight,
             ),
             borderRadius: BorderRadius.circular(30),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black12,
-                offset: Offset(5, 5),
-                blurRadius: 10,
-              )
-            ],
           ),
           child: Center(
             child: Text(

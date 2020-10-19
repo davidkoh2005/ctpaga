@@ -76,7 +76,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   Widget buttonNext(){
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
-      onTap: () => clickButtonNext(),
+      onTap: () => clickButtonSend(),
       child: Container(
         width:size.width - 100,
         height: size.height / 14,
@@ -104,7 +104,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         ),
         child: Center(
           child: Text(
-            'Siguiente',
+            'Enviar',
             style: TextStyle(
               color: Colors.white,
               fontSize: size.width / 20,
@@ -116,10 +116,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  void clickButtonNext() async{
+  void clickButtonSend(){
     if (_formKeyForgotPassword.currentState.validate()) {
       _formKeyForgotPassword.currentState.save();
       //_onLoading();
+      //TODO: Enviar Correo
     }
   }
 }

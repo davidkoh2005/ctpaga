@@ -40,6 +40,13 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Permitir el acceso a la biblioteca de fotos</string>
+
+	<key>NSCameraUsageDescription</key>
+	<string>Permitir el acceso a la cámara para capturar fotos</string>
+	
 	<false/>
 </dict>
 </plist>

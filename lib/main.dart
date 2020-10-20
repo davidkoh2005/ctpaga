@@ -1,6 +1,8 @@
-
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/loginPage.dart';
+
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -11,13 +13,16 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Ctpaga',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: MyHomePage(title: 'Ctpaga'),
+    return ChangeNotifierProvider( 
+      create: (_) => MyProvider(),
+      child: MaterialApp(
+        title: 'Ctpaga',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          visualDensity: VisualDensity.adaptivePlatformDensity,
+        ),
+        home: MyHomePage(title: 'Ctpaga'),
+      )
     );
   }
 }
@@ -37,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     changePage();
   }
-  
+
   @override
   Widget build(BuildContext context) {
 

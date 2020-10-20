@@ -1,12 +1,13 @@
 
 import 'package:ctpaga/views/depositsPage.dart';
+import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
 
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String urlApi = "http://192.168.1.104:8000/api/auth/";
+String urlApi = "http://192.168.1.117:8000/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(230,230,230,1);
@@ -61,7 +62,7 @@ List listMenu = [
   {
     "title": "Cerrar sesión",
     "icon": "",
-    "page": null,
+    "page": LoginPage(),
   },
 ];
 

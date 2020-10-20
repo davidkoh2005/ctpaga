@@ -1,10 +1,12 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/forgotPassword.dart';
 import 'package:ctpaga/views/registerPage.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -293,6 +295,7 @@ class _LoginPageState extends State<LoginPage> {
       _onLoading(); // show Loading
 
       var result, response;
+      var myProvider = Provider.of<MyProvider>(context, listen: false);
 
       try {
         result = await InternetAddress.lookup('google.com');
@@ -316,10 +319,10 @@ class _LoginPageState extends State<LoginPage> {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
+            myProvider.accessTokenUser = jsonResponse['access_token'];
             _passwordController.clear();
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
-
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

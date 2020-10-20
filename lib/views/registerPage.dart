@@ -1,8 +1,10 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/env.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/mainPage.dart';
+import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -318,6 +320,7 @@ class _RegisterPageState extends State<RegisterPage> {
       _onLoading();
 
       var result, response;
+      var myProvider = Provider.of<MyProvider>(context, listen: false);
 
       try {
         result = await InternetAddress.lookup('google.com');
@@ -345,6 +348,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
+            myProvider.accessTokenUser = jsonResponse['access_token'];
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
 
@@ -434,11 +438,8 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   String _validateAddress(String value) {
-    // This is just a regular expression for address
-    String p = '[a-zA-Z]';
-    RegExp regExp = new RegExp(p);
 
-    if (regExp.hasMatch(value) && value.length >=3) {
+    if (value.length >=3) {
       // So, the address is valid
       _address = value;
       return null;

@@ -81,11 +81,13 @@ class _MainPageState extends State<MainPage> {
 
   Widget buttonService(){
     var size = MediaQuery.of(context).size;
+
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
-          setState(() => clickBotton = 2);
+          //setState(() => clickBotton = 2);
+          //TODO: falta
         },
         child: Container(
           padding: EdgeInsets.only(top: 10, bottom: 10),

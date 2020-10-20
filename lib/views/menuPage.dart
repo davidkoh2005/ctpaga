@@ -1,8 +1,14 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class MenuPage extends StatefulWidget {
   @override
@@ -27,7 +33,7 @@ class _MenuPageState extends State<MenuPage> {
                 itemCount: listMenu.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
-                    onTap: () => nextPage(listMenu[index]['page'], index),
+                    onTap: () => nextPage(listMenu[index]['title'], listMenu[index]['page'], index),
                     child: Stack(
                       children: <Widget>[
                         Padding(
@@ -84,10 +90,39 @@ class _MenuPageState extends State<MenuPage> {
 
  
 
-  nextPage(page, index)async{
+  nextPage(title, page, index)async{
     setState(() =>statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
-    Navigator.push(context, SlideLeftRoute(page: page));
+    if(title == "Cerrar sesión"){
+       var result, response, jsonResponse;
+       try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          var myProvider = Provider.of<MyProvider>(context, listen: false);
+          response = await http.post(
+            urlApi+"logout/",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+          );
+
+          jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse);
+          if (jsonResponse['statusCode'] == 201) {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.remove("access_token");
+
+            Navigator.pushReplacement(context, SlideLeftRoute(page: page));
+          }  
+        }
+      } on SocketException catch (_) {
+        print("error");
+      } 
+    }else{
+      Navigator.push(context, SlideLeftRoute(page: page));
+    }
   }
 }

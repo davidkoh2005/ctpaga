@@ -43,10 +43,10 @@ class _LoginPageState extends State<LoginPage> {
                   image: AssetImage("assets/logo/logo.png"),
                   width: size.width/2,
                 ),
-                  formLogin(),
-                buttonLogin(),
-                Padding(padding: EdgeInsets.only(top:20)),
-                buttonRegister(),
+                formLogin(), //form login
+                buttonLogin(), //button login
+                SizedBox(height:20), //separation between two buttons
+                buttonRegister(), //button Register
               ]
             ),
           ),
@@ -123,12 +123,12 @@ class _LoginPageState extends State<LoginPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-              validator: (value) => value.isEmpty? 'Ingrese una contraseña válido': null,
+              validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
               onSaved: (value) => _password = value.trim(),
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (term){
-                FocusScope.of(context).requestFocus(new FocusNode());
-                clickButtonLogin();
+                FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
+                clickButtonLogin(); //process that will be carried out when you press the login button
               },
               cursorColor: colorGreen,
             ),
@@ -174,8 +174,8 @@ class _LoginPageState extends State<LoginPage> {
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
-        clickButtonLogin();
+        FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
+        clickButtonLogin(); //process that will be carried out when you press the login button
       },
       child: Container(
         width:size.width - 100,
@@ -278,7 +278,6 @@ class _LoginPageState extends State<LoginPage> {
     RegExp regExp = new RegExp(p);
 
     if (value.isNotEmpty &&regExp.hasMatch(value)) {
-      _email = value;
       return null;     
     }
 
@@ -298,7 +297,7 @@ class _LoginPageState extends State<LoginPage> {
       var myProvider = Provider.of<MyProvider>(context, listen: false);
 
       try {
-        result = await InternetAddress.lookup('google.com');
+        result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
@@ -311,7 +310,7 @@ class _LoginPageState extends State<LoginPage> {
               'email': _email,
               'password': _password,
             }),
-          );
+          ); // peticion api
 
           jsonResponse = jsonDecode(response.body);
 

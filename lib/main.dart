@@ -1,9 +1,11 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/loginPage.dart';
+import 'package:ctpaga/views/mainPage.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 void main() {
   runApp(MyApp());
@@ -68,9 +70,15 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   changePage() async{
-    // timeout and then shows login and registration
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    // timeout and then shows login and registration or main page
     await Future.delayed(Duration(seconds: 2));
-    //TODO: verificar si esta logueado
-    Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
+    if(prefs.containsKey('access_token')){
+      myProvider.accessTokenUser = prefs.getString('access_token');
+      Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+    }else{
+      Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
+    }
   }
 }

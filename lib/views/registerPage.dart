@@ -47,8 +47,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   width: size.width/2,
                 ),
                 
-                formRegister(),
-                buttonRegister(),
+                formRegister(), //form Register
+                buttonRegister(), // button Register
               ]
             ),
           ),
@@ -243,8 +243,8 @@ class _RegisterPageState extends State<RegisterPage> {
               onSaved: (String value) => _passwordConfirm = value,
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (term){
-                FocusScope.of(context).requestFocus(new FocusNode());
-                _clickButtonRegister();
+                FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
+                _clickButtonRegister(); //process that will be carried out when you press the register button
               },
               cursorColor: colorGreen,
             ),
@@ -270,7 +270,10 @@ class _RegisterPageState extends State<RegisterPage> {
   Widget buttonRegister(){
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
-      onTap: () => _clickButtonRegister(),
+      onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
+        _clickButtonRegister(); //process that will be carried out when you press the register button
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 14,
@@ -323,7 +326,7 @@ class _RegisterPageState extends State<RegisterPage> {
       var myProvider = Provider.of<MyProvider>(context, listen: false);
 
       try {
-        result = await InternetAddress.lookup('google.com');
+        result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
@@ -340,7 +343,7 @@ class _RegisterPageState extends State<RegisterPage> {
               'address': _address,
               'phone': _phone,
             }),
-          );
+          ); // peticion api
 
           jsonResponse = jsonDecode(response.body);
 
@@ -429,7 +432,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
-      _name = value;
       return null;
     }
 
@@ -441,7 +443,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (value.length >=3) {
       // So, the address is valid
-      _address = value;
       return null;
     }
 
@@ -454,9 +455,8 @@ class _RegisterPageState extends State<RegisterPage> {
     String p = r'^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=9) {
       // So, the phone is valid
-      _phone = value;
       return null;
     }
 
@@ -477,7 +477,6 @@ class _RegisterPageState extends State<RegisterPage> {
     RegExp regExp = new RegExp(p);
 
     if (value.isNotEmpty &&regExp.hasMatch(value)) {
-      _email = value;
       return null;     
     }
 
@@ -521,7 +520,6 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (errorValidate == 'La contraseña es inválida, debe tener:'){
       // So, the Password is valid
-      _password = value;
       return null;
     }
     

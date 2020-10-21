@@ -95,11 +95,12 @@ class _MenuPageState extends State<MenuPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
     if(title == "Cerrar sesión"){
-       var result, response, jsonResponse;
-       try {
+      var myProvider = Provider.of<MyProvider>(context, listen: false);
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      var result, response, jsonResponse;
+      try {
         result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          var myProvider = Provider.of<MyProvider>(context, listen: false);
           response = await http.post(
             urlApi+"logout/",
             headers:{
@@ -110,11 +111,10 @@ class _MenuPageState extends State<MenuPage> {
           );
 
           jsonResponse = jsonDecode(response.body); 
-          print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.remove("access_token");
-
+            myProvider.accessTokenUser = null;
+            myProvider.dataUser = null;
             Navigator.pushReplacement(context, SlideLeftRoute(page: page));
           }  
         }

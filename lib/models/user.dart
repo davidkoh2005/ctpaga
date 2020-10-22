@@ -1,10 +1,10 @@
 class User{
-  final String rif, nameCompany, addressCompany, phoneCompany, email, name, address, phone;
+  final String rifCompany, nameCompany, addressCompany, phoneCompany, email, name, address, phone;
 
-  User({this.rif, this.nameCompany, this.addressCompany, this.phoneCompany, this.email, this.name, this.address, this.phone});
+  User({this.rifCompany, this.nameCompany, this.addressCompany, this.phoneCompany, this.email, this.name, this.address, this.phone});
 
   factory User.fromMap(dynamic data) => User(
-    rif: data['rif'],
+    rifCompany: data['rifCompany'],
     nameCompany: data['nameCompany'],
     addressCompany: data['addressCompany'],
     phoneCompany: data['phoneCompany'],
@@ -15,7 +15,7 @@ class User{
   );
 
   Map<String, dynamic> toJson()=> {
-    'rif': rif,
+    'rifCompany': rifCompany,
     'nameCompany': nameCompany,
     'addressCompanyCompany': addressCompany,
     'phoneCompany': phoneCompany,

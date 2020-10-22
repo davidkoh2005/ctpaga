@@ -4,6 +4,7 @@ import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/quantityPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
+import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:provider/provider.dart';
@@ -20,6 +21,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   User user = User();
+  List bankUser = new List(2);
+  Bank bankUserUSD = Bank();
+  Bank bankUserBs = Bank();
   int clickBotton = 0;
 
   void initState() {
@@ -45,7 +49,7 @@ class _MainPageState extends State<MainPage> {
         jsonResponse = jsonDecode(response.body);
         if (jsonResponse['statusCode'] == 201) {
           user = User(
-            rif: jsonResponse['data']['rif'] == null? '' : jsonResponse['data']['rif'],
+            rifCompany: jsonResponse['data']['rifCompany'] == null? '' : jsonResponse['data']['rifCompany'],
             nameCompany: jsonResponse['data']['nameCompany'] == null? '' : jsonResponse['data']['nameCompany'],
             addressCompany: jsonResponse['data']['addressCompany'] == null? '' : jsonResponse['data']['addressCompany'],
             phoneCompany: jsonResponse['data']['phoneCompany'] == null? '' : jsonResponse['data']['phoneCompany'],
@@ -54,6 +58,36 @@ class _MainPageState extends State<MainPage> {
             address: jsonResponse['data']['address'],
             phone: jsonResponse['data']['phone'],
           );
+
+          for (var item in jsonResponse['data']['banks']) {
+            if(item['coin'] == 'USD'){
+              bankUserUSD = Bank(
+                country: item['country'],
+                accountName: item['accountName'],
+                accountNumber: item['accountNumber'],
+                route: item['route'],
+                swift: item['swift'],
+                address: item['address'],
+                bankName: item['bankName'],
+                accountType: item['accountType'],
+              ); 
+              
+              bankUser[0] = bankUserUSD;
+
+            }else{
+              bankUserBs = Bank(
+                accountName: item['accountName'],
+                accountNumber: item['accountNumber'],
+                idCard: item['idCard'],
+                bankName: item['bankName'],
+                accountType: item['accountType'],
+              ); 
+
+              bankUser[1] = bankUserBs;
+            }
+          }
+
+          myProvider.dataBankUser = bankUser;
           myProvider.dataUser = user;
         }  
       }

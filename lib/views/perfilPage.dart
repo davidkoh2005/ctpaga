@@ -2,6 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarPerfil.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
+import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:searchable_dropdown/searchable_dropdown.dart';
@@ -32,22 +33,28 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _addressFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
   final FocusNode _countryBankingUSDFocus = FocusNode();
-  final FocusNode _nameAccountBankingUSDFocus = FocusNode();
-  final FocusNode _numberAccountBankingUSDFocus = FocusNode();
+  final FocusNode _accountNameBankingUSDFocus = FocusNode();
+  final FocusNode _accountNumberBankingUSDFocus = FocusNode();
   final FocusNode _routeBankingUSDFocus = FocusNode();
   final FocusNode _swiftBankingUSDFocus = FocusNode();
   final FocusNode _addressBankingUSDFocus = FocusNode();
-  final FocusNode _nameBankingUSDFocus = FocusNode();
-  final FocusNode _typeAccountBankingUSDFocus = FocusNode();
+  final FocusNode _accountTypeBankingUSDFocus = FocusNode();
+  final FocusNode _accountNameBankingBsFocus = FocusNode();
+  final FocusNode _idCardBankingBsFocus = FocusNode();
+  final FocusNode _accountNumberBankingBsFocus = FocusNode();
 
   String _statusDropdown = "",
-         _rif, _nameCompany, _addressCompany, _phoneCompany,
+         _rifCompany, _nameCompany, _addressCompany, _phoneCompany,
         _email, _name, _address, _phone,
-        _countryBankingUSD, _nameAccountBankingUSD, _numberAccountBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _typeAccountBankingUSD;
+        _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
+        _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusMoney = 0;
   File _image;
-  bool _statusCountry = false, _statusClick = false;
+  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
+  List bankUser = new List(2);
+  Bank bankUserUSD = Bank();
+  Bank bankUserBs = Bank();
   
   void initState() {
     super.initState();
@@ -76,7 +83,7 @@ class _PerfilPageState extends State<PerfilPage> {
         jsonResponse = jsonDecode(response.body);
         if (jsonResponse['statusCode'] == 201) {
           user = User(
-            rif: jsonResponse['data']['rif'] == null? '' : jsonResponse['data']['rif'],
+            rifCompany: jsonResponse['data']['rifCompany'] == null? '' : jsonResponse['data']['rifCompany'],
             nameCompany: jsonResponse['data']['nameCompany'] == null? '' : jsonResponse['data']['nameCompany'],
             addressCompany: jsonResponse['data']['addressCompany'] == null? '' : jsonResponse['data']['addressCompany'],
             phoneCompany: jsonResponse['data']['phoneCompany'] == null? '' : jsonResponse['data']['phoneCompany'],
@@ -85,6 +92,37 @@ class _PerfilPageState extends State<PerfilPage> {
             address: jsonResponse['data']['address'],
             phone: jsonResponse['data']['phone'],
           );
+          
+          
+          for (var item in jsonResponse['data']['banks']) {
+            if(item['coin'] == 'USD'){
+              bankUserUSD = Bank(
+                country: item['country'],
+                accountName: item['accountName'],
+                accountNumber: item['accountNumber'],
+                route: item['route'],
+                swift: item['swift'],
+                address: item['address'],
+                bankName: item['bankName'],
+                accountType: item['accountType'],
+              ); 
+              
+              bankUser[0] = bankUserUSD;
+
+            }else{
+              bankUserBs = Bank(
+                accountName: item['accountName'],
+                accountNumber: item['accountNumber'],
+                idCard: item['idCard'],
+                bankName: item['bankName'],
+                accountType: item['accountType'],
+              ); 
+
+              bankUser[1] = bankUserBs;
+            }
+          }
+          
+          myProvider.dataBankUser = bankUser;
           myProvider.dataUser = user;
 
         }  
@@ -284,7 +322,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.rif,
+              initialValue: myProvider.dataUser.rifCompany,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -296,7 +334,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   borderSide: BorderSide(color: colorGreen),
                 ),
               ),
-              onSaved: (String value) => _rif = value,
+              onSaved: (String value) => _rifCompany = value,
               validator: _validateRif,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
@@ -323,7 +361,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 ),
               ),
               onSaved: (String value) => _nameCompany = value,
-              validator: (value) => value.isEmpty? 'Nombre de la Compañia no puede estar vacío' : null,
+              validator: (value) => value.isEmpty? 'Nombre de la empresa no puede estar vacío' : null,
               textInputAction: TextInputAction.next,
               focusNode: _nameCompanyFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressCompanyFocus),
@@ -625,7 +663,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.name,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].country,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -644,7 +682,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 onSaved: (String value) => _countryBankingUSD = value.toLowerCase(),
                 validator: _validateCountry,
                 textInputAction: TextInputAction.next,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_nameAccountBankingUSDFocus),
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNameBankingUSDFocus),
                 onChanged: (value) {
                   if(value.toLowerCase() == "usa")
                     setState(() => _statusCountry = true);
@@ -658,7 +696,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.name,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -674,11 +712,11 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _nameAccountBankingUSD = value,
+                onSaved: (String value) => _accountNameBankingUSD = value,
                 validator: _validateName,
                 textInputAction: TextInputAction.next,
-                focusNode: _nameAccountBankingUSDFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_numberAccountBankingUSDFocus),
+                focusNode: _accountNameBankingUSDFocus,
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingUSDFocus),
                 cursorColor: colorGreen,
               ),
             ),
@@ -686,7 +724,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.phone,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -698,9 +736,9 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _numberAccountBankingUSD = value,
+                onSaved: (String value) => _accountNumberBankingUSD = value,
                 validator: (value) => value.length <=4? "Ingrese numero de cuenta válido" : null ,
-                focusNode: _numberAccountBankingUSDFocus,
+                focusNode: _accountNumberBankingUSDFocus,
                 cursorColor: colorGreen,
               ),
             ),
@@ -712,13 +750,13 @@ class _PerfilPageState extends State<PerfilPage> {
                   return (DropdownMenuItem(
                       child: Text(result), value: result));
                 }).toList(),
-                //value: selectedValue,
+                value: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].bankName,
                 hint: "Nombre del Banco",
                 searchHint: null,
                 onChanged: (value)=> _nameBankingUSD = value,
                 dialogBox: false,
                 isExpanded: true,
-                validator: (value) => value == null && _statusClick? "Ingrese el nombre del banco correctamente": null,
+                validator: (value) => value == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
                 menuConstraints: BoxConstraints.tight(Size.fromHeight(350)),
               ),
             ),
@@ -726,9 +764,10 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].route,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
+                maxLength: 9,
                 decoration: InputDecoration(
                   labelText: 'Ruta o Aba (si es USA)',
                   labelStyle: TextStyle(
@@ -750,7 +789,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].swift,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -763,7 +802,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   ),
                 ),
                 onSaved: (String value) => _swiftBankingUSD = value,
-                validator: (value) => (value.length >=8 && value.length <=11) || _statusCountry? "Ingrese el Swift válido": null,
+                validator: (value) => (!(value.length >=8 && value.length <=11)) && _statusCountry? "Ingrese el Swift válido": null,
                 textInputAction: TextInputAction.next,
                 focusNode: _swiftBankingUSDFocus,
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_addressBankingUSDFocus),
@@ -774,7 +813,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].address,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -790,7 +829,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 validator: _validateAddress,
                 textInputAction: TextInputAction.next,
                 focusNode: _addressBankingUSDFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_typeAccountBankingUSDFocus),
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountTypeBankingUSDFocus),
                 cursorColor: colorGreen,
               ),
             ),
@@ -798,9 +837,10 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                //initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
+                maxLength: 1,
                 decoration: InputDecoration(
                   labelText: 'Tipo de cuenta (C o A)',
                   labelStyle: TextStyle(
@@ -810,13 +850,13 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _typeAccountBankingUSD = value,
+                onSaved: (String value) => _accountTypeBankingUSD = value,
                 validator: (value) => value.toLowerCase() != 'c' || value.toLowerCase() != 'c'? "Ingrese tipo de cuenta válido": null,
                 textInputAction: TextInputAction.done,
-                focusNode: _typeAccountBankingUSDFocus,
+                focusNode: _accountTypeBankingUSDFocus,
                 onEditingComplete: (){
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  //buttonClickSaveCompany(); //TODO:falta
+                  buttonClickSaveBanking(); //TODO:falta
                 },
                 cursorColor: colorGreen,
               ),
@@ -837,7 +877,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataUser.name,
+                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -845,7 +885,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
                 ], 
                 decoration: InputDecoration(
-                  labelText: 'Nombre y Apellido',
+                  labelText: 'Nombre de la cuenta',
                   labelStyle: TextStyle(
                     color: colorGrey
                   ),
@@ -853,11 +893,11 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _name = value,
+                onSaved: (String value) => _accountNameBankingBs = value,
                 validator: _validateName,
                 textInputAction: TextInputAction.next,
-                focusNode: _nameFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_addressFocus),
+                focusNode: _accountNameBankingBsFocus,
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
                 cursorColor: colorGreen,
               ),
             ),
@@ -865,11 +905,12 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].idCard,
                 autofocus: false,
+                keyboardType: TextInputType.text,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
-                  labelText: 'Dirección',
+                  labelText: 'Cedula (V-123456789)',
                   labelStyle: TextStyle(
                     color: colorGrey
                   ),
@@ -877,11 +918,11 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _address = value,
-                validator: _validateAddress,
+                onSaved: (String value) => _idCardBankingBs = value,
+                validator: _validateIdCard,
+                focusNode: _idCardBankingBsFocus,
                 textInputAction: TextInputAction.next,
-                focusNode: _addressFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
+                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
                 cursorColor: colorGreen,
               ),
             ),
@@ -889,11 +930,15 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountNumber,
                 autofocus: false,
-                textCapitalization:TextCapitalization.sentences,
+                keyboardType: TextInputType.number,
+                maxLength: 20,
+                inputFormatters: [  
+                  WhitelistingTextInputFormatter.digitsOnly,
+                ],
                 decoration: InputDecoration(
-                  labelText: 'Nombre del Banco',
+                  labelText: 'Número de Cuenta',
                   labelStyle: TextStyle(
                     color: colorGrey
                   ),
@@ -901,21 +946,38 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _address = value,
-                validator: _validateAddress,
-                textInputAction: TextInputAction.next,
-                focusNode: _addressFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
+                onSaved: (String value) => _accountNumberBankingBs = value,
+                validator: (value) => value.length !=20? "Ingrese numero de cuenta válido" : null ,
+                focusNode: _accountNumberBankingBsFocus,
                 cursorColor: colorGreen,
               ),
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+              padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: SearchableDropdown.single(
+                items: listBankBs.map((result) {
+                  return (DropdownMenuItem(
+                      child: Text(result), value: result));
+                }).toList(),
+                value: myProvider.dataBankUser[1] == null? null : myProvider.dataBankUser[1].bankName,
+                hint: "Nombre del Banco",
+                searchHint: null,
+                onChanged: (value)=> _nameBankingBs = value,
+                dialogBox: false,
+                isExpanded: true,
+                validator: (value) => value == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,
+                menuConstraints: BoxConstraints.tight(Size.fromHeight(350)),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataUser.address,
+                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
+                maxLength: 1,
                 decoration: InputDecoration(
                   labelText: 'Tipo de cuenta (C o A)',
                   labelStyle: TextStyle(
@@ -925,11 +987,13 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _address = value,
-                validator: _validateAddress,
-                textInputAction: TextInputAction.next,
-                focusNode: _addressFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
+                onSaved: (String value) => _accountTypeBankingBs = value.toUpperCase(),
+                validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
+                textInputAction: TextInputAction.done,
+                onEditingComplete: (){
+                  FocusScope.of(context).requestFocus(new FocusNode());
+                  buttonClickSaveBanking(); //TODO:falta
+                },
                 cursorColor: colorGreen,
               ),
             ),
@@ -1027,6 +1091,22 @@ class _PerfilPageState extends State<PerfilPage> {
     return 'Ingrese el país correctamente';
   }
 
+  
+  String _validateIdCard(value){
+    // This is just a regular expression for RIF
+    String p = r'^[c|e|g|j|p|v|C|E|G|J|P|V][-][0-9]+';
+    RegExp regExp = new RegExp(p);
+
+    if (regExp.hasMatch(value)) {
+      return null;
+    }
+
+    // The pattern of the RIf didn't match the regex above.
+    return 'Ingrese la cedula correctamente';
+  }
+
+  String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
+
   Widget buttonSave(button){
     var size = MediaQuery.of(context).size;
     return Padding(
@@ -1044,7 +1124,15 @@ class _PerfilPageState extends State<PerfilPage> {
               buttonClickSaveContact();
               break;
             case "Banking":
-              setState(() => _statusClick = true);
+              setState(() {
+                if (_statusMoney == 0){
+                  _statusClickUSD = true;
+                  _statusClickBs = false;
+                }else{
+                  _statusClickUSD = false;
+                  _statusClickBs = true;
+                }
+              });
               buttonClickSaveBanking();
               break;
           }
@@ -1096,7 +1184,7 @@ class _PerfilPageState extends State<PerfilPage> {
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
             },
             body: jsonEncode({
-              'rif': _rif,
+              'rifCompany': _rifCompany,
               'nameCompany': _nameCompany,
               'addressCompany': _addressCompany,
               'phoneCompany': _phoneCompany,
@@ -1105,8 +1193,12 @@ class _PerfilPageState extends State<PerfilPage> {
 
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
-            Navigator.pop(context);
+            setState(() => _statusDropdown = "");
             getDataUser();
+            Navigator.pop(context);
+            showMessageCorrectly("Guardado Correctamente");
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
@@ -1141,8 +1233,9 @@ class _PerfilPageState extends State<PerfilPage> {
 
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
-            Navigator.pop(context);
+            setState(() => _statusDropdown = "");
             getDataUser();
+             Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
@@ -1177,8 +1270,12 @@ class _PerfilPageState extends State<PerfilPage> {
 
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
-            Navigator.pop(context);
+            setState(() => _statusDropdown = "");
             getDataUser();
+            Navigator.pop(context);
+            showMessageCorrectly("Guardado Correctamente");
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
@@ -1187,11 +1284,75 @@ class _PerfilPageState extends State<PerfilPage> {
     }
   }
 
-  void buttonClickSaveBanking()async{
-    if (_formKeyBankingUSD.currentState.validate()) {
-      _formKeyBankingUSD.currentState.save();
-      print("entro");
+  void buttonClickSaveBanking(){
+    if(_statusMoney == 0){
+      if (_formKeyBankingUSD.currentState.validate()) {
+        _formKeyBankingUSD.currentState.save();
+        saveDataBanking();
+      }
+    }else{
+      if (_formKeyBankingBs.currentState.validate()) {
+        _formKeyBankingBs.currentState.save();
+        saveDataBanking();
+      }
     }
+  }
+
+  void saveDataBanking()async{
+    _onLoading();
+      var result, response, jsonResponse;
+       try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          var myProvider = Provider.of<MyProvider>(context, listen: false);
+
+          var parameters = jsonToUrl(jsonEncode({
+              'coin': _statusMoney == 0? "USD" : "Bs",
+              'country': _statusMoney == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "venezuela",
+              'accountName': _statusMoney == 0? _accountNameBankingUSD : _accountNameBankingBs,
+              'accountNumber': _statusMoney == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
+              'idCard': _idCardBankingBs,
+              'route': _routeBankingUSD,
+              'swift': _swiftBankingUSD,
+              'address': _addressBankingUSD,
+              'bankName': _statusMoney == 0? _nameBankingUSD : _nameBankingBs,
+              'accountType': _statusMoney == 0? _accountTypeBankingUSD : _accountTypeBankingBs,
+            }));
+
+          response = await http.get(
+            urlApi+"bankUser/$parameters",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+          ); 
+
+          jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            setState(() => _statusDropdown = "");
+            getDataUser();
+            Navigator.pop(context);
+            showMessageCorrectly("Guardado Correctamente");
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
+          }  
+        }
+      } on SocketException catch (_) {
+        print("error network");
+      } 
+  }
+
+  String jsonToUrl(value){
+    String parametersUrl="?";
+    final json = jsonDecode(value) as Map;
+    for (final name in json.keys) {
+      final value = json[name];
+      parametersUrl = parametersUrl + "$name=$value&";
+    }
+    
+    return parametersUrl.substring(0, parametersUrl.length-1);
   }
 
   nextPage(page, index)async{
@@ -1200,7 +1361,7 @@ class _PerfilPageState extends State<PerfilPage> {
     //setState(() =>statusButton.remove(index));
     Navigator.push(context, SlideLeftRoute(page: page));
   }
-
+  
   Future<void> _onLoading() async {
     var size = MediaQuery.of(context).size;
 
@@ -1209,7 +1370,7 @@ class _PerfilPageState extends State<PerfilPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           content: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -1229,7 +1390,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       TextSpan(
                         text: "Cargando ",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: size.width / 20,
                         )
                       ),
@@ -1242,6 +1403,45 @@ class _PerfilPageState extends State<PerfilPage> {
                       ),
                     ]
                   ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> showMessageCorrectly(_titleMessage) async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Image.asset(
+                  "assets/icons/correctly.png",
+                  width: size.width / 6,
+                  height: size.width / 6,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: size.width / 20,
+                  )
                 ),
               ),
             ],

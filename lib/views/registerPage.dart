@@ -346,7 +346,6 @@ class _RegisterPageState extends State<RegisterPage> {
           ); // peticion api
 
           jsonResponse = jsonDecode(response.body);
-
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -383,7 +382,7 @@ class _RegisterPageState extends State<RegisterPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           content: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -403,7 +402,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       TextSpan(
                         text: "Cargando ",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: size.width / 20,
                         )
                       ),
@@ -520,6 +519,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     if (errorValidate == 'La contraseña es inválida, debe tener:'){
       // So, the Password is valid
+      _password = value;
       return null;
     }
     
@@ -530,7 +530,6 @@ class _RegisterPageState extends State<RegisterPage> {
   String _validatePasswordConfirm(String value) {
     if(value.isNotEmpty){
       if (_password == value){
-        _passwordConfirm = value;
         return null;
       }
       return 'La contraseña no coincide';

@@ -353,7 +353,7 @@ class _LoginPageState extends State<LoginPage> {
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
         return AlertDialog(
-          backgroundColor: Colors.transparent,
+          backgroundColor: Colors.white,
           content: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -373,7 +373,7 @@ class _LoginPageState extends State<LoginPage> {
                       TextSpan(
                         text: "Cargando ",
                         style: TextStyle(
-                          color: Colors.white,
+                          color: Colors.black,
                           fontSize: size.width / 20,
                         )
                       ),

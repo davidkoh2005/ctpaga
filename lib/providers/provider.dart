@@ -1,4 +1,5 @@
 import 'package:ctpaga/models/user.dart';
+import 'package:ctpaga/models/bank.dart';
 
 import 'package:flutter/foundation.dart';
 
@@ -17,6 +18,14 @@ class MyProvider with ChangeNotifier {
 
   set dataUser(User newUser){
     _user = newUser;
+    notifyListeners();
+  }
+
+  List _bank = new List(2);
+  List get dataBankUser =>_bank;
+
+  set dataBankUser(List newBankUser){
+    _bank = newBankUser;
     notifyListeners();
   }
 

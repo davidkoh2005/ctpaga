@@ -111,6 +111,7 @@ class _MenuPageState extends State<MenuPage> {
           );
 
           jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
             prefs.remove("access_token");
             myProvider.accessTokenUser = null;

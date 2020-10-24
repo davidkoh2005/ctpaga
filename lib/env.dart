@@ -7,7 +7,7 @@ import 'package:ctpaga/views/perfilPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "192.168.1.117:8000";
+String url = "192.168.1.103:8000";
 String urlApi = "http://$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
@@ -104,6 +104,62 @@ var listBankUSA = [
   "Washington Mutual",
   "Wells Fargo"
   "White Weld & Co.",
+];
+
+var listBankPanama = [
+  "Allbank Corp",
+  "BAC International Bank, Inc.",
+  "Balboa Bank & Trust Corp",
+  "Banco Aliado S.A.",
+  "Banco Azteca (Panamá), S.A.",
+  "Banco BAC de Panamá, S.A.",
+  "Banco Bolivariano (Panamá), S.A.",
+  "Banco Citibank (Panamá,) S.A.",
+  "Banco Davivienda (Panamá) S.A.",
+  "Banco de Bogotá, S.A.",
+  "Banco del Pacífico (Panamá), S.A.",
+  "Banco Delta, S.A.",
+  "Banco Ficohsa (Panamá), S.A.",
+  "Banco G&T Continental (Panamá) S.A. (BMF)",
+  "Banco HIPOTECARIO NACIONAL",
+  "Banco General, S.A.",
+  "Banco Internacional de Costa Rica, S.A (BICSA)",
+  "Banco La Hipotecaria, S.A.",
+  "Banco Lafise Panamá S.A.",
+  "Banco Latinoamericano de Comercio Exterior, S.A. (BLADEX)",
+  "Banco Nacional de Panamá",
+  "Banco Panamá, S.A",
+  "Banco Panameño de la Vivienda, S.A. (BANVIVIENDA)",
+  "Banco Pichincha Panamá, S.A.",
+  "Banco Prival, S.A. (Español) o Prival Bank, S.A. (en inglés)",
+  "Banco Universal, S.A.",
+  "Bancolombia S.A.",
+  "Banesco S.A.",
+  "BANISI, S.A.",
+  "Banistmo S.A.",
+  "Bank Leumi-Le Israel B.M.",
+  "Bank of China Limited",
+  "BBP Bank S.A.",
+  "BCT Bank International S.A.",
+  "Caja de Ahorros",
+  "Capital Bank Inc.",
+  "Citibank, N.A. Sucursal Panamá",
+  "Credicorp Bank S.A.",
+  "FPB Bank Inc.",
+  "Global Bank Corporation",
+  "Korea Exchange Bank, Ltd.",
+  "Mega International Commercial Bank Co. Ltd.",
+  "Mercantil Bank (Panamá), S.A.",
+  "Metrobank, S.A.",
+  "MiBanco, S.A.BMF",
+  "MMG Bank Corporation",
+  "Multibank Inc.",
+  "Produbank (Panamá) S.A.",
+  "St. Georges Bank & Company, Inc.",
+  "The Bank of Nova Scotia (Panamá), S.A.",
+  "The Bank of Nova Scotia (SCOTIABANK)",
+  "Towerbank International Inc.",
+  "Unibank, S.A.",
 ];
 
 var listBankBs = [

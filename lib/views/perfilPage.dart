@@ -5,12 +5,14 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
+
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -265,12 +267,44 @@ class _PerfilPageState extends State<PerfilPage> {
 
   _getImage(BuildContext context, ImageSource source) async {
     var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     Navigator.of(context).pop();
+    //_onLoading();
 
     if(picture != null)
       setState(() =>_image = File(picture.path));
-      //TODO: Guardar Foto
+
+    try
+    {
+      //TODO: ERROR
+      Dio dio = Dio();
+      String filename = picture.path.split('/').last;
+      FormData formData = new FormData.fromMap({
+        'image' : await MultipartFile.fromFile(picture.path, filename: filename),
+      });
+
+      Response response = await dio.post(urlApi+"updateUserImg/",data: formData, options: Options(
+        headers: {
+          'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          'Content-Type': 'multipart/form-data'
+        }
+      ));  
+
+      print(response.data);
+
+      /* var jsonResponse = jsonDecode(response.body); 
+      print(jsonResponse); 
+      if (jsonResponse['statusCode'] == 201) {
+        getDataUser();
+        Navigator.pop(context);
+        showMessageCorrectly("Guardado Correctamente");
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }  */ 
+
+    }on SocketException catch (_) {
+      print("error network");
+    }
   }
 
   Widget dropdownList(_title){
@@ -653,6 +687,9 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     if(_statusMoney == 0){
+      setState(() {
+        _nameBankingUSD = myProvider.dataBankUser[0] == null? null : myProvider.dataBankUser[0].bankName;
+      });
       return new Form(
         key: _formKeyBankingUSD,
         child: new ListView(
@@ -685,9 +722,10 @@ class _PerfilPageState extends State<PerfilPage> {
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNameBankingUSDFocus),
                 onChanged: (value) {
                   if(value.toLowerCase() == "usa")
-                    setState(() => _statusCountry = true);
+                    setState(()=>_statusCountry = true);
+                    
                   else
-                    setState(() => _statusCountry = false);
+                    setState(()=>_statusCountry = false);
                 },
                 cursorColor: colorGreen,
               ),
@@ -746,11 +784,15 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
               child: SearchableDropdown.single(
-                items: listBankUSA.map((result) {
-                  return (DropdownMenuItem(
-                      child: Text(result), value: result));
-                }).toList(),
-                value: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].bankName,
+                items: _statusCountry? listBankUSA.map((result) {
+                    return (DropdownMenuItem(
+                        child: Text(result), value: result));
+                  }).toList()
+                : listBankPanama.map((result) {
+                    return (DropdownMenuItem(
+                        child: Text(result), value: result));
+                  }).toList(),
+                value: _nameBankingUSD,
                 hint: "Nombre del Banco",
                 searchHint: null,
                 onChanged: (value)=> _nameBankingUSD = value,
@@ -1308,7 +1350,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
           var parameters = jsonToUrl(jsonEncode({
               'coin': _statusMoney == 0? "USD" : "Bs",
-              'country': _statusMoney == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "venezuela",
+              'country': _statusMoney == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "Venezuela",
               'accountName': _statusMoney == 0? _accountNameBankingUSD : _accountNameBankingBs,
               'accountNumber': _statusMoney == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
               'idCard': _idCardBankingBs,

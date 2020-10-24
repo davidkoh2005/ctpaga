@@ -45,7 +45,7 @@ class _MainPageState extends State<MainPage> {
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
           },
         ); 
-
+      
         jsonResponse = jsonDecode(response.body);
         if (jsonResponse['statusCode'] == 201) {
           user = User(

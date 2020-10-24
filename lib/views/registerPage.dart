@@ -346,11 +346,13 @@ class _RegisterPageState extends State<RegisterPage> {
           ); // peticion api
 
           jsonResponse = jsonDecode(response.body);
+          print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
             myProvider.accessTokenUser = jsonResponse['access_token'];
+            print("result: ${jsonResponse['access_token']}");
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
 

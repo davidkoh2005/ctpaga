@@ -313,7 +313,7 @@ class _LoginPageState extends State<LoginPage> {
           ); // peticion api
 
           jsonResponse = jsonDecode(response.body);
-
+          print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();

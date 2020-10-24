@@ -5,14 +5,14 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
-
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -34,7 +34,6 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _nameFocus = FocusNode(); 
   final FocusNode _addressFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
-  final FocusNode _countryBankingUSDFocus = FocusNode();
   final FocusNode _accountNameBankingUSDFocus = FocusNode();
   final FocusNode _accountNumberBankingUSDFocus = FocusNode();
   final FocusNode _routeBankingUSDFocus = FocusNode();
@@ -60,83 +59,16 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
-    getDataUser();
+
   }
 
   void dispose(){
     super.dispose();
   }
 
-  getDataUser()async{
-    var result, response, jsonResponse;
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    try {
-      result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        response = await http.post(
-          urlApi+"user/",
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-        ); 
-
-        jsonResponse = jsonDecode(response.body);
-        if (jsonResponse['statusCode'] == 201) {
-          user = User(
-            rifCompany: jsonResponse['data']['rifCompany'] == null? '' : jsonResponse['data']['rifCompany'],
-            nameCompany: jsonResponse['data']['nameCompany'] == null? '' : jsonResponse['data']['nameCompany'],
-            addressCompany: jsonResponse['data']['addressCompany'] == null? '' : jsonResponse['data']['addressCompany'],
-            phoneCompany: jsonResponse['data']['phoneCompany'] == null? '' : jsonResponse['data']['phoneCompany'],
-            email: jsonResponse['data']['email'],
-            name: jsonResponse['data']['name'],
-            address: jsonResponse['data']['address'],
-            phone: jsonResponse['data']['phone'],
-          );
-          
-          
-          for (var item in jsonResponse['data']['banks']) {
-            if(item['coin'] == 'USD'){
-              bankUserUSD = Bank(
-                country: item['country'],
-                accountName: item['accountName'],
-                accountNumber: item['accountNumber'],
-                route: item['route'],
-                swift: item['swift'],
-                address: item['address'],
-                bankName: item['bankName'],
-                accountType: item['accountType'],
-              ); 
-              
-              bankUser[0] = bankUserUSD;
-
-            }else{
-              bankUserBs = Bank(
-                accountName: item['accountName'],
-                accountNumber: item['accountNumber'],
-                idCard: item['idCard'],
-                bankName: item['bankName'],
-                accountType: item['accountType'],
-              ); 
-
-              bankUser[1] = bankUserBs;
-            }
-          }
-          
-          myProvider.dataBankUser = bankUser;
-          myProvider.dataUser = user;
-
-        }  
-      }
-    } on SocketException catch (_) {
-      print("error network");
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-
+    Provider.of<MyProvider>(context, listen: false).getDataUser();
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -192,18 +124,41 @@ class _PerfilPageState extends State<PerfilPage> {
       );
   }
 
-  showImage(){
+  Widget showImage(){
     var size = MediaQuery.of(context).size;
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     if(_image != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: Image.file(
             _image,
-            width: size.width/4,
-            height: size.width/4,
+            width: size.width / 4,
+            height: size.width / 4,
             fit: BoxFit.cover
+          ),
+        )
+      );
+    }else if(myProvider.dataUser.statusProfile){
+      DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+
+      return GestureDetector(
+        onTap: () => _showSelectionDialog(context),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg",
+            fit: BoxFit.cover,
+            height: size.width / 4,
+            width: size.width / 4,
+            placeholder: (context, url) {
+              return Container(
+                margin: EdgeInsets.all(15),
+                child:CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              );
+            },
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
           ),
         )
       );
@@ -214,8 +169,8 @@ class _PerfilPageState extends State<PerfilPage> {
       child: ClipOval(
         child: Image(
           image: AssetImage("assets/icons/addPhoto.png"),
-          width: size.width/4,
-          height: size.width/4,
+          width: size.width / 4,
+          height: size.width / 4,
         ),
       ),
     );
@@ -269,41 +224,42 @@ class _PerfilPageState extends State<PerfilPage> {
     var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     Navigator.of(context).pop();
-    //_onLoading();
 
-    if(picture != null)
+    if(picture != null){
+      _onLoading();
       setState(() =>_image = File(picture.path));
+      try
+      {
+        String base64Image = base64Encode(_image.readAsBytesSync());
+        String fileName = picture.path.split("/").last;
 
-    try
-    {
-      //TODO: ERROR
-      Dio dio = Dio();
-      String filename = picture.path.split('/').last;
-      FormData formData = new FormData.fromMap({
-        'image' : await MultipartFile.fromFile(picture.path, filename: filename),
-      });
+        var response = await http.post(
+          urlApi+"updateUserImg/",
+          headers:{
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: {
+            "image": base64Image,
+            "name": fileName,
+          }
+        );
 
-      Response response = await dio.post(urlApi+"updateUserImg/",data: formData, options: Options(
-        headers: {
-          'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          'Content-Type': 'multipart/form-data'
-        }
-      ));  
+        print(response.body);
 
-      print(response.data);
+        var jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse); 
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.getDataUser();
+          Navigator.pop(context);
+          showMessageCorrectly("Guardado Correctamente");
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.pop(context);
+        }  
 
-      /* var jsonResponse = jsonDecode(response.body); 
-      print(jsonResponse); 
-      if (jsonResponse['statusCode'] == 201) {
-        getDataUser();
-        Navigator.pop(context);
-        showMessageCorrectly("Guardado Correctamente");
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.pop(context);
-      }  */ 
-
-    }on SocketException catch (_) {
-      print("error network");
+      }on SocketException catch (_) {
+        print("error network");
+      }
     }
   }
 
@@ -1236,7 +1192,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            getDataUser();
+            myProvider.getDataUser();
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));
@@ -1276,7 +1232,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            getDataUser();
+            myProvider.getDataUser();
              Navigator.pop(context);
           } 
         }
@@ -1313,7 +1269,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            getDataUser();
+            myProvider.getDataUser();
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));
@@ -1374,7 +1330,7 @@ class _PerfilPageState extends State<PerfilPage> {
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            getDataUser();
+            myProvider.getDataUser();
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));

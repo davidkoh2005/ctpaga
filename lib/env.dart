@@ -7,8 +7,8 @@ import 'package:ctpaga/views/perfilPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "192.168.1.103:8000";
-String urlApi = "http://$url/api/auth/";
+String url = "http://192.168.1.103:8000";
+String urlApi = "$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(230,230,230,1);

@@ -227,10 +227,9 @@ class _PerfilPageState extends State<PerfilPage> {
 
     if(picture != null){
       _onLoading();
-      setState(() =>_image = File(picture.path));
       try
       {
-        String base64Image = base64Encode(_image.readAsBytesSync());
+        String base64Image = base64Encode(File(picture.path).readAsBytesSync());
         String fileName = picture.path.split("/").last;
 
         var response = await http.post(
@@ -250,6 +249,8 @@ class _PerfilPageState extends State<PerfilPage> {
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
+          DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+          setState(() =>_image = File(picture.path));
           myProvider.getDataUser();
           Navigator.pop(context);
           showMessageCorrectly("Guardado Correctamente");

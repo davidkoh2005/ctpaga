@@ -49,7 +49,7 @@ class _PerfilPageState extends State<PerfilPage> {
         _email, _name, _address, _phone,
         _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
-  int _statusMoney = 0;
+  int _statusCoin = 0;
   File _image;
   bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
@@ -59,16 +59,20 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
-
+    initVariable(context);
   }
 
   void dispose(){
     super.dispose();
   }
 
+  initVariable(BuildContext context){
+    Provider.of<MyProvider>(context, listen: false).getDataUser(false, context);
+    _statusCoin = Provider.of<MyProvider>(context, listen: false).dataUser.coin;
+  }
+
   @override
   Widget build(BuildContext context) {
-    Provider.of<MyProvider>(context, listen: false).getDataUser();
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
@@ -140,7 +144,7 @@ class _PerfilPageState extends State<PerfilPage> {
         )
       );
     }else if(myProvider.dataUser.statusProfile){
-      DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+      //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
 
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
@@ -251,7 +255,7 @@ class _PerfilPageState extends State<PerfilPage> {
         if (jsonResponse['statusCode'] == 201) {
           DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
           setState(() =>_image = File(picture.path));
-          myProvider.getDataUser();
+          myProvider.getDataUser(false, context);
           Navigator.pop(context);
           showMessageCorrectly("Guardado Correctamente");
           await Future.delayed(Duration(seconds: 1));
@@ -576,15 +580,15 @@ class _PerfilPageState extends State<PerfilPage> {
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => setState(() => _statusMoney = 0), 
+        onTap: () => saveStatusMoney(0), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                _statusMoney == 0? colorGreen : colorGrey,
-                _statusMoney == 0? colorGreen : colorGrey
+                _statusCoin == 0? colorGreen : colorGrey,
+                _statusCoin == 0? colorGreen : colorGrey
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -611,15 +615,15 @@ class _PerfilPageState extends State<PerfilPage> {
     return Padding(
       padding: EdgeInsets.only(left:20),
       child: GestureDetector(
-        onTap: () => setState(() => _statusMoney = 1), 
+        onTap: () => saveStatusMoney(1), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
           decoration: BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                _statusMoney == 1? colorGreen : colorGrey,
-                _statusMoney == 1? colorGreen : colorGrey
+                _statusCoin == 1? colorGreen : colorGrey,
+                _statusCoin == 1? colorGreen : colorGrey
               ],
               begin: Alignment.topLeft,
               end: Alignment.bottomRight,
@@ -641,9 +645,41 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
+  saveStatusMoney(money)async{
+    setState(() => _statusCoin = money);
+    
+    var result, response, jsonResponse;
+    try {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        var myProvider = Provider.of<MyProvider>(context, listen: false);
+
+        response = await http.post(
+          urlApi+"updateUser/",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: jsonEncode({
+            'coin': money,
+          }),
+        ); 
+
+        jsonResponse = jsonDecode(response.body); 
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.getDataUser(false, context);
+        } 
+      }
+    } on SocketException catch (_) {
+      print("error network");
+    } 
+  }
+
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    if(_statusMoney == 0){
+    var size = MediaQuery.of(context).size;
+    if(_statusCoin == 0){
       setState(() {
         _nameBankingUSD = myProvider.dataBankUser[0] == null? null : myProvider.dataBankUser[0].bankName;
       });
@@ -957,7 +993,19 @@ class _PerfilPageState extends State<PerfilPage> {
               child: SearchableDropdown.single(
                 items: listBankBs.map((result) {
                   return (DropdownMenuItem(
-                      child: Text(result), value: result));
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          ClipOval(
+                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                          ),
+                          SizedBox(width: 5),
+                          Expanded(child: Text(result['title']),),
+                        ],
+                      ),
+                      value: result['title']
+                    )
+                  );
                 }).toList(),
                 value: myProvider.dataBankUser[1] == null? null : myProvider.dataBankUser[1].bankName,
                 hint: "Nombre del Banco",
@@ -1124,7 +1172,7 @@ class _PerfilPageState extends State<PerfilPage> {
               break;
             case "Banking":
               setState(() {
-                if (_statusMoney == 0){
+                if (_statusCoin == 0){
                   _statusClickUSD = true;
                   _statusClickBs = false;
                 }else{
@@ -1193,7 +1241,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser();
+            myProvider.getDataUser(false, context);
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));
@@ -1233,7 +1281,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser();
+            myProvider.getDataUser(false, context);
              Navigator.pop(context);
           } 
         }
@@ -1270,7 +1318,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser();
+            myProvider.getDataUser(false, context);
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));
@@ -1284,7 +1332,7 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   void buttonClickSaveBanking(){
-    if(_statusMoney == 0){
+    if(_statusCoin == 0){
       if (_formKeyBankingUSD.currentState.validate()) {
         _formKeyBankingUSD.currentState.save();
         saveDataBanking();
@@ -1306,16 +1354,16 @@ class _PerfilPageState extends State<PerfilPage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           var parameters = jsonToUrl(jsonEncode({
-              'coin': _statusMoney == 0? "USD" : "Bs",
-              'country': _statusMoney == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "Venezuela",
-              'accountName': _statusMoney == 0? _accountNameBankingUSD : _accountNameBankingBs,
-              'accountNumber': _statusMoney == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
+              'coin': _statusCoin == 0? "USD" : "Bs",
+              'country': _statusCoin == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "Venezuela",
+              'accountName': _statusCoin == 0? _accountNameBankingUSD : _accountNameBankingBs,
+              'accountNumber': _statusCoin == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
               'idCard': _idCardBankingBs,
               'route': _routeBankingUSD,
               'swift': _swiftBankingUSD,
               'address': _addressBankingUSD,
-              'bankName': _statusMoney == 0? _nameBankingUSD : _nameBankingBs,
-              'accountType': _statusMoney == 0? _accountTypeBankingUSD : _accountTypeBankingBs,
+              'bankName': _statusCoin == 0? _nameBankingUSD : _nameBankingBs,
+              'accountType': _statusCoin == 0? _accountTypeBankingUSD : _accountTypeBankingBs,
             }));
 
           response = await http.get(
@@ -1331,7 +1379,7 @@ class _PerfilPageState extends State<PerfilPage> {
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser();
+            myProvider.getDataUser(false, context);
             Navigator.pop(context);
             showMessageCorrectly("Guardado Correctamente");
             await Future.delayed(Duration(seconds: 1));

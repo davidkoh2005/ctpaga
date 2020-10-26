@@ -18,9 +18,11 @@ dependencies:
   flutter_masked_text: ^0.7.0
   searchable_dropdown: ^1.1.3
   numeric_keyboard: ^1.0.0
+  flutter_emoji: ^2.2.1+1
   cupertino_icons: ^0.1.3
   image_picker: ^0.6.7+12
   provider: ^4.3.2+2
+  camera: ^0.5.8+11
   http: ^0.12.2
 
 
@@ -35,5 +37,8 @@ flutter:
   assets:
     - assets/logo/
     - assets/icons/
+    - assets/banks/
+    - assets/banks/Bs/
+    - assets/banks/Bs/banesco.png
 
 

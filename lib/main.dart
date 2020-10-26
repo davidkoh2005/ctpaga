@@ -76,7 +76,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await Future.delayed(Duration(seconds: 2));
     if(prefs.containsKey('access_token')){
       myProvider.accessTokenUser = prefs.getString('access_token');
-      Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+      myProvider.getDataUser(true, context);
     }else{
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }

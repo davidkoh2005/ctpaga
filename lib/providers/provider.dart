@@ -1,11 +1,12 @@
+import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
+import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
-import 'package:provider/provider.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -40,7 +41,7 @@ class MyProvider with ChangeNotifier {
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
 
-  getDataUser()async{
+  getDataUser(status, context)async{
     var result, response, jsonResponse;
     try {
       result = await InternetAddress.lookup('google.com');
@@ -70,6 +71,7 @@ class MyProvider with ChangeNotifier {
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
             statusProfile: jsonResponse['data']['0']['statusProfile'] == null? false : jsonResponse['data']['0']['statusProfile'] ,
+            coin: jsonResponse['data']['0']['coin'],
           );
 
           dataUser = user;
@@ -107,6 +109,10 @@ class MyProvider with ChangeNotifier {
           }
           
           dataBankUser = bankUser;
+
+          if(status){
+            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+          }
         }  
       }
     } on SocketException catch (_) {

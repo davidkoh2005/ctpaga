@@ -1,8 +1,8 @@
-
 import 'package:ctpaga/views/depositsPage.dart';
-import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/productsPage.dart';
+import 'package:ctpaga/views/selfiePage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
+import 'package:ctpaga/views/loginPage.dart';
 
 import 'package:flutter/material.dart';
 
@@ -64,6 +64,24 @@ List listMenu = [
     "title": "Cerrar sesión",
     "icon": "",
     "page": LoginPage(),
+  },
+];
+
+List listMenuDeposits = [
+  {
+    "title": "Cuenta Bancaria",
+    "icon": "assets/icons/depositos.png",
+    "page": PerfilPage(),
+  },
+  {
+    "title": "Agregar identificacion",
+    "icon": "assets/icons/tarjeta-de-identificacion.png",
+    "page": DepositsPage(),
+  },
+  {
+    "title": "Agregar selfie",
+    "icon": "assets/icons/selfie.png",
+    "page": SelfiePage(),
   },
 ];
 
@@ -163,38 +181,100 @@ var listBankPanama = [
 ];
 
 var listBankBs = [
- "100% BANCO",
- "ABN AMRO BANK",
- "BANCAMIGA BANCO MICROFINANCIERO, C.A.",
- "BANCO ACTIVO BANCO COMERCIAL, C.A.",
- "BANCO AGRICOLA",
- "BANCO BICENTENARIO",
- "BANCO CARONI, C.A. BANCO UNIVERSAL",
- "BANCO DE DESARROLLO DEL MICROEMPRESARIO",
- "BANCO DE VENEZUELA S.A.I.C.A.",
- "BANCO DEL CARIBE C.A.",
- "BANCO DEL PUEBLO SOBERANO C.A.",
- "BANCO DEL TESORO",
- "BANCO ESPIRITO SANTO, S.A.",
- "BANCO EXTERIOR C.A.",
- "BANCO INDUSTRIAL DE VENEZUELA",
- "BANCO INTERNACIONAL DE DESARROLLO, C.A.",
- "BANCO MERCANTIL C.A.",
- "BANCO NACIONAL DE CRÉDITO",
- "BANCO OCCIDENTAL DE DESCUENTO",
- "BANCO PLAZA",
- "BANCO PROVINCIAL BBVA",
- "BANCO VENEZOLANO DE CRÉDITO S.A.",
- "BANCRECER S.A. BANCO DE DESARROLLO",
- "BANESCO BANCO UNIVERSAL"  ,
- "BANFANB",
- "BANGENTE",
- "BANPLUS BANCO COMERCIAL C.A",
- "CITIBANK",
- "CORP BANCA",
- "DELSUR BANCO UNIVERSAL",
- "FONDO COMUN",
- "INSTITUTO MUNICIPAL DE CRÉDITO POPULAR",
- "MIBANCO BANCO DE DESARROLLO, C.A.",
- "SOFITASA",
+  {
+   "title": "100% BANCO",
+   "img": "assets/banks/Bs/100banco.png",
+  },
+  {
+   "title": "BANCAMIGA BANCO MICROFINANCIERO, C.A.",
+   "img": "assets/banks/Bs/bancamiga.png",
+  },
+  {
+   "title": "BANCARIBE C.A. BANCO UNIVERSAL",
+   "img": "assets/banks/Bs/bancaribe.png",
+  },
+  {
+   "title": "BANCO ACTIVO BANCO COMERCIAL, C.A.",
+   "img": "assets/banks/Bs/banco-activo.png",
+  },
+  {
+   "title": "BANCO BICENTENARIO",
+   "img": "assets/banks/Bs/banco-bicentenario.png",
+  },
+  {
+   "title": "BANCO CARONI, C.A. BANCO UNIVERSAL",
+   "img": "assets/banks/Bs/banco-caroni.png",
+  },
+    {
+   "title": "BANCO DE LA FANB",
+   "img": "assets/banks/Bs/banfanb.png",
+  },
+  {
+   "title": "BANCO DE VENEZUELA S.A.I.C.A.",
+   "img": "assets/banks/Bs/banco-venezuela.png",
+  },
+  {
+   "title": "BANCO DEL TESORO",
+   "img": "assets/banks/Bs/banco-de-tesoro.png",
+  },
+  {
+   "title": "BANCO EXTERIOR C.A.",
+   "img": "assets/banks/Bs/Banco-Exterior.png",
+  },
+  {
+   "title": "BANCO INDUSTRIAL DE VENEZUELA",
+   "img": "assets/banks/Bs/banco-industrial-venezuela.png",
+  },
+  {
+   "title": "BANCO MERCANTIL C.A.",
+   "img": "assets/banks/Bs/mercantil.png",
+  },
+  {
+   "title": "BANCO NACIONAL DE CRÉDITO",
+   "img": "assets/banks/Bs/bnc.png",
+  },
+  {
+   "title": "BANCO OCCIDENTAL DE DESCUENTO",
+   "img": "assets/banks/Bs/bod.png",
+  },
+  {
+   "title": "BANCO PLAZA",
+   "img": "assets/banks/Bs/banco-plaza.png",
+  },
+  {
+   "title": "BANCO PROVINCIAL BBVA",
+   "img": "assets/banks/Bs/banco-provincial.png",
+  },
+  {
+   "title": "BANCO VENEZOLANO DE CRÉDITO S.A.",
+   "img": "assets/banks/Bs/banco-venezolano-credito.png",
+  },
+  {
+   "title": "BANCRECER S.A. BANCO DE DESARROLLO",
+   "img": "assets/banks/Bs/bancrecer.png",
+  },
+  {
+   "title": "BANESCO BANCO UNIVERSAL",
+   "img": "assets/banks/Bs/banesco.png",
+  },
+  {
+   "title": "BANPLUS BANCO COMERCIAL C.A",
+   "img": "assets/banks/Bs/banplus.png",
+  },
+  {
+   "title": "DELSUR BANCO UNIVERSAL",
+   "img": "assets/banks/Bs/Banco-DelSur.png",
+  },
+  {
+   "title": "BFC BANCO FONDO COMUN",
+   "img": "assets/banks/Bs/bfc.png",
+  },
+  {
+   "title": "MIBANCO BANCO DE DESARROLLO, C.A.",
+   "img": "assets/banks/Bs/mi-banco.png",
+  },
+  {
+   "title": "BANCO SOFITASA",
+   "img": "assets/banks/Bs/banco-sofitasa.png",
+  },
 ];

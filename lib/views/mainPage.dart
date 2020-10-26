@@ -8,10 +8,7 @@ import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:provider/provider.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'dart:convert';
-import 'dart:io';
 
 
 class MainPage extends StatefulWidget {
@@ -26,13 +23,8 @@ class _MainPageState extends State<MainPage> {
   Bank bankUserBs = Bank();
   int clickBotton = 0;
 
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
-    Provider.of<MyProvider>(context, listen: false).getDataUser();
     return WillPopScope(
       onWillPop: () async =>false,
       child: Scaffold(
@@ -99,5 +91,55 @@ class _MainPageState extends State<MainPage> {
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
     Navigator.push(context, SlideLeftRoute(page: page));
+  }
+
+  Future<void> _onLoading() async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cargando ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                      TextSpan(
+                        text: "...",
+                        style: TextStyle(
+                          color: colorGreen,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

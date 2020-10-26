@@ -1,9 +1,9 @@
 class User{
-  final int id;
+  final int id, coin;
   final String rifCompany, nameCompany, addressCompany, phoneCompany, email, name, address, phone;
   final bool statusProfile;
 
-  User({this.id, this.rifCompany, this.nameCompany, this.addressCompany, this.phoneCompany, this.email, this.name, this.address, this.phone, this.statusProfile});
+  User({this.id, this.rifCompany, this.nameCompany, this.addressCompany, this.phoneCompany, this.email, this.name, this.address, this.phone, this.statusProfile, this.coin});
 
   factory User.fromMap(dynamic data) => User(
     id: data['id'],
@@ -16,6 +16,7 @@ class User{
     address: data['address'],
     phone: data['phone'],
     statusProfile: data['statusProfile'],
+    coin: data['coin'],
   );
 
   Map<String, dynamic> toJson()=> {
@@ -28,7 +29,7 @@ class User{
     'name': name,
     'address': address,
     'phone': phone,
-    'statusProfile': statusProfile,
+    'coin': coin,
   };
 
 }

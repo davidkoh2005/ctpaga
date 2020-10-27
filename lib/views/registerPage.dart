@@ -344,7 +344,8 @@ class _RegisterPageState extends State<RegisterPage> {
               'phone': _phone,
             }),
           ); // peticion api
-
+          
+          print(response.body);
           jsonResponse = jsonDecode(response.body);
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {

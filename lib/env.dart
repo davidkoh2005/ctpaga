@@ -1,3 +1,4 @@
+import 'package:ctpaga/views/identificationPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
@@ -8,6 +9,9 @@ import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
 String url = "http://192.168.1.103:8000";
+
+//TODO: Url Api (heroku)
+//String url = "https://ctpaga.herokuapp.com";
 String urlApi = "$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
@@ -76,7 +80,7 @@ List listMenuDeposits = [
   {
     "title": "Agregar identificacion",
     "icon": "assets/icons/tarjeta-de-identificacion.png",
-    "page": DepositsPage(),
+    "page": IdentificationPage(),
   },
   {
     "title": "Agregar selfie",

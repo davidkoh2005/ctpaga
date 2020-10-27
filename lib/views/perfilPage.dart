@@ -131,6 +131,7 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget showImage(){
     var size = MediaQuery.of(context).size;
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+
     if(_image != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
@@ -143,14 +144,23 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
         )
       );
-    }else if(myProvider.dataUser.statusProfile){
+    }else if(myProvider.dataPicturesUser.length != 0){
       //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+      //DefaultCacheManager().emptyCache();
+      var urlProfile;
+
+      for (var item in myProvider.dataPicturesUser) {
+        if(item.description == 'Profile'){
+          setState(() => urlProfile = item.url);
+          break;
+        }
+      }
 
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg",
+            imageUrl: url+urlProfile,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,
@@ -166,7 +176,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
         )
       );
-    }
+    } 
 
     return GestureDetector(
       onTap: () => _showSelectionDialog(context),
@@ -245,6 +255,7 @@ class _PerfilPageState extends State<PerfilPage> {
           body: {
             "image": base64Image,
             "name": fileName,
+            "description": "Profile"
           }
         );
 
@@ -253,7 +264,7 @@ class _PerfilPageState extends State<PerfilPage> {
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
-          DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+          DefaultCacheManager().removeFile(url+jsonResponse['url']);
           setState(() =>_image = File(picture.path));
           myProvider.getDataUser(false, context);
           Navigator.pop(context);
@@ -681,7 +692,7 @@ class _PerfilPageState extends State<PerfilPage> {
     var size = MediaQuery.of(context).size;
     if(_statusCoin == 0){
       setState(() {
-        _nameBankingUSD = myProvider.dataBankUser[0] == null? null : myProvider.dataBankUser[0].bankName;
+        _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName;
       });
       return new Form(
         key: _formKeyBankingUSD,
@@ -693,7 +704,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].country,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].country,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -727,7 +738,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountName,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -755,7 +766,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountNumber,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -799,7 +810,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].route,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 9,
@@ -824,7 +835,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].swift,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -848,7 +859,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].address,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].address,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -872,7 +883,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[0] == null? '' : myProvider.dataBankUser[0].accountType,
+                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 1,
@@ -912,7 +923,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountName,
+                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -940,7 +951,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].idCard,
+                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard,
                 autofocus: false,
                 keyboardType: TextInputType.text,
                 textCapitalization:TextCapitalization.sentences,
@@ -965,7 +976,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountNumber,
+                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 maxLength: 20,
@@ -1007,7 +1018,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   );
                 }).toList(),
-                value: myProvider.dataBankUser[1] == null? null : myProvider.dataBankUser[1].bankName,
+                value: myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
                 hint: "Nombre del Banco",
                 searchHint: null,
                 onChanged: (value)=> _nameBankingBs = value,
@@ -1021,7 +1032,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBankUser[1] == null? '' : myProvider.dataBankUser[1].accountType,
+                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 1,

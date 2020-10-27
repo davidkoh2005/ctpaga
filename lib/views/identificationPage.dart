@@ -3,7 +3,6 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:flutter_emoji/flutter_emoji.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
@@ -11,13 +10,13 @@ import 'package:path/path.dart';
 
 List<CameraDescription> cameras;
 
-class SelfiePage extends StatefulWidget {
+class IdentificationPage extends StatefulWidget {
 
   @override
-  _SelfiePageState createState() => _SelfiePageState();
+  _IdentificationPageState createState() => _IdentificationPageState();
 }
 
-class _SelfiePageState extends State<SelfiePage> {
+class _IdentificationPageState extends State<IdentificationPage> {
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   bool isCameraReady = false, showCapturedPhoto = false , clickBotton = false, clickCamera = false;
@@ -36,7 +35,7 @@ class _SelfiePageState extends State<SelfiePage> {
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
-    _controller = CameraController(cameras[1],ResolutionPreset.high);
+    _controller = CameraController(cameras[0],ResolutionPreset.high);
     _initializeControllerFuture = _controller.initialize();
     if (!mounted) {
       return;
@@ -57,7 +56,7 @@ class _SelfiePageState extends State<SelfiePage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Navbar("Selfie", false),
+          Navbar("Identificación", false),
 
           showInstructionsOrCamera(context),
 
@@ -108,7 +107,6 @@ class _SelfiePageState extends State<SelfiePage> {
 
   Widget showInstructionsOrCamera(BuildContext context){
     var size = MediaQuery.of(context).size;
-    var parser = EmojiParser();
 
     if(!clickCamera){
       return Expanded(
@@ -117,7 +115,7 @@ class _SelfiePageState extends State<SelfiePage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Image.asset(
-              "assets/icons/selfie-color.png",
+              "assets/icons/escaner.png",
               width: size.width / 3,
               height: size.width / 3,
             ),
@@ -125,7 +123,7 @@ class _SelfiePageState extends State<SelfiePage> {
             Padding(
               padding: EdgeInsets.all(30),
               child: Text(
-                "Necesitamos una foto de tu cara (Sin Lentes ${parser.emojify(':sunglasses:')} ) para comparar con tu identificacion y cumplir con regulaciones finacieras.",
+                "Necesitamos una foto de tu identificacíon para comparar con tu selfie y cumplir con regulaciones finacieras.",
                 textAlign: TextAlign.center,
                 style:  TextStyle(
                   fontSize: size.width / 20,
@@ -147,13 +145,22 @@ class _SelfiePageState extends State<SelfiePage> {
               return Stack(
                 children: [
                   CameraPreview(_controller),
+                  Container(
+                    padding: EdgeInsets.only(top:100, bottom: 100),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.black.withOpacity(0.0),
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                    ),
+                  ),
 
                   Align(
                     alignment: Alignment.topCenter,
                     child: Padding(
-                      padding: EdgeInsets.only(top:20, left:30, right: 30, bottom: 30),
+                      padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
                       child: Text(
-                        "Coloca tu cara dentro del cuadro blanco y toma foto",
+                        "Coloca tu identificacíon dentro del cuadro blanco y toma foto",
                         textAlign: TextAlign.center,
                         style:  TextStyle(
                           fontSize: size.width / 20,
@@ -165,8 +172,8 @@ class _SelfiePageState extends State<SelfiePage> {
 
                   Center(
                     child: Container(
-                      width: size.width - 100,
-                      height: size.height - 400,
+                      width: size.width - 50,
+                      height: size.height - 570,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(6),
                         border: Border.all(
@@ -187,7 +194,7 @@ class _SelfiePageState extends State<SelfiePage> {
               ); // Otherwise, display a loading indicator.
             }
           },
-        ),
+        )
       );
     }
   }

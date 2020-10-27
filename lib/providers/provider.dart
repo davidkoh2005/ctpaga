@@ -1,6 +1,8 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
+import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/env.dart';
 
@@ -9,6 +11,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:io';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProvider with ChangeNotifier {
 
@@ -29,10 +33,18 @@ class MyProvider with ChangeNotifier {
   }
 
   List _bank = new List(2);
-  List get dataBankUser =>_bank;
+  List get dataBanksUser =>_bank;
 
-  set dataBankUser(List newBankUser){
+  set dataBanksUser(List newBankUser){
     _bank = newBankUser;
+    notifyListeners();
+  }
+
+  List _storage = new List(2);
+  List get dataPicturesUser =>_storage;
+
+  set dataPicturesUser(List newStorageUser){
+    _storage = newStorageUser;
     notifyListeners();
   }
 
@@ -40,6 +52,8 @@ class MyProvider with ChangeNotifier {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
+  Picture pictureUser = Picture();
+  List listPicturesUser = new List();
 
   getDataUser(status, context)async{
     var result, response, jsonResponse;
@@ -58,7 +72,7 @@ class MyProvider with ChangeNotifier {
         print("access: $accessTokenUser"); //TODO: eliminar
 
         jsonResponse = jsonDecode(response.body);
-
+        print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           user = User(
             id: jsonResponse['data']['0']['id'],
@@ -70,7 +84,6 @@ class MyProvider with ChangeNotifier {
             name: jsonResponse['data']['0']['name'],
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
-            statusProfile: jsonResponse['data']['0']['statusProfile'] == null? false : jsonResponse['data']['0']['statusProfile'] ,
             coin: jsonResponse['data']['0']['coin'],
           );
 
@@ -105,19 +118,44 @@ class MyProvider with ChangeNotifier {
                 bankUser[1] = bankUserBs;
               }
             }
-
           }
           
-          dataBankUser = bankUser;
+          dataBanksUser = bankUser;
+
+          if(jsonResponse['data']['pictures'] != null){
+            for (var item in jsonResponse['data']['pictures']) {
+              pictureUser = Picture(
+                id: item['id'],
+                description: item['description'],
+                url: item['url'],
+              );
+
+              listPicturesUser.add(pictureUser);
+            }
+          }
+
+          dataPicturesUser = listPicturesUser;
 
           if(status){
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
           }
-        }  
+        }else{
+          removeSession(context);
+        }
       }
     } on SocketException catch (_) {
       print("error network");
     }
+  }
+
+  removeSession(BuildContext context)async{
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.remove("access_token");
+    accessTokenUser = null;
+    dataUser = null;
+    dataBanksUser = null;
+    dataPicturesUser = null;
+    Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 
 }

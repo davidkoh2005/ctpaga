@@ -56,10 +56,12 @@ class _PerfilPageState extends State<PerfilPage> {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
+  var urlProfileUser;
   
   void initState() {
     super.initState();
     initVariable(context);
+    removeCache();
   }
 
   void dispose(){
@@ -67,8 +69,10 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   initVariable(BuildContext context){
-    Provider.of<MyProvider>(context, listen: false).getDataUser(false, context);
-    _statusCoin = Provider.of<MyProvider>(context, listen: false).dataUser.coin;
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    //myProvider.getDataUser(false, context);
+    if(myProvider.dataUser != null)
+      _statusCoin = myProvider.dataUser.coin;
   }
 
   @override
@@ -131,7 +135,6 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget showImage(){
     var size = MediaQuery.of(context).size;
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-
     if(_image != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
@@ -144,15 +147,20 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
         )
       );
-    }else if(myProvider.dataPicturesUser.length != 0){
+    }else if(myProvider.dataPicturesUser != null && myProvider.dataPicturesUser.length != 0){
       //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
       //DefaultCacheManager().emptyCache();
+      print("result: ${myProvider.dataPicturesUser}");
+      print("result lenght: ${myProvider.dataPicturesUser.length}");
+      
       var urlProfile;
 
-      for (var item in myProvider.dataPicturesUser) {
-        if(item.description == 'Profile'){
-          setState(() => urlProfile = item.url);
-          break;
+      if(myProvider.dataPicturesUser != null){
+        for (var item in myProvider.dataPicturesUser) {
+          if(item != null && item.description == 'Profile'){
+            setState(() => urlProfile = item.url);
+            break;
+          }
         }
       }
 
@@ -188,6 +196,19 @@ class _PerfilPageState extends State<PerfilPage> {
         ),
       ),
     );
+  }
+
+  void removeCache()async{
+    var result;
+      try {
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          DefaultCacheManager().emptyCache();
+        }
+      } on SocketException catch (_) {
+
+        print("sin internet");
+      } 
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
@@ -243,11 +264,12 @@ class _PerfilPageState extends State<PerfilPage> {
       _onLoading();
       try
       {
+
         String base64Image = base64Encode(File(picture.path).readAsBytesSync());
         String fileName = picture.path.split("/").last;
 
         var response = await http.post(
-          urlApi+"updateUserImg/",
+          urlApi+"updateUserImg",
           headers:{
             'X-Requested-With': 'XMLHttpRequest',
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
@@ -259,16 +281,14 @@ class _PerfilPageState extends State<PerfilPage> {
           }
         );
 
-        print(response.body);
-
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
-          DefaultCacheManager().removeFile(url+jsonResponse['url']);
+          DefaultCacheManager().emptyCache();
           setState(() =>_image = File(picture.path));
           myProvider.getDataUser(false, context);
           Navigator.pop(context);
-          showMessageCorrectly("Guardado Correctamente");
+          showMessage("Guardado Correctamente", true);
           await Future.delayed(Duration(seconds: 1));
           Navigator.pop(context);
         }  
@@ -328,7 +348,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.rifCompany,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.rifCompany,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -350,7 +370,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.nameCompany,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.nameCompany,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               inputFormatters: [
@@ -367,7 +387,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 ),
               ),
               onSaved: (String value) => _nameCompany = value,
-              validator: (value) => value.isEmpty? 'Nombre de la empresa no puede estar vacío' : null,
+              validator: (value) => value.isEmpty? 'Ingrese el nombre de la empresa válido' : null,
               textInputAction: TextInputAction.next,
               focusNode: _nameCompanyFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressCompanyFocus),
@@ -378,7 +398,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.addressCompany,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.addressCompany,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -402,7 +422,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.phoneCompany,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.phoneCompany,
               autofocus: false,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -446,7 +466,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.email,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.email,
               autofocus: false,
               maxLines: 1,
               keyboardType: TextInputType.emailAddress,
@@ -504,7 +524,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.name,
+              initialValue: myProvider.dataUser == null ? '' : myProvider.dataUser.name,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               inputFormatters: [
@@ -532,7 +552,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.address,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.address,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -556,7 +576,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser.phone,
+              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.phone,
               autofocus: false,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -666,7 +686,7 @@ class _PerfilPageState extends State<PerfilPage> {
         var myProvider = Provider.of<MyProvider>(context, listen: false);
 
         response = await http.post(
-          urlApi+"updateUser/",
+          urlApi+"updateUser",
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -692,7 +712,7 @@ class _PerfilPageState extends State<PerfilPage> {
     var size = MediaQuery.of(context).size;
     if(_statusCoin == 0){
       setState(() {
-        _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName;
+        _nameBankingUSD = myProvider.dataBanksUser == null ? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].bankName;
       });
       return new Form(
         key: _formKeyBankingUSD,
@@ -704,7 +724,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].country,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].country,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -738,7 +758,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountName,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -766,7 +786,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountNumber,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 decoration: InputDecoration(
@@ -810,7 +830,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 9,
@@ -835,7 +855,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -859,7 +879,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].address,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].address,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -883,7 +903,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountType,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 1,
@@ -923,7 +943,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountName,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
@@ -951,7 +971,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard,
                 autofocus: false,
                 keyboardType: TextInputType.text,
                 textCapitalization:TextCapitalization.sentences,
@@ -976,7 +996,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountNumber,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 maxLength: 20,
@@ -1018,7 +1038,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   );
                 }).toList(),
-                value: myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
+                value: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
                 hint: "Nombre del Banco",
                 searchHint: null,
                 onChanged: (value)=> _nameBankingBs = value,
@@ -1032,7 +1052,7 @@ class _PerfilPageState extends State<PerfilPage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountType,
+                initialValue: myProvider.dataBanksUser == null? '' : myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 1,
@@ -1235,7 +1255,7 @@ class _PerfilPageState extends State<PerfilPage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser/",
+            urlApi+"updateUser",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1254,13 +1274,13 @@ class _PerfilPageState extends State<PerfilPage> {
             setState(() => _statusDropdown = "");
             myProvider.getDataUser(false, context);
             Navigator.pop(context);
-            showMessageCorrectly("Guardado Correctamente");
+            showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
-        print("error network");
+        showMessage("Sin conexión a internet", false);
       } 
     }
   }
@@ -1276,7 +1296,7 @@ class _PerfilPageState extends State<PerfilPage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser/",
+            urlApi+"updateUser",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1290,14 +1310,17 @@ class _PerfilPageState extends State<PerfilPage> {
           //TODO: agregar seguridad cambio de email
 
           jsonResponse = jsonDecode(response.body); 
+
+          print(jsonResponse);
+
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
             myProvider.getDataUser(false, context);
-             Navigator.pop(context);
+            Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
-        print("error network");
+        showMessage("Sin conexión a internet", false);
       } 
     }
   }
@@ -1313,7 +1336,7 @@ class _PerfilPageState extends State<PerfilPage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser/",
+            urlApi+"updateUser",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1331,13 +1354,13 @@ class _PerfilPageState extends State<PerfilPage> {
             setState(() => _statusDropdown = "");
             myProvider.getDataUser(false, context);
             Navigator.pop(context);
-            showMessageCorrectly("Guardado Correctamente");
+            showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
-        print("error network");
+        showMessage("Sin conexión a internet", false);
       } 
     }
   }
@@ -1392,13 +1415,13 @@ class _PerfilPageState extends State<PerfilPage> {
             setState(() => _statusDropdown = "");
             myProvider.getDataUser(false, context);
             Navigator.pop(context);
-            showMessageCorrectly("Guardado Correctamente");
+            showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
           }  
         }
       } on SocketException catch (_) {
-        print("error network");
+        showMessage("Sin conexión a internet", false);
       } 
   }
 
@@ -1470,7 +1493,7 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Future<void> showMessageCorrectly(_titleMessage) async {
+  Future<void> showMessage(_titleMessage, _statusNetwork) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1484,12 +1507,20 @@ class _PerfilPageState extends State<PerfilPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Container(
+              _statusNetwork? Padding(
                 padding: EdgeInsets.all(5),
-                child: Image.asset(
-                  "assets/icons/correctly.png",
-                  width: size.width / 6,
-                  height: size.width / 6,
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
                 )
               ),
               Container(

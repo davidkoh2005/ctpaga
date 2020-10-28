@@ -301,8 +301,9 @@ class _LoginPageState extends State<LoginPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
-            urlApi+"login/",
-            headers: <String, String>{
+            urlApi+"login",
+            headers:{
+              'Accept': 'application/json',
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
             },
@@ -310,10 +311,10 @@ class _LoginPageState extends State<LoginPage> {
               'email': _email,
               'password': _password,
             }),
-          ); // peticion api
-
+          ); // petición api
+          print(response.body);
           jsonResponse = jsonDecode(response.body);
-          print(jsonResponse);
+
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();

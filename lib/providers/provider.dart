@@ -32,7 +32,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _bank = new List(2);
+  List _bank = new List();
   List get dataBanksUser =>_bank;
 
   set dataBanksUser(List newBankUser){
@@ -40,7 +40,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _storage = new List(2);
+  List _storage = new List();
   List get dataPicturesUser =>_storage;
 
   set dataPicturesUser(List newStorageUser){
@@ -49,7 +49,7 @@ class MyProvider with ChangeNotifier {
   }
 
   User user = User();
-  List bankUser = new List(2);
+  List bankUser = new List();
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   Picture pictureUser = Picture();
@@ -57,11 +57,13 @@ class MyProvider with ChangeNotifier {
 
   getDataUser(status, context)async{
     var result, response, jsonResponse;
+    listPicturesUser = [];
+    bankUser = [];
     try {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"user/",
+          urlApi+"user",
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -134,7 +136,7 @@ class MyProvider with ChangeNotifier {
             }
           }
 
-          dataPicturesUser = listPicturesUser;
+          dataPicturesUser = listPicturesUser; 
 
           if(status){
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
@@ -144,7 +146,9 @@ class MyProvider with ChangeNotifier {
         }
       }
     } on SocketException catch (_) {
-      print("error network");
+      if(status && accessTokenUser != null){
+        Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+      }
     }
   }
 

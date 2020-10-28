@@ -17,6 +17,21 @@ class MenuPage extends StatefulWidget {
 
 class _MenuPageState extends State<MenuPage> {
   List statusButton = [];
+
+  void initState() {
+    super.initState();
+    initVariable(context);
+  }
+
+  void dispose(){
+    super.dispose();
+  }
+
+  initVariable(BuildContext context){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.getDataUser(false, context);
+  } 
+
   @override
   Widget build(BuildContext context) {
 
@@ -91,12 +106,15 @@ class _MenuPageState extends State<MenuPage> {
  
 
   nextPage(title, page, index)async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    //myProvider.getDataUser(false, context); //TODO: urgente
     setState(() =>statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
     if(title == "Perfil"){
       Navigator.push(context, SlideLeftRoute(page: page));
     }else if(title == "Cerrar sesión"){
+      _onLoading();
       var myProvider = Provider.of<MyProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
       var result, response, jsonResponse;
@@ -104,7 +122,7 @@ class _MenuPageState extends State<MenuPage> {
         result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"logout/",
+            urlApi+"logout",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -114,14 +132,13 @@ class _MenuPageState extends State<MenuPage> {
 
           jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
-          if (jsonResponse['statusCode'] == 201) {
-            prefs.remove("access_token");
-            myProvider.accessTokenUser = null;
-            myProvider.dataUser = null;
-            myProvider.dataBanksUser = null;
-            myProvider.dataPicturesUser = null;
-            Navigator.pushReplacement(context, SlideLeftRoute(page: page));
-          }  
+          prefs.remove("access_token");
+          myProvider.accessTokenUser = null;
+          myProvider.dataUser = null;
+          myProvider.dataBanksUser = null;
+          myProvider.dataPicturesUser = null;
+          Navigator.pop(context);
+          Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
         print("error");
@@ -129,5 +146,56 @@ class _MenuPageState extends State<MenuPage> {
     }else{
       Navigator.push(context, SlideLeftRoute(page: page));
     }
+  }
+
+
+  Future<void> _onLoading() async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cargando ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                      TextSpan(
+                        text: "...",
+                        style: TextStyle(
+                          color: colorGreen,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 }

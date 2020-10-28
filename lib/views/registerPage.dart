@@ -330,7 +330,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
-            urlApi+"signup/",
+            urlApi+"signup",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

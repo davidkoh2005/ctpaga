@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/createProductPage.dart';
 import 'package:ctpaga/env.dart';
@@ -28,7 +29,7 @@ class _ProductsPageState extends State<ProductsPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            NavbarTrolley("Productos"),
+            _statusCharge? NavbarTrolley("Productos") : Navbar("Productos", true),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -185,7 +186,7 @@ class _ProductsPageState extends State<ProductsPage> {
 
   nextPage()async{
     await Future.delayed(Duration(milliseconds: 150));
-    //setState(() => _statusButton = false);
+    setState(() => _statusButton = false);
     Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
   }
 }

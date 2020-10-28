@@ -1,11 +1,13 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-
 import 'dart:async';
 
 class CreateProductPage extends StatefulWidget {
@@ -14,7 +16,7 @@ class CreateProductPage extends StatefulWidget {
 }
 
 class _CreateProductPageState extends State<CreateProductPage> {
-  final lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
   final _scrollController = ScrollController();
   final FocusNode _nameFocus = FocusNode();  
   final FocusNode _priceFocus = FocusNode();
@@ -22,7 +24,29 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   String _name, _description;
   double _price;
-  bool _statusButton = false;
+  int _quantityProduct;
+  bool _statusButton = false, _switchPublish = false, _shitchPostPurchase = false;
+  var _image;
+
+  @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    //myProvider.getDataUser(false, context);
+    if(myProvider.dataUser.coin == 0)
+      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+    else
+      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' Bs', );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -64,6 +88,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
               child:Column(
                 children: <Widget>[
                   showImage(),
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
                     child: Align(
@@ -102,6 +127,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       ),
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                     child: Align(
@@ -144,6 +170,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       ),                  
                     ),
                   ),
+
                   Padding(
                     padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                     child: Align(
@@ -159,14 +186,13 @@ class _CreateProductPageState extends State<CreateProductPage> {
                     ),
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 50.0),
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                     child: new TextFormField(
                       keyboardType: TextInputType.multiline,
                       maxLines: 5,
                       textCapitalization:TextCapitalization.sentences,
                       autofocus: false,
                       focusNode: _descriptionFocus,
-                      onEditingComplete: () => FocusScope.of(context).requestFocus(),
                       onSaved: (value) => _description = value.trim(),
                       cursorColor: colorGrey,
                       decoration: InputDecoration(
@@ -176,8 +202,9 @@ class _CreateProductPageState extends State<CreateProductPage> {
                       ),
                     ),
                   ),
+
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 50.0),
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -189,6 +216,172 @@ class _CreateProductPageState extends State<CreateProductPage> {
                         ),
                       ),
                     ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Publicar",
+                              style: TextStyle(
+                                color: colorGrey,
+                                fontSize: size.width / 30,
+                              ),
+                            ),
+                            Container(
+                              width: size.width - 140,
+                              child: Text(
+                                "Mostrar en el catálogo de productos",
+                                style: TextStyle(
+                                  color: colorGrey,
+                                  fontSize: size.width / 25,
+                                ),
+                              )
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Switch(
+                              value: _switchPublish ,
+                              onChanged: (value) {
+                                setState(() {
+                                  _switchPublish = value;
+                                });
+                              },
+                              activeTrackColor: colorGrey,
+                              activeColor: colorGreen
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
+                  ),
+                  Divider(),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Cantidad disponible",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+                    child: new TextFormField(
+                      maxLines: 1,
+                      inputFormatters: [  
+                        WhitelistingTextInputFormatter.digitsOnly,
+                      ],
+                      keyboardType: TextInputType.number,
+                      autofocus: false,
+                      onSaved: (value) => _quantityProduct = int.parse(value),
+                      cursorColor: colorGrey,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        fontSize: size.width / 10,
+                        color: colorGrey,
+                      ),
+                      decoration: InputDecoration(
+                        hintText: "0",
+                        hintStyle: TextStyle(
+                          fontSize: size.width / 10,
+                          color: colorGrey,
+                        ),
+                        enabledBorder: InputBorder.none,
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: Colors.transparent),
+                        ),
+                      ),                  
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 5.0, 0.0, 0.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          "Llevar inventario del invetario",
+                          style: TextStyle(
+                            color: colorGrey,
+                            fontSize: size.width / 25,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Divider(),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        "Correo post-compra",
+                        style: TextStyle(
+                          color: colorGrey,
+                          fontSize: size.width / 15,
+                          fontWeight: FontWeight.w900,
+                        ),
+                      ),
+                    ),
+                  ),
+
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 50.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Enviar automaticamente",
+                              style: TextStyle(
+                                color: colorGrey,
+                                fontSize: size.width / 20,
+                              ),
+                            ),
+                            Container(
+                              width: size.width - 140,
+                              child: Text(
+                                "Enviar correo personalizado automaticamente luego de la compra",
+                                style: TextStyle(
+                                  color: colorGrey,
+                                  fontSize: size.width / 25,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                        Column(
+                          children: <Widget>[
+                            Switch(
+                              value: _shitchPostPurchase ,
+                              onChanged: (value) {
+                                setState(() {
+                                  _shitchPostPurchase = value;
+                                });
+                              },
+                              activeTrackColor: colorGrey,
+                              activeColor: colorGreen
+                            ),
+                          ],
+                        ),
+                      ],
+                    )
                   ),
                 ]
               ),
@@ -203,8 +396,22 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
     var size = MediaQuery.of(context).size;
 
+    if(_image != null){
+      return GestureDetector(
+        onTap: () => _showSelectionDialog(context),
+        child: ClipOval(
+          child: Image.file(
+            _image,
+            width: size.width / 4,
+            height: size.width / 4,
+            fit: BoxFit.cover
+          ),
+        )
+      );
+    }else
+
     return GestureDetector(
-      onTap: () => print("entro"),//TODO: ruta
+      onTap: () => _showSelectionDialog(context),
       child: ClipOval(
         child: Image(
           image: AssetImage("assets/icons/addPhoto.png"),
@@ -213,6 +420,62 @@ class _CreateProductPageState extends State<CreateProductPage> {
         ),
       ),
     );
+  }
+
+  Future<void> _showSelectionDialog(BuildContext context) {
+    var size = MediaQuery.of(context).size;
+
+    return showModalBottomSheet(
+      context: context,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topRight: Radius.circular(20),
+          topLeft: Radius.circular(20)
+        ),
+      ),
+      backgroundColor: Colors.white,
+      builder: (BuildContext bc){
+          return Container(
+            child: new Wrap(
+              spacing: 20,
+              children: <Widget>[
+                new ListTile(
+                  leading: new Icon(Icons.crop_original, color:Colors.black, size: 30.0),
+                  title: new Text(
+                    "Galeria",
+                    style: TextStyle(
+                      fontSize: size.width / 20,
+                    ),
+                  ),
+                  onTap: () => _getImage(context, ImageSource.gallery),       
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.camera, color:Colors.black, size: 30.0),
+                  title: new Text(
+                    "Camara",
+                    style: TextStyle(
+                      fontSize: size.width / 20,
+                    ),
+                  ),
+                  onTap: () => _getImage(context, ImageSource.camera),          
+                ),
+              ],
+            ),
+          );
+      }
+    );
+  }
+
+  _getImage(BuildContext context, ImageSource source) async {
+    var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
+
+    if(picture != null){
+      this.setState(() {
+        _image = picture;
+      });
+      Navigator.of(context).pop();
+
+    }
   }
 
   Widget buttonCreateProduct(){

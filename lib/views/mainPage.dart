@@ -2,12 +2,11 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/quantityPage.dart';
-import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:provider/provider.dart';
+
 import 'package:flutter/material.dart';
 
 
@@ -25,6 +24,7 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+
     return WillPopScope(
       onWillPop: () async =>false,
       child: Scaffold(

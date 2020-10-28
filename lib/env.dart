@@ -8,10 +8,10 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.103:8000";
+//String url = "http://192.168.1.111:8000";
 
 //TODO: Url Api (heroku)
-//String url = "https://ctpaga.herokuapp.com";
+String url = "http://ctpaga.herokuapp.com";
 String urlApi = "$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
@@ -47,6 +47,11 @@ List listMenu = [
   {
     "title": "Reporte de ventas",
     "icon": "assets/icons/reporte.png",
+    "page": ProductsPage(false),
+  },
+  {
+    "title": "Tasa de cambio",
+    "icon": "assets/icons/tasa.png",
     "page": ProductsPage(false),
   },
   {

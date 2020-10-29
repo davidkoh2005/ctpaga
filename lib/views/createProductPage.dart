@@ -24,7 +24,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
 
   String _name, _description;
   double _price;
-  int _quantityProduct;
+  int _quantityProduct, _statusCoin = 0;
   bool _statusButton = false, _switchPublish = false, _shitchPostPurchase = false;
   var _image;
 
@@ -42,7 +42,12 @@ class _CreateProductPageState extends State<CreateProductPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     //myProvider.getDataUser(false, context);
-    if(myProvider.dataUser.coin == 0)
+    if(myProvider.dataUser.coin != null)
+      _statusCoin = myProvider.dataUser.coin;
+    else
+      _statusCoin = myProvider.coinUsers;
+
+    if(_statusCoin == 0)
       lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
     else
       lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' Bs', );

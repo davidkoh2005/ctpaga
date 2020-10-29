@@ -1,6 +1,6 @@
 class User{
-  final int id, coin;
-  final String rifCompany, nameCompany, addressCompany, phoneCompany, email, name, address, phone;
+  int id, coin;
+  String rifCompany, nameCompany, addressCompany, phoneCompany, email, name, address, phone;
 
   User({this.id, this.rifCompany, this.nameCompany, this.addressCompany, this.phoneCompany, this.email, this.name, this.address, this.phone, this.coin});
 

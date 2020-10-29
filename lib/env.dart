@@ -8,7 +8,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-//String url = "http://192.168.1.111:8000";
+//String url = "http://192.168.1.115:8000";
 
 //TODO: Url Api (heroku)
 String url = "http://ctpaga.herokuapp.com";

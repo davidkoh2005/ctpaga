@@ -83,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               validator: _validateEmail,
-              onSaved: (value) => _email = value.trim(),
+              onSaved: (value) => _email = value.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
             ),
@@ -319,7 +319,6 @@ class _LoginPageState extends State<LoginPage> {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
-            prefs.setInt('moneyUser',0);
             myProvider.accessTokenUser = jsonResponse['access_token'];
             _passwordController.clear();
             Navigator.pop(context);

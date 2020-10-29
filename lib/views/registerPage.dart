@@ -159,7 +159,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ),
               ),
               validator: _validateEmail,
-              onSaved: (String value) => _email = value,
+              onSaved: (String value) => _email = value.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
             ),

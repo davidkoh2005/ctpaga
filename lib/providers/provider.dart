@@ -4,6 +4,7 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/mainPage.dart';
+import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/foundation.dart';
@@ -32,7 +33,15 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _bank = new List();
+  int _coinUser;
+  int get coinUsers =>_coinUser; 
+  
+  set coinUsers(int newCoin) {
+    _coinUser = newCoin; 
+    notifyListeners(); 
+  }
+
+  List _bank = new List(2);
   List get dataBanksUser =>_bank;
 
   set dataBanksUser(List newBankUser){
@@ -49,16 +58,19 @@ class MyProvider with ChangeNotifier {
   }
 
   User user = User();
-  List bankUser = new List();
+  List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   Picture pictureUser = Picture();
   List listPicturesUser = new List();
 
   getDataUser(status, context)async{
+    //call function BD
+    var dbctpaga = DBctpaga();    
+
     var result, response, jsonResponse;
     listPicturesUser = [];
-    bankUser = [];
+
     try {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
@@ -91,11 +103,17 @@ class MyProvider with ChangeNotifier {
 
           dataUser = user;
 
+          if(await dbctpaga.existUser() == 0)
+            dbctpaga.addNewUser(user);
+          else
+            dbctpaga.updateUser(user);
+
           if(jsonResponse['data']['banks'] != null){
 
             for (var item in jsonResponse['data']['banks']) {
               if(item['coin'] == 'USD'){
                 bankUserUSD = Bank(
+                  coin: item['coin'],
                   country: item['country'],
                   accountName: item['accountName'],
                   accountNumber: item['accountNumber'],
@@ -105,11 +123,13 @@ class MyProvider with ChangeNotifier {
                   bankName: item['bankName'],
                   accountType: item['accountType'],
                 ); 
-                
+
+                dbctpaga.createOrUpdateBankUser(bankUserUSD);
                 bankUser[0] = bankUserUSD;
 
               }else{
                 bankUserBs = Bank(
+                  coin: item['coin'],
                   accountName: item['accountName'],
                   accountNumber: item['accountNumber'],
                   idCard: item['idCard'],
@@ -117,6 +137,7 @@ class MyProvider with ChangeNotifier {
                   accountType: item['accountType'],
                 ); 
 
+                dbctpaga.createOrUpdateBankUser(bankUserBs);
                 bankUser[1] = bankUserBs;
               }
             }
@@ -131,7 +152,8 @@ class MyProvider with ChangeNotifier {
                 description: item['description'],
                 url: item['url'],
               );
-
+              
+              dbctpaga.createOrUpdatePicturesUser(pictureUser);
               listPicturesUser.add(pictureUser);
             }
           }
@@ -146,7 +168,14 @@ class MyProvider with ChangeNotifier {
         }
       }
     } on SocketException catch (_) {
-      if(status && accessTokenUser != null){
+      if(accessTokenUser != null){
+        dataUser = await dbctpaga.getUser();
+        dataBanksUser = await dbctpaga.getBanksUser();
+        dataPicturesUser = await dbctpaga.getPicturesUser();
+
+      }
+
+      if(status){
         Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
       }
     }

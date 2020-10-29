@@ -12,8 +12,10 @@ class DepositsPage extends StatefulWidget {
 }
 
 class _DepositsPageState extends State<DepositsPage> {
+  final _scrollController = ScrollController();
   List statusButton = [];
   bool _statusBank = false, _statusIdentication = false, _statusSelfie = false;
+  int _statusCoin;
 
   void initState() {
     super.initState();
@@ -27,19 +29,16 @@ class _DepositsPageState extends State<DepositsPage> {
   verifyStatusBank(BuildContext context){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     //myProvider.getDataUser(false, context);
+    if(myProvider.dataUser.coin != null)
+      _statusCoin = myProvider.dataUser.coin;
 
-    if(myProvider.dataBanksUser == null || myProvider.dataBanksUser.length == 0)
-      setState(() => _statusBank = false);
-    else
-      setState(() => _statusBank = myProvider.dataBanksUser[myProvider.dataUser.coin] == null ? false : true);
+    setState(() => _statusBank = myProvider.dataBanksUser[myProvider.dataUser.coin] == null ? false : true);
 
-    if(myProvider.dataPicturesUser != null){
-      for (var item in myProvider.dataPicturesUser) {
-        if(item.description == 'Identification'){
-          setState(() => _statusIdentication = true);
-        }else if(item.description == 'Selfie'){
-          setState(() => _statusSelfie = true);
-        }
+    for (var item in myProvider.dataPicturesUser) {
+      if(item.description == 'Identification'){
+        setState(() => _statusIdentication = true);
+      }else if(item.description == 'Selfie'){
+        setState(() => _statusSelfie = true);
       }
     }
   }
@@ -50,125 +49,134 @@ class _DepositsPageState extends State<DepositsPage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Navbar("Depósitos", false),
-
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget> [
-
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(25),
-                      child: Text(
-                        "PROXIMO DEPÓSITO",
-                        style:  TextStyle(
-                          fontSize: size.width / 20,
-                          color: colorGrey
-                        ),
-                      ),
-                    ),
-                  ),
-
-                  Text(
-                    "0 \$",
-                    style:  TextStyle(
-                      fontSize: size.width / 5,
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width:size.width - 100,
-                        height: size.height / 20,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.red,
-                              Colors.red,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'No podemos enviarte tu dinero',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: size.width / 20,
+        body: Container(
+          height: size.height,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              Navbar("Depósitos", false),
+              Container(
+                height: size.height - 139,
+                child: Scrollbar(
+                  controller: _scrollController, 
+                  isAlwaysShown: true,
+                  child: SingleChildScrollView(
+                    controller: _scrollController, 
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget> [
+                          Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(25),
+                            child: Text(
+                              "PROXIMO DEPÓSITO",
+                              style:  TextStyle(
+                                fontSize: size.width / 20,
+                                color: colorGrey
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    )
-                  ),
-
-                  Text(
-                    "Necesitamos que completes la información marcada en rojo debajo",
-                    textAlign: TextAlign.center,
-                    style:  TextStyle(
-                      fontSize: size.width / 20,
-                      color: colorGrey
-                    ),
-                  ),
-
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.all(25),
-                      child: Text(
-                        "INFORMACIÓN DEL DEPÓSITO",
-                        style:  TextStyle(
-                          fontSize: size.width / 20,
-                          color: colorGrey
+                        _statusCoin == 0? Text(
+                            "0,00 \$",
+                            style:  TextStyle(
+                              fontSize: size.width / 6,
+                            ),
+                          )
+                        : Text(
+                            "0,00 Bs",
+                            textAlign: TextAlign.center,
+                            style:  TextStyle(
+                              fontSize: size.width / 6,
+                            ),
+                          ),
+                          Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 10),
+                          child: GestureDetector(
+                            onTap: () {},
+                            child: Container(
+                              width:size.width - 100,
+                              height: size.height / 20,
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  colors: [
+                                    Colors.red,
+                                    Colors.red,
+                                  ],
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  'No podemos enviarte tu dinero',
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: size.width / 20,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          )
                         ),
-                      ),
-                    ),
-                  ),
-
-                  dropdownList(0, _statusBank),
-                  dropdownList(1, _statusIdentication),
-                  dropdownList(2, _statusSelfie),
-
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                    child: Text(
-                      "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
-                      textAlign: TextAlign.center,
-                      style:  TextStyle(
-                        fontSize: size.width / 20,
-                        color: colorGrey
-                      ),
-                    ),
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                    child: Text(
-                      "El depósito te llegara dos dias habiles despues",
-                      textAlign: TextAlign.center,
-                      style:  TextStyle(
-                        fontSize: size.width / 20,
-                        color: colorGrey
-                      ),
-                    ),
-                  ),
-                  
-                ],
+                          Text(
+                          "Necesitamos que completes la información marcada en rojo debajo",
+                          textAlign: TextAlign.center,
+                          style:  TextStyle(
+                            fontSize: size.width / 20,
+                            color: colorGrey
+                          ),
+                        ),
+                          Align(
+                          alignment: Alignment.centerLeft,
+                          child: Padding(
+                            padding: EdgeInsets.all(25),
+                            child: Text(
+                              "INFORMACIÓN DEL DEPÓSITO",
+                              style:  TextStyle(
+                                fontSize: size.width / 20,
+                                color: colorGrey
+                              ),
+                            ),
+                          ),
+                        ),
+                          dropdownList(0, _statusBank),
+                        dropdownList(1, _statusIdentication),
+                        dropdownList(2, _statusSelfie),
+                          Padding(
+                          padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
+                          child: Text(
+                            "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
+                            textAlign: TextAlign.center,
+                            style:  TextStyle(
+                              fontSize: size.width / 20,
+                              color: colorGrey
+                            ),
+                          ),
+                        ),
+                          Padding(
+                          padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                          child: Text(
+                            "El depósito te llegara dos dias habiles despues",
+                            textAlign: TextAlign.center,
+                            style:  TextStyle(
+                              fontSize: size.width / 20,
+                              color: colorGrey
+                            ),
+                          ),
+                        ),
+                        
+                      ],
+                    )
+                  )
+                ),
               ),
-            ),
-          ],
+            ],
+          )
         ),
       );
   }

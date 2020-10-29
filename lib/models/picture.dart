@@ -1,6 +1,6 @@
 class Picture{
-  final int id;
-  final String description, url;
+  int id;
+  String description, url;
 
   Picture({this.id, this.description, this.url});
 

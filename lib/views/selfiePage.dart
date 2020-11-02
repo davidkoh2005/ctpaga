@@ -193,39 +193,47 @@ class _SelfiePageState extends State<SelfiePage> {
 
   void onCaptureButtonPressed() async {  //on camera button press
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    final DateTime now = DateTime.now();
     try {
       _onLoading();
       final Directory extDir = await getApplicationDocumentsDirectory();
-      final String filePath = '${extDir.path}/Selfie.jpg';
+      final String filePath = '${extDir.path}/Selfie_$now.jpg';
       await _controller.takePicture(filePath);
       _controller?.dispose();
+    
+      //TODO: Eliminar if
+      if(!urlApi.contains("herokuapp")){
+        String base64Image = base64Encode(File(filePath).readAsBytesSync());
+        String fileName = filePath.split("/").last;
 
+        var response = await http.post(
+          urlApi+"updateUserImg",
+          headers:{
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: {
+            "image": base64Image,
+            "name": fileName,
+            "description": "Selfie"
+          }
+        );
 
-      String base64Image = base64Encode(File(filePath).readAsBytesSync());
-      String fileName = filePath.split("/").last;
-
-      var response = await http.post(
-        urlApi+"updateUserImg",
-        headers:{
-          'X-Requested-With': 'XMLHttpRequest',
-          'authorization': 'Bearer ${myProvider.accessTokenUser}',
-        },
-        body: {
-          "image": base64Image,
-          "name": fileName,
-          "description": "Selfie"
+        var jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse); 
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.getDataUser(false, context);
+          Navigator.pop(context);
+          Navigator.pop(context);
         }
-      );
-
-      var jsonResponse = jsonDecode(response.body); 
-      print(jsonResponse); 
-      if (jsonResponse['statusCode'] == 201) {
-        myProvider.getDataUser(false, context);
+      }else{
         Navigator.pop(context);
         Navigator.pop(context);
-      }  
+        showMessage("No se puede guardar la imagen en el servidor");
+      }
 
     } catch (e) {
+      Navigator.pop(context);
       Navigator.pop(context);
       showMessage("Sin conexión a internet");
     }

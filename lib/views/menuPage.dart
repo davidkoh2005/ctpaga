@@ -133,6 +133,7 @@ class _MenuPageState extends State<MenuPage> {
           jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           prefs.remove("access_token");
+          prefs.remove('selectCommerce');
           myProvider.accessTokenUser = null;
           myProvider.dataUser = null;
           myProvider.dataBanksUser = null;

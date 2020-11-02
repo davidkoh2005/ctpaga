@@ -352,8 +352,10 @@ class _RegisterPageState extends State<RegisterPage> {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
-            prefs.setInt('moneyUser',0);
             myProvider.accessTokenUser = jsonResponse['access_token'];
+            prefs.setInt('selectCommerce', 0);
+            myProvider.selectCommerce = 0;
+            myProvider.coinUsers = 0;
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
 

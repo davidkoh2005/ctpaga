@@ -1,12 +1,12 @@
-class User{
+class Commerce{
   int id;
-  String email, name, address, phone;
+  String rif, name, address, phone;
 
-  User({this.id, this.email, this.name, this.address, this.phone});
+  Commerce({this.id, this.rif, this.name, this.address, this.phone});
 
-  factory User.fromMap(dynamic data) => User(
+  factory Commerce.fromMap(dynamic data) => Commerce(
     id: data['id'],
-    email: data['email'],
+    rif: data['rif'],
     name: data['name'],
     address: data['address'],
     phone: data['phone'],
@@ -14,10 +14,12 @@ class User{
 
   Map<String, dynamic> toJson()=> {
     'id': id,
-    'email': email,
+    'rif': rif,
     'name': name,
     'address': address,
     'phone': phone,
+
+
   };
 
 }

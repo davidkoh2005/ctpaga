@@ -2,11 +2,12 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/quantityPage.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 
@@ -20,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
-  int clickBotton = 0;
+  int clickBotton = 0, _statusCoin = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,14 +35,26 @@ class _MainPageState extends State<MainPage> {
           children: <Widget>[
             NavbarMain(),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
-                  buttonMain("Servicio",2, null), //send variable the same design
-                  buttonMain("Cantidad",3, QuantityPage()), //send variable the same design
-                ]
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(bottom: 100, top: 100),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          buttonUSD(),
+                          buttonBs(),
+                        ],
+                      )
+                    ),
+                    buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
+                    buttonMain("Servicio",2, null), //send variable the same design
+                    buttonMain("Cantidad",3, QuantityPage()), //send variable the same design
+                  ]
+                )
               ),
             ),
           ],
@@ -87,59 +100,84 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  Widget buttonUSD(){
+    var size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () => changeButtonCoin(0), 
+      child: Container(
+        width:size.width / 5,
+        height: size.height / 25,
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              _statusCoin == 0? colorGreen : colorGrey,
+              _statusCoin == 0? colorGreen : colorGrey
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(30),
+          ),
+        child: Center(
+          child: Text(
+            "\$",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: size.width / 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonBs(){
+    var size = MediaQuery.of(context).size;
+    return Padding(
+      padding: EdgeInsets.only(left:20),
+      child: GestureDetector(
+        onTap: () => changeButtonCoin(1), 
+        child: Container(
+          width:size.width / 5,
+          height: size.height / 25,
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                _statusCoin == 1? colorGreen : colorGrey,
+                _statusCoin == 1? colorGreen : colorGrey
+              ],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+            borderRadius: BorderRadius.circular(30),
+            ),
+          child: Center(
+            child: Text(
+              "Bs",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: size.width / 20,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ),
+        ),
+      )
+    );
+  }
+
+  changeButtonCoin(coin){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+
+    setState(() => _statusCoin = coin);
+    myProvider.coinUsers = coin;
+  }
+
   nextPage(Widget page)async{
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
     Navigator.push(context, SlideLeftRoute(page: page));
   }
 
-  Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
-
-    return showDialog(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(5),
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(5),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Cargando ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: size.width / 20,
-                        )
-                      ),
-                      TextSpan(
-                        text: "...",
-                        style: TextStyle(
-                          color: colorGreen,
-                          fontSize: size.width / 20,
-                        )
-                      ),
-                    ]
-                  ),
-                ),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
 }

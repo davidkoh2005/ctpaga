@@ -62,7 +62,6 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
-    initVariable(context);
     removeCache();
   }
 
@@ -70,14 +69,6 @@ class _PerfilPageState extends State<PerfilPage> {
     super.dispose();
   }
 
-  initVariable(BuildContext context){
- 
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    //myProvider.getDataUser(false, context);
-
-    if(myProvider.dataUser.coin != null)
-      _statusCoin = myProvider.dataUser.coin;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -266,34 +257,40 @@ class _PerfilPageState extends State<PerfilPage> {
       _onLoading();
       try
       {
+        
+        //TODO: Eliminar if
+        if(!urlApi.contains("herokuapp")){
+          String base64Image = base64Encode(File(picture.path).readAsBytesSync());
+          String fileName = picture.path.split("/").last;
 
-        String base64Image = base64Encode(File(picture.path).readAsBytesSync());
-        String fileName = picture.path.split("/").last;
+          var response = await http.post(
+            urlApi+"updateUserImg",
+            headers:{
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+            body: {
+              "image": base64Image,
+              "name": fileName,
+              "description": "Profile"
+            }
+          );
 
-        var response = await http.post(
-          urlApi+"updateUserImg",
-          headers:{
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-          body: {
-            "image": base64Image,
-            "name": fileName,
-            "description": "Profile"
-          }
-        );
-
-        var jsonResponse = jsonDecode(response.body); 
-        print(jsonResponse); 
-        if (jsonResponse['statusCode'] == 201) {
-          DefaultCacheManager().emptyCache();
-          setState(() =>_image = File(picture.path));
-          myProvider.getDataUser(false, context);
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            DefaultCacheManager().emptyCache();
+            setState(() =>_image = File(picture.path));
+            myProvider.getDataUser(false, context);
+            Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
+          }  
+        }else{
           Navigator.pop(context);
-          showMessage("Guardado Correctamente", true);
-          await Future.delayed(Duration(seconds: 1));
-          Navigator.pop(context);
-        }  
+          showMessage("No se puede guardar la imagen en el servidor", false);
+        }
 
       }on SocketException catch (_) {
         print("error network");
@@ -340,6 +337,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Widget formCompany(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+
     return new Form(
       key: _formKeyCompany,
       child: new ListView(
@@ -350,7 +348,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.rifCompany,
+              initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].rif,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -372,7 +370,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.nameCompany,
+              initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               inputFormatters: [
@@ -400,7 +398,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.addressCompany,
+              initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].address,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -424,7 +422,7 @@ class _PerfilPageState extends State<PerfilPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.phoneCompany,
+              initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].phone,
               autofocus: false,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -613,7 +611,7 @@ class _PerfilPageState extends State<PerfilPage> {
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => saveStatusMoney(0), 
+        onTap: () => setState(() => _statusCoin = 0), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
@@ -648,7 +646,7 @@ class _PerfilPageState extends State<PerfilPage> {
     return Padding(
       padding: EdgeInsets.only(left:20),
       child: GestureDetector(
-        onTap: () => saveStatusMoney(1), 
+        onTap: () => setState(() => _statusCoin = 1), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
@@ -678,39 +676,6 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  saveStatusMoney(coin)async{
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() => _statusCoin = coin);
-    prefs.setInt('moneyUser',coin);
-    myProvider.coinUsers = coin;
-    var result, response, jsonResponse;
-    try {
-      result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        var myProvider = Provider.of<MyProvider>(context, listen: false);
-
-        response = await http.post(
-          urlApi+"updateUser",
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-          body: jsonEncode({
-            'coin': coin,
-          }),
-        ); 
-
-        jsonResponse = jsonDecode(response.body); 
-        if (jsonResponse['statusCode'] == 201) {
-          myProvider.getDataUser(false, context);
-        } 
-      }
-    } on SocketException catch (_) {
-      print("error network");
-    } 
-  }
 
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
@@ -857,7 +822,9 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
             ),
 
-            Padding(
+            //INPUT SWIFT
+
+            /* Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
                 initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
@@ -879,7 +846,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_addressBankingUSDFocus),
                 cursorColor: colorGreen,
               ),
-            ),
+            ), */
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
@@ -1261,21 +1228,23 @@ class _PerfilPageState extends State<PerfilPage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser",
+            urlApi+"updateCommerceUser",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
             },
             body: jsonEncode({
-              'rifCompany': _rifCompany,
-              'nameCompany': _nameCompany,
-              'addressCompany': _addressCompany,
-              'phoneCompany': _phoneCompany,
+              'rif': _rifCompany,
+              'name': _nameCompany,
+              'address': _addressCompany,
+              'phone': _phoneCompany,
             }),
           ); 
 
           jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse);
+
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
             myProvider.getDataUser(false, context);
@@ -1286,6 +1255,7 @@ class _PerfilPageState extends State<PerfilPage> {
           } 
         }
       } on SocketException catch (_) {
+        Navigator.pop(context);
         showMessage("Sin conexión a internet", false);
       } 
     }
@@ -1407,7 +1377,7 @@ class _PerfilPageState extends State<PerfilPage> {
             }));
 
           response = await http.get(
-            urlApi+"bankUser/$parameters",
+            urlApi+"updateBankUser/$parameters",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

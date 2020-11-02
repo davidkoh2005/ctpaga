@@ -7,18 +7,22 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:io';
 
 List<CameraDescription> cameras;
 
-class IdentificationPage extends StatefulWidget {
-
+class DocumentsPage extends StatefulWidget {
+  DocumentsPage(this._title);
+  final String _title;
   @override
-  _IdentificationPageState createState() => _IdentificationPageState();
+  _DocumentsPageState createState() => _DocumentsPageState(this._title);
 }
 
-class _IdentificationPageState extends State<IdentificationPage> {
+class _DocumentsPageState extends State<DocumentsPage> {
+  _DocumentsPageState(this._title);
+  String _title;
   CameraController _controller;
   Future<void> _initializeControllerFuture;
   bool isCameraReady = false, clickBotton = false, clickCamera = false;
@@ -55,7 +59,7 @@ class _IdentificationPageState extends State<IdentificationPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
-          Navbar("Identificación", false),
+          Navbar(_title == "Identification"? "Identificación" : "Registro Jurídico", false),
 
           showInstructionsOrCamera(),
 
@@ -113,23 +117,39 @@ class _IdentificationPageState extends State<IdentificationPage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset(
-              "assets/icons/escaner.png",
-              width: size.width / 3,
-              height: size.width / 3,
-            ),
+            _title == "Identification"? Image.asset(
+                "assets/icons/escaner.png",
+                width: size.width / 3,
+                height: size.width / 3,
+              )
+            : Image.asset(
+                "assets/icons/escanerDocumento.png",
+                width: size.width / 3,
+                height: size.width / 3,
+              ),
 
-            Padding(
-              padding: EdgeInsets.all(30),
-              child: Text(
-                "Necesitamos una foto de tu identificacíon para comparar con tu selfie y cumplir con regulaciones finacieras.",
-                textAlign: TextAlign.center,
-                style:  TextStyle(
-                  fontSize: size.width / 20,
-                  color: colorGrey
+            _title == "Identification"? Padding(
+                padding: EdgeInsets.all(30),
+                child: Text(
+                  "Necesitamos una foto de tu identificacíon para comparar con tu selfie y cumplir con regulaciones finacieras.",
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(
+                    fontSize: size.width / 20,
+                    color: colorGrey
+                  ),
+                ),
+              )
+            : Padding(
+                padding: EdgeInsets.all(30),
+                child: Text(
+                  "Necesitamos una foto de tu RIF para verificar que no sea una empresa falsa.",
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(
+                    fontSize: size.width / 20,
+                    color: colorGrey
+                  ),
                 ),
               ),
-            ),
 
         ],
         )
@@ -154,20 +174,34 @@ class _IdentificationPageState extends State<IdentificationPage> {
                     ),
                   ),
 
-                  Align(
-                    alignment: Alignment.topCenter,
-                    child: Padding(
-                      padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
-                      child: Text(
-                        "Coloca tu identificacíon dentro del cuadro blanco y toma foto",
-                        textAlign: TextAlign.center,
-                        style:  TextStyle(
-                          fontSize: size.width / 20,
-                          color: Colors.white,
-                        ),
-                      )
+                  _title == "Identification"? Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
+                        child: Text(
+                          "Coloca tu identificacíon dentro del cuadro blanco y toma foto",
+                          textAlign: TextAlign.center,
+                          style:  TextStyle(
+                            fontSize: size.width / 20,
+                            color: Colors.white,
+                          ),
+                        )
+                      ),
+                    ) 
+                  : Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
+                        child: Text(
+                          "Coloca tu registro jurídico dentro del cuadro blanco y toma foto",
+                          textAlign: TextAlign.center,
+                          style:  TextStyle(
+                            fontSize: size.width / 20,
+                            color: Colors.white,
+                          ),
+                        )
+                      ),
                     ),
-                  ),
 
                   Center(
                     child: Container(
@@ -200,39 +234,47 @@ class _IdentificationPageState extends State<IdentificationPage> {
 
   void onCaptureButtonPressed() async {  //on camera button press
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    final DateTime now = DateTime.now();
     try {
       _onLoading();
       final Directory extDir = await getApplicationDocumentsDirectory();
-      final String filePath = '${extDir.path}/Identification.jpg';
+      final String filePath = '${extDir.path}/${_title}_$now.jpg';
       await _controller.takePicture(filePath);
       _controller?.dispose();
 
+      if(!urlApi.contains("herokuapp")){
+        String base64Image = base64Encode(File(filePath).readAsBytesSync());
+        String fileName = filePath.split("/").last;
 
-      String base64Image = base64Encode(File(filePath).readAsBytesSync());
-      String fileName = filePath.split("/").last;
+        var response = await http.post(
+          urlApi+"updateUserImg",
+          headers:{
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: {
+            "image": base64Image,
+            "name": fileName,
+            "description": _title,
+            "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+          }
+        );
 
-      var response = await http.post(
-        urlApi+"updateUserImg",
-        headers:{
-          'X-Requested-With': 'XMLHttpRequest',
-          'authorization': 'Bearer ${myProvider.accessTokenUser}',
-        },
-        body: {
-          "image": base64Image,
-          "name": fileName,
-          "description": "Identification"
+        var jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse); 
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.getDataUser(false, context);
+          Navigator.pop(context);
+          Navigator.pop(context);
         }
-      );
-
-      var jsonResponse = jsonDecode(response.body); 
-      print(jsonResponse); 
-      if (jsonResponse['statusCode'] == 201) {
-        myProvider.getDataUser(false, context);
+      }else{
         Navigator.pop(context);
         Navigator.pop(context);
-      }  
+        showMessage("No se puede guardar la imagen en el servidor");
+      }
 
     } catch (e) {
+      Navigator.pop(context);
       Navigator.pop(context);
       showMessage("Sin conexión a internet");
     }

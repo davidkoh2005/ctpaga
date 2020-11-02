@@ -1,10 +1,11 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/createProductPage.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:numeric_keyboard/numeric_keyboard.dart';
-
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -43,6 +44,7 @@ class _QuantityPageState extends State<QuantityPage> {
   }
 
   Widget formQuantity(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Expanded(
@@ -52,10 +54,19 @@ class _QuantityPageState extends State<QuantityPage> {
           child: Column(
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+                padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
                 child: RichText(
+                  textAlign: TextAlign.center,
                   text: TextSpan(
                     children: [
+                      TextSpan(
+                        text: myProvider.coinUsers == 0? "\$ ": "Bs ", 
+                        style: TextStyle(
+                        color: colorGrey,
+                        fontSize: size.width / 6.5,
+                        fontWeight: FontWeight.w800,
+                        ),
+                      ),
                       TextSpan(
                         text: _price.isEmpty? "0": _price,
                         style: TextStyle(
@@ -64,14 +75,6 @@ class _QuantityPageState extends State<QuantityPage> {
                         fontWeight: FontWeight.w800,
                         ),
                       ),
-                      TextSpan(
-                        text: " \$",
-                        style: TextStyle(
-                        color: colorGrey,
-                        fontSize: size.width / 6.5,
-                        fontWeight: FontWeight.w800,
-                        ),
-                      )
                     ]
                   ),
                 ),
@@ -201,6 +204,7 @@ class _QuantityPageState extends State<QuantityPage> {
     return GestureDetector(
       onTap: () {
         setState(() => _statusButtonCharge = true);
+        nextPage();
       },
       child: Container(
         width:size.width - 100,
@@ -237,7 +241,7 @@ class _QuantityPageState extends State<QuantityPage> {
 
   nextPage()async{
     await Future.delayed(Duration(milliseconds: 150));
-    setState(() => _statusButton = false);
-    Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
+    setState(() => _statusButtonCharge = false);
+    //Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
   }
 }

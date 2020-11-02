@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
@@ -57,12 +58,29 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List _commerces = new List();
+  List get dataCommercesUser =>_commerces;
+
+  set dataCommercesUser(List newCommercesUser){
+    _commerces = newCommercesUser;
+    notifyListeners();
+  }
+
+  int _selectCommerce;
+  int get selectCommerce =>_selectCommerce; 
+  
+  set selectCommerce(int newSelectCommerce) {
+    _selectCommerce = newSelectCommerce; 
+    notifyListeners(); 
+  }
+
   User user = User();
-  List bankUser = new List(2);
+  List banksUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   Picture pictureUser = Picture();
   List listPicturesUser = new List();
+  List listCommerces = new List();
 
   getDataUser(status, context)async{
     //call function BD
@@ -90,15 +108,10 @@ class MyProvider with ChangeNotifier {
         if (jsonResponse['statusCode'] == 201) {
           user = User(
             id: jsonResponse['data']['0']['id'],
-            rifCompany: jsonResponse['data']['0']['rifCompany'] == null? '' : jsonResponse['data']['0']['rifCompany'],
-            nameCompany: jsonResponse['data']['0']['nameCompany'] == null? '' : jsonResponse['data']['0']['nameCompany'],
-            addressCompany: jsonResponse['data']['0']['addressCompany'] == null? '' : jsonResponse['data']['0']['addressCompany'],
-            phoneCompany: jsonResponse['data']['0']['phoneCompany'] == null? '' : jsonResponse['data']['0']['phoneCompany'],
             email: jsonResponse['data']['0']['email'],
             name: jsonResponse['data']['0']['name'],
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
-            coin: jsonResponse['data']['0']['coin'],
           );
 
           dataUser = user;
@@ -106,7 +119,8 @@ class MyProvider with ChangeNotifier {
           if(await dbctpaga.existUser() == 0)
             dbctpaga.addNewUser(user);
           else
-            dbctpaga.updateUser(user);
+            dbctpaga.updateUser(user); 
+
 
           if(jsonResponse['data']['banks'] != null){
 
@@ -125,7 +139,7 @@ class MyProvider with ChangeNotifier {
                 ); 
 
                 dbctpaga.createOrUpdateBankUser(bankUserUSD);
-                bankUser[0] = bankUserUSD;
+                banksUser[0] = bankUserUSD;
 
               }else{
                 bankUserBs = Bank(
@@ -138,12 +152,12 @@ class MyProvider with ChangeNotifier {
                 ); 
 
                 dbctpaga.createOrUpdateBankUser(bankUserBs);
-                bankUser[1] = bankUserBs;
+                banksUser[1] = bankUserBs;
               }
             }
           }
           
-          dataBanksUser = bankUser;
+          dataBanksUser = banksUser;
 
           if(jsonResponse['data']['pictures'] != null){
             for (var item in jsonResponse['data']['pictures']) {
@@ -160,6 +174,26 @@ class MyProvider with ChangeNotifier {
 
           dataPicturesUser = listPicturesUser; 
 
+
+          if(jsonResponse['data']['commerces'] != null){
+            for (var item in jsonResponse['data']['commerces']) {
+                Commerce commercesUser = Commerce(
+                  id: item['id'],
+                  rif: item['rif'],
+                  name: item['name'],
+                  address: item['address'],
+                  phone: item['phone'],
+                ); 
+
+                dbctpaga.createOrUpdateCommercesUser(commercesUser);
+                listCommerces.add(commercesUser);
+            }
+
+            dataCommercesUser = listCommerces;
+
+          }
+
+
           if(status){
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
           }
@@ -172,7 +206,7 @@ class MyProvider with ChangeNotifier {
         dataUser = await dbctpaga.getUser();
         dataBanksUser = await dbctpaga.getBanksUser();
         dataPicturesUser = await dbctpaga.getPicturesUser();
-
+        dataCommercesUser = await dbctpaga.getCommercesUser();
       }
 
       if(status){

@@ -42,10 +42,7 @@ class _CreateProductPageState extends State<CreateProductPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     //myProvider.getDataUser(false, context);
-    if(myProvider.dataUser.coin != null)
-      _statusCoin = myProvider.dataUser.coin;
-    else
-      _statusCoin = myProvider.coinUsers;
+    _statusCoin = myProvider.coinUsers;
 
     if(_statusCoin == 0)
       lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );

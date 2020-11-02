@@ -1,4 +1,5 @@
 import 'package:ctpaga/models/bank.dart';
+import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/user.dart';
 
@@ -32,9 +33,10 @@ class DBctpaga{
 
   void onCreateFunc (Database db, int version) async{
     //create table
-    await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20), rifCompany VARCHAR(15), nameCompany Text, addressCompany Text, phoneCompany VARCHAR(20), coin INTEGER )');
+    await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
     await db.execute('CREATE TABLE banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
     await db.execute('CREATE TABLE pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text )');
+    await db.execute('CREATE TABLE commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
   }
 
   /*
@@ -56,11 +58,6 @@ class DBctpaga{
         name : list[i]['name'],
         address : list[i]['address'],
         phone : list[i]['phone'],
-        rifCompany :  list[i]['rifCompany'],
-        nameCompany : list[i]['nameCompany'],
-        addressCompany : list[i]['addressCompany'],
-        phoneCompany : list[i]['phoneCompany'],
-        coin : list[i]['coin'],
       );
 
     }
@@ -79,15 +76,7 @@ class DBctpaga{
   // Add New User
   void addNewUser (User user) async{
     var dbConnection = await db;
-    String query = 'INSERT INTO users (email , name, address, phone, rifCompany , nameCompany , addressCompany , phoneCompany, coin) VALUES (\'${user.email}\',\'${user.name}\',\'${user.address}\',\'${user.phone}\',\'${user.rifCompany}\',\'${user.nameCompany}\',\'${user.addressCompany}\',\'${user.phoneCompany}\',\'${user.coin}\')';
-    await dbConnection.transaction((transaction) async{
-      return await transaction.rawInsert(query);
-    });
-  }
-
-  void createOrUpdateUser (User user) async{
-    var dbConnection = await db;
-    String query = 'INSERT INTO users (id, email , name, address, phone, rifCompany , nameCompany , addressCompany , phoneCompany, coin) VALUES ((SELECT id  FROM users WHERE email = \'${user.email}\'), \'${user.email}\',\'${user.name}\',\'${user.address}\',\'${user.phone}\',\'${user.rifCompany}\',\'${user.nameCompany}\',\'${user.addressCompany}\',\'${user.phoneCompany}\',\'${user.coin}\')';
+    String query = 'INSERT INTO users (email , name, address, phone) VALUES (\'${user.email}\',\'${user.name}\',\'${user.address}\',\'${user.phone}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });
@@ -96,7 +85,7 @@ class DBctpaga{
   // Update User
   void updateUser (User user) async{
     var dbConnection = await db;
-    String query = 'UPDATE users SET email=\'${user.email}\', name=\'${user.name}\', address=\'${user.address}\', phone=\'${user.phone}\', rifCompany=\'${user.rifCompany}\', nameCompany=\'${user.nameCompany}\', addressCompany=\'${user.addressCompany}\', phoneCompany=\'${user.phoneCompany}\', coin=\'${user.coin}\' WHERE id=1';
+    String query = 'UPDATE users SET email=\'${user.email}\', name=\'${user.name}\', address=\'${user.address}\', phone=\'${user.phone}\' WHERE id=1';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawQuery(query);
     });
@@ -193,6 +182,43 @@ class DBctpaga{
     var dbConnection = await db;
 
     String query = 'INSERT OR REPLACE INTO pictures (id, description, url) VALUES ( (SELECT id FROM pictures WHERE description = \'${picture.description}\'), \'${picture.description}\',\'${picture.url}\')';
+    await dbConnection.transaction((transaction) async{
+      return await transaction.rawInsert(query);
+    });
+  }
+
+
+  // Get Commerces User
+  Future <List<dynamic>> getCommercesUser() async{
+    List listCommercesUser = new List();
+    listCommercesUser = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM commerces');
+    Commerce commerceUser = new Commerce();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      commerceUser = Commerce(
+        id : list[i]['id'],
+        rif : list[i]['rif'],
+        name : list[i]['name'],
+        address : list[i]['address'],
+        phone : list[i]['phone'],
+      );
+
+      listCommercesUser.add(commerceUser);
+
+    }
+
+    return listCommercesUser;
+  }
+
+  // Create or update User
+  void createOrUpdateCommercesUser (Commerce commerce) async{
+    var dbConnection = await db;
+
+    String query = 'INSERT OR REPLACE INTO commerces (id, rif, name, address, phone) VALUES ( (SELECT id FROM commerces WHERE rif = \'${commerce.rif}\'), \'${commerce.rif}\', \'${commerce.name}\',\'${commerce.address}\',\'${commerce.phone}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });

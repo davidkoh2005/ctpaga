@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/user.dart';
@@ -17,6 +18,8 @@ import 'dart:io';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProvider with ChangeNotifier {
+  //call function BD    
+  var dbctpaga = DBctpaga();
 
   String _accessToken;
   String get accessTokenUser =>_accessToken; 
@@ -74,6 +77,30 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  int _selectCoinDeposits;
+  int get selectCoinDeposits =>_selectCoinDeposits; 
+  
+  set selectCoinDeposits(int newSelectCoinDeposits) {
+    _selectCoinDeposits = newSelectCoinDeposits; 
+    notifyListeners(); 
+  }
+
+  List _listVerification = new List();
+  List get listVerification =>_listVerification;
+
+  set listVerification(List newListVerification){
+    _listVerification = newListVerification;
+    notifyListeners();
+  }
+
+  List _dataCategories = new List();
+  List get dataCategories =>_dataCategories;
+
+  set dataCategories(List newListCategories){
+    _dataCategories = newListCategories;
+    notifyListeners();
+  }
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -82,9 +109,18 @@ class MyProvider with ChangeNotifier {
   List listPicturesUser = new List();
   List listCommerces = new List();
 
+  logout(){
+    accessTokenUser = null;
+    dataUser = null;
+    coinUsers = null;
+    dataBanksUser = null;
+    dataPicturesUser = null;
+    dataCommercesUser = null;
+    selectCommerce = null;
+    listVerification = null;
+  }
+
   getDataUser(status, context)async{
-    //call function BD
-    var dbctpaga = DBctpaga();    
 
     var result, response, jsonResponse;
     listPicturesUser = [];
@@ -165,6 +201,7 @@ class MyProvider with ChangeNotifier {
                 id: item['id'],
                 description: item['description'],
                 url: item['url'],
+                commerce_id: item['commerce_id'],
               );
               
               dbctpaga.createOrUpdatePicturesUser(pictureUser);
@@ -214,6 +251,50 @@ class MyProvider with ChangeNotifier {
       }
     }
   }
+
+  Categories category = Categories();
+  List _listCategories = new List();
+
+  getListCategories()async{
+    var result, response, jsonResponse;
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showCategories",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+          body: {
+            "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
+          }
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            category = Categories(
+              id: item['id'],
+              name: item['name'],
+              commerce_id: item['commerce_id'],
+            );
+            _listCategories.add(category);
+          }
+          dataCategories = _listCategories;
+        }
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+
+      }
+
+    }
+  }
+
 
   removeSession(BuildContext context)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();

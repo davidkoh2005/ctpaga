@@ -107,10 +107,10 @@ class _MenuPageState extends State<MenuPage> {
 
   nextPage(title, page, index)async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    //myProvider.getDataUser(false, context); //TODO: urgente
     setState(() =>statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
+
     if(title == "Perfil"){
       Navigator.push(context, SlideLeftRoute(page: page));
     }else if(title == "Cerrar sesión"){
@@ -134,19 +134,66 @@ class _MenuPageState extends State<MenuPage> {
           print(jsonResponse);
           prefs.remove("access_token");
           prefs.remove('selectCommerce');
-          myProvider.accessTokenUser = null;
-          myProvider.dataUser = null;
-          myProvider.dataBanksUser = null;
-          myProvider.dataPicturesUser = null;
+          myProvider.logout();
           Navigator.pop(context);
           Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
         print("error");
       } 
+    }else if(myProvider.dataCommercesUser.length == 0){
+      showMessage("Debe ingresar los datos de la empresa", false);
     }else{
       Navigator.push(context, SlideLeftRoute(page: page));
     }
+  }
+
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: size.width / 20,
+                  )
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
 

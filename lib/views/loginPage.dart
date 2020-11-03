@@ -318,6 +318,7 @@ class _LoginPageState extends State<LoginPage> {
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
+            myProvider.getDataUser(false, context);
             prefs.setString('access_token', jsonResponse['access_token']);
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);

@@ -1,7 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
-import 'package:ctpaga/views/createProductPage.dart';
+import 'package:ctpaga/views/newProductPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
@@ -187,6 +187,6 @@ class _ProductsPageState extends State<ProductsPage> {
   nextPage()async{
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
-    Navigator.push(context, SlideLeftRoute(page: CreateProductPage()));
+    Navigator.push(context, SlideLeftRoute(page: NewProductPage()));
   }
 }

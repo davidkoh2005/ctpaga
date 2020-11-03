@@ -52,7 +52,7 @@ class _MainPageState extends State<MainPage> {
                     ),
                     buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
                     buttonMain("Servicio",2, null), //send variable the same design
-                    buttonMain("Cantidad",3, QuantityPage()), //send variable the same design
+                    buttonMain("Monto",3, QuantityPage()), //send variable the same design
                   ]
                 )
               ),
@@ -174,10 +174,64 @@ class _MainPageState extends State<MainPage> {
     myProvider.coinUsers = coin;
   }
 
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: size.width / 20,
+                  )
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
   nextPage(Widget page)async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
-    Navigator.push(context, SlideLeftRoute(page: page));
+    
+    if(myProvider.dataCommercesUser.length == 0){
+      showMessage("Debe ingresar los datos de la empresa", false);
+    }else{
+      Navigator.push(context, SlideLeftRoute(page: page));
+    }
   }
 
 }

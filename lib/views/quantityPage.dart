@@ -1,6 +1,6 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
-import 'package:ctpaga/views/createProductPage.dart';
+import 'package:ctpaga/views/newProductPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -28,7 +28,7 @@ class _QuantityPageState extends State<QuantityPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            NavbarTrolley("Cantidad"),
+            NavbarTrolley("Monto"),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

@@ -13,54 +13,58 @@ class DepositsPage extends StatefulWidget {
 
 class _DepositsPageState extends State<DepositsPage> {
   final _scrollController = ScrollController();
-  List statusButton = [];
-  bool _statusBank = false, _statusIdentication = false, _statusSelfie = false, _statusRif = false;
-  int countStatus = 4;
+  List _statusButton = new List();
+  List _listVerification = new List();
   int _statusCoin = 0;
 
   void initState() {
     super.initState();
-    verifyStatusBank(context);
+    verifyStatusBank(context, null);
   }
 
   void dispose(){
     super.dispose();
   }
 
-  verifyStatusBank(BuildContext context){
+  verifyStatusBank(BuildContext context, coin){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     //myProvider.getDataUser(false, context);
+    _listVerification = [];
+
+  
 
     setState(() {
-      _statusBank = myProvider.dataBanksUser[_statusCoin] == null ? false : true;
-      countStatus -= 1;
-    });
-    
-    for (var item in myProvider.dataPicturesUser) {
-      if(item.description == 'Identification'){
-        setState(() { 
-          _statusIdentication = true;
-          countStatus -= 1;
-        });
-      }else if(item.description == 'Selfie'){
-        setState(() {
-          _statusSelfie = true;
-          countStatus -= 1;
-        });
-      }else if(item.description == 'RIF'){
-        setState(() {
-          _statusRif = true;
-          countStatus -= 1;
-        });
+      if(coin == null && myProvider.selectCoinDeposits == null){
+        myProvider.selectCoinDeposits = 0;
+        _statusCoin = 0;
+      }else if(coin != null){
+        myProvider.selectCoinDeposits = coin;
+        _statusCoin = coin;
+      }else{
+        _statusCoin = myProvider.selectCoinDeposits;
       }
-    }
+
+
+      if (myProvider.dataBanksUser[_statusCoin] != null ){
+        _listVerification.add("Bank");
+      }
+      for (var item in myProvider.dataPicturesUser) {
+        if(item.description == 'Identification'){
+            _listVerification.add("Identification");
+        }else if(item.description == 'Selfie'){
+            _listVerification.add("Selfie");
+        }else if(item.description == 'RIF' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+          _listVerification.add("RIF"); 
+        }
+      }
+    });
+    myProvider.listVerification = _listVerification;
   }
 
   @override
   Widget build(BuildContext context) {
 
     var size = MediaQuery.of(context).size;
-
     return Scaffold(
         body: Container(
           height: size.height,
@@ -147,7 +151,7 @@ class _DepositsPageState extends State<DepositsPage> {
                           )
                         ),
                         Visibility(
-                          visible: countStatus != 0? true : false,
+                          visible: _listVerification.length != 4? true : false,
                           child: Text(
                             "Necesitamos que completes la información marcada en rojo debajo",
                             textAlign: TextAlign.center,
@@ -170,10 +174,10 @@ class _DepositsPageState extends State<DepositsPage> {
                             ),
                           ),
                         ),
-                        dropdownList(0, _statusBank),
-                        dropdownList(1, _statusIdentication),
-                        dropdownList(2, _statusSelfie),
-                        dropdownList(3, _statusRif),
+                        dropdownList(0, 'Bank'),
+                        dropdownList(1, 'Selfie'),
+                        dropdownList(2, 'Identification'),
+                        dropdownList(3, 'RIF'),
                         Padding(
                           padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
                           child: Text(
@@ -213,7 +217,7 @@ class _DepositsPageState extends State<DepositsPage> {
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 0), 
+        onTap: () => verifyStatusBank(context, 0), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
@@ -248,7 +252,7 @@ class _DepositsPageState extends State<DepositsPage> {
     return Padding(
       padding: EdgeInsets.only(left:20),
       child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 1), 
+        onTap: () => verifyStatusBank(context, 1), 
         child: Container(
           width:size.width / 5,
           height: size.height / 25,
@@ -278,11 +282,13 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
-  dropdownList(index, status){
+  dropdownList(index, title){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        if(status == false) 
+        if(!myProvider.listVerification.contains(title)) 
           nextPage(listMenuDeposits[index]['page'], index);
       },
       child: Stack(
@@ -291,7 +297,7 @@ class _DepositsPageState extends State<DepositsPage> {
             padding: EdgeInsets.only(top:5),
             child: Container(
               width: size.width,
-              color: statusButton.contains(index)? colorGreen : colorGrey,
+              color: _statusButton.contains(index)? colorGreen : colorGrey,
               height: 45,
               child: Container(
               ),
@@ -312,7 +318,7 @@ class _DepositsPageState extends State<DepositsPage> {
                   visible: listMenuDeposits[index]['icon'] == ''? false : true,
                   child: Image.asset(
                     listMenuDeposits[index]['icon'],
-                    color: statusButton.contains(index)? colorGreen : Colors.black,
+                    color: _statusButton.contains(index)? colorGreen : Colors.black,
                   )
                 ),
               ),
@@ -325,7 +331,7 @@ class _DepositsPageState extends State<DepositsPage> {
               listMenuDeposits[index]['title'],
               style: TextStyle(
                 fontSize: size.width / 20,
-                color: statusButton.contains(index)? Colors.white : Colors.black,
+                color: _statusButton.contains(index)? Colors.white : Colors.black,
               ),
             ),
           ),
@@ -334,7 +340,7 @@ class _DepositsPageState extends State<DepositsPage> {
             alignment: Alignment.centerRight,
             child: Padding(
               padding: EdgeInsets.only(right: 30, top: 15),
-              child: status? Icon(Icons.check_circle, color: colorGreen,) :  Icon(Icons.error, color: Colors.red,),
+              child: myProvider.listVerification.contains(title)? Icon(Icons.check_circle, color: colorGreen,) :  Icon(Icons.error, color: Colors.red,),
             )
           ),
         ],
@@ -342,12 +348,18 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
- 
-
   nextPage(page, index)async{
-    setState(() =>statusButton.add(index));
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    setState(() =>_statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
-    setState(() =>statusButton.remove(index));
-    Navigator.push(context, SlideLeftRoute(page: page));
+    setState(() =>_statusButton.remove(index));
+    print("data");
+    print(myProvider.dataCommercesUser.length);
+    if(myProvider.dataCommercesUser.length != 0){
+      //TODO: Falta validar diferente comercio
+      Navigator.push(context, SlideLeftRoute(page: page));
+    }else{
+      Navigator.push(context, SlideLeftRoute(page: page));
+    }
   }
 }

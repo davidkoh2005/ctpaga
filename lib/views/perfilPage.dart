@@ -156,29 +156,29 @@ class _PerfilPageState extends State<PerfilPage> {
             break;
           }
         }
-      }
-
-      return GestureDetector(
-        onTap: () => _showSelectionDialog(context),
-        child: ClipOval(
-          child: CachedNetworkImage(
-            imageUrl: url+urlProfile,
-            fit: BoxFit.cover,
-            height: size.width / 4,
-            width: size.width / 4,
-            placeholder: (context, url) {
-              return Container(
-                margin: EdgeInsets.all(15),
-                child:CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
-                ),
-              );
-            },
-            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
-          ),
-        )
-      );
-    } 
+        if (urlProfile != null)
+          return GestureDetector(
+            onTap: () => _showSelectionDialog(context),
+            child: ClipOval(
+              child: CachedNetworkImage(
+                imageUrl: url+urlProfile,
+                fit: BoxFit.cover,
+                height: size.width / 4,
+                width: size.width / 4,
+                placeholder: (context, url) {
+                  return Container(
+                    margin: EdgeInsets.all(15),
+                    child:CircularProgressIndicator(
+                      valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    ),
+                  );
+                },
+                errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+              ),
+            )
+          );
+      } 
+    }
 
     return GestureDetector(
       onTap: () => _showSelectionDialog(context),
@@ -717,7 +717,6 @@ class _PerfilPageState extends State<PerfilPage> {
                 onChanged: (value) {
                   if(value.toLowerCase() == "usa")
                     setState(()=>_statusCountry = true);
-                    
                   else
                     setState(()=>_statusCountry = false);
                 },
@@ -1469,7 +1468,7 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Future<void> showMessage(_titleMessage, _statusNetwork) async {
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1483,7 +1482,7 @@ class _PerfilPageState extends State<PerfilPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _statusNetwork? Padding(
+              _statusCorrectly? Padding(
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,

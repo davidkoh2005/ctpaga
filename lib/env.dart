@@ -1,5 +1,6 @@
 import 'package:ctpaga/views/documentsPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
+import 'package:ctpaga/views/newCommercePage.dart';
 import 'package:ctpaga/views/productsPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
@@ -8,7 +9,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.125:8000";
+String url = "http://192.168.1.119:8000";
 
 //TODO: Url Api (heroku)
 //String url = "http://ctpaga.herokuapp.com";
@@ -57,7 +58,7 @@ List listMenu = [
   {
     "title": "Crear otro comercio",
     "icon": "assets/icons/crearComercio.png",
-    "page": ProductsPage(false),
+    "page": NewCommerce(),
   },
   {
     "title": "Recomentar a un comercio",
@@ -83,14 +84,14 @@ List listMenuDeposits = [
     "page": PerfilPage(),
   },
   {
-    "title": "Agregar identificacion",
-    "icon": "assets/icons/tarjeta-de-identificacion.png",
-    "page": DocumentsPage("Identification"),
-  },
-  {
     "title": "Agregar selfie",
     "icon": "assets/icons/selfie.png",
     "page": SelfiePage(),
+  },
+  {
+    "title": "Agregar identificacion",
+    "icon": "assets/icons/tarjeta-de-identificacion.png",
+    "page": DocumentsPage("Identification"),
   },
    {
     "title": "Agregar registro jurídico",
@@ -109,33 +110,26 @@ var listBankUSA = [
   "BB&T",
   "BBVA",
   "Bessemer Trust",
-  "Brooklyn Savings Bank",
   "Chase Manhattan Bank",
   "Chemical Bank",
   "Citibank",
   "Citigroup",
   "Dime Savings Bank of New York",
-  "Dime Savings Bank of Williamsburgh",
   "Drexel Burnham Lambert",
   "First Boston",
   "Goldman Sachs",
-  "Greenwich Savings Bank",
   "JP Morgan Chase",
   "Lehman Brothers",
   "Merrill Lynch",
   "Moore Capital Management",
   "Morgan Stanley",
-  "New York Savings Bank",
-  "Primer Banco de los Estados Unidos",
-  "Riggs Bank",
   "Salomon Brothers",
   "Santander Bank",
   "State Street Corporation",
   "SunTrust Banks",
   "Wachovia",
   "Washington Mutual",
-  "Wells Fargo"
-  "White Weld & Co.",
+  "Wells Fargo",
 ];
 
 var listBankPanama = [
@@ -146,7 +140,7 @@ var listBankPanama = [
   "Banco Azteca (Panamá), S.A.",
   "Banco BAC de Panamá, S.A.",
   "Banco Bolivariano (Panamá), S.A.",
-  "Banco Citibank (Panamá,) S.A.",
+  "Banco Citibank (Panamá) S.A.",
   "Banco Davivienda (Panamá) S.A.",
   "Banco de Bogotá, S.A.",
   "Banco del Pacífico (Panamá), S.A.",

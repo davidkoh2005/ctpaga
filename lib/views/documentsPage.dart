@@ -1,3 +1,5 @@
+import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -7,7 +9,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
-import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -236,10 +237,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     final DateTime now = DateTime.now();
     try {
-      _onLoading();
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/${_title}_$now.jpg';
       await _controller.takePicture(filePath);
+      _onLoading();
       _controller?.dispose();
 
       if(!urlApi.contains("herokuapp")){
@@ -263,19 +264,23 @@ class _DocumentsPageState extends State<DocumentsPage> {
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
+          var listVerification = myProvider.listVerification;
+          listVerification.add(_title);
+          myProvider.listVerification  = listVerification;
           myProvider.getDataUser(false, context);
           Navigator.pop(context);
           Navigator.pop(context);
+          Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
         }
       }else{
         Navigator.pop(context);
-        Navigator.pop(context);
+        setState(() => clickCamera = false);
         showMessage("No se puede guardar la imagen en el servidor");
       }
 
     } catch (e) {
       Navigator.pop(context);
-      Navigator.pop(context);
+      setState(() => clickCamera = false);
       showMessage("Sin conexión a internet");
     }
   }

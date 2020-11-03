@@ -35,7 +35,7 @@ class DBctpaga{
     //create table
     await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
     await db.execute('CREATE TABLE banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
-    await db.execute('CREATE TABLE pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text )');
+    await db.execute('CREATE TABLE pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
     await db.execute('CREATE TABLE commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
   }
 
@@ -168,6 +168,7 @@ class DBctpaga{
         id : list[i]['id'],
         description : list[i]['description'],
         url : list[i]['url'],
+        commerce_id: list[i]['commerce_id'],
       );
 
       listPicturesUser.add(pictureUser);
@@ -181,7 +182,7 @@ class DBctpaga{
   void createOrUpdatePicturesUser (Picture picture) async{
     var dbConnection = await db;
 
-    String query = 'INSERT OR REPLACE INTO pictures (id, description, url) VALUES ( (SELECT id FROM pictures WHERE description = \'${picture.description}\'), \'${picture.description}\',\'${picture.url}\')';
+    String query = 'INSERT OR REPLACE INTO pictures (id, description, url, commerce_id) VALUES ( (SELECT id FROM pictures WHERE description = \'${picture.description}\'), \'${picture.description}\',\'${picture.url}\',\'${picture.commerce_id}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });

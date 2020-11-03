@@ -1,3 +1,5 @@
+import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -195,12 +197,12 @@ class _SelfiePageState extends State<SelfiePage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     final DateTime now = DateTime.now();
     try {
-      _onLoading();
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/Selfie_$now.jpg';
       await _controller.takePicture(filePath);
+      _onLoading();
       _controller?.dispose();
-    
+
       //TODO: Eliminar if
       if(!urlApi.contains("herokuapp")){
         String base64Image = base64Encode(File(filePath).readAsBytesSync());
@@ -222,24 +224,28 @@ class _SelfiePageState extends State<SelfiePage> {
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
+          var listVerification = myProvider.listVerification;
+          listVerification.add("Selfie");
+          myProvider.listVerification  = listVerification;
           myProvider.getDataUser(false, context);
           Navigator.pop(context);
           Navigator.pop(context);
+          Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
         }
       }else{
         Navigator.pop(context);
-        Navigator.pop(context);
+        setState(() => clickCamera = false);
         showMessage("No se puede guardar la imagen en el servidor");
       }
 
     } catch (e) {
       Navigator.pop(context);
-      Navigator.pop(context);
+      setState(() => clickCamera = false);
       showMessage("Sin conexión a internet");
     }
   }
 
-  Future<void> showMessage(_titleMessage,) async {
+  Future<void> showMessage(_titleMessage) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(

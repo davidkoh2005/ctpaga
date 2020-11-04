@@ -16,8 +16,6 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shared_preferences/shared_preferences.dart';
-
 class PerfilPage extends StatefulWidget {
   @override
   _PerfilPageState createState() => _PerfilPageState();
@@ -272,7 +270,8 @@ class _PerfilPageState extends State<PerfilPage> {
             body: {
               "image": base64Image,
               "name": fileName,
-              "description": "Profile"
+              "description": "Profile",
+              "commerce_id": myProvider.dataCommercesUser.length == 0? '0' : myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
             }
           );
 

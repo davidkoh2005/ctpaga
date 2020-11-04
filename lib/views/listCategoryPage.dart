@@ -1,19 +1,20 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/newCategoryPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
-import 'package:ctpaga/views/newCategory.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
-class ListCategory extends StatefulWidget {
+class ListCategoryPage extends StatefulWidget {
   
   @override
-  _ListCategoryState createState() => _ListCategoryState();
+  _ListCategoryPageState createState() => _ListCategoryPageState();
 }
 
-class _ListCategoryState extends State<ListCategory> {
+class _ListCategoryPageState extends State<ListCategoryPage> {
+  final _scrollController = ScrollController();
   bool _statusButtonSave = false, _statusButton = false;
   @override
   Widget build(BuildContext context) {
@@ -25,19 +26,13 @@ class _ListCategoryState extends State<ListCategory> {
         children: <Widget>[
           Navbar("Seleccionar Categorías", false),
           Expanded(
-            flex: 2,
             child: Container(
               child: showList(),
             )
           ),
           Padding(
-            padding: EdgeInsets.only(top: 20),
+            padding: EdgeInsets.only(top: 20, bottom: 50),
             child: buttonNew()
-          ),
-          Expanded(flex:2, child: Container()),
-          Padding(
-            padding: EdgeInsets.only(bottom: 50),
-            child: buttonSave()
           ),
         ],
       ),
@@ -45,44 +40,63 @@ class _ListCategoryState extends State<ListCategory> {
   }
 
   Widget showList(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return ListView.builder(
-      padding: EdgeInsets.all(10),
-      itemCount: myProvider.dataCategories.length,
-      itemBuilder: (BuildContext ctxt, int index) {
-        return GestureDetector(
-          onTap: () => null,
-          child: Container(
-            child: Card(
-              color: colorGrey,
-              shape: StadiumBorder(
-                side: BorderSide(
-                  color: colorGreen,
-                  width: 1.0,
-                ),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: <Widget>[
-                  Container(
-                    height: size.width / 5,
-                    width: size.width / 5,
-                    child: Visibility(
-                      visible: true,
-                      child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 6,)
-                    )
-                  ),
-                  Expanded(
-                    child: Container(
-                      padding: EdgeInsets.only(left: 20),
-                      child: Text(myProvider.dataCategories[index].name),
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Scrollbar(
+          controller: _scrollController, 
+          isAlwaysShown: true,
+          child: ListView.builder(
+            controller: _scrollController,
+            padding: EdgeInsets.all(10),
+            itemCount: myProvider.dataCategories.length,
+            itemBuilder: (BuildContext ctxt, int index) {
+              return GestureDetector(
+                onTap: () {
+                  if(myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id)){
+                      var selectCategory = myProvider.dataCategoriesSelect;
+                      selectCategory.remove(myProvider.dataCategories[index].id);
+                      myProvider.dataCategoriesSelect = selectCategory;
+                    }else{
+                      var selectCategory = myProvider.dataCategoriesSelect;
+                      selectCategory.add(myProvider.dataCategories[index].id);
+                      myProvider.dataCategoriesSelect = selectCategory;
+                    }
+                  setState(() {});
+                },
+                child: Container(
+                  child: Card(
+                    color: colorGrey,
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        color: colorGreen,
+                        width: 1.0,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            )
-          ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Container(
+                          height: size.width / 5,
+                          width: size.width / 5,
+                          child: Visibility(
+                            visible: myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id)? true : false,
+                            child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 6,)
+                          )
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
+                            child: Text(myProvider.dataCategories[index].name),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ),
+              );
+            }
+          )
         );
       }
     );
@@ -165,21 +179,6 @@ class _ListCategoryState extends State<ListCategory> {
     setState(() => _statusButton = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
-    Navigator.push(context, SlideLeftRoute(page: NewCategory()));
-  }
-
-
-  String _validateName(String value) {
-    // This is just a regular expression for name
-    String p = '[a-zA-Z]';
-    RegExp regExp = new RegExp(p);
-
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
-      // So, the name is valid
-      return null;
-    }
-
-    // The pattern of the name didn't match the regex above.
-    return 'Ingrese nombre del negocio válido';
+    Navigator.push(context, SlideLeftRoute(page: NewCategoryPage()));
   }
 }

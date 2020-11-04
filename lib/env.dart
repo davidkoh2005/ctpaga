@@ -157,7 +157,7 @@ var listBankPanama = [
   "Banco Panamá, S.A",
   "Banco Panameño de la Vivienda, S.A. (BANVIVIENDA)",
   "Banco Pichincha Panamá, S.A.",
-  "Banco Prival, S.A. (Español) o Prival Bank, S.A. (en inglés)",
+  "Banco Prival, S.A.",
   "Banco Universal, S.A.",
   "Bancolombia S.A.",
   "Banesco S.A.",
@@ -191,98 +191,98 @@ var listBankPanama = [
 var listBankBs = [
   {
    "title": "100% BANCO",
-   "img": "assets/banks/Bs/100banco.png",
+   "img": "assets/banks/Venezuela/100banco.png",
   },
   {
    "title": "BANCAMIGA BANCO MICROFINANCIERO, C.A.",
-   "img": "assets/banks/Bs/bancamiga.png",
+   "img": "assets/banks/Venezuela/bancamiga.png",
   },
   {
    "title": "BANCARIBE C.A. BANCO UNIVERSAL",
-   "img": "assets/banks/Bs/bancaribe.png",
+   "img": "assets/banks/Venezuela/bancaribe.png",
   },
   {
    "title": "BANCO ACTIVO BANCO COMERCIAL, C.A.",
-   "img": "assets/banks/Bs/banco-activo.png",
+   "img": "assets/banks/Venezuela/banco-activo.png",
   },
   {
    "title": "BANCO BICENTENARIO",
-   "img": "assets/banks/Bs/banco-bicentenario.png",
+   "img": "assets/banks/Venezuela/banco-bicentenario.png",
   },
   {
    "title": "BANCO CARONI, C.A. BANCO UNIVERSAL",
-   "img": "assets/banks/Bs/banco-caroni.png",
+   "img": "assets/banks/Venezuela/banco-caroni.png",
   },
     {
    "title": "BANCO DE LA FANB",
-   "img": "assets/banks/Bs/banfanb.png",
+   "img": "assets/banks/Venezuela/banfanb.png",
   },
   {
    "title": "BANCO DE VENEZUELA S.A.I.C.A.",
-   "img": "assets/banks/Bs/banco-venezuela.png",
+   "img": "assets/banks/Venezuela/banco-venezuela.png",
   },
   {
    "title": "BANCO DEL TESORO",
-   "img": "assets/banks/Bs/banco-de-tesoro.png",
+   "img": "assets/banks/Venezuela/banco-de-tesoro.png",
   },
   {
    "title": "BANCO EXTERIOR C.A.",
-   "img": "assets/banks/Bs/Banco-Exterior.png",
+   "img": "assets/banks/Venezuela/Banco-Exterior.png",
   },
   {
    "title": "BANCO INDUSTRIAL DE VENEZUELA",
-   "img": "assets/banks/Bs/banco-industrial-venezuela.png",
+   "img": "assets/banks/Venezuela/banco-industrial-venezuela.png",
   },
   {
    "title": "BANCO MERCANTIL C.A.",
-   "img": "assets/banks/Bs/mercantil.png",
+   "img": "assets/banks/Venezuela/mercantil.png",
   },
   {
    "title": "BANCO NACIONAL DE CRÉDITO",
-   "img": "assets/banks/Bs/bnc.png",
+   "img": "assets/banks/Venezuela/bnc.png",
   },
   {
    "title": "BANCO OCCIDENTAL DE DESCUENTO",
-   "img": "assets/banks/Bs/bod.png",
+   "img": "assets/banks/Venezuela/bod.png",
   },
   {
    "title": "BANCO PLAZA",
-   "img": "assets/banks/Bs/banco-plaza.png",
+   "img": "assets/banks/Venezuela/banco-plaza.png",
   },
   {
    "title": "BANCO PROVINCIAL BBVA",
-   "img": "assets/banks/Bs/banco-provincial.png",
+   "img": "assets/banks/Venezuela/banco-provincial.png",
   },
   {
    "title": "BANCO VENEZOLANO DE CRÉDITO S.A.",
-   "img": "assets/banks/Bs/banco-venezolano-credito.png",
+   "img": "assets/banks/Venezuela/banco-venezolano-credito.png",
   },
   {
    "title": "BANCRECER S.A. BANCO DE DESARROLLO",
-   "img": "assets/banks/Bs/bancrecer.png",
+   "img": "assets/banks/Venezuela/bancrecer.png",
   },
   {
    "title": "BANESCO BANCO UNIVERSAL",
-   "img": "assets/banks/Bs/banesco.png",
+   "img": "assets/banks/Venezuela/banesco.png",
   },
   {
    "title": "BANPLUS BANCO COMERCIAL C.A",
-   "img": "assets/banks/Bs/banplus.png",
+   "img": "assets/banks/Venezuela/banplus.png",
   },
   {
    "title": "DELSUR BANCO UNIVERSAL",
-   "img": "assets/banks/Bs/Banco-DelSur.png",
+   "img": "assets/banks/Venezuela/Banco-DelSur.png",
   },
   {
    "title": "BFC BANCO FONDO COMUN",
-   "img": "assets/banks/Bs/bfc.png",
+   "img": "assets/banks/Venezuela/bfc.png",
   },
   {
    "title": "MIBANCO BANCO DE DESARROLLO, C.A.",
-   "img": "assets/banks/Bs/mi-banco.png",
+   "img": "assets/banks/Venezuela/mi-banco.png",
   },
   {
    "title": "BANCO SOFITASA",
-   "img": "assets/banks/Bs/banco-sofitasa.png",
+   "img": "assets/banks/Venezuela/banco-sofitasa.png",
   },
 ];

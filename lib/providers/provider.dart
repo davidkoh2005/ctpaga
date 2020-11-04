@@ -101,6 +101,14 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  List _dataCategoriesSelect = new List();
+  List get dataCategoriesSelect =>_dataCategoriesSelect;
+
+  set dataCategoriesSelect(List newListCategories){
+    _dataCategoriesSelect = newListCategories;
+    notifyListeners();
+  }
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -257,6 +265,8 @@ class MyProvider with ChangeNotifier {
 
   getListCategories()async{
     var result, response, jsonResponse;
+    _listCategories = [];
+    dataCategoriesSelect = [];
     try
     {
       result = await InternetAddress.lookup('google.com');
@@ -268,9 +278,9 @@ class MyProvider with ChangeNotifier {
             'X-Requested-With': 'XMLHttpRequest',
             'authorization': 'Bearer $accessTokenUser',
           },
-          body: {
+          body: jsonEncode({
             "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
-          }
+          }),
         ); 
 
         jsonResponse = jsonDecode(response.body);
@@ -285,7 +295,7 @@ class MyProvider with ChangeNotifier {
             _listCategories.add(category);
           }
           dataCategories = _listCategories;
-        }
+        } 
       }
     } on SocketException catch (_) {
       if(accessTokenUser != null){
@@ -303,6 +313,8 @@ class MyProvider with ChangeNotifier {
     dataUser = null;
     dataBanksUser = null;
     dataPicturesUser = null;
+    dataCategoriesSelect=null;
+    dataCategories = null;
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 

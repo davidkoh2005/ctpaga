@@ -1,6 +1,4 @@
-import 'dart:convert';
-
-import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -9,15 +7,16 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'dart:io';
 
-class NewCategory extends StatefulWidget {
+class NewCategoryPage extends StatefulWidget {
   
   @override
-  _NewCategoryState createState() => _NewCategoryState();
+  _NewCategoryPageState createState() => _NewCategoryPageState();
 }
 
-class _NewCategoryState extends State<NewCategory> {
+class _NewCategoryPageState extends State<NewCategoryPage> {
   final _formKeyCategory = new GlobalKey<FormState>();
   bool _statusButtonSave = false, _statusButton = false;
   String _name;
@@ -134,7 +133,7 @@ class _NewCategoryState extends State<NewCategory> {
 
   saveCategory()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var response;
+    var response, result;
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
@@ -143,34 +142,46 @@ class _NewCategoryState extends State<NewCategory> {
       try
       {
         _onLoading();
-        response = await http.post(
-          urlApi+"updateOrCreateCategories/",
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-          body: {
-            "name": _name,
-            "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          response = await http.post(
+            urlApi+"newCategories",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+            body: jsonEncode({
+              "name": _name,
+              "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+            }),
+          ); 
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            myProvider.getListCategories();
+            var category = Categories(
+              id: jsonResponse['data']['id'],
+              name: jsonResponse['data']['name'],
+              commerce_id: jsonResponse['data']['commerce_id'],
+            );
+            var selectCategory = myProvider.dataCategoriesSelect;
+            selectCategory.add(category.id);
+            myProvider.dataCategoriesSelect = selectCategory;
+            Navigator.pop(context);
+            Navigator.pop(context);
+            //Navigator.pushReplacement(context, SlideLeftRoute(page: ListCategoryPage()));
           }
-        ); 
-        var jsonResponse = jsonDecode(response.body); 
-        print(jsonResponse); 
-        if (jsonResponse['statusCode'] == 201) {
-          myProvider.getListCategories();
-          Navigator.pop(context);
-          Navigator.pop(context);
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet", false);
+        showMessage("Sin conexión a internet");
       }
       
     }
   }
 
-  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+  Future<void> showMessage(_titleMessage) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -184,15 +195,7 @@ class _NewCategoryState extends State<NewCategory> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              _statusCorrectly? Padding(
-                padding: EdgeInsets.all(5),
-                child: Icon(
-                  Icons.check_circle,
-                  color: colorGreen,
-                  size: size.width / 8,
-                )
-              )
-              : Padding(
+              Padding(
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.error,

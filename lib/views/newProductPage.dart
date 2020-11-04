@@ -1,15 +1,18 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
-import 'package:ctpaga/views/listCategory.dart';
+import 'package:ctpaga/views/listCategoryPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
 import 'dart:async';
+import 'dart:io';
 
 class NewProductPage extends StatefulWidget {
   @override
@@ -23,12 +26,13 @@ class _NewProductPageState extends State<NewProductPage> {
   final FocusNode _nameFocus = FocusNode();  
   final FocusNode _priceFocus = FocusNode();
   final FocusNode _descriptionFocus = FocusNode();
+  final _controllerCategories = TextEditingController();
 
-  String _name, _description;
-  double _price;
+  String _name, _description, _categories, _price, _selectCategories;
   int _quantityProduct, _statusCoin = 0;
   bool _statusButton = false, _switchPublish = false, _shitchPostPurchase = false;
-  var _image;
+  List _dataProducts = new List();
+  File _image;
 
   @override
   void initState() {
@@ -48,9 +52,9 @@ class _NewProductPageState extends State<NewProductPage> {
     _statusCoin = myProvider.coinUsers;
 
     if(_statusCoin == 0)
-      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
     else
-      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' Bs', );
+      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   }
 
   @override
@@ -68,8 +72,10 @@ class _NewProductPageState extends State<NewProductPage> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   formProduct(),
-                  buttonCreateProduct(),
-                  SizedBox(height:20),
+                  Padding(
+                    padding: EdgeInsets.only(top:20, bottom: 20),
+                    child: buttonNewProduct()
+                  ),
                 ]
               ),
             ),
@@ -121,7 +127,16 @@ class _NewProductPageState extends State<NewProductPage> {
                         ], 
                         autofocus: false,
                         focusNode: _nameFocus,
-                        onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
+                        onEditingComplete: () =>FocusScope.of(context).requestFocus(_priceFocus),
+                        onChanged: (value) {
+                          setState(() {
+                            if (value.length >3 && !_dataProducts.contains("name")){
+                              _dataProducts.add("name");
+                            }else if(value.length < 3){
+                              _dataProducts.remove("name");
+                            }
+                          });
+                        },
                         validator: _validateName,
                         onSaved: (value) => _name = value.trim(),
                         textInputAction: TextInputAction.next,
@@ -162,8 +177,17 @@ class _NewProductPageState extends State<NewProductPage> {
                         autofocus: false,
                         focusNode: _priceFocus,
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
-                        onSaved: (value) => _price = double.parse(value),
-                        validator: (value) => double.parse(value) == 0.00? 'Debe ingresar un precio Válido': null,
+                        onSaved: (value) => _price = value,
+                        onChanged: (value) {
+                          setState(() {
+                            if (!value.contains("0,0") && !_dataProducts.contains("price")){
+                              _dataProducts.add("price");
+                            }else if(value.contains("0,0")|| (value.contains("00") && value.length == 2)){
+                              _dataProducts.remove("price");
+                            }
+                          });
+                        },
+                        validator: (value) => value.contains("0,00")? 'Debe ingresar un precio Válido': null,
                         textInputAction: TextInputAction.next,
                         cursorColor: colorGrey,
                         textAlign: TextAlign.center,
@@ -227,25 +251,30 @@ class _NewProductPageState extends State<NewProductPage> {
                         ),
                       ),
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
-                      child: new TextFormField(
-                        onTap: () => Navigator.push(context, SlideLeftRoute(page: ListCategory())) ,
-                        readOnly: true,
-                        keyboardType: TextInputType.multiline,
-                        maxLines: 5,
-                        textCapitalization:TextCapitalization.sentences,
-                        autofocus: false,
-                        onSaved: (value) => _description = value.trim(),
-                        cursorColor: colorGrey,
-                        decoration: InputDecoration(
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                    Consumer<MyProvider>(
+                      builder: (context, myProvider, child) {
+                        _showCategories();
+                        return Padding(
+                          padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 10.0),
+                          child: new TextFormField(
+                            onTap: () => Navigator.push(context, SlideLeftRoute(page: ListCategoryPage())) ,
+                            readOnly: true,
+                            controller: _controllerCategories,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: 1,
+                            textCapitalization:TextCapitalization.sentences,
+                            autofocus: false,
+                            onSaved: (value) => _categories = value.trim(),
+                            cursorColor: colorGrey,
+                            decoration: InputDecoration(
+                              focusedBorder: UnderlineInputBorder(
+                                borderSide: BorderSide(color: colorGrey),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     ),
-
 
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
@@ -334,6 +363,13 @@ class _NewProductPageState extends State<NewProductPage> {
                         keyboardType: TextInputType.number,
                         autofocus: false,
                         onSaved: (value) => _quantityProduct = int.parse(value),
+                        onChanged: (value){
+                          if(int.parse(value) > 0 && !_dataProducts.contains("Quantity")){
+                            setState(() => _dataProducts.add("Quantity"));
+                          }else if(int.parse(value)==0 || value.length == 0){
+                            setState(() => _dataProducts.remove("Quantity"));
+                          }
+                        },
                         cursorColor: colorGrey,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -518,17 +554,17 @@ class _NewProductPageState extends State<NewProductPage> {
 
     if(picture != null){
       this.setState(() {
-        _image = picture;
+        _image = File(picture.path);
+        _dataProducts.add("Picture");
       });
       Navigator.of(context).pop();
-
     }
   }
 
-  Widget buttonCreateProduct(){
+  Widget buttonNewProduct(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => buttonNewProduct(),
+      onTap: () => saveNewProduct(),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -539,8 +575,8 @@ class _NewProductPageState extends State<NewProductPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _statusButton? colorGreen : colorGrey,
-              _statusButton? colorGreen : colorGrey,
+              _dataProducts.length < 4? colorGrey : _statusButton? colorGrey : colorGreen,
+              _dataProducts.length < 4? colorGrey : _statusButton? colorGrey : colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -552,7 +588,7 @@ class _NewProductPageState extends State<NewProductPage> {
           child: Text(
             "CREAR PRODUCTO",
             style: TextStyle(
-              color: _statusButton? Colors.white : colorGreen,
+              color: _statusButton? colorGreen : Colors.white,
               fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
             ),
@@ -562,18 +598,171 @@ class _NewProductPageState extends State<NewProductPage> {
     );
   }
 
-  buttonNewProduct()async{
+  saveNewProduct()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var response, result;
     setState(() => _statusButton = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
     if (_formKeyProduct.currentState.validate()) {
       _formKeyProduct.currentState.save();
+      try
+      {
+        _onLoading();
+        
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          String base64Image = base64Encode(_image.readAsBytesSync());
+
+          response = await http.post(
+            urlApi+"newProducts",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+            body: jsonEncode({
+              "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+              "image":base64Image,
+              "name": _name,
+              "price": _price,
+              "coin": _statusCoin,
+              "description": _description,
+              "categories": _selectCategories,
+              "publish": _switchPublish,
+              "quantity": _quantityProduct,
+              "postPurchase": _shitchPostPurchase,
+            }),
+          ); 
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        }
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet");
+      }
+    }
+  }
+
+  Future<void> showMessage(_titleMessage) async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: size.width / 20,
+                  )
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  Future<void> _onLoading() async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Cargando ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                      TextSpan(
+                        text: "...",
+                        style: TextStyle(
+                          color: colorGreen,
+                          fontSize: size.width / 20,
+                        )
+                      ),
+                    ]
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  _showCategories(){
+    String list="";
+    _selectCategories = "";
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    for (var item in myProvider.dataCategories) {
+      if(myProvider.dataCategoriesSelect.contains(item.id)){
+        _selectCategories += item.id.toString()+', ';
+        list += item.name+', ';
+      }
     }
 
+    if(list.length >0){
+      list = list.substring(0, list.length - 2);
+      _selectCategories = _selectCategories.substring(0, _selectCategories.length - 2);
+      _controllerCategories..text = list;
+    }else{
+      _selectCategories = "";
+      _controllerCategories.clear();
+    }
   }
 
   String _validateName(String value) {
-    // This is just a regular expression for name
+    // This is just a regular expression for name 
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 

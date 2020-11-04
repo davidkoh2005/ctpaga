@@ -43,7 +43,9 @@ flutter:
     - assets/logo/
     - assets/icons/
     - assets/banks/
-    - assets/banks/Bs/
+    - assets/banks/Venezuela/
+    - assets/banks/Panama/
+    - assets/banks/USA/
 
 flutter_icons:
   image_path: 'assets/logo/logoctpaga.png'

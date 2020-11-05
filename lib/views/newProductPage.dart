@@ -4,6 +4,7 @@ import 'package:ctpaga/views/listCategoryPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -27,10 +28,13 @@ class _NewProductPageState extends State<NewProductPage> {
   final FocusNode _priceFocus = FocusNode();
   final FocusNode _descriptionFocus = FocusNode();
   final _controllerCategories = TextEditingController();
+  final _controllerName = TextEditingController();
+  final _controllerDescription = TextEditingController();
+  final _controllerStock = TextEditingController();
 
   String _name, _description, _categories, _price, _selectCategories;
-  int _quantityProduct, _statusCoin = 0;
-  bool _statusButton = false, _switchPublish = false, _shitchPostPurchase = false;
+  int _stock, _statusCoin = 0;
+  bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false;
   List _dataProducts = new List();
   File _image;
 
@@ -52,20 +56,37 @@ class _NewProductPageState extends State<NewProductPage> {
     _statusCoin = myProvider.coinUsers;
 
     if(_statusCoin == 0)
-      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
     else
-      lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+  
+    if(myProvider.dataSelectProduct != null){
+      lowPrice.updateValue(double.parse(myProvider.dataSelectProduct.price.replaceAll(",", ".")));
+      _controllerName.text = myProvider.dataSelectProduct.name;
+      _controllerDescription.text = myProvider.dataSelectProduct.description;
+      _switchPublish = myProvider.dataSelectProduct.publish;
+      _controllerStock.text = myProvider.dataSelectProduct.stock.toString();
+      _switchPostPurchase = myProvider.dataSelectProduct.postPurchase;
+      //_showCategoriesModification();
+      setState(() {
+        _dataProducts.add("Picture");
+        _dataProducts.add("Name");
+        _dataProducts.add("Price");
+        _dataProducts.add("Stock");
+      });
+    }
+      
   }
 
   @override
   Widget build(BuildContext context) {
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar('Nuevo Producto', true),
+            myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -119,6 +140,7 @@ class _NewProductPageState extends State<NewProductPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
                       child: new TextFormField(
+                        controller: _controllerName,
                         maxLines: 1,
                         textCapitalization:TextCapitalization.words,
                         inputFormatters: [
@@ -131,9 +153,9 @@ class _NewProductPageState extends State<NewProductPage> {
                         onChanged: (value) {
                           setState(() {
                             if (value.length >3 && !_dataProducts.contains("name")){
-                              _dataProducts.add("name");
+                              _dataProducts.add("Name");
                             }else if(value.length < 3){
-                              _dataProducts.remove("name");
+                              _dataProducts.remove("Name");
                             }
                           });
                         },
@@ -173,7 +195,7 @@ class _NewProductPageState extends State<NewProductPage> {
                         inputFormatters: [  
                           WhitelistingTextInputFormatter.digitsOnly,
                         ],
-                        keyboardType: TextInputType.numberWithOptions(decimal: true),
+                        keyboardType: TextInputType.number,
                         autofocus: false,
                         focusNode: _priceFocus,
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
@@ -222,6 +244,7 @@ class _NewProductPageState extends State<NewProductPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
                       child: new TextFormField(
+                        controller: _controllerDescription,
                         keyboardType: TextInputType.multiline,
                         maxLines: 5,
                         textCapitalization:TextCapitalization.sentences,
@@ -356,18 +379,19 @@ class _NewProductPageState extends State<NewProductPage> {
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
                       child: new TextFormField(
+                        controller: _controllerStock,
                         maxLines: 1,
                         inputFormatters: [  
                           WhitelistingTextInputFormatter.digitsOnly,
                         ],
                         keyboardType: TextInputType.number,
                         autofocus: false,
-                        onSaved: (value) => _quantityProduct = int.parse(value),
+                        onSaved: (value) => _stock = int.parse(value),
                         onChanged: (value){
-                          if(int.parse(value) > 0 && !_dataProducts.contains("Quantity")){
-                            setState(() => _dataProducts.add("Quantity"));
+                          if(int.parse(value) > 0 && !_dataProducts.contains("Stock")){
+                            setState(() => _dataProducts.add("Stock"));
                           }else if(int.parse(value)==0 || value.length == 0){
-                            setState(() => _dataProducts.remove("Quantity"));
+                            setState(() => _dataProducts.remove("Stock"));
                           }
                         },
                         cursorColor: colorGrey,
@@ -451,10 +475,10 @@ class _NewProductPageState extends State<NewProductPage> {
                           Column(
                             children: <Widget>[
                               Switch(
-                                value: _shitchPostPurchase ,
+                                value: _switchPostPurchase ,
                                 onChanged: (value) {
                                   setState(() {
-                                    _shitchPostPurchase = value;
+                                    _switchPostPurchase = value;
                                   });
                                 },
                                 activeTrackColor: colorGrey,
@@ -476,10 +500,30 @@ class _NewProductPageState extends State<NewProductPage> {
   }
 
   showImage(){
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-
-    if(_image != null){
+    if(myProvider.dataSelectProduct != null){
+      return GestureDetector(
+        onTap: () => _showSelectionDialog(context),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: url+myProvider.dataSelectProduct.url,
+            fit: BoxFit.cover,
+            height: size.width / 4,
+            width: size.width / 4,
+            placeholder: (context, url) {
+              return Container(
+                margin: EdgeInsets.all(15),
+                child:CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              );
+            },
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+          ),
+        )
+      );
+    }else if(_image != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
@@ -491,7 +535,7 @@ class _NewProductPageState extends State<NewProductPage> {
           ),
         )
       );
-    }else
+    }
 
     return GestureDetector(
       onTap: () => _showSelectionDialog(context),
@@ -562,6 +606,7 @@ class _NewProductPageState extends State<NewProductPage> {
   }
 
   Widget buttonNewProduct(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveNewProduct(),
@@ -586,7 +631,7 @@ class _NewProductPageState extends State<NewProductPage> {
         ),
         child: Center(
           child: Text(
-            "CREAR PRODUCTO",
+            myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
               fontSize: size.width / 20,
@@ -631,14 +676,15 @@ class _NewProductPageState extends State<NewProductPage> {
               "description": _description,
               "categories": _selectCategories,
               "publish": _switchPublish,
-              "quantity": _quantityProduct,
-              "postPurchase": _shitchPostPurchase,
+              "stock": _stock,
+              "postPurchase": _switchPostPurchase,
             }),
           ); 
 
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
+            myProvider.getListProducts();
             Navigator.pop(context);
             Navigator.pop(context);
           }
@@ -744,10 +790,19 @@ class _NewProductPageState extends State<NewProductPage> {
     String list="";
     _selectCategories = "";
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    for (var item in myProvider.dataCategories) {
-      if(myProvider.dataCategoriesSelect.contains(item.id)){
-        _selectCategories += item.id.toString()+', ';
-        list += item.name+', ';
+    if(myProvider.dataCategoriesSelect.length >0){
+      for (var item in myProvider.dataCategories) {
+        if(myProvider.dataSelectProduct != null){
+          if(myProvider.dataCategoriesSelect.contains(item.id.toString())){
+            _selectCategories += item.id.toString()+', ';
+            list += item.name+', ';
+          }
+        }else{
+          if(myProvider.dataCategoriesSelect.contains(item.id)){
+            _selectCategories += item.id.toString()+', ';
+            list += item.name+', ';
+          }
+        }
       }
     }
 

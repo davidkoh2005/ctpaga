@@ -1,6 +1,8 @@
 import 'package:ctpaga/models/bank.dart';
+import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
+import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/user.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -25,7 +27,15 @@ class DBctpaga{
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "ctpaga.db");
 
-    var db = await openDatabase(path, version: 3, onCreate: onCreateFunc);
+    var db = await openDatabase(path, version: 4, 
+      onCreate: onCreateFunc,
+      onUpgrade: (db, oldVersion, newVersion) async {
+          if (oldVersion < 5) {
+            print("entro new version DB");
+            onCreateFunc(db, newVersion);
+          }
+        },
+    );
 
     return db;
   }
@@ -33,10 +43,12 @@ class DBctpaga{
 
   void onCreateFunc (Database db, int version) async{
     //create table
-    await db.execute('CREATE TABLE users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
-    await db.execute('CREATE TABLE banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
-    await db.execute('CREATE TABLE pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
-    await db.execute('CREATE TABLE commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
+    await db.execute('CREATE TABLE IF NOT EXISTS pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
+    await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS categories (id INTEGER, name VARCHAR(50), commerce_id INTEGER, type VARCHAR(25) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS products (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, stock INTEGER, postPurchase INTEGER)');
   }
 
   /*
@@ -94,13 +106,13 @@ class DBctpaga{
   // Delete User
   void deleteUser (User user) async{
     var dbConnection = await db;
-    String query = 'DELETE FROM users  WHERE idUsers=${user.id}';
+    String query = 'DELETE FROM users WHERE idUsers=${user.id}';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawQuery(query);
     });
   }
 
-  // Get User
+  // Get Banks User
   Future <List<dynamic>> getBanksUser() async{
     var dbConnection = await db;
 
@@ -143,7 +155,7 @@ class DBctpaga{
     return bankUser;
   }
 
-  // Create or update User
+  // Create or update banks
   void createOrUpdateBankUser (Bank bank) async{
     var dbConnection = await db;
 
@@ -178,7 +190,7 @@ class DBctpaga{
     return listPicturesUser;
   }
 
-  // Create or update User
+  // Create or update pictures
   void createOrUpdatePicturesUser (Picture picture) async{
     var dbConnection = await db;
 
@@ -215,7 +227,7 @@ class DBctpaga{
     return listCommercesUser;
   }
 
-  // Create or update User
+  // Create or update commerces
   void createOrUpdateCommercesUser (Commerce commerce) async{
     var dbConnection = await db;
 
@@ -225,6 +237,83 @@ class DBctpaga{
     });
   }
 
+  // Get Categories User
+  Future <List<dynamic>> getCategories() async{
+    List listCategories = new List();
+    listCategories = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM categories');
+    Categories categories = new Categories();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      categories = Categories(
+        id : list[i]['id'],
+        commerce_id : list[i]['commerce_id'],
+        name : list[i]['name'],
+        type : list[i]['type'],
+      );
+
+      listCategories.add(categories);
+
+    }
+
+    return listCategories;
+  }
+
+  // Create or update Categories
+  void createOrUpdateCategories (Categories categories) async{
+    var dbConnection = await db;
+
+    String query = 'INSERT OR REPLACE INTO categories (id, commerce_id, name, type) VALUES ( (SELECT id FROM categories WHERE id = \'${categories.id}\'), \'${categories.commerce_id}\', \'${categories.name}\',\'${categories.type}\')';
+    await dbConnection.transaction((transaction) async{
+      return await transaction.rawInsert(query);
+    });
+  }
+
+
+  // Get Products User
+  Future <List<dynamic>> getProducts() async{
+    List listProducts = new List();
+    listProducts = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM products');
+    Product productUser = new Product();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      productUser = Product(
+        id : list[i]['id'],
+        commerce_id : list[i]['commerce_id'],
+        url : list[i]['url'],
+        name : list[i]['name'],
+        price : list[i]['price'],
+        coin : list[i]['coin'],
+        description : list[i]['description'],
+        categories : list[i]['categories'],
+        publish : list[i]['publish'] == 1 ? true : false,
+        stock : list[i]['stock'],
+        postPurchase : list[i]['postPurchase'] == 1 ? true : false,
+      );
+
+      listProducts.add(productUser);
+
+    }
+
+    return listProducts;
+  }
+
+  // Create or update Products
+  void createOrUpdateProducts (Product product) async{
+    var dbConnection = await db;
+
+    String query = 'INSERT OR REPLACE INTO products (id, commerce_id, url, name, price, coin, description, categories, publish, stock, postPurchase) VALUES ( (SELECT id FROM products WHERE id = \'${product.id}\'), \'${product.commerce_id}\', \'${product.url}\',\'${product.name}\',\'${product.price}\',\'${product.coin}\',\'${product.description}\',\'${product.categories}\',\'${product.publish?1:0}\',\'${product.stock}\',\'${product.postPurchase?1:0}\')';
+    await dbConnection.transaction((transaction) async{
+      return await transaction.rawInsert(query);
+    });
+  }
 
 }
 

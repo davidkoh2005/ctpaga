@@ -2,6 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
+import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/views/loginPage.dart';
@@ -105,9 +106,35 @@ class MyProvider with ChangeNotifier {
   List get dataCategoriesSelect =>_dataCategoriesSelect;
 
   set dataCategoriesSelect(List newListCategories){
+    print("entro provider");
     _dataCategoriesSelect = newListCategories;
     notifyListeners();
   }
+
+  List _products = new List();
+  List get dataProducts =>_products;
+
+  set dataProducts(List newProducts){
+    _products = newProducts;
+    notifyListeners();
+  }
+
+  List _productsCategories = new List();
+  List get dataProductsCategories =>_productsCategories;
+
+  set dataProductsCategories(List newProducts){
+    _productsCategories = newProducts;
+    notifyListeners();
+  }
+
+  Product _selectProducts = Product();
+  Product get dataSelectProduct =>_selectProducts;
+
+  set dataSelectProduct(Product newProducts){
+    _selectProducts = newProducts;
+    notifyListeners();
+  }
+
 
   User user = User();
   List banksUser = new List(2);
@@ -236,6 +263,11 @@ class MyProvider with ChangeNotifier {
 
             dataCommercesUser = listCommerces;
 
+            if(dataCommercesUser.length > 0){
+              getListCategories();
+              getListProducts();
+            }
+
           }
 
 
@@ -266,7 +298,6 @@ class MyProvider with ChangeNotifier {
   getListCategories()async{
     var result, response, jsonResponse;
     _listCategories = [];
-    dataCategoriesSelect = [];
     try
     {
       result = await InternetAddress.lookup('google.com');
@@ -291,18 +322,85 @@ class MyProvider with ChangeNotifier {
               id: item['id'],
               name: item['name'],
               commerce_id: item['commerce_id'],
+              type: item['type'],
             );
             _listCategories.add(category);
+            dbctpaga.createOrUpdateCategories(category);
           }
           dataCategories = _listCategories;
         } 
       }
     } on SocketException catch (_) {
       if(accessTokenUser != null){
+        dataCategories = await dbctpaga.getCategories();
+      }
+    }
+  }
 
+  Product product = Product();
+  List _listProducts = new List();
+
+  getListProducts()async{
+    var result, response, jsonResponse;
+    _listProducts = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showProducts",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+          body: jsonEncode({
+            "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
+          }),
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            product = Product(
+              id: item['id'],
+              commerce_id : item['commerce_id'],
+              url : item['url'],
+              name : item['name'],
+              price : item['price'],
+              coin : item['coin'],
+              description : item['description'],
+              categories : item['categories'],
+              publish : item['publish'],
+              stock : item['stock'],
+              postPurchase : item['postPurchase'],
+            );
+            _listProducts.add(product);
+            dbctpaga.createOrUpdateProducts(product);
+          }
+          dataProducts = _listProducts;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataProducts = await dbctpaga.getProducts();
       }
 
     }
+  }
+
+  getListProductsCategories(idCategories){
+    List listProductsCategories = new List();
+    listProductsCategories = [];
+    for (var item in dataProducts) {
+      if(item.categories != null){
+        if(item.categories.contains(idCategories.toString())){
+          listProductsCategories.add(item);
+        }
+      }
+    }
+    dataProductsCategories = listProductsCategories;
   }
 
 
@@ -311,10 +409,12 @@ class MyProvider with ChangeNotifier {
     prefs.remove("access_token");
     accessTokenUser = null;
     dataUser = null;
-    dataBanksUser = null;
-    dataPicturesUser = null;
-    dataCategoriesSelect=null;
-    dataCategories = null;
+    dataBanksUser = [];
+    dataPicturesUser = [];
+    dataCategoriesSelect=[];
+    dataCategories = [];
+    dataProducts = [];
+    dataProductsCategories = [];
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 

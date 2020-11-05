@@ -17,6 +17,7 @@ String urlApi = "$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(230,230,230,1);
+Color colorText = Colors.grey;
 
 
 List listMenu = [

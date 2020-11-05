@@ -154,6 +154,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             body: jsonEncode({
               "name": _name,
               "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+              "type": "Products",
             }),
           ); 
           var jsonResponse = jsonDecode(response.body); 
@@ -164,6 +165,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               id: jsonResponse['data']['id'],
               name: jsonResponse['data']['name'],
               commerce_id: jsonResponse['data']['commerce_id'],
+              type: "Products",
             );
             var selectCategory = myProvider.dataCategoriesSelect;
             selectCategory.add(category.id);

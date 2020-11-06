@@ -106,7 +106,6 @@ class MyProvider with ChangeNotifier {
   List get dataCategoriesSelect =>_dataCategoriesSelect;
 
   set dataCategoriesSelect(List newListCategories){
-    print("entro provider");
     _dataCategoriesSelect = newListCategories;
     notifyListeners();
   }
@@ -284,6 +283,8 @@ class MyProvider with ChangeNotifier {
         dataBanksUser = await dbctpaga.getBanksUser();
         dataPicturesUser = await dbctpaga.getPicturesUser();
         dataCommercesUser = await dbctpaga.getCommercesUser();
+        dataCategories = await dbctpaga.getCategories();
+        dataProducts = await dbctpaga.getProducts();
       }
 
       if(status){
@@ -391,6 +392,7 @@ class MyProvider with ChangeNotifier {
   }
 
   getListProductsCategories(idCategories){
+    dataProductsCategories = [];
     List listProductsCategories = new List();
     listProductsCategories = [];
     for (var item in dataProducts) {

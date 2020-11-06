@@ -45,22 +45,13 @@ class _MenuPageState extends State<MenuPage> {
             Navbar("Menu", false),
             Expanded(
               child: ListView.builder(
+                padding: EdgeInsets.zero,
                 itemCount: listMenu.length,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
                     onTap: () => nextPage(listMenu[index]['title'], listMenu[index]['page'], index),
-                    child: Stack(
+                    child: Row(
                       children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(top:5),
-                          child: Container(
-                            width: size.width,
-                            color: statusButton.contains(index)? colorGreen : colorGrey,
-                            height: 45,
-                            child: Container(
-                            ),
-                          ),
-                        ),
                         Padding(
                           padding: EdgeInsets.only(left:25),
                           child: Container(
@@ -82,16 +73,19 @@ class _MenuPageState extends State<MenuPage> {
                             ),
                           ),
                         ),
-                        Padding(
-                          padding: EdgeInsets.only(left:100, top: 20),
-                          child: Text(
-                            listMenu[index]['title'],
-                            style: TextStyle(
-                              fontSize: size.width / 20,
-                              color: statusButton.contains(index)? Colors.white : Colors.black,
+                        Expanded(
+                          child: Padding(
+                            padding: EdgeInsets.only(left:10),
+                            child: Text(
+                              listMenu[index]['title'],
+                              style: TextStyle(
+                                fontSize: size.width / 20,
+                                color: statusButton.contains(index)? colorGreen : Colors.black,
+                                fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                              ),
                             ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   );

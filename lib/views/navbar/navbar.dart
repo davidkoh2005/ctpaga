@@ -28,7 +28,6 @@ class _NavbarState extends State<Navbar> {
         Container(
           width: size.width,
           height: size.height/5.5,
-          color: colorGrey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -48,9 +47,9 @@ class _NavbarState extends State<Navbar> {
                     Text(
                       _title,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: size.width / 14,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ],
@@ -65,7 +64,7 @@ class _NavbarState extends State<Navbar> {
                     iconSize: size.width / 10,
                     icon: Icon(
                       Icons.menu,
-                      color: Colors.white,
+                      color: Colors.black,
                       ),
                     onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
                   )

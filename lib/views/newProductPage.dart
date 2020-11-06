@@ -130,9 +130,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Nombre",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -152,9 +151,9 @@ class _NewProductPageState extends State<NewProductPage> {
                         onEditingComplete: () =>FocusScope.of(context).requestFocus(_priceFocus),
                         onChanged: (value) {
                           setState(() {
-                            if (value.length >3 && !_dataProducts.contains("name")){
+                            if (value.length >3 && !_dataProducts.contains("Name")){
                               _dataProducts.add("Name");
-                            }else if(value.length < 3){
+                            }else if(value.length <= 3 && _dataProducts.contains("Name")){
                               _dataProducts.remove("Name");
                             }
                           });
@@ -166,7 +165,7 @@ class _NewProductPageState extends State<NewProductPage> {
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
@@ -180,9 +179,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Precio",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -201,11 +199,12 @@ class _NewProductPageState extends State<NewProductPage> {
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
                         onSaved: (value) => _price = value,
                         onChanged: (value) {
+
                           setState(() {
-                            if (!value.contains("0,0") && !_dataProducts.contains("price")){
-                              _dataProducts.add("price");
-                            }else if(value.contains("0,0")|| (value.contains("00") && value.length == 2)){
-                              _dataProducts.remove("price");
+                            if (!value.contains("0,0") && !_dataProducts.contains("Price")){
+                              _dataProducts.add("Price");
+                            }else if(value.contains("0,0") || (value.contains("00") && value.length == 2) && _dataProducts.contains("Price")){
+                              _dataProducts.remove("Price");
                             }
                           });
                         },
@@ -234,9 +233,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Descrición (optional)",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -254,7 +252,7 @@ class _NewProductPageState extends State<NewProductPage> {
                         cursorColor: colorGrey,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGrey),
+                            borderSide: BorderSide(color: Colors.black),
                           ),
                         ),
                       ),
@@ -267,9 +265,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Categorías (optional)",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -291,7 +288,7 @@ class _NewProductPageState extends State<NewProductPage> {
                             cursorColor: colorGrey,
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: colorGrey),
+                                borderSide: BorderSide(color: Colors.black),
                               ),
                             ),
                           ),
@@ -306,9 +303,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Catálogo de productos",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -326,7 +322,7 @@ class _NewProductPageState extends State<NewProductPage> {
                               Text(
                                 "Publicar",
                                 style: TextStyle(
-                                  color: colorGrey,
+                                  color: colorText,
                                   fontSize: size.width / 30,
                                 ),
                               ),
@@ -335,7 +331,7 @@ class _NewProductPageState extends State<NewProductPage> {
                                 child: Text(
                                   "Mostrar en el catálogo de productos",
                                   style: TextStyle(
-                                    color: colorGrey,
+                                    color: colorText,
                                     fontSize: size.width / 25,
                                   ),
                                 )
@@ -359,7 +355,10 @@ class _NewProductPageState extends State<NewProductPage> {
                         ],
                       )
                     ),
-                    Divider(),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(color: Colors.black,),
+                    ),
 
 
                     Padding(
@@ -369,9 +368,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Cantidad disponible",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -388,9 +386,9 @@ class _NewProductPageState extends State<NewProductPage> {
                         autofocus: false,
                         onSaved: (value) => _stock = int.parse(value),
                         onChanged: (value){
-                          if(int.parse(value) > 0 && !_dataProducts.contains("Stock")){
+                          if(value.length > 0 && !_dataProducts.contains("Stock")){
                             setState(() => _dataProducts.add("Stock"));
-                          }else if(int.parse(value)==0 || value.length == 0){
+                          }else if(value.length == 0 && _dataProducts.contains("Stock")){
                             setState(() => _dataProducts.remove("Stock"));
                           }
                         },
@@ -421,14 +419,17 @@ class _NewProductPageState extends State<NewProductPage> {
                           Text(
                             "Llevar inventario del producto",
                             style: TextStyle(
-                              color: colorGrey,
+                              color: colorText,
                               fontSize: size.width / 25,
                             ),
                           ),
                         ],
                       ),
                     ),
-                    Divider(),
+                    Padding(
+                      padding: EdgeInsets.only(left: 15, right: 15),
+                      child: Divider(color: Colors.black,),
+                    ),
 
 
                     Padding(
@@ -438,9 +439,8 @@ class _NewProductPageState extends State<NewProductPage> {
                         child: Text(
                           "Correo post-compra",
                           style: TextStyle(
-                            color: colorGrey,
+                            color: colorText,
                             fontSize: size.width / 15,
-                            fontWeight: FontWeight.w900,
                           ),
                         ),
                       ),
@@ -456,7 +456,7 @@ class _NewProductPageState extends State<NewProductPage> {
                               Text(
                                 "Enviar automaticamente",
                                 style: TextStyle(
-                                  color: colorGrey,
+                                  color: colorText,
                                   fontSize: size.width / 20,
                                 ),
                               ),
@@ -465,7 +465,7 @@ class _NewProductPageState extends State<NewProductPage> {
                                 child: Text(
                                   "Enviar correo personalizado automaticamente luego de la compra",
                                   style: TextStyle(
-                                    color: colorGrey,
+                                    color: colorText,
                                     fontSize: size.width / 25,
                                   ),
                                 ),
@@ -502,7 +502,19 @@ class _NewProductPageState extends State<NewProductPage> {
   showImage(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    if(myProvider.dataSelectProduct != null){
+    if(_image != null){
+      return GestureDetector(
+        onTap: () => _showSelectionDialog(context),
+        child: ClipOval(
+          child: Image.file(
+            _image,
+            width: size.width / 4,
+            height: size.width / 4,
+            fit: BoxFit.cover
+          ),
+        )
+      );
+    }else if(myProvider.dataSelectProduct != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
@@ -520,18 +532,6 @@ class _NewProductPageState extends State<NewProductPage> {
               );
             },
             errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
-          ),
-        )
-      );
-    }else if(_image != null){
-      return GestureDetector(
-        onTap: () => _showSelectionDialog(context),
-        child: ClipOval(
-          child: Image.file(
-            _image,
-            width: size.width / 4,
-            height: size.width / 4,
-            fit: BoxFit.cover
           ),
         )
       );
@@ -649,7 +649,7 @@ class _NewProductPageState extends State<NewProductPage> {
     setState(() => _statusButton = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
-    if (_formKeyProduct.currentState.validate()) {
+    if (_formKeyProduct.currentState.validate() && myProvider.dataSelectProduct == null) {
       _formKeyProduct.currentState.save();
       try
       {
@@ -678,6 +678,56 @@ class _NewProductPageState extends State<NewProductPage> {
               "publish": _switchPublish,
               "stock": _stock,
               "postPurchase": _switchPostPurchase,
+            }),
+          ); 
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            myProvider.getListProducts();
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        }
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet");
+      }
+    }else if (_formKeyProduct.currentState.validate() && myProvider.dataSelectProduct != null) {
+      _formKeyProduct.currentState.save();
+      try
+      {
+        _onLoading();
+        
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          String base64Image;
+          if(_image != null)
+            base64Image = base64Encode(_image.readAsBytesSync());
+          else
+            base64Image = myProvider.dataSelectProduct.url;
+
+          
+          response = await http.post(
+            urlApi+"updateProducts",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+            body: jsonEncode({
+              "id": myProvider.dataSelectProduct.id,
+              "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+              "image":base64Image,
+              "name": _name,
+              "price": _price,
+              "coin": _statusCoin,
+              "description": _description,
+              "categories": _selectCategories,
+              "publish": _switchPublish,
+              "stock": _stock,
+              "postPurchase": _switchPostPurchase,
+              "url": _image == null? myProvider.dataSelectProduct.url : null,
             }),
           ); 
 
@@ -792,17 +842,10 @@ class _NewProductPageState extends State<NewProductPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     if(myProvider.dataCategoriesSelect.length >0){
       for (var item in myProvider.dataCategories) {
-        if(myProvider.dataSelectProduct != null){
-          if(myProvider.dataCategoriesSelect.contains(item.id.toString())){
+        if(myProvider.dataCategoriesSelect.contains(item.id.toString())){
             _selectCategories += item.id.toString()+', ';
             list += item.name+', ';
           }
-        }else{
-          if(myProvider.dataCategoriesSelect.contains(item.id)){
-            _selectCategories += item.id.toString()+', ';
-            list += item.name+', ';
-          }
-        }
       }
     }
 

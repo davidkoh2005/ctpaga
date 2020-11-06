@@ -60,9 +60,8 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               child: Text(
                 "NOMBRE DEL LA CATEGORÍA",
                 style: TextStyle(
-                  color: colorGrey,
+                  color: colorText,
                   fontSize: size.width / 15,
-                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),
@@ -85,7 +84,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGrey),
+                  borderSide: BorderSide(color: Colors.black),
                 ),
               ),
             ),
@@ -168,7 +167,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               type: "Products",
             );
             var selectCategory = myProvider.dataCategoriesSelect;
-            selectCategory.add(category.id);
+            selectCategory.add(category.id.toString());
             myProvider.dataCategoriesSelect = selectCategory;
             Navigator.pop(context);
             Navigator.pop(context);

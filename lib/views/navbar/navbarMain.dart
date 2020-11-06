@@ -24,7 +24,6 @@ class _NavbarMainState extends State<NavbarMain> {
         Container(
           width: size.width,
           height: size.height/5.5,
-          color: colorGrey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -36,7 +35,7 @@ class _NavbarMainState extends State<NavbarMain> {
                   iconSize: size.width / 10,
                   icon: Icon(
                     Icons.menu,
-                    color: Colors.white,
+                    color: Colors.black,
                     ),
                   onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
                 )
@@ -47,7 +46,7 @@ class _NavbarMainState extends State<NavbarMain> {
 
         Container(
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 60, left: 50),
+          padding: EdgeInsets.only(top: 50, left: 50),
           child: ClipOval(
             child: Image.asset(
               "assets/icons/perfil.png",

@@ -1,5 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/navbar/navbarPerfil.dart';
+import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
@@ -49,7 +49,7 @@ class _PerfilPageState extends State<PerfilPage> {
         _email, _name, _address, _phone,
         _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
-  int _statusCoin = 0;
+  int _statusCoin = 1;
   File _image;
   bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
@@ -70,19 +70,37 @@ class _PerfilPageState extends State<PerfilPage> {
 
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
     return Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            NavbarPerfil(),
+            Navbar("Perfil", true),
             Expanded(
               child: SingleChildScrollView(
                 controller: _scrollController,
                 child: Column(
                   children: <Widget> [
-                    showImage(),
-                    SizedBox(height:20),
+                    Padding(
+                      padding: EdgeInsets.only(top:20, bottom: 5),
+                      child: showImage()
+                    ),
+                    Consumer<MyProvider>(
+                      builder: (context, myProvider, child) {
+                        return Container(
+                          padding: EdgeInsets.only(top:5, bottom: 20),
+                          child: Text(
+                            myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                            style: TextStyle(
+                              fontSize: size.width / 14,
+                              color: colorText,
+                            ),
+                          )
+                        );
+                      }
+                    ),
                     dropdownList("Datos de la empresa"),
                     Visibility(
                       visible: _statusDropdown == "Datos de la empresa"? true : false,
@@ -106,8 +124,19 @@ class _PerfilPageState extends State<PerfilPage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            buttonUSD(),
                             buttonBs(),
+                            Padding(
+                              padding: EdgeInsets.only(left: 15, right: 15),
+                              child: Text(
+                                "<>",
+                                style: TextStyle(
+                                  color: colorGreen,
+                                  fontSize: size.width / 20,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            ),
+                            buttonUSD(),
                           ],
                         ),
                       ),
@@ -126,16 +155,16 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Widget showImage(){
-    var size = MediaQuery.of(context).size;
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
     if(_image != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: Image.file(
             _image,
-            width: size.width / 4,
-            height: size.width / 4,
+            width: size.width / 3,
+            height: size.width / 3,
             fit: BoxFit.cover
           ),
         )
@@ -161,8 +190,8 @@ class _PerfilPageState extends State<PerfilPage> {
               child: CachedNetworkImage(
                 imageUrl: url+urlProfile,
                 fit: BoxFit.cover,
-                height: size.width / 4,
-                width: size.width / 4,
+                height: size.width / 3,
+                width: size.width / 3,
                 placeholder: (context, url) {
                   return Container(
                     margin: EdgeInsets.all(15),
@@ -183,8 +212,8 @@ class _PerfilPageState extends State<PerfilPage> {
       child: ClipOval(
         child: Image(
           image: AssetImage("assets/icons/addPhoto.png"),
-          width: size.width / 4,
-          height: size.width / 4,
+          width: size.width / 3,
+          height: size.width / 3,
         ),
       ),
     );
@@ -353,7 +382,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'RIF',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText,
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -379,7 +408,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Nombre de la empresa',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -403,7 +432,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Dirección',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -427,7 +456,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Teléfono',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -472,7 +501,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: new InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -533,7 +562,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Nombre y Apellido',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -557,7 +586,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Dirección',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -581,7 +610,7 @@ class _PerfilPageState extends State<PerfilPage> {
               decoration: InputDecoration(
                 labelText: 'Teléfono',
                 labelStyle: TextStyle(
-                  color: colorGrey
+                  color: colorText
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -608,30 +637,17 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget buttonUSD(){
     var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(left:30),
+      padding: EdgeInsets.only(right:0),
       child: GestureDetector(
         onTap: () => setState(() => _statusCoin = 0), 
         child: Container(
-          width:size.width / 5,
-          height: size.height / 25,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _statusCoin == 0? colorGreen : colorGrey,
-                _statusCoin == 0? colorGreen : colorGrey
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
           child: Center(
             child: Text(
               "\$",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
-                fontWeight: FontWeight.w500,
+                color: _statusCoin == 0? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -643,29 +659,16 @@ class _PerfilPageState extends State<PerfilPage> {
   Widget buttonBs(){
     var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(left:20),
+      padding: EdgeInsets.only(left:30),
       child: GestureDetector(
         onTap: () => setState(() => _statusCoin = 1), 
         child: Container(
-          width:size.width / 5,
-          height: size.height / 25,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _statusCoin == 1? colorGreen : colorGrey,
-                _statusCoin == 1? colorGreen : colorGrey
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
           child: Center(
             child: Text(
               "Bs",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
+                color: _statusCoin == 1? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -703,7 +706,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'País (Panamá o USA)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -734,9 +737,9 @@ class _PerfilPageState extends State<PerfilPage> {
                   BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
                 ], 
                 decoration: InputDecoration(
-                  labelText: 'Nombre de la cuenta',
+                  labelText: 'Nombre de la Cuenta',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -760,7 +763,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Número de Cuenta',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -805,7 +808,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Ruta o Aba (si es USA)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -831,7 +834,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Swift (si es Usa)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -855,7 +858,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Dirección',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -880,7 +883,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Tipo de cuenta (C o A)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),

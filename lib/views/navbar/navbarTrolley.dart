@@ -26,7 +26,6 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
         Container(
           width: size.width,
           height: size.height/5.5,
-          color: colorGrey,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,10 +45,49 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                     Text(
                       _title,
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.black,
                         fontSize: size.width / 14,
-                        fontWeight: FontWeight.w900,
+                        fontWeight: FontWeight.bold,
                       ),
+                    ),
+                  ],
+                ),
+              ),
+
+              Container(
+                alignment: Alignment.center,
+                child: Stack(
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.only(top:20),
+                      child: Image.asset(
+                        "assets/icons/logoCarrito.png",
+                        width: size.width/7,
+                        height: size.width/7,
+                        fit: BoxFit.cover
+                      )
+                    ),
+
+                    Padding(
+                      padding: EdgeInsets.only(top: 8, left: 34),
+                      child: Container(
+                        width: size.width / 15,
+                        height: size.width / 15,
+                        decoration: BoxDecoration(
+                          color: colorGreen,
+                          shape: BoxShape.circle,
+                          ),
+                        child: Center(
+                          child: Text(
+                            "0",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: size.width / 30,
+                              fontWeight: FontWeight.bold,
+                            )
+                          ),
+                        )
+                      )
                     ),
                   ],
                 ),
@@ -61,7 +99,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                   iconSize: size.width / 10,
                   icon: Icon(
                     Icons.menu,
-                    color: Colors.white,
+                    color: Colors.black,
                     ),
                   onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
                 )
@@ -69,20 +107,6 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
             ]
           ),
         ),
-
-        Container(
-          alignment: Alignment.topCenter,
-          padding: EdgeInsets.only(top: 100, left: 120),
-          child: ClipOval(
-            child: Image.asset(
-              "assets/icons/carrito.png",
-              width: size.width/5,
-              height: size.width/5,
-              fit: BoxFit.cover
-            ),
-          ),
-        ),
-
       ],
     );
 

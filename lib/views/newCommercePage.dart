@@ -55,9 +55,8 @@ class _NewCommerceState extends State<NewCommerce> {
               child: Text(
                 "NOMBRE DEL NEGOCIO",
                 style: TextStyle(
-                  color: colorGrey,
+                  color: colorText,
                   fontSize: size.width / 15,
-                  fontWeight: FontWeight.w900,
                 ),
               ),
             ),

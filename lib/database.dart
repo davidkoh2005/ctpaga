@@ -31,7 +31,6 @@ class DBctpaga{
       onCreate: onCreateFunc,
       onUpgrade: (db, oldVersion, newVersion) async {
           if (oldVersion < 5) {
-            print("entro new version DB");
             onCreateFunc(db, newVersion);
           }
         },
@@ -266,10 +265,19 @@ class DBctpaga{
   void createOrUpdateCategories (Categories categories) async{
     var dbConnection = await db;
 
-    String query = 'INSERT OR REPLACE INTO categories (id, commerce_id, name, type) VALUES ( (SELECT id FROM categories WHERE id = \'${categories.id}\'), \'${categories.commerce_id}\', \'${categories.name}\',\'${categories.type}\')';
-    await dbConnection.transaction((transaction) async{
-      return await transaction.rawInsert(query);
-    });
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM categories WHERE id = \'${categories.id}\' ');
+
+    if(list.length == 0){
+      String query = 'INSERT INTO categories (id, commerce_id, name, type) VALUES ( \'${categories.id}\', \'${categories.commerce_id}\', \'${categories.name}\',\'${categories.type}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }else{
+      String query = 'UPDATE categories SET commerce_id=\'${categories.commerce_id}\', name=\'${categories.name}\', type=\'${categories.type}\' WHERE id= \'${categories.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
   }
 
 
@@ -309,10 +317,19 @@ class DBctpaga{
   void createOrUpdateProducts (Product product) async{
     var dbConnection = await db;
 
-    String query = 'INSERT OR REPLACE INTO products (id, commerce_id, url, name, price, coin, description, categories, publish, stock, postPurchase) VALUES ( (SELECT id FROM products WHERE id = \'${product.id}\'), \'${product.commerce_id}\', \'${product.url}\',\'${product.name}\',\'${product.price}\',\'${product.coin}\',\'${product.description}\',\'${product.categories}\',\'${product.publish?1:0}\',\'${product.stock}\',\'${product.postPurchase?1:0}\')';
-    await dbConnection.transaction((transaction) async{
-      return await transaction.rawInsert(query);
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM products WHERE id = \'${product.id}\' ');
+    
+    if(list.length == 0){
+      String query = 'INSERT INTO products (id, commerce_id, url, name, price, coin, description, categories, publish, stock, postPurchase) VALUES ( \'${product.id}\', \'${product.commerce_id}\', \'${product.url}\',\'${product.name}\',\'${product.price}\',\'${product.coin}\',\'${product.description}\',\'${product.categories}\',\'${product.publish?1:0}\',\'${product.stock}\',\'${product.postPurchase?1:0}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
     });
+    }else{
+      String query = 'UPDATE products SET commerce_id=\'${product.commerce_id}\', url=\'${product.url}\', name=\'${product.name}\', price=\'${product.price}\', coin=\'${product.coin}\', description=\'${product.description}\', categories=\'${product.categories}\', publish=\'${product.publish?1:0}\', stock=\'${product.stock}\', postPurchase=\'${product.postPurchase?1:0}\' WHERE id= \'${product.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
   }
 
 }

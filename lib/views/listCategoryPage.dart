@@ -53,13 +53,13 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
             itemBuilder: (BuildContext ctxt, int index) {
               return GestureDetector(
                 onTap: () {
-                  if(myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id)){
+                  if(myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id.toString())){
                       var selectCategory = myProvider.dataCategoriesSelect;
-                      selectCategory.remove(myProvider.dataCategories[index].id);
+                      selectCategory.remove(myProvider.dataCategories[index].id.toString());
                       myProvider.dataCategoriesSelect = selectCategory;
                     }else{
                       var selectCategory = myProvider.dataCategoriesSelect;
-                      selectCategory.add(myProvider.dataCategories[index].id);
+                      selectCategory.add(myProvider.dataCategories[index].id.toString());
                       myProvider.dataCategoriesSelect = selectCategory;
                     }
                   setState(() {});
@@ -80,7 +80,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                           height: size.width / 5,
                           width: size.width / 5,
                           child: Visibility(
-                            visible: myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id)? true : false,
+                            visible: myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id.toString())? true : false,
                             child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 6,)
                           )
                         ),

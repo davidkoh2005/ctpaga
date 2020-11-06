@@ -20,10 +20,9 @@ class _ProductsPageState extends State<ProductsPage> {
   _ProductsPageState(this._statusCharge);
   final _scrollControllerProducts = ScrollController();
   final _scrollControllerCategories = ScrollController();
-  final _scrollControllerCategoriesProducts = ScrollController();
   final bool _statusCharge;
   String _statusDropdown = "";
-  int _selectCategories = 0;
+  int _selectCategories = 0, _idSelectCategories=0;
   bool _statusButton = false,
       _statusButtonCharge = false;
 
@@ -46,17 +45,17 @@ class _ProductsPageState extends State<ProductsPage> {
                     SizedBox(height:20),
                     dropdownList("Productos"),
                     Visibility(
-                      visible: _statusDropdown == "Productos"? true : false,
+                      visible: _statusDropdown == "Productos"? myProvider.dataProducts.length >0? true : false : false,
                       child: Container(
-                        height: myProvider.dataProducts.length <4? size.height / ((4-myProvider.dataProducts.length)*3) : size.height / 9,
+                        height: myProvider.dataProducts.length <3? size.height / ((4-myProvider.dataProducts.length)*3) : size.height / 5,
                         child: listProducts(),
                       )
                     ),
                     dropdownList("Categoría"),
                     Visibility(
-                      visible: _statusDropdown == "Categoría"? true : false,
+                      visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length >0? true : false : false,
                       child: Container(
-                        height: myProvider.dataCategories.length >4? size.height / 15 : size.height / resultDesing(),
+                        height: myProvider.dataCategories.length >3? size.height / 6 : size.height / 4,
                         child: listCategory()
                       ),
                     ),
@@ -76,17 +75,6 @@ class _ProductsPageState extends State<ProductsPage> {
         );
       }
     );
-  }
-
-  int resultDesing(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    int result;
-    if(_selectCategories ==0) 
-      result = ((4-myProvider.dataCategories.length)*5);
-    else
-      result = (((4-myProvider.dataCategories.length)*5)-9);
-    
-    return result;
   }
 
   Widget dropdownList(_title){
@@ -130,56 +118,65 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget listProducts(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return ListView.separated(
-      controller: _scrollControllerProducts,
-      separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
-      padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
-      itemCount: myProvider.dataProducts.length,
-      itemBuilder:  (BuildContext ctxt, int index) {
-        return GestureDetector(
-          onTap: () {
-            myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
-            Navigator.push(context, SlideLeftRoute(page: NewProductPage()));
-          }, 
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children : <Widget>[
-                  Text(
-                    myProvider.dataProducts[index].name,
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: size.width / 22,
+    return Scrollbar(
+      controller: _scrollControllerProducts, 
+      isAlwaysShown: true,
+      child: ListView.separated(
+        controller: _scrollControllerProducts,
+        separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
+        padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
+        itemCount: myProvider.dataProducts.length,
+        itemBuilder:  (BuildContext ctxt, int index) {
+          return GestureDetector(
+            onTap: () {
+              if(myProvider.dataProducts[index].categories != null)
+                myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
+              
+              myProvider.dataSelectProduct = myProvider.dataProducts[index];
+              Navigator.push(context, SlideLeftRoute(page: NewProductPage()));
+            }, 
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children : <Widget>[
+                    Text(
+                      myProvider.dataProducts[index].name,
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: size.width / 22,
+                      ),
                     ),
-                  ),
-                  Text(
-                    "${myProvider.dataProducts[index].stock} disponibles",
-                    style: TextStyle(
-                      color: colorText,
-                      fontSize: size.width / 22,
+                    Text(
+                      "${myProvider.dataProducts[index].stock} disponibles",
+                      style: TextStyle(
+                        color: colorText,
+                        fontSize: size.width / 22,
+                      ),
                     ),
-                  ),
-                ]
-              ),
-              Column(
-                children: <Widget>[
-                  Text(
-                    showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
-                    style: TextStyle(
-                      color: colorText,
-                      fontSize: size.width / 22,
+                  ]
+                ),
+                Column(
+                  children: <Widget>[
+                    Container(
+                      child: Text(
+                        showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
+                        style: TextStyle(
+                          color: colorText,
+                          fontSize: size.width / 22,
+                        ),
+                      )
                     ),
-                  ),
-                ]
-              )
-            ],
-          ),
-          
-        );
-      }
+                  ]
+                )
+              ],
+            ),
+            
+          );
+        }
+      )
     );
   }
 
@@ -187,13 +184,15 @@ class _ProductsPageState extends State<ProductsPage> {
   Widget listCategory(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return  ListView.builder(
-      padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
+    return  ListView.separated(
+      separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.transparent,),
+      padding: EdgeInsets.fromLTRB(60, 20, 30, 10),
       itemCount: myProvider.dataCategories.length,
       itemBuilder:  (BuildContext ctxt, int index) {
         if( myProvider.dataCategories[index].type == "Products"){
           return GestureDetector(
             onTap: () {
+              setState(() => _idSelectCategories = myProvider.dataCategories[index].id);
               if(_selectCategories == index+1)
                 setState(() => _selectCategories = 0);
               else
@@ -206,13 +205,13 @@ class _ProductsPageState extends State<ProductsPage> {
                 Text(
                   myProvider.dataCategories[index].name,
                   style: TextStyle(
-                    color: Colors.grey,
+                    color: _selectCategories== index+1? colorGreen : Colors.grey,
                     fontSize: size.width / 22,
                   ),
                 ),
                 Visibility(
                   visible: _selectCategories-1 == index? true : false,
-                  child: showProductCategories(myProvider.dataCategories[index].id),
+                  child: showProductCategories(_idSelectCategories),
                 ),
               ]
             )
@@ -309,58 +308,71 @@ class _ProductsPageState extends State<ProductsPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.getListProductsCategories(idCategories);
     var size = MediaQuery.of(context).size;
-    
-    return Container(
-      height: myProvider.dataProductsCategories.length <4? size.height / ((4-myProvider.dataProductsCategories.length)*3) : size.height / 9,
-      child: ListView.builder(
-        padding: EdgeInsets.fromLTRB(30, 20, 0, 10),
-        itemCount: myProvider.dataProductsCategories.length,
-        itemBuilder:  (BuildContext ctxt, int index) {
-          return GestureDetector(
-            onTap: () {
-              myProvider.dataCategoriesSelect = myProvider.dataProductsCategories[index].categories.split(",");
-              Navigator.push(context, SlideLeftRoute(page: NewProductPage()));
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children : <Widget>[
-                    Text(
-                      myProvider.dataProducts[index].name,
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: size.width / 22,
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Container(
+          height: myProvider.dataProductsCategories.length <3? size.height / ((4-myProvider.dataProductsCategories.length)*3) : size.height / 5,
+          child: Scrollbar(
+            controller: _scrollControllerCategories, 
+            isAlwaysShown: true,
+            child: ListView.separated(
+              controller: _scrollControllerCategories,
+              separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
+              padding: EdgeInsets.fromLTRB(30, 20, 20, 10),
+              itemCount: myProvider.dataProductsCategories.length,
+              itemBuilder:  (BuildContext ctxt, int index) {
+                return GestureDetector(
+                  onTap: () {
+                    myProvider.dataCategoriesSelect = myProvider.dataProductsCategories[index].categories.split(",");
+                    
+                    myProvider.dataSelectProduct = myProvider.dataProductsCategories[index];
+                    Navigator.push(context, SlideLeftRoute(page: NewProductPage()));
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children : <Widget>[
+                          Text(
+                            myProvider.dataProductsCategories[index].name,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              fontSize: size.width / 22,
+                            ),
+                          ),
+                          Text(
+                            "${myProvider.dataProductsCategories[index].stock} disponibles",
+                            style: TextStyle(
+                              color: colorText,
+                              fontSize: size.width / 22,
+                            ),
+                          ),
+                        ]
                       ),
-                    ),
-                    Text(
-                      "${myProvider.dataProducts[index].stock} disponibles",
-                      style: TextStyle(
-                        color: colorText,
-                        fontSize: size.width / 22,
-                      ),
-                    ),
-                  ]
-                ),
-                Column(
-                  children: <Widget>[
-                    Text(
-                      showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
-                      style: TextStyle(
-                        color: colorText,
-                        fontSize: size.width / 22,
-                      ),
-                    ),
-                  ]
-                )
-              ],
-            ),
-            
-          );
-        }
-      )
+                      Column(
+                        children: <Widget>[
+                          Container(
+                            child: Text(
+                              showPrice(myProvider.dataProductsCategories[index].price, myProvider.dataProductsCategories[index].coin),
+                              style: TextStyle(
+                                color: colorText,
+                                fontSize: size.width / 22,
+                              ),
+                            )
+                          ),
+                        ]
+                      )
+                    ],
+                  ),
+                  
+                ); 
+              }
+            )
+          )
+        );
+      }
     );
   }
 

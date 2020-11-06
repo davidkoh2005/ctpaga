@@ -25,37 +25,47 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async =>false,
       child: Scaffold(
         body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             NavbarMain(),
+            Container(
+              alignment: Alignment.centerRight,
+              padding: EdgeInsets.only(top: 10, right:30),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                children: <Widget>[
+                  buttonBs(),
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Text(
+                      "<>",
+                      style: TextStyle(
+                        color: colorGreen,
+                        fontSize: size.width / 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                  ),
+                  buttonUSD(),
+                ],
+              )
+            ),
             Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.only(bottom: 100, top: 100),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          buttonUSD(),
-                          buttonBs(),
-                        ],
-                      )
-                    ),
-                    buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
-                    buttonMain("Servicio",2, null), //send variable the same design
-                    buttonMain("Monto",3, QuantityPage()), //send variable the same design
-                  ]
-                )
-              ),
+              child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
+                  buttonMain("Servicio",2, null), //send variable the same design
+                  buttonMain("Monto",3, QuantityPage()), //send variable the same design
+                  SizedBox(height:100),
+                ]
+              )
             ),
           ],
         ),
@@ -102,62 +112,39 @@ class _MainPageState extends State<MainPage> {
 
   Widget buttonUSD(){
     var size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () => changeButtonCoin(0), 
-      child: Container(
-        width:size.width / 5,
-        height: size.height / 25,
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              _statusCoin == 0? colorGreen : colorGrey,
-              _statusCoin == 0? colorGreen : colorGrey
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(30),
-          ),
-        child: Center(
-          child: Text(
-            "\$",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: size.width / 20,
-              fontWeight: FontWeight.w500,
+    return Padding(
+      padding: EdgeInsets.only(right:0),
+      child: GestureDetector(
+        onTap: () => setState(() => _statusCoin = 0), 
+        child: Container(
+          child: Center(
+            child: Text(
+              "\$",
+              style: TextStyle(
+                color: _statusCoin == 0? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
+                fontWeight: FontWeight.bold,
+              ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 
   Widget buttonBs(){
     var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(left:20),
+      padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => changeButtonCoin(1), 
+        onTap: () => setState(() => _statusCoin = 1), 
         child: Container(
-          width:size.width / 5,
-          height: size.height / 25,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _statusCoin == 1? colorGreen : colorGrey,
-                _statusCoin == 1? colorGreen : colorGrey
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
           child: Center(
             child: Text(
               "Bs",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
+                color: _statusCoin == 1? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
                 fontWeight: FontWeight.w500,
               ),
             ),

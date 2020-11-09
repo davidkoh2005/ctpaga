@@ -142,7 +142,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await Future.delayed(Duration(seconds: 2));
     if(prefs.containsKey('access_token')){
       myProvider.getDataUser(true, context);
-      myProvider.coinUsers = 0;
+      myProvider.coinUsers = 1;
       myProvider.accessTokenUser = prefs.getString('access_token');
       myProvider.selectCommerce = prefs.getInt('selectCommerce');
     }else{

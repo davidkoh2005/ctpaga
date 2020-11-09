@@ -1,6 +1,6 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
-import 'package:ctpaga/views/newProductPage.dart';
+import 'package:ctpaga/views/newProductServicePage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -9,12 +9,12 @@ import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class QuantityPage extends StatefulWidget {
+class AmountPage extends StatefulWidget {
   @override
-  _QuantityPageState createState() => _QuantityPageState();
+  _AmountPageState createState() => _AmountPageState();
 }
 
-class _QuantityPageState extends State<QuantityPage> {
+class _AmountPageState extends State<AmountPage> {
   final FocusNode _priceFocus = FocusNode();
   String _description, _price='';
   bool _statusButton = false,

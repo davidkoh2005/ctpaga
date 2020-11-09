@@ -80,7 +80,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               onSaved: (value) => _name = value.trim(),
               onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGrey,
+              cursorColor: colorGreen,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -153,7 +153,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             body: jsonEncode({
               "name": _name,
               "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-              "type": "Products",
+              "type": myProvider.selectProductsServices,
             }),
           ); 
           var jsonResponse = jsonDecode(response.body); 
@@ -164,7 +164,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               id: jsonResponse['data']['id'],
               name: jsonResponse['data']['name'],
               commerce_id: jsonResponse['data']['commerce_id'],
-              type: "Products",
+              type: jsonResponse['data']['commerce_id'],
             );
             var selectCategory = myProvider.dataCategoriesSelect;
             selectCategory.add(category.id.toString());

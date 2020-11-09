@@ -57,10 +57,6 @@ class _MenuPageState extends State<MenuPage> {
                           child: Container(
                             width: 60,
                             height: 60,
-                            decoration: BoxDecoration(
-                              color: listMenu[index]['icon'] == ''? Colors.transparent : Colors.white,
-                              borderRadius: BorderRadius.circular(30),
-                            ),
                             child: Padding(
                               padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
                               child: Visibility(
@@ -138,6 +134,14 @@ class _MenuPageState extends State<MenuPage> {
     }else if(myProvider.dataCommercesUser.length == 0){
       showMessage("Debe ingresar los datos de la empresa", false);
     }else{
+      if(title == "Servicios"){
+        myProvider.selectProductsServices = 1;
+        myProvider.getListCategories();
+      }
+      else if(title == "Productos"){
+        myProvider.selectProductsServices = 0;
+        myProvider.getListCategories();
+      }
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

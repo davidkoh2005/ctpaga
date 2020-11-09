@@ -1,13 +1,13 @@
-class Product{
+class Service{
   // ignore: non_constant_identifier_names
-  int id, commerce_id, coin, stock, type;
+  int id, commerce_id, coin;
   String name, url, price, description, categories;
   bool publish, postPurchase;
 
   // ignore: non_constant_identifier_names
-  Product({this.id, this.commerce_id, this.url, this.name, this.price, this.coin, this.description, this.categories, this.publish, this.stock, this.postPurchase, this.type});
+  Service({this.id, this.commerce_id, this.url, this.name, this.price, this.coin, this.description, this.categories, this.publish, this.postPurchase});
 
-  factory Product.fromMap(dynamic data) => Product(
+  factory Service.fromMap(dynamic data) => Service(
     id: data['id'],
     commerce_id: data['commerce_id'],
     url: data['url'],
@@ -17,9 +17,7 @@ class Product{
     description: data['description'],
     categories: data['categories'],
     publish: data['publish'],
-    stock: data['stock'],
     postPurchase: data['postPurchase'],
-    type: data['type'],
   );
 
   Map<String, dynamic> toJson()=> {
@@ -32,9 +30,7 @@ class Product{
     'description': description,
     'categories': categories,
     'publish': publish,
-    'stock': stock,
     'postPurchase': postPurchase,
-    'type': type,
   };
 
 }

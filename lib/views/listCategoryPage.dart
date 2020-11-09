@@ -15,7 +15,7 @@ class ListCategoryPage extends StatefulWidget {
 
 class _ListCategoryPageState extends State<ListCategoryPage> {
   final _scrollController = ScrollController();
-  bool _statusButtonSave = false, _statusButton = false;
+  bool _statusButton = false;
   @override
   Widget build(BuildContext context) {
 
@@ -130,42 +130,6 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
             "CREAR CATEGORÍA",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: size.width / 20,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget buttonSave(){
-    var size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () => null,
-      child: Container(
-        width:size.width - 100,
-        height: size.height / 20,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: colorGrey, 
-            width: 1.0,
-          ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonSave? colorGreen : colorGrey,
-              _statusButtonSave? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(30),
-          ),
-        child: Center(
-          child: Text(
-            "GUARDAR CATEGORIAS",
-            style: TextStyle(
-              color: Colors.white,
               fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
             ),

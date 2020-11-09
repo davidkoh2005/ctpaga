@@ -15,13 +15,13 @@ import 'dart:convert';
 import 'dart:async';
 import 'dart:io';
 
-class NewProductPage extends StatefulWidget {
+class NewProductServicePage extends StatefulWidget {
   @override
-  _NewProductPageState createState() => _NewProductPageState();
+  _NewProductServicePageState createState() => _NewProductServicePageState();
 }
 
-class _NewProductPageState extends State<NewProductPage> {
-  final _formKeyProduct = new GlobalKey<FormState>();
+class _NewProductServicePageState extends State<NewProductServicePage> {
+  final _formKeyProductService = new GlobalKey<FormState>();
   var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
   final _scrollController = ScrollController();
   final FocusNode _nameFocus = FocusNode();  
@@ -32,10 +32,11 @@ class _NewProductPageState extends State<NewProductPage> {
   final _controllerDescription = TextEditingController();
   final _controllerStock = TextEditingController();
 
+  // ignore: unused_field
   String _name, _description, _categories, _price, _selectCategories;
   int _stock, _statusCoin = 0;
   bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false;
-  List _dataProducts = new List();
+  List _dataProductsService = new List();
   File _image;
 
   @override
@@ -51,7 +52,6 @@ class _NewProductPageState extends State<NewProductPage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    //myProvider.getDataUser(false, context);
     myProvider.getListCategories();
     _statusCoin = myProvider.coinUsers;
 
@@ -60,20 +60,27 @@ class _NewProductPageState extends State<NewProductPage> {
     else
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   
-    if(myProvider.dataSelectProduct != null){
-      lowPrice.updateValue(double.parse(myProvider.dataSelectProduct.price.replaceAll(",", ".")));
-      _controllerName.text = myProvider.dataSelectProduct.name;
-      _controllerDescription.text = myProvider.dataSelectProduct.description;
-      _switchPublish = myProvider.dataSelectProduct.publish;
-      _controllerStock.text = myProvider.dataSelectProduct.stock.toString();
-      _switchPostPurchase = myProvider.dataSelectProduct.postPurchase;
+    if(myProvider.dataSelectProductService != null){
+      lowPrice.updateValue(double.parse(myProvider.dataSelectProductService.price.replaceAll(",", ".")));
+      _controllerName.text = myProvider.dataSelectProductService.name;
+      _controllerDescription.text = myProvider.dataSelectProductService.description;
+      _switchPublish = myProvider.dataSelectProductService.publish;
+      _controllerStock.text = myProvider.dataSelectProductService.stock == null? "" : myProvider.dataSelectProductService.stock.toString();
+      _switchPostPurchase = myProvider.dataSelectProductService.postPurchase;
       //_showCategoriesModification();
-      setState(() {
-        _dataProducts.add("Picture");
-        _dataProducts.add("Name");
-        _dataProducts.add("Price");
-        _dataProducts.add("Stock");
-      });
+      if(myProvider.selectProductsServices == 0)
+        setState(() {
+          _dataProductsService.add("Picture");
+          _dataProductsService.add("Name");
+          _dataProductsService.add("Price");
+          _dataProductsService.add("Stock");
+        });
+      else
+        setState(() {
+          _dataProductsService.add("Picture");
+          _dataProductsService.add("Name");
+          _dataProductsService.add("Price");
+        });
     }
       
   }
@@ -86,7 +93,7 @@ class _NewProductPageState extends State<NewProductPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true),
+            myProvider.selectProductsServices== 0? myProvider.dataSelectProductService != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectProductService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -95,7 +102,7 @@ class _NewProductPageState extends State<NewProductPage> {
                   formProduct(),
                   Padding(
                     padding: EdgeInsets.only(top:20, bottom: 20),
-                    child: buttonNewProduct()
+                    child: buttonNewProductService()
                   ),
                 ]
               ),
@@ -106,6 +113,7 @@ class _NewProductPageState extends State<NewProductPage> {
   }
 
   Widget formProduct(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Expanded(
@@ -118,7 +126,7 @@ class _NewProductPageState extends State<NewProductPage> {
             child: SingleChildScrollView(
               controller: _scrollController, 
               child: new Form(
-                key: _formKeyProduct,
+                key: _formKeyProductService,
                 child: Column(
                   children: <Widget>[
                     showImage(),
@@ -151,17 +159,17 @@ class _NewProductPageState extends State<NewProductPage> {
                         onEditingComplete: () =>FocusScope.of(context).requestFocus(_priceFocus),
                         onChanged: (value) {
                           setState(() {
-                            if (value.length >3 && !_dataProducts.contains("Name")){
-                              _dataProducts.add("Name");
-                            }else if(value.length <= 3 && _dataProducts.contains("Name")){
-                              _dataProducts.remove("Name");
+                            if (value.length >3 && !_dataProductsService.contains("Name")){
+                              _dataProductsService.add("Name");
+                            }else if(value.length <= 3 && _dataProductsService.contains("Name")){
+                              _dataProductsService.remove("Name");
                             }
                           });
                         },
                         validator: _validateName,
                         onSaved: (value) => _name = value.trim(),
                         textInputAction: TextInputAction.next,
-                        cursorColor: colorGrey,
+                        cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -199,18 +207,19 @@ class _NewProductPageState extends State<NewProductPage> {
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
                         onSaved: (value) => _price = value,
                         onChanged: (value) {
-
+                          print("entro");
+                          print("result $value");
                           setState(() {
-                            if (!value.contains("0,0") && !_dataProducts.contains("Price")){
-                              _dataProducts.add("Price");
-                            }else if(value.contains("0,0") || (value.contains("00") && value.length == 2) && _dataProducts.contains("Price")){
-                              _dataProducts.remove("Price");
+                            if (!value.contains("0,0") && !_dataProductsService.contains("Price")){
+                              _dataProductsService.add("Price");
+                            }else if(value.contains("0,0") || (value.contains("00") && value.length == 2) && _dataProductsService.contains("Price")){
+                              _dataProductsService.remove("Price");
                             }
                           });
                         },
-                        validator: (value) => value.contains("0,00")? 'Debe ingresar un precio Válido': null,
+                        validator: (value) => !_dataProductsService.contains("Price")? 'Debe ingresar un precio Válido' : null,
                         textInputAction: TextInputAction.next,
-                        cursorColor: colorGrey,
+                        cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: size.width / 10,
@@ -249,7 +258,7 @@ class _NewProductPageState extends State<NewProductPage> {
                         autofocus: false,
                         focusNode: _descriptionFocus,
                         onSaved: (value) => _description = value.trim(),
-                        cursorColor: colorGrey,
+                        cursorColor: colorGreen,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
@@ -285,7 +294,7 @@ class _NewProductPageState extends State<NewProductPage> {
                             textCapitalization:TextCapitalization.sentences,
                             autofocus: false,
                             onSaved: (value) => _categories = value.trim(),
-                            cursorColor: colorGrey,
+                            cursorColor: colorGreen,
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
@@ -301,7 +310,7 @@ class _NewProductPageState extends State<NewProductPage> {
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          "Catálogo de productos",
+                          "Catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                           style: TextStyle(
                             color: colorText,
                             fontSize: size.width / 15,
@@ -309,8 +318,6 @@ class _NewProductPageState extends State<NewProductPage> {
                         ),
                       ),
                     ),
-
-
                     Padding(
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Row(
@@ -329,7 +336,7 @@ class _NewProductPageState extends State<NewProductPage> {
                               Container(
                                 width: size.width - 140,
                                 child: Text(
-                                  "Mostrar en el catálogo de productos",
+                                  "Mostrar en el catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                                   style: TextStyle(
                                     color: colorText,
                                     fontSize: size.width / 25,
@@ -361,74 +368,86 @@ class _NewProductPageState extends State<NewProductPage> {
                     ),
 
 
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "Cantidad disponible",
-                          style: TextStyle(
-                            color: colorText,
-                            fontSize: size.width / 15,
+                    Visibility(
+                      visible: myProvider.selectProductsServices == 0? true : false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Cantidad disponible",
+                            style: TextStyle(
+                              color: colorText,
+                              fontSize: size.width / 15,
+                            ),
                           ),
                         ),
-                      ),
+                      )
                     ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
-                      child: new TextFormField(
-                        controller: _controllerStock,
-                        maxLines: 1,
-                        inputFormatters: [  
-                          WhitelistingTextInputFormatter.digitsOnly,
-                        ],
-                        keyboardType: TextInputType.number,
-                        autofocus: false,
-                        onSaved: (value) => _stock = int.parse(value),
-                        onChanged: (value){
-                          if(value.length > 0 && !_dataProducts.contains("Stock")){
-                            setState(() => _dataProducts.add("Stock"));
-                          }else if(value.length == 0 && _dataProducts.contains("Stock")){
-                            setState(() => _dataProducts.remove("Stock"));
-                          }
-                        },
-                        cursorColor: colorGrey,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: size.width / 10,
-                          color: colorGrey,
-                        ),
-                        decoration: InputDecoration(
-                          hintText: "0",
-                          hintStyle: TextStyle(
+                    Visibility(
+                      visible: myProvider.selectProductsServices == 0? true : false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+                        child: new TextFormField(
+                          controller: _controllerStock,
+                          maxLines: 1,
+                          inputFormatters: [  
+                            WhitelistingTextInputFormatter.digitsOnly,
+                          ],
+                          keyboardType: TextInputType.number,
+                          autofocus: false,
+                          onSaved: (value) => _stock = int.parse(value),
+                          onChanged: (value){
+                            if(value.length > 0 && !_dataProductsService.contains("Stock")){
+                              setState(() => _dataProductsService.add("Stock"));
+                            }else if(value.length == 0 && _dataProductsService.contains("Stock")){
+                              setState(() => _dataProductsService.remove("Stock"));
+                            }
+                          },
+                          cursorColor: colorGreen,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
                             fontSize: size.width / 10,
                             color: colorGrey,
                           ),
-                          enabledBorder: InputBorder.none,
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: Colors.transparent),
-                          ),
-                        ),                  
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 0.0, 0.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            "Llevar inventario del producto",
-                            style: TextStyle(
-                              color: colorText,
-                              fontSize: size.width / 25,
+                          decoration: InputDecoration(
+                            hintText: "0",
+                            hintStyle: TextStyle(
+                              fontSize: size.width / 10,
+                              color: colorGrey,
                             ),
-                          ),
-                        ],
-                      ),
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.transparent),
+                            ),
+                          ),                  
+                        ),
+                      )
                     ),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Divider(color: Colors.black,),
+                    Visibility(
+                      visible: myProvider.selectProductsServices == 0? true : false,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 5.0, 0.0, 0.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: <Widget>[
+                            Text(
+                              "Llevar inventario del ${myProvider.selectProductsServices == 0? 'producto' : 'servico'}",
+                              style: TextStyle(
+                                color: colorText,
+                                fontSize: size.width / 25,
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ),
+                    Visibility(
+                      visible: myProvider.selectProductsServices == 0? true : false,
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Divider(color: Colors.black,),
+                      )
                     ),
 
 
@@ -514,12 +533,12 @@ class _NewProductPageState extends State<NewProductPage> {
           ),
         )
       );
-    }else if(myProvider.dataSelectProduct != null){
+    }else if(myProvider.dataSelectProductService != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: url+myProvider.dataSelectProduct.url,
+            imageUrl: url+myProvider.dataSelectProductService.url,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,
@@ -599,17 +618,17 @@ class _NewProductPageState extends State<NewProductPage> {
     if(picture != null){
       this.setState(() {
         _image = File(picture.path);
-        _dataProducts.add("Picture");
+        _dataProductsService.add("Picture");
       });
       Navigator.of(context).pop();
     }
   }
 
-  Widget buttonNewProduct(){
+  Widget buttonNewProductService(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => saveNewProduct(),
+      onTap: () => saveNewProductService(),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -620,8 +639,8 @@ class _NewProductPageState extends State<NewProductPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _dataProducts.length < 4? colorGrey : _statusButton? colorGrey : colorGreen,
-              _dataProducts.length < 4? colorGrey : _statusButton? colorGrey : colorGreen,
+              showColorButton(myProvider),
+              showColorButton(myProvider),
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -631,7 +650,7 @@ class _NewProductPageState extends State<NewProductPage> {
         ),
         child: Center(
           child: Text(
-            myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO",
+            myProvider.selectProductsServices == 0? myProvider.dataSelectProductService != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectProductService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
               fontSize: size.width / 20,
@@ -643,14 +662,34 @@ class _NewProductPageState extends State<NewProductPage> {
     );
   }
 
-  saveNewProduct()async{
+  showColorButton(myProvider){
+    if(myProvider.selectProductsServices == 0 ){
+      if(_dataProductsService.length <4)
+        return colorGrey;
+      else
+        if(_statusButton)
+          return colorGrey;
+
+        return colorGreen;
+    }else{
+      if(_dataProductsService.length <3)
+        return colorGrey;
+      else
+        if(_statusButton)
+          return colorGrey;
+
+        return colorGreen;
+    }
+  }
+
+  saveNewProductService()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
     setState(() => _statusButton = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
-    if (_formKeyProduct.currentState.validate() && myProvider.dataSelectProduct == null) {
-      _formKeyProduct.currentState.save();
+    if (_formKeyProductService.currentState.validate() && myProvider.dataSelectProductService == null) {
+      _formKeyProductService.currentState.save();
       try
       {
         _onLoading();
@@ -659,32 +698,55 @@ class _NewProductPageState extends State<NewProductPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           String base64Image = base64Encode(_image.readAsBytesSync());
-
-          response = await http.post(
-            urlApi+"newProducts",
-            headers:{
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest',
-              'authorization': 'Bearer ${myProvider.accessTokenUser}',
-            },
-            body: jsonEncode({
-              "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-              "image":base64Image,
-              "name": _name,
-              "price": _price,
-              "coin": _statusCoin,
-              "description": _description,
-              "categories": _selectCategories,
-              "publish": _switchPublish,
-              "stock": _stock,
-              "postPurchase": _switchPostPurchase,
-            }),
-          ); 
+          if(myProvider.selectProductsServices == 0){
+            response = await http.post(
+              urlApi+"newProducts",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _switchPostPurchase,
+              }),
+            ); 
+          }else{
+            response = await http.post(
+              urlApi+"newServices",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "postPurchase": _switchPostPurchase,
+              }),
+            ); 
+          }
+          
 
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
             myProvider.getListProducts();
+            myProvider.getListServices();
             Navigator.pop(context);
             Navigator.pop(context);
           }
@@ -693,8 +755,8 @@ class _NewProductPageState extends State<NewProductPage> {
         Navigator.pop(context);
         showMessage("Sin conexión a internet");
       }
-    }else if (_formKeyProduct.currentState.validate() && myProvider.dataSelectProduct != null) {
-      _formKeyProduct.currentState.save();
+    }else if (_formKeyProductService.currentState.validate() && myProvider.dataSelectProductService != null) {
+      _formKeyProductService.currentState.save();
       try
       {
         _onLoading();
@@ -705,31 +767,56 @@ class _NewProductPageState extends State<NewProductPage> {
           if(_image != null)
             base64Image = base64Encode(_image.readAsBytesSync());
           else
-            base64Image = myProvider.dataSelectProduct.url;
+            base64Image = myProvider.dataSelectProductService.url;
 
+          if(myProvider.selectProductsServices == 0){
+            response = await http.post(
+              urlApi+"updateProducts",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectProductService.id,
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _switchPostPurchase,
+                "url": _image == null? myProvider.dataSelectProductService.url : null,
+              }),
+            ); 
+          }else{
+            response = await http.post(
+              urlApi+"updateServices",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectProductService.id,
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _switchPostPurchase,
+                "url": _image == null? myProvider.dataSelectProductService.url : null,
+              }),
+            ); 
+          }
           
-          response = await http.post(
-            urlApi+"updateProducts",
-            headers:{
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest',
-              'authorization': 'Bearer ${myProvider.accessTokenUser}',
-            },
-            body: jsonEncode({
-              "id": myProvider.dataSelectProduct.id,
-              "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-              "image":base64Image,
-              "name": _name,
-              "price": _price,
-              "coin": _statusCoin,
-              "description": _description,
-              "categories": _selectCategories,
-              "publish": _switchPublish,
-              "stock": _stock,
-              "postPurchase": _switchPostPurchase,
-              "url": _image == null? myProvider.dataSelectProduct.url : null,
-            }),
-          ); 
 
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 

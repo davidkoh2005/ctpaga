@@ -3,6 +3,7 @@ import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
+import 'package:ctpaga/models/service.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/views/loginPage.dart';
@@ -118,20 +119,36 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _productsCategories = new List();
-  List get dataProductsCategories =>_productsCategories;
+  List _services = new List();
+  List get dataServices =>_services;
 
-  set dataProductsCategories(List newProducts){
-    _productsCategories = newProducts;
+  set dataServices(List newservice){
+    _services = newservice;
+    notifyListeners();
+  }
+
+  List _productsServicesCategories = new List();
+  List get dataProductsServicesCategories =>_productsServicesCategories;
+
+  set dataProductsServicesCategories(List newProductsServices){
+    _productsServicesCategories = newProductsServices;
     notifyListeners();
   }
 
   Product _selectProducts = Product();
-  Product get dataSelectProduct =>_selectProducts;
+  Product get dataSelectProductService =>_selectProducts;
 
-  set dataSelectProduct(Product newProducts){
+  set dataSelectProductService(Product newProducts){
     _selectProducts = newProducts;
     notifyListeners();
+  }
+
+  int _selectProductsServicesInt;
+  int get selectProductsServices =>_selectProductsServicesInt; 
+  
+  set selectProductsServices(int newSelect) {
+    _selectProductsServicesInt = newSelect; 
+    notifyListeners(); 
   }
 
 
@@ -158,6 +175,7 @@ class MyProvider with ChangeNotifier {
 
     var result, response, jsonResponse;
     listPicturesUser = [];
+    listCommerces = [];
 
     try {
       result = await InternetAddress.lookup('google.com');
@@ -250,10 +268,10 @@ class MyProvider with ChangeNotifier {
             for (var item in jsonResponse['data']['commerces']) {
                 Commerce commercesUser = Commerce(
                   id: item['id'],
-                  rif: item['rif'],
+                  rif: item['rif'] == null? '' : item['rif'],
                   name: item['name'],
-                  address: item['address'],
-                  phone: item['phone'],
+                  address: item['address'] == null? '' : item['address'],
+                  phone: item['phone'] == null? '' : item['phone'],
                 ); 
 
                 dbctpaga.createOrUpdateCommercesUser(commercesUser);
@@ -265,6 +283,7 @@ class MyProvider with ChangeNotifier {
             if(dataCommercesUser.length > 0){
               getListCategories();
               getListProducts();
+              getListServices();
             }
 
           }
@@ -285,6 +304,7 @@ class MyProvider with ChangeNotifier {
         dataCommercesUser = await dbctpaga.getCommercesUser();
         dataCategories = await dbctpaga.getCategories();
         dataProducts = await dbctpaga.getProducts();
+        dataServices = await dbctpaga.getServices();
       }
 
       if(status){
@@ -319,14 +339,17 @@ class MyProvider with ChangeNotifier {
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           for (var item in jsonResponse['data']) {
-            category = Categories(
-              id: item['id'],
-              name: item['name'],
-              commerce_id: item['commerce_id'],
-              type: item['type'],
-            );
-            _listCategories.add(category);
-            dbctpaga.createOrUpdateCategories(category);
+            if(selectProductsServices == item['type'] ){
+              category = Categories(
+                id: item['id'],
+                name: item['name'],
+                commerce_id: item['commerce_id'],
+                type: item['type'],
+              );
+
+              _listCategories.add(category);
+              dbctpaga.createOrUpdateCategories(category);
+            }
           }
           dataCategories = _listCategories;
         } 
@@ -391,18 +414,78 @@ class MyProvider with ChangeNotifier {
     }
   }
 
-  getListProductsCategories(idCategories){
-    dataProductsCategories = [];
-    List listProductsCategories = new List();
-    listProductsCategories = [];
-    for (var item in dataProducts) {
-      if(item.categories != null){
-        if(item.categories.contains(idCategories.toString())){
-          listProductsCategories.add(item);
+  Service service = Service();
+  List _listService = new List();
+
+  getListServices()async{
+    var result, response, jsonResponse;
+    _listService = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showServices",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+          body: jsonEncode({
+            "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
+          }),
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            service = Service(
+              id: item['id'],
+              commerce_id : item['commerce_id'],
+              url : item['url'],
+              name : item['name'],
+              price : item['price'],
+              coin : item['coin'],
+              description : item['description'],
+              categories : item['categories'],
+              publish : item['publish'],
+              postPurchase : item['postPurchase'],
+            );
+            _listService.add(service);
+            dbctpaga.createOrUpdateServices(service);
+          }
+          dataServices = _listService;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataServices = await dbctpaga.getServices();
+      }
+
+    }
+  }
+
+  getListProductsServicesCategories(idCategories){
+    dataProductsServicesCategories = [];
+    List listProductsServicesCategories = new List();
+    listProductsServicesCategories = [];
+
+    if(selectProductsServices==0){
+      for (var item in dataProducts) {
+        if(item.categories != null && item.categories.contains(idCategories.toString())){
+          listProductsServicesCategories.add(item);
         }
       }
+      dataProductsServicesCategories = listProductsServicesCategories;
+    }else{
+      for (var item in dataServices) {
+        if(item.categories != null && item.categories.contains(idCategories.toString())){
+          listProductsServicesCategories.add(item);
+        }
+      }
+      dataProductsServicesCategories = listProductsServicesCategories;
     }
-    dataProductsCategories = listProductsCategories;
   }
 
 
@@ -416,7 +499,8 @@ class MyProvider with ChangeNotifier {
     dataCategoriesSelect=[];
     dataCategories = [];
     dataProducts = [];
-    dataProductsCategories = [];
+    dataServices = [];
+    dataProductsServicesCategories = [];
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 

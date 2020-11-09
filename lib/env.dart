@@ -1,7 +1,7 @@
 import 'package:ctpaga/views/documentsPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/newCommercePage.dart';
-import 'package:ctpaga/views/productsPage.dart';
+import 'package:ctpaga/views/productsServicesPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
 import 'package:ctpaga/views/loginPage.dart';
@@ -9,7 +9,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.125:8000";
+String url = "http://192.168.1.119:8000";
 
 //TODO: Url Api (heroku)
 //String url = "http://ctpaga.herokuapp.com";
@@ -34,27 +34,32 @@ List listMenu = [
   {
     "title": "Productos",
     "icon": "assets/icons/productos.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
+  },
+  {
+    "title": "Servicios",
+    "icon": "assets/icons/servicios.png",
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Envios",
     "icon": "assets/icons/envios.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Códigos de descuento",
     "icon": "assets/icons/descuento.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Reporte de ventas",
     "icon": "assets/icons/reporte.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Tasa de cambio",
     "icon": "assets/icons/tasa.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Crear otro comercio",
@@ -64,12 +69,12 @@ List listMenu = [
   {
     "title": "Recomentar a un comercio",
     "icon": "assets/icons/recomendarComercio.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Pedir ayuda",
     "icon": "assets/icons/ayuda.png",
-    "page": ProductsPage(false),
+    "page": ProductsServicesPage(false),
   },
   {
     "title": "Cerrar sesión",

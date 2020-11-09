@@ -355,7 +355,7 @@ class _RegisterPageState extends State<RegisterPage> {
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
-            myProvider.coinUsers = 0;
+            myProvider.coinUsers = 1;
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
 

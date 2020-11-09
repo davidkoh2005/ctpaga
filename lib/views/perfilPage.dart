@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
@@ -70,7 +71,6 @@ class _PerfilPageState extends State<PerfilPage> {
 
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Scaffold(
         body: Column(
@@ -89,16 +89,53 @@ class _PerfilPageState extends State<PerfilPage> {
                     ),
                     Consumer<MyProvider>(
                       builder: (context, myProvider, child) {
-                        return Container(
-                          padding: EdgeInsets.only(top:5, bottom: 20),
-                          child: Text(
-                            myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
-                            style: TextStyle(
-                              fontSize: size.width / 14,
-                              color: colorText,
+                        if(myProvider.dataCommercesUser.length <=1){
+                          return Container(
+                            padding: EdgeInsets.only(top:5),
+                            child: Center(
+                              child: Text(
+                                myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                                style: TextStyle(
+                                  fontSize: size.width / 14,
+                                  color: colorText,
+                                ),
+                              ),
                             ),
-                          )
-                        );
+                          );
+                        }
+                        return Container(
+                          padding: EdgeInsets.only(top:5),
+                          child: Center(
+                            child: DropdownButton<Commerce>(
+                              value: myProvider.dataCommercesUser[myProvider.selectCommerce],
+                              icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                              elevation: 16,
+                              underline: Container(
+                                height: 2,
+                                color: colorGreen,
+                              ),
+                              onChanged: (Commerce newValue) {
+                                // ignore: unused_local_variable
+                                int count = 0;
+                                for (var item in myProvider.dataCommercesUser) {
+                                  if(item == newValue){
+                                    DefaultCacheManager().emptyCache();
+                                    myProvider.selectCommerce = count;
+                                    break;
+                                  }
+                                  
+                                  count++;
+                                }
+                              },
+                              items: myProvider.dataCommercesUser.map((commerce) {
+                                  return DropdownMenuItem<Commerce>(
+                                    value: commerce,
+                                    child: Text(commerce.name),
+                                  );
+                              }).toList(),
+                            ),
+                          ),
+                        ); 
                       }
                     ),
                     dropdownList("Datos de la empresa"),
@@ -128,7 +165,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             Padding(
                               padding: EdgeInsets.only(left: 15, right: 15),
                               child: Text(
-                                "<>",
+                                "< >",
                                 style: TextStyle(
                                   color: colorGreen,
                                   fontSize: size.width / 20,
@@ -155,67 +192,59 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Widget showImage(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    if(_image != null){
-      return GestureDetector(
-        onTap: () => _showSelectionDialog(context),
-        child: ClipOval(
-          child: Image.file(
-            _image,
-            width: size.width / 3,
-            height: size.width / 3,
-            fit: BoxFit.cover
-          ),
-        )
-      );
-    }else if(myProvider.dataPicturesUser != null && myProvider.dataPicturesUser.length != 0){
-      //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
-      //DefaultCacheManager().emptyCache();
+    var urlProfile;
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        if(myProvider.dataPicturesUser != null && myProvider.dataPicturesUser.length != 0){
+          //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
+          //DefaultCacheManager().emptyCache();
 
-      
-      var urlProfile;
 
-      if(myProvider.dataPicturesUser != null){
-        for (var item in myProvider.dataPicturesUser) {
-          if(item != null && item.description == 'Profile'){
-            setState(() => urlProfile = item.url);
-            break;
-          }
+          if(myProvider.dataPicturesUser != null){
+            for (var item in myProvider.dataPicturesUser) {
+              if(item != null && item.description == 'Profile' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+                urlProfile = item.url;
+                break;
+              }
+            }
+            if (urlProfile != null)
+            {
+              return GestureDetector(
+                onTap: () => _showSelectionDialog(context),
+                child: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: url+urlProfile,
+                    fit: BoxFit.cover,
+                    height: size.width / 3,
+                    width: size.width / 3,
+                    placeholder: (context, url) {
+                      return Container(
+                        margin: EdgeInsets.all(15),
+                        child:CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                        ),
+                      );
+                    },
+                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+                  ),
+                )
+              );
+            }
+          } 
         }
-        if (urlProfile != null)
-          return GestureDetector(
-            onTap: () => _showSelectionDialog(context),
-            child: ClipOval(
-              child: CachedNetworkImage(
-                imageUrl: url+urlProfile,
-                fit: BoxFit.cover,
-                height: size.width / 3,
-                width: size.width / 3,
-                placeholder: (context, url) {
-                  return Container(
-                    margin: EdgeInsets.all(15),
-                    child:CircularProgressIndicator(
-                      valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
-                    ),
-                  );
-                },
-                errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
-              ),
-            )
-          );
-      } 
-    }
 
-    return GestureDetector(
-      onTap: () => _showSelectionDialog(context),
-      child: ClipOval(
-        child: Image(
-          image: AssetImage("assets/icons/addPhoto.png"),
-          width: size.width / 3,
-          height: size.width / 3,
-        ),
-      ),
+        return GestureDetector(
+          onTap: () => _showSelectionDialog(context),
+          child: ClipOval(
+            child: Image(
+              image: AssetImage("assets/icons/addPhoto.png"),
+              width: size.width / 3,
+              height: size.width / 3,
+            ),
+          ),
+        );
+      }
     );
   }
 
@@ -373,6 +402,7 @@ class _PerfilPageState extends State<PerfilPage> {
         padding: EdgeInsets.only(top: 0),
         shrinkWrap: true,
         children: <Widget>[
+          //TODO: Verificar rif
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: new TextFormField(
@@ -401,10 +431,6 @@ class _PerfilPageState extends State<PerfilPage> {
               initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
-              inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
-              ], 
               decoration: InputDecoration(
                 labelText: 'Nombre de la empresa',
                 labelStyle: TextStyle(
@@ -895,7 +921,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 focusNode: _accountTypeBankingUSDFocus,
                 onEditingComplete: (){
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  buttonClickSaveBanking(); //TODO:falta
+                  buttonClickSaveBanking(); 
                 },
                 cursorColor: colorGreen,
               ),
@@ -1044,7 +1070,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 textInputAction: TextInputAction.done,
                 onEditingComplete: (){
                   FocusScope.of(context).requestFocus(new FocusNode());
-                  buttonClickSaveBanking(); //TODO:falta
+                  buttonClickSaveBanking(); 
                 },
                 cursorColor: colorGreen,
               ),

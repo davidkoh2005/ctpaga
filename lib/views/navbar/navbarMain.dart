@@ -1,6 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/menuPage.dart';
-import 'package:ctpaga/env.dart';
 
 import 'package:flutter/material.dart';
 

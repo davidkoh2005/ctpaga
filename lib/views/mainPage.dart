@@ -1,7 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarMain.dart';
-import 'package:ctpaga/views/productsPage.dart';
-import 'package:ctpaga/views/quantityPage.dart';
+import 'package:ctpaga/views/productsServicesPage.dart';
+import 'package:ctpaga/views/amountPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
@@ -24,6 +24,22 @@ class _MainPageState extends State<MainPage> {
   int clickBotton = 0, _statusCoin = 0;
 
   @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    _statusCoin = myProvider.coinUsers;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return WillPopScope(
@@ -44,7 +60,7 @@ class _MainPageState extends State<MainPage> {
                   Padding(
                     padding: EdgeInsets.only(left: 15, right: 15),
                     child: Text(
-                      "<>",
+                      "< >",
                       style: TextStyle(
                         color: colorGreen,
                         fontSize: size.width / 20,
@@ -60,9 +76,9 @@ class _MainPageState extends State<MainPage> {
               child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  buttonMain("Productos",1, ProductsPage(true)), //send variable the same design
-                  buttonMain("Servicio",2, null), //send variable the same design
-                  buttonMain("Monto",3, QuantityPage()), //send variable the same design
+                  buttonMain("Productos",1, ProductsServicesPage(true)), //send variable the same design
+                  buttonMain("Servicios",2, ProductsServicesPage(true)), //send variable the same design
+                  buttonMain("Monto",3, AmountPage()), //send variable the same design
                   SizedBox(height:100),
                 ]
               )
@@ -74,11 +90,20 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buttonMain(_title, _index, _page){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
+          if(_title == "Productos"){
+            myProvider.selectProductsServices = 0;
+            myProvider.getListCategories();
+          }else if(_title == "Servicios"){
+            myProvider.selectProductsServices = 1;
+            myProvider.getListCategories();
+          }
+
           setState(() => clickBotton = _index); //I add color selected button
           nextPage(_page); //next page
         },
@@ -111,11 +136,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buttonUSD(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(right:0),
       child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 0), 
+        onTap: () {
+          myProvider.coinUsers = 0;
+          setState(() => _statusCoin = 0);
+        }, 
         child: Container(
           child: Center(
             child: Text(
@@ -133,11 +162,15 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buttonBs(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 1), 
+        onTap: () {
+          myProvider.coinUsers = 1;
+          setState(() => _statusCoin = 1);
+        }, 
         child: Container(
           child: Center(
             child: Text(

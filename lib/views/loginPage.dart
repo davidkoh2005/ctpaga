@@ -323,7 +323,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
-            myProvider.coinUsers = 0;
+            myProvider.coinUsers = 1;
             _passwordController.clear();
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));

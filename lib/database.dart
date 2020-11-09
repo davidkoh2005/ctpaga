@@ -3,6 +3,7 @@ import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
+import 'package:ctpaga/models/service.dart';
 import 'package:ctpaga/models/user.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -27,10 +28,10 @@ class DBctpaga{
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "ctpaga.db");
 
-    var db = await openDatabase(path, version: 4, 
+    var db = await openDatabase(path, version: 5, 
       onCreate: onCreateFunc,
       onUpgrade: (db, oldVersion, newVersion) async {
-          if (oldVersion < 5) {
+          if (oldVersion != newVersion) {
             onCreateFunc(db, newVersion);
           }
         },
@@ -46,8 +47,9 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
     await db.execute('CREATE TABLE IF NOT EXISTS pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
     await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
-    await db.execute('CREATE TABLE IF NOT EXISTS categories (id INTEGER, name VARCHAR(50), commerce_id INTEGER, type VARCHAR(25) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS categories (id INTEGER, name VARCHAR(50), commerce_id INTEGER, type INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS products (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, stock INTEGER, postPurchase INTEGER)');
+    await db.execute('CREATE TABLE IF NOT EXISTS services (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, postPurchase INTEGER)');
   }
 
   /*
@@ -326,6 +328,56 @@ class DBctpaga{
     });
     }else{
       String query = 'UPDATE products SET commerce_id=\'${product.commerce_id}\', url=\'${product.url}\', name=\'${product.name}\', price=\'${product.price}\', coin=\'${product.coin}\', description=\'${product.description}\', categories=\'${product.categories}\', publish=\'${product.publish?1:0}\', stock=\'${product.stock}\', postPurchase=\'${product.postPurchase?1:0}\' WHERE id= \'${product.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
+  }
+
+  // Get Services User
+  Future <List<dynamic>> getServices() async{
+    List listServices = new List();
+    listServices = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM services');
+    Service serviceUser = new Service();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      serviceUser = Service(
+        id : list[i]['id'],
+        commerce_id : list[i]['commerce_id'],
+        url : list[i]['url'],
+        name : list[i]['name'],
+        price : list[i]['price'],
+        coin : list[i]['coin'],
+        description : list[i]['description'],
+        categories : list[i]['categories'],
+        publish : list[i]['publish'] == 1 ? true : false,
+        postPurchase : list[i]['postPurchase'] == 1 ? true : false,
+      );
+
+      listServices.add(serviceUser);
+
+    }
+
+    return listServices;
+  }
+
+  // Create or update Services
+  void createOrUpdateServices (Service service) async{
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM services WHERE id = \'${service.id}\' ');
+    
+    if(list.length == 0){
+      String query = 'INSERT INTO services (id, commerce_id, url, name, price, coin, description, categories, publish, postPurchase) VALUES ( \'${service.id}\', \'${service.commerce_id}\', \'${service.url}\',\'${service.name}\',\'${service.price}\',\'${service.coin}\',\'${service.description}\',\'${service.categories}\',\'${service.publish?1:0}\',\'${service.postPurchase?1:0}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+    });
+    }else{
+      String query = 'UPDATE services SET commerce_id=\'${service.commerce_id}\', url=\'${service.url}\', name=\'${service.name}\', price=\'${service.price}\', coin=\'${service.coin}\', description=\'${service.description}\', categories=\'${service.categories}\', publish=\'${service.publish?1:0}\', postPurchase=\'${service.postPurchase?1:0}\' WHERE id= \'${service.id}\'';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });

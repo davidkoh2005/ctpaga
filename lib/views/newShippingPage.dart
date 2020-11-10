@@ -3,6 +3,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,16 +11,44 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class NewCommercePage extends StatefulWidget {
+class NewShippingPage extends StatefulWidget {
   
   @override
-  _NewCommercePageState createState() => _NewCommercePageState();
+  _NewShippingPageState createState() => _NewShippingPageState();
 }
 
-class _NewCommercePageState extends State<NewCommercePage> {
-  final _formKeyCommerce = new GlobalKey<FormState>();
-  bool _statusButtonSave = false, _statusButton = false;
-  String _name;
+class _NewShippingPageState extends State<NewShippingPage> {
+  final _formKeyShipping = new GlobalKey<FormState>();
+  final FocusNode _priceFocus = FocusNode();
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+  bool _statusButtonSave = false, _switchFree = false;
+  int _statusCoin;
+  String _description, _price;
+  List _dataSend = new List();
+
+  @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.getListCategories();
+    _statusCoin = myProvider.coinUsers;
+
+    if(_statusCoin == 0)
+      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+    else
+      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+  
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -28,18 +57,9 @@ class _NewCommercePageState extends State<NewCommercePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar("Nuevo comercio", false),
+            Navbar("Nueva tarifa", false),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: formCommerce()
-                  ),
-                ]
-              ),
+              child: formShipping(),
             ),
             Padding(
               padding: EdgeInsets.only(bottom: 30),
@@ -50,35 +70,35 @@ class _NewCommercePageState extends State<NewCommercePage> {
       );
   }
 
-  Widget formCommerce(){
+  Widget formShipping(){
     var size = MediaQuery.of(context).size;
     return new Form(
-      key: _formKeyCommerce,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      key: _formKeyShipping,
+      child: ListView (
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "NOMBRE DEL NEGOCIO",
+                "DESCRIPCÍON",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 15,
+                  fontSize: size.width / 20,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 0.0),
             child: new TextFormField(
               maxLines: 1,
               textCapitalization:TextCapitalization.words,
               autofocus: false,
               validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusButton = true ) : setState(() => _statusButton = false ),
+              onSaved: (value) => _description = value.trim(),
+              onChanged: (value)=> value.trim().length >3? setState(() => _dataSend.add("Description")) : setState(() =>  _dataSend.remove("Description")),
+              onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
@@ -87,6 +107,92 @@ class _NewCommercePageState extends State<NewCommercePage> {
                   borderSide: BorderSide(color:  Colors.black),
                 ),
               ),
+            ),
+          ),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "PRECIO",
+                style: TextStyle(
+                  color: colorText,
+                  fontSize: size.width / 20,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 0.0),
+            child: new TextFormField(
+              controller: lowPrice,
+              readOnly: _switchFree,
+              maxLines: 1,
+              inputFormatters: [  
+                WhitelistingTextInputFormatter.digitsOnly,
+              ],
+              keyboardType: TextInputType.number,
+              autofocus: false,
+              focusNode: _priceFocus,
+              onSaved: (value) => _price = value,
+              onChanged: (value) {
+                setState(() {
+                  if (!value.contains("0,0") && !_dataSend.contains("Price")){
+                    _dataSend.add("Price");
+                  }else if(value.contains("0,0") || (value.contains("00") && value.length == 2) && _dataSend.contains("Price")){
+                    _dataSend.remove("Price");
+                  }
+                });
+              },
+              validator: (value) => !_dataSend.contains("Price")? 'Debe ingresar un precio Válido' : null,
+              textInputAction: TextInputAction.next,
+              cursorColor: colorGreen,
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: size.width / 10,
+                color: colorGrey,
+              ),
+              decoration: InputDecoration(
+                enabledBorder: InputBorder.none,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
+              ),                  
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: Divider(color:Colors.black,)
+          ),
+
+          Center(
+            child: Padding(
+              padding: EdgeInsets.only(top:30),
+              child: Column(
+                children: <Widget>[
+                  Switch(
+                    value: _switchFree ,
+                    onChanged: (value) {
+                      setState(() {
+                        if(value && !_dataSend.contains("Price"))
+                          _dataSend.add("Price");
+                        
+                        _switchFree = value;
+                      });
+                    },
+                    activeTrackColor: colorGrey,
+                    activeColor: colorGreen
+                  ),
+                  Text(
+                    "Envíos gratis",
+                    style: TextStyle(
+                      color: colorText,
+                      fontSize: size.width / 15,
+                    ),
+                  ),
+                ],
+              )
             ),
           ),
         ],
@@ -108,8 +214,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _statusButton?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusButton? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _dataSend.length ==2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _dataSend.length ==2? _statusButtonSave? colorGrey : colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -118,7 +224,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
         child: Center(
           child: Text(
-            "GUARDAR",
+            "CREAR TARIFA",
             style: TextStyle(
               color: Colors.white,
               fontSize: size.width / 20,
@@ -136,8 +242,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyCommerce.currentState.validate()) {
-      _formKeyCommerce.currentState.save();
+    if (_formKeyShipping.currentState.validate()) {
+      _formKeyShipping.currentState.save();
       try
       {
         _onLoading();
@@ -151,7 +257,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
             },
             body: jsonEncode({
-              "name": _name,
+              "name": _description,
             }),
           ); 
           var jsonResponse = jsonDecode(response.body); 

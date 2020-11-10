@@ -1,7 +1,8 @@
-import 'package:ctpaga/views/documentsPage.dart';
-import 'package:ctpaga/views/depositsPage.dart';
-import 'package:ctpaga/views/newCommercePage.dart';
 import 'package:ctpaga/views/productsServicesPage.dart';
+import 'package:ctpaga/views/newCommercePage.dart';
+import 'package:ctpaga/views/documentsPage.dart';
+import 'package:ctpaga/views/shippingPage.dart';
+import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
 import 'package:ctpaga/views/loginPage.dart';
@@ -9,7 +10,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.119:8000";
+String url = "http://192.168.1.124:8000";
 
 //TODO: Url Api (heroku)
 //String url = "http://ctpaga.herokuapp.com";
@@ -42,9 +43,9 @@ List listMenu = [
     "page": ProductsServicesPage(false),
   },
   {
-    "title": "Envios",
+    "title": "Envíos",
     "icon": "assets/icons/envios.png",
-    "page": ProductsServicesPage(false),
+    "page": ShippingPage(),
   },
   {
     "title": "Códigos de descuento",
@@ -64,7 +65,7 @@ List listMenu = [
   {
     "title": "Crear otro comercio",
     "icon": "assets/icons/crearComercio.png",
-    "page": NewCommerce(),
+    "page": NewCommercePage(),
   },
   {
     "title": "Recomentar a un comercio",
@@ -107,91 +108,294 @@ List listMenuDeposits = [
 ];
 
 var listBankUSA = [
-  "Alex. Brown & Sons",
-  "American Express",
-  "Apple Bank for Savings",
-  "Bank of America",
-  "Bank One Corporation",
-  "BankBoston",
-  "BB&T",
-  "BBVA",
-  "Bessemer Trust",
-  "Chase Manhattan Bank",
-  "Chemical Bank",
-  "Citibank",
-  "Citigroup",
-  "Dime Savings Bank of New York",
-  "Drexel Burnham Lambert",
-  "First Boston",
-  "Goldman Sachs",
-  "JP Morgan Chase",
-  "Lehman Brothers",
-  "Merrill Lynch",
-  "Moore Capital Management",
-  "Morgan Stanley",
-  "Salomon Brothers",
-  "Santander Bank",
-  "State Street Corporation",
-  "SunTrust Banks",
-  "Wachovia",
-  "Washington Mutual",
-  "Wells Fargo",
+  {
+   "title": "Alex. Brown & Sons",
+   "img": "assets/banks/USA/Alex_Brown.png",
+  },
+  {
+   "title": "American Express",
+   "img": "assets/banks/USA/American-express.png",
+  },
+  {
+   "title": "Apple Bank for Savings",
+   "img": "assets/banks/USA/Apple-bank.png",
+  },
+  {
+   "title": "Bank of America",
+   "img": "assets/banks/USA/Bank-of-american.png",
+  },
+  {
+   "title": "Bank One Corporation",
+   "img": "assets/banks/USA/Bank-one-corporation.png",
+  },
+  {
+   "title": "BankBoston",
+   "img": "assets/banks/USA/Bank-boston.png",
+  },
+  {
+   "title": "BB&T",
+   "img": "assets/banks/USA/BBYT.png",
+  },
+  {
+   "title": "BBVA",
+   "img": "assets/banks/USA/BBVA.png",
+  },
+  {
+   "title": "Bessemer Trust",
+   "img": "assets/banks/USA/Bessemer-trust.png",
+  },
+  {
+   "title": "Chase Manhattan Bank",
+   "img": "assets/banks/USA/Chase-manhattan-bank.png",
+  },
+  {
+   "title": "Chemical Bank",
+   "img": "assets/banks/USA/Chemical-bank.png",
+  },
+  {
+   "title": "Citibank",
+   "img": "assets/banks/USA/citi-bank.png",
+  },
+  {
+   "title": "Citigroup",
+   "img": "assets/banks/USA/citi-group.png",
+  },
+  {
+   "title": "Dime Savings Bank of New York",
+   "img": "assets/banks/USA/Dime-savings-bank-of-new-york.png",
+  },
+  {
+   "title": "Drexel Burnham Lambert",
+   "img": "assets/banks/USA/Dexel-burmham-lambert.png",
+  },
+  {
+   "title": "First Boston",
+   "img": "assets/banks/USA/First-Boston.png",
+  },
+  {
+   "title": "Goldman Sachs",
+   "img": "assets/banks/USA/Goldman-sachs.png",
+  },
+  {
+   "title": "JP Morgan Chase",
+   "img": "assets/banks/USA/JP-Morgan-chase.png",
+  },
+  {
+   "title": "Lehman Brothers",
+   "img": "assets/banks/USA/lehman_brothers.png",
+  },
+  {
+   "title": "Merrill Lynch",
+   "img": "assets/banks/USA/Merril-lynch.png",
+  },
+  {
+   "title": "Morgan Stanley",
+   "img": "assets/banks/USA/Morgan-stanley.png",
+  },
+  {
+   "title": "Santander Bank",
+   "img": "assets/banks/USA/Santander-bank.png",
+  },
+  {
+   "title": "SunTrust Banks",
+   "img": "assets/banks/USA/Sun-trust-banks.png",
+  },
+  {
+   "title": "Wachovia",
+   "img": "assets/banks/USA/Wachovia.png",
+  },
+  {
+   "title": "Washington Mutual",
+   "img": "assets/banks/USA/washington-mutual.png",
+  },
+  {
+   "title": "Wells Fargo",
+   "img": "assets/banks/USA/Wells-fargo.png",
+  },
 ];
 
 var listBankPanama = [
-  "Allbank Corp",
-  "BAC International Bank, Inc.",
-  "Balboa Bank & Trust Corp",
-  "Banco Aliado S.A.",
-  "Banco Azteca (Panamá), S.A.",
-  "Banco BAC de Panamá, S.A.",
-  "Banco Bolivariano (Panamá), S.A.",
-  "Banco Citibank (Panamá) S.A.",
-  "Banco Davivienda (Panamá) S.A.",
-  "Banco de Bogotá, S.A.",
-  "Banco del Pacífico (Panamá), S.A.",
-  "Banco Delta, S.A.",
-  "Banco Ficohsa (Panamá), S.A.",
-  "Banco G&T Continental (Panamá) S.A. (BMF)",
-  "Banco HIPOTECARIO NACIONAL",
-  "Banco General, S.A.",
-  "Banco Internacional de Costa Rica, S.A (BICSA)",
-  "Banco La Hipotecaria, S.A.",
-  "Banco Lafise Panamá S.A.",
-  "Banco Latinoamericano de Comercio Exterior, S.A. (BLADEX)",
-  "Banco Nacional de Panamá",
-  "Banco Panamá, S.A",
-  "Banco Panameño de la Vivienda, S.A. (BANVIVIENDA)",
-  "Banco Pichincha Panamá, S.A.",
-  "Banco Prival, S.A.",
-  "Banco Universal, S.A.",
-  "Bancolombia S.A.",
-  "Banesco S.A.",
-  "BANISI, S.A.",
-  "Banistmo S.A.",
-  "Bank Leumi-Le Israel B.M.",
-  "Bank of China Limited",
-  "BBP Bank S.A.",
-  "BCT Bank International S.A.",
-  "Caja de Ahorros",
-  "Capital Bank Inc.",
-  "Citibank, N.A. Sucursal Panamá",
-  "Credicorp Bank S.A.",
-  "FPB Bank Inc.",
-  "Global Bank Corporation",
-  "Korea Exchange Bank, Ltd.",
-  "Mega International Commercial Bank Co. Ltd.",
-  "Mercantil Bank (Panamá), S.A.",
-  "Metrobank, S.A.",
-  "MiBanco, S.A.BMF",
-  "MMG Bank Corporation",
-  "Multibank Inc.",
-  "Produbank (Panamá) S.A.",
-  "St. Georges Bank & Company, Inc.",
-  "The Bank of Nova Scotia (Panamá), S.A.",
-  "The Bank of Nova Scotia (SCOTIABANK)",
-  "Towerbank International Inc.",
-  "Unibank, S.A.",
+  {
+   "title": "Allbank Corp",
+   "img": "assets/banks/Panama/allbank.png",
+  },
+  {
+   "title": "Balboa Bank & Trust Corp",
+   "img": "assets/banks/Panama/balboa_bank.png",
+  },
+  {
+   "title": "Banco BCA credomatic",
+   "img": "assets/banks/Panama/bacredomatic_logo.png",
+  },
+  {
+   "title": "Banco Aliado, S.A.",
+   "img": "assets/banks/Panama/banco_aliado.png",
+  },
+  {
+   "title": "Banco Azteca, S.A.",
+   "img": "assets/banks/Panama/banco-azteca-panama-logo.png",
+  },
+  {
+   "title": "Banco Citibank, S.A.",
+   "img": "assets/banks/Panama/Citibank-logo.png",
+  },
+  {
+   "title": "Banco Davivienda, S.A.",
+   "img": "assets/banks/Panama/davivienda.png",
+  },
+  {
+   "title": "Banco de Bogotá, S.A.",
+   "img": "assets/banks/Panama/Banco_de_Bogotá_logo.png",
+  },
+  {
+   "title": "Banco del Pacífico, S.A.",
+   "img": "assets/banks/Panama/Banco-del-pacifico.png",
+  },
+  {
+   "title": "Banco Delta, S.A.",
+   "img": "assets/banks/Panama/banco-delta.png",
+  },
+  {
+   "title": "Banco Ficohsa, S.A.",
+   "img": "assets/banks/Panama/Ficohsa_logo.png",
+  },
+  {
+   "title": "Banco G&T Continental, S.A.",
+   "img": "assets/banks/Panama/Logo_G&T.png",
+  },
+  {
+   "title": "Banco Hipotecario Nacional",
+   "img": "assets/banks/Panama/Banco_Hipotecario.png",
+  },
+  {
+   "title": "Banco General, S.A.",
+   "img": "assets/banks/Panama/banco_general.png",
+  },
+  {
+   "title": "Banco Internacional de Costa Rica S.A",
+   "img": "assets/banks/Panama/BICSA.png",
+  },
+  {
+   "title": "Banco La Hipotecaria, S.A.",
+   "img": "assets/banks/Panama/BANCO-LA-HIPOTECARIA.png",
+  },
+  {
+   "title": "Banco Lafise Panamá, S.A.",
+   "img": "assets/banks/Panama/LA-FISE.png",
+  },
+  {
+   "title": "Banco Latinoamericano de Comercio Exterior, S.A.",
+   "img": "assets/banks/Panama/logo_bladex.png",
+  },
+  {
+   "title": "Banco Nacional de Panamá",
+   "img": "assets/banks/Panama/Bnp.png",
+  },
+  {
+   "title": "Banco Panamá, S.A",
+   "img": "assets/banks/Panama/banco_panama.png",
+  },
+  {
+   "title": "Banco Panameño de la Vivienda, S.A.",
+   "img": "assets/banks/Panama/banvivienda.png",
+  },
+  {
+   "title": "Banco Pichincha Panamá, S.A.",
+   "img": "assets/banks/Panama/Banco_Pichincha.png",
+  },
+  {
+   "title": "Banco Prival, S.A.",
+   "img": "assets/banks/Panama/logo-prival.png",
+  },
+  {
+   "title": "Bancolombia S.A.",
+   "img": "assets/banks/Panama/Bancolombia.png",
+  },
+  {
+   "title": "Banesco, S.A.",
+   "img": "assets/banks/Panama/logo_banesco.png",
+  },
+  {
+   "title": "BANISI, S.A.",
+   "img": "assets/banks/Panama/logo_banisi.png",
+  },
+  {
+   "title": "Banistmo, S.A.",
+   "img": "assets/banks/Panama/logo_banistmo.png",
+  },
+  {
+   "title": "Bank Leumi-Le Israel B.M.",
+   "img": "assets/banks/Panama/logo_Bank_Leumi.png",
+  },
+  {
+   "title": "Bank of China Limited",
+   "img": "assets/banks/Panama/Bank_Of_China_logo.png",
+  },
+    {
+   "title": "BBP Bank, S.A",
+   "img": "assets/banks/Panama/BBP-bank.png",
+  },
+  {
+   "title": "BCT Bank, S.A.",
+   "img": "assets/banks/Panama/bct_bank.png",
+  },
+  {
+   "title": "Caja de Ahorros",
+   "img": "assets/banks/Panama/logo_caja_ahorro.png",
+  },
+  {
+   "title": "Capital Bank Inc.",
+   "img": "assets/banks/Panama/capital-bank.png",
+  },
+  {
+   "title": "Credicorp Bank S.A.",
+   "img": "assets/banks/Panama/Credicorp-bank.png",
+  },
+  {
+   "title": "Global Bank Corporation",
+   "img": "assets/banks/Panama/logo_global_valores.png",
+  },
+  {
+   "title": "Korea Exchange Bank, Ltd.",
+   "img": "assets/banks/Panama/Korea-exchage-bank.png",
+  },
+   {
+   "title": "Mega International Commercial Bank Co. Ltd.",
+   "img": "assets/banks/Panama/Mega-internacional-commercial-bank.png",
+  },
+  {
+   "title": "Mercantil Bank , S.A.",
+   "img": "assets/banks/Panama/mercantil.png",
+  },
+  {
+   "title": "Metrobank, S.A.",
+   "img": "assets/banks/Panama/metrobank.png",
+  },
+  {
+   "title": "MMG Bank Corporation",
+   "img": "assets/banks/Panama/mmg_bank.png",
+  },
+  {
+   "title": "Multibank Inc.",
+   "img": "assets/banks/Panama/multibank.png",
+  },
+  {
+   "title": "St. Georges Bank & Company, Inc",
+   "img": "assets/banks/Panama/St-Georges-Bank-Logo.png",
+  },
+  {
+   "title": "The Bank of Nova Scotia",
+   "img": "assets/banks/Panama/ScotiaBankpng",
+  },
+  {
+   "title": "Towerbank International Inc.",
+   "img": "assets/banks/Panama/towerbank.png",
+  },
+  {
+   "title": "Unibank, S.A.",
+   "img": "assets/banks/Panama/unibank.png",
+  },
+
 ];
 
 var listBankBs = [

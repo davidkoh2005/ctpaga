@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/database.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/listCategoryPage.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -6,6 +7,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
@@ -22,7 +24,6 @@ class NewProductServicePage extends StatefulWidget {
 
 class _NewProductServicePageState extends State<NewProductServicePage> {
   final _formKeyProductService = new GlobalKey<FormState>();
-  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
   final _scrollController = ScrollController();
   final FocusNode _nameFocus = FocusNode();  
   final FocusNode _priceFocus = FocusNode();
@@ -31,11 +32,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   final _controllerName = TextEditingController();
   final _controllerDescription = TextEditingController();
   final _controllerStock = TextEditingController();
-
+  final _controllerPostPurchase = TextEditingController();
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+  
   // ignore: unused_field
-  String _name, _description, _categories, _price, _selectCategories;
+  String _name, _description, _categories, _price, _selectCategories, _postPurchase;
   int _stock, _statusCoin = 0;
-  bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false;
+  bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false,
+      _statusButtonDelete = false;
   List _dataProductsService = new List();
   File _image;
 
@@ -61,13 +65,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   
     if(myProvider.dataSelectProductService != null){
-      lowPrice.updateValue(double.parse(myProvider.dataSelectProductService.price.replaceAll(",", ".")));
+      lowPrice.updateValue(double.parse(myProvider.dataSelectProductService.price));
       _controllerName.text = myProvider.dataSelectProductService.name;
       _controllerDescription.text = myProvider.dataSelectProductService.description;
       _switchPublish = myProvider.dataSelectProductService.publish;
       _controllerStock.text = myProvider.dataSelectProductService.stock == null? "" : myProvider.dataSelectProductService.stock.toString();
-      _switchPostPurchase = myProvider.dataSelectProductService.postPurchase;
-      //_showCategoriesModification();
+      _switchPostPurchase = myProvider.dataSelectProductService.postPurchase.length >0? true: false;
+      _controllerPostPurchase.text = myProvider.dataSelectProductService.postPurchase;
+
       if(myProvider.selectProductsServices == 0)
         setState(() {
           _dataProductsService.add("Picture");
@@ -101,8 +106,19 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 children: <Widget>[
                   formProduct(),
                   Padding(
-                    padding: EdgeInsets.only(top:20, bottom: 20),
-                    child: buttonNewProductService()
+                    padding: EdgeInsets.all(20),
+                    child: Column(
+                      children: <Widget>[
+                        buttonNewProductService(),
+                        Visibility(
+                          visible: myProvider.dataSelectProductService != null? true : false,
+                          child: Padding(
+                            padding: EdgeInsets.only(top:20),
+                            child: buttonDeleteProductService()
+                          )
+                        )
+                      ],
+                    ),
                   ),
                 ]
               ),
@@ -207,8 +223,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         onEditingComplete: () => FocusScope.of(context).requestFocus(_descriptionFocus),
                         onSaved: (value) => _price = value,
                         onChanged: (value) {
-                          print("entro");
-                          print("result $value");
                           setState(() {
                             if (!value.contains("0,0") && !_dataProductsService.contains("Price")){
                               _dataProductsService.add("Price");
@@ -504,9 +518,48 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                 activeColor: colorGreen
                               ),
                             ],
-                          )
-                          ],
+                          ),
+                        ],
                       )
+                    ),
+
+                    Visibility(
+                      visible: _switchPostPurchase,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+                        child: Align(
+                          alignment: Alignment.centerLeft,
+                          child: Text(
+                            "Contenido del correo",
+                            style: TextStyle(
+                              color: colorText,
+                              fontSize: size.width / 15,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+
+                    Visibility(
+                      visible: _switchPostPurchase,
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 30.0),
+                        child: new TextFormField(
+                          controller: _controllerPostPurchase,
+                          keyboardType: TextInputType.multiline,
+                          maxLines: 5,
+                          textCapitalization:TextCapitalization.sentences,
+                          autofocus: false,
+                          onSaved: (value) => _postPurchase = value.trim(),
+                          validator: (value) => _switchPostPurchase? value.trim().isNotEmpty? 'Ingrese Contenido del correo': null : null,
+                          cursorColor: colorGreen,
+                          decoration: InputDecoration(
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
                     ),
                   ]
                 ),
@@ -614,13 +667,34 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
   _getImage(BuildContext context, ImageSource source) async {
     var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
+    var cropped;
 
     if(picture != null){
+      cropped = await ImageCropper.cropImage(
+        sourcePath: picture.path,
+        aspectRatio:  CropAspectRatio(
+          ratioX: 1, ratioY: 1
+        ),
+        compressQuality: 100,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.jpg,
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: "Editar Foto",
+          backgroundColor: Colors.black,
+          toolbarWidgetColor: Colors.black,
+        ),
+        iosUiSettings: IOSUiSettings(
+          title: 'Editar Foto',
+        )
+      );
+
       this.setState(() {
-        _image = File(picture.path);
+        _image = cropped;
         _dataProductsService.add("Picture");
       });
       Navigator.of(context).pop();
+      
     }
   }
 
@@ -628,7 +702,13 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => saveNewProductService(),
+      onTap: () {
+        if(myProvider.selectProductsServices == 0 && _dataProductsService.length >=4){
+          saveNewProductService();
+        }else if(myProvider.selectProductsServices == 1 && _dataProductsService.length >= 3){
+          saveNewProductService();
+        }
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -653,6 +733,43 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             myProvider.selectProductsServices == 0? myProvider.dataSelectProductService != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectProductService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
+              fontSize: size.width / 20,
+              fontWeight: FontWeight.w500,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget buttonDeleteProductService(){
+    var size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () => deleteProductService(),
+      child: Container(
+        width:size.width - 100,
+        height: size.height / 20,
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: colorGrey, 
+            width: 1.0,
+          ),
+          gradient: LinearGradient(
+            colors: [
+              _statusButtonDelete? colorGrey : Colors.red,
+              _statusButtonDelete? colorGrey : Colors.red,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(30),
+
+        ),
+        child: Center(
+          child: Text(
+            "ELIMINAR PRODUCTO",
+            style: TextStyle(
+              color: _statusButtonDelete? colorGreen : Colors.white,
               fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
             ),
@@ -688,6 +805,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     setState(() => _statusButton = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
+
+    
     if (_formKeyProductService.currentState.validate() && myProvider.dataSelectProductService == null) {
       _formKeyProductService.currentState.save();
       try
@@ -716,7 +835,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "categories": _selectCategories,
                 "publish": _switchPublish,
                 "stock": _stock,
-                "postPurchase": _switchPostPurchase,
+                "postPurchase": _postPurchase,
               }),
             ); 
           }else{
@@ -736,7 +855,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "description": _description,
                 "categories": _selectCategories,
                 "publish": _switchPublish,
-                "postPurchase": _switchPostPurchase,
+                "postPurchase": _postPurchase,
               }),
             ); 
           }
@@ -829,8 +948,72 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       } on SocketException catch (_) {
         Navigator.pop(context);
         showMessage("Sin conexión a internet");
-      }
+      } 
     }
+  }
+
+  deleteProductService()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var response, result;
+    setState(() => _statusButtonDelete = true);
+    await Future.delayed(Duration(milliseconds: 150));
+    setState(() => _statusButtonDelete = false);
+
+    try
+      {
+        _onLoading();
+        
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          if(myProvider.selectProductsServices == 0){
+            response = await http.post(
+              urlApi+"deleteProducts",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectProductService.id,
+              }),
+            ); 
+          }else{
+            response = await http.post(
+              urlApi+"deleteServices",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectProductService.id,
+              }),
+            ); 
+          }
+          
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            var dbctpaga = DBctpaga();
+            if(myProvider.selectProductsServices == 0){
+              dbctpaga.deleteProduct(myProvider.dataSelectProductService.id);
+              myProvider.getListProducts();
+            }
+            else{
+              dbctpaga.deleteService(myProvider.dataSelectProductService.id);
+              myProvider.getListServices();
+            }
+            
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        }
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet");
+      } 
   }
 
   Future<void> showMessage(_titleMessage) async {

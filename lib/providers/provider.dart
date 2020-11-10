@@ -151,6 +151,22 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  bool _statusShopping;
+  bool get statusShopping =>_statusShopping; 
+  
+  set statusShopping(bool newStatus) {
+    _statusShopping = newStatus; 
+    notifyListeners(); 
+  }
+
+  String _descriptionShopping;
+  String get descriptionShopping =>_descriptionShopping; 
+  
+  set descriptionShopping(String newDescription) {
+    _descriptionShopping = newDescription; 
+    notifyListeners(); 
+  }
+
 
   User user = User();
   List banksUser = new List(2);
@@ -339,7 +355,7 @@ class MyProvider with ChangeNotifier {
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           for (var item in jsonResponse['data']) {
-            if(selectProductsServices == item['type'] ){
+            if(selectProductsServices == item['type']){
               category = Categories(
                 id: item['id'],
                 name: item['name'],
@@ -398,7 +414,7 @@ class MyProvider with ChangeNotifier {
               categories : item['categories'],
               publish : item['publish'],
               stock : item['stock'],
-              postPurchase : item['postPurchase'],
+              postPurchase : item['postPurchase'] == null? '' : item['postPurchase'],
             );
             _listProducts.add(product);
             dbctpaga.createOrUpdateProducts(product);
@@ -450,7 +466,7 @@ class MyProvider with ChangeNotifier {
               description : item['description'],
               categories : item['categories'],
               publish : item['publish'],
-              postPurchase : item['postPurchase'],
+              postPurchase : item['postPurchase'] == null? '' : item['postPurchase'],
             );
             _listService.add(service);
             dbctpaga.createOrUpdateServices(service);
@@ -501,6 +517,7 @@ class MyProvider with ChangeNotifier {
     dataProducts = [];
     dataServices = [];
     dataProductsServicesCategories = [];
+    dbctpaga.deleteAll();
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 

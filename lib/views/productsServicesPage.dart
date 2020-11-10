@@ -5,6 +5,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -205,7 +206,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
         isAlwaysShown: true,
         child: ListView.separated(
           controller: _scrollControllerProductsServices,
-          separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
+          separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
           padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
           itemCount: myProvider.dataServices.length,
           itemBuilder:  (BuildContext ctxt, int index) {
@@ -393,7 +394,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               isAlwaysShown: true,
               child: ListView.separated(
                 controller: _scrollControllerCategories,
-                separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
+                separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
                 padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
                 itemCount: myProvider.dataProductsServicesCategories.length,
                 itemBuilder:  (BuildContext ctxt, int index) {
@@ -459,11 +460,15 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   showPrice(price, coin){
-    price = price.replaceAll(",00", "");
-    if (coin == 0)
-      return "\$ "+price;
-    else
-      return "Bs "+price;
+    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+
+    if(coin == 1)
+      lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+
+
+    lowPrice.updateValue(double.parse(price));
+
+    return "${lowPrice.text}";
   }
 
   nextPage()async{

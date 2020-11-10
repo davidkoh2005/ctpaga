@@ -130,7 +130,15 @@ class _PerfilPageState extends State<PerfilPage> {
                               items: myProvider.dataCommercesUser.map((commerce) {
                                   return DropdownMenuItem<Commerce>(
                                     value: commerce,
-                                    child: Text(commerce.name),
+                                    child: Container(
+                                      child: Text(
+                                        commerce.name,
+                                        style: TextStyle(
+                                          fontSize: size.width / 15,
+                                          color: colorText,
+                                        ),
+                                      )
+                                    ),
                                   );
                               }).toList(),
                             ),
@@ -743,7 +751,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 textInputAction: TextInputAction.next,
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNameBankingUSDFocus),
                 onChanged: (value) {
-                  if(value.toLowerCase() == "usa")
+                  if(value.trim().toLowerCase() == "usa")
                     setState(()=>_statusCountry = true);
                   else
                     setState(()=>_statusCountry = false);
@@ -807,11 +815,35 @@ class _PerfilPageState extends State<PerfilPage> {
               child: SearchableDropdown.single(
                 items: _statusCountry? listBankUSA.map((result) {
                     return (DropdownMenuItem(
-                        child: Text(result), value: result));
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          ClipOval(
+                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                          ),
+                          SizedBox(width: size.width / 20),
+                          Expanded(child: Text(result['title']),),
+                        ],
+                      ),
+                      value: result['title']
+                    )
+                  );
                   }).toList()
                 : listBankPanama.map((result) {
                     return (DropdownMenuItem(
-                        child: Text(result), value: result));
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          ClipOval(
+                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                          ),
+                          SizedBox(width: size.width / 20),
+                          Expanded(child: Text(result['title']),),
+                        ],
+                      ),
+                      value: result['title']
+                    )
+                  );
                   }).toList(),
                 value: _nameBankingUSD,
                 hint: "Nombre del Banco",
@@ -1030,7 +1062,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: 5),
+                          SizedBox(width: size.width / 20),
                           Expanded(child: Text(result['title']),),
                         ],
                       ),

@@ -3,6 +3,7 @@ import 'package:ctpaga/views/newCommercePage.dart';
 import 'package:ctpaga/views/documentsPage.dart';
 import 'package:ctpaga/views/shippingPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
+import 'package:ctpaga/views/discountPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
 import 'package:ctpaga/views/perfilPage.dart';
 import 'package:ctpaga/views/loginPage.dart';
@@ -10,7 +11,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.124:8000";
+String url = "http://192.168.1.104:8000";
 
 //TODO: Url Api (heroku)
 //String url = "http://ctpaga.herokuapp.com";
@@ -50,7 +51,7 @@ List listMenu = [
   {
     "title": "Códigos de descuento",
     "icon": "assets/icons/descuento.png",
-    "page": ProductsServicesPage(false),
+    "page": DiscountPage(),
   },
   {
     "title": "Reporte de ventas",

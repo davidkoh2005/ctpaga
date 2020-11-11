@@ -98,10 +98,8 @@ class _MainPageState extends State<MainPage> {
         onTap: () {
           if(_title == "Productos"){
             myProvider.selectProductsServices = 0;
-            myProvider.getListCategories();
           }else if(_title == "Servicios"){
             myProvider.selectProductsServices = 1;
-            myProvider.getListCategories();
           }
 
           setState(() => clickBotton = _index); //I add color selected button

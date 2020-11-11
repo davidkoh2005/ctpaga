@@ -1,5 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/models/categories.dart';
+import 'package:ctpaga/models/discounts.dart';
+import 'package:ctpaga/models/shipping.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
@@ -151,22 +153,37 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  bool _statusShopping;
-  bool get statusShopping =>_statusShopping; 
+  bool _statusShipping;
+  bool get statusShipping =>_statusShipping; 
   
-  set statusShopping(bool newStatus) {
-    _statusShopping = newStatus; 
+  set statusShipping(bool newStatus) {
+    _statusShipping = newStatus; 
     notifyListeners(); 
   }
 
-  String _descriptionShopping;
-  String get descriptionShopping =>_descriptionShopping; 
+  String _descriptionShipping;
+  String get descriptionShipping =>_descriptionShipping; 
   
-  set descriptionShopping(String newDescription) {
-    _descriptionShopping = newDescription; 
+  set descriptionShipping(String newDescription) {
+    _descriptionShipping = newDescription; 
     notifyListeners(); 
   }
 
+  List _shipping = new List();
+  List get dataShipping =>_shipping;
+
+  set dataShipping(List newShipping){
+    _shipping = newShipping;
+    notifyListeners();
+  }
+
+  List _discount = new List();
+  List get dataDiscount =>_discount;
+
+  set dataDiscount(List newDiscount){
+    _discount = newDiscount;
+    notifyListeners();
+  }
 
   User user = User();
   List banksUser = new List(2);
@@ -296,14 +313,14 @@ class MyProvider with ChangeNotifier {
 
             dataCommercesUser = listCommerces;
 
-            if(dataCommercesUser.length > 0){
-              getListCategories();
-              getListProducts();
-              getListServices();
-            }
-
           }
 
+          getListCategories();
+          getListProducts();
+          getListServices();
+          getListShipping();
+          getListDiscounts();
+          await Future.delayed(Duration(seconds: 3));
 
           if(status){
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
@@ -321,6 +338,8 @@ class MyProvider with ChangeNotifier {
         dataCategories = await dbctpaga.getCategories();
         dataProducts = await dbctpaga.getProducts();
         dataServices = await dbctpaga.getServices();
+        dataShipping = await dbctpaga.getShipping();
+        dataShipping = await dbctpaga.getDiscounts();
       }
 
       if(status){
@@ -482,6 +501,91 @@ class MyProvider with ChangeNotifier {
     }
   }
 
+  Shipping shipping = Shipping();
+  List _listShipping = new List();
+
+  getListShipping()async{
+    var result, response, jsonResponse;
+    _listShipping = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showShipping",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            shipping = Shipping(
+              id: item['id'],
+              price : item['price'],
+              coin : item['coin'],
+              description : item['description'],
+            );
+            _listShipping.add(shipping);
+            dbctpaga.createOrUpdateShipping(shipping);
+          }
+          dataShipping = _listShipping;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataShipping = await dbctpaga.getShipping();
+      }
+
+    }
+  }
+
+  Discounts discounts = Discounts();
+  List _listDiscounts = new List();
+
+  getListDiscounts()async{
+    var result, response, jsonResponse;
+    _listDiscounts = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showDiscounts",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            discounts = Discounts(
+              id: item['id'],
+              code : item['code'],
+              percentage : item['percentage'],
+            );
+            _listDiscounts.add(discounts);
+            dbctpaga.createOrUpdateDiscounts(discounts);
+          }
+          dataDiscount = _listDiscounts;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataShipping = await dbctpaga.getDiscounts();
+      }
+
+    }
+  }
+
   getListProductsServicesCategories(idCategories){
     dataProductsServicesCategories = [];
     List listProductsServicesCategories = new List();
@@ -508,6 +612,9 @@ class MyProvider with ChangeNotifier {
   removeSession(BuildContext context)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("access_token");
+    prefs.remove('selectCommerce');
+    prefs.remove('statusShipping');
+    prefs.remove('descriptionShipping');
     accessTokenUser = null;
     dataUser = null;
     dataBanksUser = [];

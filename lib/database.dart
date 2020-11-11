@@ -1,9 +1,11 @@
-import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/categories.dart';
+import 'package:ctpaga/models/discounts.dart';
 import 'package:ctpaga/models/commerce.dart';
+import 'package:ctpaga/models/shipping.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/service.dart';
+import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/user.dart';
 
 import 'package:path_provider/path_provider.dart';
@@ -46,10 +48,12 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
     await db.execute('CREATE TABLE IF NOT EXISTS banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
     await db.execute('CREATE TABLE IF NOT EXISTS pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
-    await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20), statusShopping INTEGER, descriptionShopping text )');
+    await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
     await db.execute('CREATE TABLE IF NOT EXISTS categories (id INTEGER, name VARCHAR(50), commerce_id INTEGER, type INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS products (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, stock INTEGER, postPurchase text)');
     await db.execute('CREATE TABLE IF NOT EXISTS services (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, postPurchase text)');
+    await db.execute('CREATE TABLE IF NOT EXISTS shipping (id INTEGER, price VARCHAR(50), coin INTEGER, description text)');
+    await db.execute('CREATE TABLE IF NOT EXISTS discounts (id INTEGER, code VARCHAR(50), percentage INTEGER)');
   }
 
   /*
@@ -226,8 +230,6 @@ class DBctpaga{
         name : list[i]['name'],
         address : list[i]['address'],
         phone : list[i]['phone'],
-        statusShopping: list[i]['statusShopping'] == 1? true : false,
-        descriptionShopping: list[i]['descriptionShopping'],
       );
 
       listCommercesUser.add(commerceUser);
@@ -241,7 +243,7 @@ class DBctpaga{
   void createOrUpdateCommercesUser (Commerce commerce) async{
     var dbConnection = await db;
 
-    String query = 'INSERT OR REPLACE INTO commerces (id, rif, name, address, phone, statusShopping, descriptionShopping) VALUES ( (SELECT id FROM commerces WHERE rif = \'${commerce.rif}\'), \'${commerce.rif}\', \'${commerce.name}\',\'${commerce.address}\',\'${commerce.phone}\',\'${commerce.statusShopping?1:0}\',\'${commerce.descriptionShopping}\')';
+    String query = 'INSERT OR REPLACE INTO commerces (id, rif, name, address, phone) VALUES ( (SELECT id FROM commerces WHERE rif = \'${commerce.rif}\'), \'${commerce.rif}\', \'${commerce.name}\',\'${commerce.address}\',\'${commerce.phone}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });
@@ -406,6 +408,114 @@ class DBctpaga{
   void deleteService (int id) async{
     var dbConnection = await db;
     String query = 'DELETE FROM services WHERE id=$id';
+    await dbConnection.transaction((transaction) async{
+      return await transaction.rawQuery(query);
+    });
+  }
+
+  // Get Shipping User
+  Future <List<dynamic>> getShipping() async{
+    List listShipping = new List();
+    listShipping = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM shipping');
+    Shipping shipping = new Shipping();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      shipping = Shipping(
+        id : list[i]['id'],
+        price : list[i]['price'],
+        coin : list[i]['coin'],
+        description : list[i]['description'],
+
+      );
+
+      listShipping.add(shipping);
+
+    }
+
+    return listShipping;
+  }
+
+  // Create or update Shipping
+  void createOrUpdateShipping (Shipping shipping) async{
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM shipping WHERE id = \'${shipping.id}\' ');
+    
+    if(list.length == 0){
+      String query = 'INSERT INTO shipping (id, price, coin, description) VALUES ( \'${shipping.id}\', \'${shipping.price}\',\'${shipping.coin}\',\'${shipping.description}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+    });
+    }else{
+      String query = 'UPDATE shipping SET price=\'${shipping.price}\', coin=\'${shipping.coin}\', description=\'${shipping.description}\' WHERE id= \'${shipping.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
+  }
+
+  // Delete Shipping
+  void deleteShipping(int id) async{
+    var dbConnection = await db;
+    String query = 'DELETE FROM shipping WHERE id=$id';
+    await dbConnection.transaction((transaction) async{
+      return await transaction.rawQuery(query);
+    });
+  }
+
+
+  // Get Discount User
+  Future <List<dynamic>> getDiscounts() async{
+    List listDiscounts = new List();
+    listDiscounts = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM discunts');
+    Discounts discounts = new Discounts();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      discounts = Discounts(
+        id : list[i]['id'],
+        code : list[i]['code'],
+        percentage : list[i]['percentage'],
+
+      );
+
+      listDiscounts.add(discounts);
+
+    }
+
+    return listDiscounts;
+  }
+
+  // Create or update Discounts
+  void createOrUpdateDiscounts (Discounts discounts) async{
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM discounts WHERE id = \'${discounts.id}\' ');
+    
+    if(list.length == 0){
+      String query = 'INSERT INTO discounts (id, code, percentage) VALUES ( \'${discounts.id}\', \'${discounts.code}\',\'${discounts.percentage}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+    });
+    }else{
+      String query = 'UPDATE discounts SET code=\'${discounts.code}\', percentage=\'${discounts.percentage}\' WHERE id= \'${discounts.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
+  }
+
+  // Delete Discounts
+  void deleteDiscounts(int id) async{
+    var dbConnection = await db;
+    String query = 'DELETE FROM discounts WHERE id=$id';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawQuery(query);
     });

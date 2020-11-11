@@ -18,20 +18,6 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   List statusButton = [];
 
-  void initState() {
-    super.initState();
-    initVariable(context);
-  }
-
-  void dispose(){
-    super.dispose();
-  }
-
-  initVariable(BuildContext context){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.getDataUser(false, context);
-  } 
-
   @override
   Widget build(BuildContext context) {
 
@@ -134,14 +120,10 @@ class _MenuPageState extends State<MenuPage> {
     }else if(myProvider.dataCommercesUser.length == 0){
       showMessage("Debe ingresar los datos de la empresa", false);
     }else{
-      if(title == "Servicios"){
-        myProvider.selectProductsServices = 1;
-        myProvider.getListCategories();
-      }
-      else if(title == "Productos"){
+      if(title == "Productos")
         myProvider.selectProductsServices = 0;
-        myProvider.getListCategories();
-      }
+      else
+        myProvider.selectProductsServices = 1;
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

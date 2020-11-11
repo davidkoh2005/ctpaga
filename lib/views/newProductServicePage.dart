@@ -73,19 +73,11 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       _switchPostPurchase = myProvider.dataSelectProductService.postPurchase.length >0? true: false;
       _controllerPostPurchase.text = myProvider.dataSelectProductService.postPurchase;
 
-      if(myProvider.selectProductsServices == 0)
-        setState(() {
-          _dataProductsService.add("Picture");
-          _dataProductsService.add("Name");
-          _dataProductsService.add("Price");
-          _dataProductsService.add("Stock");
-        });
-      else
-        setState(() {
-          _dataProductsService.add("Picture");
-          _dataProductsService.add("Name");
-          _dataProductsService.add("Price");
-        });
+      setState(() {
+        _dataProductsService.add("Picture");
+        _dataProductsService.add("Name");
+        _dataProductsService.add("Price");
+      });
     }
       
   }
@@ -165,6 +157,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       child: new TextFormField(
                         controller: _controllerName,
                         maxLines: 1,
+                        maxLength: 50,
                         textCapitalization:TextCapitalization.words,
                         inputFormatters: [
                           WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
@@ -410,14 +403,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ],
                           keyboardType: TextInputType.number,
                           autofocus: false,
-                          onSaved: (value) => _stock = int.parse(value),
-                          onChanged: (value){
-                            if(value.length > 0 && !_dataProductsService.contains("Stock")){
-                              setState(() => _dataProductsService.add("Stock"));
-                            }else if(value.length == 0 && _dataProductsService.contains("Stock")){
-                              setState(() => _dataProductsService.remove("Stock"));
-                            }
-                          },
+                          onSaved: (value) =>value == ''? _stock = 0 : _stock = int.parse(value),
                           cursorColor: colorGreen,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -513,6 +499,12 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   setState(() {
                                     _switchPostPurchase = value;
                                   });
+                                  if(value){
+                                    Timer(
+                                      Duration(seconds: 1),
+                                      () => _scrollController.jumpTo(_scrollController.position.maxScrollExtent),
+                                    );
+                                  }
                                 },
                                 activeTrackColor: colorGrey,
                                 activeColor: colorGreen
@@ -551,7 +543,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           textCapitalization:TextCapitalization.sentences,
                           autofocus: false,
                           onSaved: (value) => _postPurchase = value.trim(),
-                          validator: (value) => _switchPostPurchase? value.trim().isNotEmpty? 'Ingrese Contenido del correo': null : null,
+                          validator: (value) => _switchPostPurchase? value.trim().isEmpty? 'Ingrese Contenido del correo': null : null,
                           cursorColor: colorGreen,
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
@@ -703,9 +695,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        if(myProvider.selectProductsServices == 0 && _dataProductsService.length >=4){
-          saveNewProductService();
-        }else if(myProvider.selectProductsServices == 1 && _dataProductsService.length >= 3){
+        if(_dataProductsService.length >=3){
           saveNewProductService();
         }
       },
@@ -780,23 +770,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   showColorButton(myProvider){
-    if(myProvider.selectProductsServices == 0 ){
-      if(_dataProductsService.length <4)
+    if(_dataProductsService.length <3)
         return colorGrey;
       else
         if(_statusButton)
           return colorGrey;
 
         return colorGreen;
-    }else{
-      if(_dataProductsService.length <3)
-        return colorGrey;
-      else
-        if(_statusButton)
-          return colorGrey;
-
-        return colorGreen;
-    }
+    
   }
 
   saveNewProductService()async{

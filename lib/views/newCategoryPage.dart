@@ -76,6 +76,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
               ], 
               autofocus: false,
+              maxLength: 50,
               validator: _validateName,
               onSaved: (value) => _name = value.trim(),
               onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
@@ -164,7 +165,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               id: jsonResponse['data']['id'],
               name: jsonResponse['data']['name'],
               commerce_id: jsonResponse['data']['commerce_id'],
-              type: jsonResponse['data']['commerce_id'],
+              type: jsonResponse['data']['type'],
             );
             var selectCategory = myProvider.dataCategoriesSelect;
             selectCategory.add(category.id.toString());

@@ -145,6 +145,8 @@ class _MyHomePageState extends State<MyHomePage> {
       myProvider.coinUsers = 1;
       myProvider.accessTokenUser = prefs.getString('access_token');
       myProvider.selectCommerce = prefs.getInt('selectCommerce');
+      myProvider.statusShipping = prefs.getBool('statusShipping');
+      myProvider.descriptionShipping = prefs.getString('descriptionShipping');
     }else{
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }

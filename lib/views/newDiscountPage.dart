@@ -12,24 +12,24 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class NewShippingPage extends StatefulWidget {
-  NewShippingPage(this.index);
+class NewDiscountPage extends StatefulWidget {
+  NewDiscountPage(this.index);
   final int index;
   @override
-  _NewShippingPageState createState() => _NewShippingPageState(index);
+  _NewDiscountPageState createState() => _NewDiscountPageState(index);
 }
 
-class _NewShippingPageState extends State<NewShippingPage> {
-  _NewShippingPageState(this.index);
+class _NewDiscountPageState extends State<NewDiscountPage> {
+  _NewDiscountPageState(this.index);
   final int index;
-  final _formKeyShipping = new GlobalKey<FormState>();
-  final _controllerDescription= TextEditingController();
-  final FocusNode _priceFocus = FocusNode();
-  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
-  bool _statusButtonSave = false, _switchFree = false, _statusButtonDelete = false;
-  int _statusCoin;
-  String _description, _price;
-  List _dataShipping = new List();
+  final _formKeyDiscount = new GlobalKey<FormState>();
+  final _controllerCode= TextEditingController();
+  final _controllerPercentage= TextEditingController();
+  final FocusNode _percentageFocus = FocusNode();
+  bool _statusButtonSave = false, _statusButtonDelete = false;
+  String _code;
+  int _percentage;
+  List _dataDiscount = new List();
 
   @override
   void initState() {
@@ -45,23 +45,12 @@ class _NewShippingPageState extends State<NewShippingPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     
-    _statusCoin = myProvider.coinUsers;
-
-    if(_statusCoin == 0)
-      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
-    else
-      lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
-
     if(index != null){
-      if(myProvider.dataShipping[index].price == "FREE")
-        setState(() => _switchFree = true);
-      else
-        lowPrice.updateValue(double.parse(myProvider.dataShipping[index].price));
-      
-      _controllerDescription.text = myProvider.dataShipping[index].description;
+      _controllerCode.text = myProvider.dataDiscount[index].code;
+      _controllerPercentage.text = myProvider.dataDiscount[index].percentage.toString();
       setState(() {
-        _dataShipping.add("Description");
-        _dataShipping.add("Price");
+        _dataDiscount.add("Code");
+        _dataDiscount.add("Percentage");
       });
     }
   }
@@ -74,9 +63,9 @@ class _NewShippingPageState extends State<NewShippingPage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar("Nueva tarifa", false),
+            Navbar("Nuevo descuento", false),
             Expanded(
-              child: formShipping(),
+              child: formDiscount(),
             ),
             Padding(
               padding: EdgeInsets.all(20),
@@ -98,10 +87,10 @@ class _NewShippingPageState extends State<NewShippingPage> {
       );
   }
 
-  Widget formShipping(){
+  Widget formDiscount(){
     var size = MediaQuery.of(context).size;
     return new Form(
-      key: _formKeyShipping,
+      key: _formKeyDiscount,
       child: ListView (
         children: <Widget>[
           Padding(
@@ -109,7 +98,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "DESCRIPCIÓN",
+                "CÓDIGO",
                 style: TextStyle(
                   color: colorText,
                   fontSize: size.width / 20,
@@ -120,22 +109,25 @@ class _NewShippingPageState extends State<NewShippingPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 0.0),
             child: new TextFormField(
-              controller: _controllerDescription,
+              controller: _controllerCode,
               maxLines: 1,
-              textCapitalization:TextCapitalization.words,
+              inputFormatters: [
+                UpperCaseTextFormatter(),
+              ],
+              textCapitalization:TextCapitalization.none,
               autofocus: false,
-              validator: validateDescription,
-              onSaved: (value) => _description = value.trim(),
+              validator: validateCode,
+              onSaved: (value) => _code = value.trim(),
               onChanged: (value) {
                 setState(() {
-                  if (value.length >3 && !_dataShipping.contains("Description")){
-                    _dataShipping.add("Description");
-                  }else if(value.length <= 3 && _dataShipping.contains("Description")){
-                    _dataShipping.remove("Description");
+                  if (value.length >3 && !_dataDiscount.contains("Code")){
+                    _dataDiscount.add("Code");
+                  }else if(value.length <= 3 && _dataDiscount.contains("Code")){
+                    _dataDiscount.remove("Code");
                   }
                 });
               },
-              onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
+              onEditingComplete: () => FocusScope.of(context).requestFocus(_percentageFocus),
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
@@ -152,7 +144,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "PRECIO",
+                "DESCUENTO (%)",
                 style: TextStyle(
                   color: colorText,
                   fontSize: size.width / 20,
@@ -163,74 +155,37 @@ class _NewShippingPageState extends State<NewShippingPage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 0.0),
             child: new TextFormField(
-              controller: lowPrice,
-              readOnly: _switchFree,
+              controller: _controllerPercentage,
               maxLines: 1,
               inputFormatters: [  
                 WhitelistingTextInputFormatter.digitsOnly,
               ],
               keyboardType: TextInputType.number,
               autofocus: false,
-              focusNode: _priceFocus,
-              onSaved: (value) => _price = value,
+              validator: (value)=> value.isNotEmpty? (int.parse(value) > 0 && int.parse(value) < 100)? null: 'Debe ingresar el descuento correctamente':'Debe ingresar el descuento correctamente',
+              onSaved: (value) => _percentage = int.parse(value.trim()),
               onChanged: (value) {
-                print("price: $value");
                 setState(() {
-                  if (!value.contains("0,0") && !_dataShipping.contains("Price")){
-                    _dataShipping.add("Price");
-                  }else if(value.contains("0,0") || (value.contains("00") && value.length == 2) && _dataShipping.contains("Price")){
-                    _dataShipping.remove("Price");
-                  }
-                });
-              },
-              validator: (value) => !_dataShipping.contains("Price")? 'Debe ingresar un precio Válido' : null,
-              textInputAction: TextInputAction.next,
+                  _dataDiscount.remove("Percentage");
+                  if (value.isNotEmpty)
+                    if (int.parse(value) > 0 && int.parse(value) <= 100){
+                      if(!_dataDiscount.contains("Percentage"))
+                        _dataDiscount.add("Percentage");
+                    }
+                }); 
+              }, 
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: size.width / 10,
-                color: colorGrey,
-              ),
               decoration: InputDecoration(
-                enabledBorder: InputBorder.none,
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.transparent),
+                hintText: "50",
+                hintStyle: TextStyle(
+                fontSize: size.width / 20,
+                color: colorGrey,
                 ),
-              ),                  
-            ),
-          ),
-          Padding(
-            padding: EdgeInsets.only(left: 30, right: 30),
-            child: Divider(color:Colors.black,)
-          ),
-
-          Center(
-            child: Padding(
-              padding: EdgeInsets.only(top:30),
-              child: Column(
-                children: <Widget>[
-                  Switch(
-                    value: _switchFree ,
-                    onChanged: (value) {
-                      setState(() {
-                        if(value && !_dataShipping.contains("Price"))
-                          _dataShipping.add("Price");
-                        
-                        _switchFree = value;
-                      });
-                    },
-                    activeTrackColor: colorGrey,
-                    activeColor: colorGreen
-                  ),
-                  Text(
-                    "Envíos gratis",
-                    style: TextStyle(
-                      color: colorText,
-                      fontSize: size.width / 15,
-                    ),
-                  ),
-                ],
-              )
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color:  Colors.black),
+                ),
+              ),
             ),
           ),
         ],
@@ -241,7 +196,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   Widget buttonSave(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => saveShipping(),
+      onTap: () => saveDiscount(),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -252,8 +207,8 @@ class _NewShippingPageState extends State<NewShippingPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _dataShipping.length ==2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _dataShipping.length ==2? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _dataDiscount.length == 2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _dataDiscount.length == 2? _statusButtonSave? colorGrey : colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -262,7 +217,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
           ),
         child: Center(
           child: Text(
-            index == null? "CREAR TARIFA" : "GUARDAR TARIFA",
+            index == null? "CREAR DESCUENTO" : "GUARDAR DESCUENTO",
             style: TextStyle(
               color: Colors.white,
               fontSize: size.width / 20,
@@ -277,7 +232,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   Widget buttonDelete(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => deleteShipping(),
+      onTap: () => deleteDiscounts(),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -299,7 +254,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
         ),
         child: Center(
           child: Text(
-            "ELIMINAR TARIFA",
+            "ELIMINAR DESCUENTO",
             style: TextStyle(
               color: _statusButtonDelete? colorGreen : Colors.white,
               fontSize: size.width / 20,
@@ -311,18 +266,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
     );
   }
 
-  saveShipping()async{
+  saveDiscount()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyShipping.currentState.validate()) {
-      _formKeyShipping.currentState.save();
-      
-      if(_switchFree)
-        _price = "FREE";
-
+    if (_formKeyDiscount.currentState.validate()) {
+      _formKeyDiscount.currentState.save();
       try
       {
         _onLoading();
@@ -330,31 +281,29 @@ class _NewShippingPageState extends State<NewShippingPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           if(index ==null){
             response = await http.post(
-              urlApi+"newShipping",
+              urlApi+"newDiscounts",
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "description": _description,
-                "price": _price,
-                "coin": _statusCoin,
+                "code": _code,
+                "percentage": _percentage,
               }),
             ); 
           }else{
             response = await http.post(
-              urlApi+"updateShipping",
+              urlApi+"updateDiscounts",
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataShipping[index].id,
-                "description": _description,
-                "price": _price,
-                "coin": _statusCoin,
+                "id": myProvider.dataDiscount[index].id,
+                "code": _code,
+                "percentage": _percentage,
               }),
             ); 
           }
@@ -362,7 +311,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListShipping();
+            myProvider.getListDiscounts();
             Navigator.pop(context);
             Navigator.pop(context);
           }
@@ -375,7 +324,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
     }
   }
 
-  deleteShipping()async{
+  deleteDiscounts()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
     setState(() => _statusButtonDelete = true);
@@ -390,14 +339,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
         response = await http.post(
-          urlApi+"deleteShipping",
+          urlApi+"deleteDiscounts",
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
           },
           body: jsonEncode({
-            "id": myProvider.dataShipping[index].id,
+            "id": myProvider.dataDiscount[index].id,
           }),
         );         
 
@@ -405,8 +354,8 @@ class _NewShippingPageState extends State<NewShippingPage> {
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
           var dbctpaga = DBctpaga();
-          dbctpaga.deleteShipping(myProvider.dataShipping[index].id);
-          myProvider.getListShipping();
+          dbctpaga.deleteDiscounts(myProvider.dataDiscount[index].id);
+          myProvider.getListDiscounts();
           
           Navigator.pop(context);
           Navigator.pop(context);
@@ -509,18 +458,28 @@ class _NewShippingPageState extends State<NewShippingPage> {
     );
   }
 
-  String validateDescription(value){
+  String validateCode(value){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     value.trim();
     if (value.length <=3){
-      return 'Debe ingresar la descripción correctamente';
+      return 'Debe ingresar el código correctamente';
     }else{
-      for (var item in myProvider.dataShipping) {
+      for (var item in myProvider.dataDiscount) {
         if (item.code == value)
-          return 'La descripción ingresado ya se encuentra registrado';
+          return 'El código ingresado ya se encuentra registrado';
       }
       return null;
     }
   }
 
+}
+
+class UpperCaseTextFormatter extends TextInputFormatter {
+  @override
+  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
+    return TextEditingValue(
+      text: newValue.text?.toUpperCase(),
+      selection: newValue.selection,
+    );
+  }
 }

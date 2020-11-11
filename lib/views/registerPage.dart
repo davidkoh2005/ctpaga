@@ -356,6 +356,10 @@ class _RegisterPageState extends State<RegisterPage> {
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
             myProvider.coinUsers = 1;
+            prefs.setBool('statusShipping', false);
+            prefs.setString('descriptionShipping', "");
+            myProvider.statusShipping = false;
+            myProvider.descriptionShipping = "";
             Navigator.pop(context);
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
 

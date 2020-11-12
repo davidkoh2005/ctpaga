@@ -313,12 +313,15 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
           if (jsonResponse['statusCode'] == 201) {
             myProvider.getListDiscounts();
             Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
             Navigator.pop(context);
           }
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet");
+        showMessage("Sin conexión a internet", false);
       }  
       
     }
@@ -358,16 +361,19 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
           myProvider.getListDiscounts();
           
           Navigator.pop(context);
+          showMessage("Eliminado Correctamente", true);
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.pop(context);
           Navigator.pop(context);
         }
       }
     } on SocketException catch (_) {
       Navigator.pop(context);
-      showMessage("Sin conexión a internet");
+      showMessage("Sin conexión a internet", false);
     } 
   }
 
-  Future<void> showMessage(_titleMessage) async {
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -381,7 +387,15 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Padding(
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.error,
@@ -393,7 +407,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 padding: EdgeInsets.all(5),
                 child: Text(
                   _titleMessage,
-                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: size.width / 20,

@@ -318,7 +318,6 @@ class _LoginPageState extends State<LoginPage> {
           if (jsonResponse['statusCode'] == 201) {
 
             SharedPreferences prefs = await SharedPreferences.getInstance();
-            myProvider.getDataUser(false, context);
             prefs.setString('access_token', jsonResponse['access_token']);
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);
@@ -329,8 +328,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.statusShipping = false;
             myProvider.descriptionShipping = "";
             _passwordController.clear();
-            Navigator.pop(context);
-            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+            myProvider.getDataUser(true, true, context);
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

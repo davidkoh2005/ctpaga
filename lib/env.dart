@@ -1,5 +1,7 @@
 import 'package:ctpaga/views/productsServicesPage.dart';
+import 'package:ctpaga/views/exchangeRatePage.dart';
 import 'package:ctpaga/views/newCommercePage.dart';
+import 'package:ctpaga/views/salesReportPage.dart';
 import 'package:ctpaga/views/documentsPage.dart';
 import 'package:ctpaga/views/shippingPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
@@ -21,6 +23,9 @@ Color colorGreen = Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(230,230,230,1);
 Color colorText = Colors.grey;
 
+String phoneCtpaga = "584141295359";
+String messageHelp = "Hola! Necesito ayuda con ";
+String recommend = "¡Chequea *Ctpaga* , un app que te deja vender en línea y por redes sociales rápido y fácil! +🛍%EF%B8%8F+📲 \n\n Bájatela aquí: \n iOS: https://www.google.com \n Android: https://play.google.com/";
 
 List listMenu = [
   {
@@ -56,12 +61,12 @@ List listMenu = [
   {
     "title": "Reporte de ventas",
     "icon": "assets/icons/reporte.png",
-    "page": ProductsServicesPage(false),
+    "page": SalesReportPage(),
   },
   {
     "title": "Tasa de cambio",
     "icon": "assets/icons/tasa.png",
-    "page": ProductsServicesPage(false),
+    "page": ExchangeRatePage(),
   },
   {
     "title": "Crear otro comercio",
@@ -71,12 +76,12 @@ List listMenu = [
   {
     "title": "Recomentar a un comercio",
     "icon": "assets/icons/recomendarComercio.png",
-    "page": ProductsServicesPage(false),
+    "page": null,
   },
   {
     "title": "Pedir ayuda",
     "icon": "assets/icons/ayuda.png",
-    "page": ProductsServicesPage(false),
+    "page": null,
   },
   {
     "title": "Cerrar sesión",

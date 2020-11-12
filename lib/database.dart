@@ -250,12 +250,12 @@ class DBctpaga{
   }
 
   // Get Categories User
-  Future <List<dynamic>> getCategories() async{
+  Future <List<dynamic>> getCategories(type) async{
     List listCategories = new List();
     listCategories = [];
     var dbConnection = await db;
 
-    List<Map> list = await dbConnection.rawQuery('SELECT * FROM categories');
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM categories WHERE type = \'$type\'');
     Categories categories = new Categories();
 
     for(int i = 0; i< list.length; i++)
@@ -474,7 +474,7 @@ class DBctpaga{
     listDiscounts = [];
     var dbConnection = await db;
 
-    List<Map> list = await dbConnection.rawQuery('SELECT * FROM discunts');
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM discounts');
     Discounts discounts = new Discounts();
 
     for(int i = 0; i< list.length; i++)

@@ -1,8 +1,10 @@
 
+import 'package:ctpaga/database.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -10,16 +12,34 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class NewCommercePage extends StatefulWidget {
-  
+class NewExchangeRatePage extends StatefulWidget {
   @override
-  _NewCommercePageState createState() => _NewCommercePageState();
+  _NewExchangeRatePageState createState() => _NewExchangeRatePageState();
 }
 
-class _NewCommercePageState extends State<NewCommercePage> {
-  final _formKeyCommerce = new GlobalKey<FormState>();
-  bool _statusButtonSave = false, _statusButton = false;
-  String _name;
+class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
+  final _formKeyRate = new GlobalKey<FormState>();
+  final FocusNode _rateFocus = FocusNode();
+  var lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+  bool _statusButtonSave = false, _statusRate = false;
+  String _rate;
+
+  @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -28,66 +48,79 @@ class _NewCommercePageState extends State<NewCommercePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar("Nuevo comercio", false),
+            Navbar("Nueva tasa", false),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: formCommerce()
-                  ),
-                ]
-              ),
+              child: formRate(),
             ),
             Padding(
-              padding: EdgeInsets.only(bottom: 30),
-              child: buttonSave()
+              padding: EdgeInsets.all(20),
+              child: buttonSave(),
             ),
           ],
         ),
       );
   }
 
-  Widget formCommerce(){
+  Widget formRate(){
     var size = MediaQuery.of(context).size;
     return new Form(
-      key: _formKeyCommerce,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
+      key: _formKeyRate,
+      child: ListView (
         children: <Widget>[
+
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
               child: Text(
-                "NOMBRE DEL NEGOCIO",
+                "TASA",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 15,
+                  fontSize: size.width / 20,
                 ),
               ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 5.0, 30.0, 0.0),
             child: new TextFormField(
+              controller: lowPrice,
               maxLines: 1,
-              textCapitalization:TextCapitalization.words,
+              inputFormatters: [  
+                WhitelistingTextInputFormatter.digitsOnly,
+              ],
+              keyboardType: TextInputType.number,
               autofocus: false,
-              validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusButton = true ) : setState(() => _statusButton = false ),
-              textInputAction: TextInputAction.next,
+              focusNode: _rateFocus,
+              onSaved: (value) => _rate = value,
+              onChanged: (value) {
+                setState(() {
+                  if (!value.contains("0,0")){
+                    _statusRate = true;
+                  }else if(value.contains("0,0") || (value.contains("00") && value.length == 2)){
+                    _statusRate = false;
+                  }
+                });
+              },
+              validator: (value) => !_statusRate? 'Debe ingresar un valor Válido' : null,
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color:  Colors.black),
-                ),
+              style: TextStyle(
+                fontSize: size.width / 10,
+                color: colorGrey,
               ),
+              decoration: InputDecoration(
+                enabledBorder: InputBorder.none,
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.transparent),
+                ),
+              ),     
+              onTap: () => lowPrice.selection = TextSelection.fromPosition(TextPosition(offset: lowPrice.text.length)),             
             ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(left: 30, right: 30),
+            child: Divider(color:Colors.black,)
           ),
         ],
       )
@@ -97,7 +130,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
   Widget buttonSave(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => saveName(),
+      onTap: () => _statusRate??saveRate(),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -108,8 +141,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _statusButton?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusButton? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _statusRate?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _statusRate? _statusButtonSave? colorGrey : colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -118,7 +151,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
         child: Center(
           child: Text(
-            "GUARDAR",
+            "GUARDAR TASA",
             style: TextStyle(
               color: Colors.white,
               fontSize: size.width / 20,
@@ -130,34 +163,37 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  saveName()async{
+
+  saveRate()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyCommerce.currentState.validate()) {
-      _formKeyCommerce.currentState.save();
-      try
+    if (_formKeyRate.currentState.validate()) {
+      _formKeyRate.currentState.save();
+
+      /* try
       {
         _onLoading();
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"createCommerce",
+            urlApi+"newShipping",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
             },
             body: jsonEncode({
-              "name": _name,
+              "rate": _rate,
             }),
           ); 
+          
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getDataUser(false, false, context);
+            myProvider.getListShipping();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -168,10 +204,11 @@ class _NewCommercePageState extends State<NewCommercePage> {
       } on SocketException catch (_) {
         Navigator.pop(context);
         showMessage("Sin conexión a internet", false);
-      }
+      }   */
       
     }
   }
+
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;
@@ -271,17 +308,18 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  String _validateName(String value) {
-    // This is just a regular expression for name
-    String p = '[a-zA-Z]';
-    RegExp regExp = new RegExp(p);
-
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
-      // So, the name is valid
+  String validateDescription(value){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    value.trim();
+    if (value.length <=3){
+      return 'Debe ingresar la descripción correctamente';
+    }else{
+      for (var item in myProvider.dataShipping) {
+        if (item.code == value)
+          return 'La descripción ingresado ya se encuentra registrado';
+      }
       return null;
     }
-
-    // The pattern of the name didn't match the regex above.
-    return 'Ingrese nombre del negocio válido';
   }
+
 }

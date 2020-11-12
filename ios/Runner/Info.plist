@@ -46,6 +46,11 @@
 
 	<key>NSCameraUsageDescription</key>
 	<string>Permitir el acceso a la cámara para capturar fotos</string>
+
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+	<string>whatsapp</string>
+	</array>
 	
 	<false/>
 </dict>

@@ -154,7 +154,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 if(myProvider.dataProducts[index].categories != null)
                   myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
                 
-                myProvider.dataSelectProductService = myProvider.dataProducts[index];
+                myProvider.dataSelectProduct = myProvider.dataProducts[index];
+                myProvider.dataSelectService = null;
                 Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
               }, 
               child: Row(
@@ -216,7 +217,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 if(myProvider.dataServices[index].categories != null)
                   myProvider.dataCategoriesSelect = myProvider.dataServices[index].categories.split(",");
                 
-                myProvider.dataSelectProductService = myProvider.dataServices[index];
+                myProvider.dataSelectService = myProvider.dataServices[index];
+                myProvider.dataSelectProduct = null;
                 Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
               }, 
               child: Row(
@@ -402,8 +404,14 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     onTap: () {
                       setState(() => _statusDropdown = "");
                       myProvider.dataCategoriesSelect = myProvider.dataProductsServicesCategories[index].categories.split(",");
+                      if(myProvider.selectProductsServices == 0){
+                        myProvider.dataSelectProduct = myProvider.dataProductsServicesCategories[index];
+                        myProvider.dataSelectService = null;
+                      }else{
+                        myProvider.dataSelectService = myProvider.dataProductsServicesCategories[index];
+                        myProvider.dataSelectProduct = null;
+                      }
                       
-                      myProvider.dataSelectProductService = myProvider.dataProductsServicesCategories[index];
                       Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
                     },
                     child: Row(
@@ -460,7 +468,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   showPrice(price, coin){
-    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
 
     if(coin == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
@@ -472,9 +480,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   nextPage()async{
-    
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.dataSelectProductService = null;
+    myProvider.dataSelectProduct = null;
+    myProvider.dataSelectService = null;
     myProvider.dataCategoriesSelect = [];
     await Future.delayed(Duration(milliseconds: 150));
     setState(() {_statusButton = false; _statusDropdown = "";});

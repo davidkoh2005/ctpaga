@@ -227,7 +227,7 @@ class _SelfiePageState extends State<SelfiePage> {
           var listVerification = myProvider.listVerification;
           listVerification.add("Selfie");
           myProvider.listVerification  = listVerification;
-          myProvider.getDataUser(false, context);
+          myProvider.getDataUser(false, false, context);
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));

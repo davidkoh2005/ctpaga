@@ -349,7 +349,6 @@ class _RegisterPageState extends State<RegisterPage> {
           jsonResponse = jsonDecode(response.body);
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getDataUser(false, context);
             SharedPreferences prefs = await SharedPreferences.getInstance();
             prefs.setString('access_token', jsonResponse['access_token']);
             myProvider.accessTokenUser = jsonResponse['access_token'];
@@ -360,8 +359,7 @@ class _RegisterPageState extends State<RegisterPage> {
             prefs.setString('descriptionShipping', "");
             myProvider.statusShipping = false;
             myProvider.descriptionShipping = "";
-            Navigator.pop(context);
-            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+            myProvider.getDataUser(true, true, context);
 
           } else if(jsonResponse['errors'] != null){
 

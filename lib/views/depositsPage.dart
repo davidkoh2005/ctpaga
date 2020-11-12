@@ -2,6 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
+import 'package:flutter_masked_text/flutter_masked_text.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +36,8 @@ class _DepositsPageState extends State<DepositsPage> {
 
     setState(() {
       if(coin == null && myProvider.selectCoinDeposits == null){
-        myProvider.selectCoinDeposits = 0;
-        _statusCoin = 0;
+        myProvider.selectCoinDeposits = 1;
+        _statusCoin = 1;
       }else if(coin != null){
         myProvider.selectCoinDeposits = coin;
         _statusCoin = coin;
@@ -85,12 +86,23 @@ class _DepositsPageState extends State<DepositsPage> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget> [
                         Padding(
-                          padding: EdgeInsets.only(top:20, right: 20),
+                          padding: EdgeInsets.only(right: 30),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: <Widget>[
-                              buttonUSD(),
                               buttonBs(),
+                              Padding(
+                                padding: EdgeInsets.only(left: 15, right: 15),
+                                child: Text(
+                                  "< >",
+                                  style: TextStyle(
+                                    color: colorGreen,
+                                    fontSize: size.width / 20,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ),
+                              buttonUSD(),
                             ],
                           )
                         ),
@@ -107,19 +119,14 @@ class _DepositsPageState extends State<DepositsPage> {
                             ),
                           ),
                         ),
-                        _statusCoin == 0? Text(
-                            "\$ 0,00",
-                            style:  TextStyle(
-                              fontSize: size.width / 6,
-                            ),
-                          )
-                        : Text(
-                            "Bs 0,00",
-                            textAlign: TextAlign.center,
+                        Container(
+                          child: Text(
+                            showDeposits(),
                             style:  TextStyle(
                               fontSize: size.width / 6,
                             ),
                           ),
+                        ),
                         Padding(
                           padding: EdgeInsets.only(top: 10, bottom: 10),
                           child: GestureDetector(
@@ -212,33 +219,29 @@ class _DepositsPageState extends State<DepositsPage> {
       );
   }
 
+  showDeposits(){
+    var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+  
+    if(_statusCoin == 1)
+      lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+    
+    return "${lowPrice.text}";
+  }
+
   Widget buttonUSD(){
     var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(left:30),
+      padding: EdgeInsets.only(right:0),
       child: GestureDetector(
         onTap: () => verifyStatusBank(context, 0), 
         child: Container(
-          width:size.width / 5,
-          height: size.height / 25,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _statusCoin == 0? colorGreen : colorGrey,
-                _statusCoin == 0? colorGreen : colorGrey
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
           child: Center(
             child: Text(
               "\$",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
-                fontWeight: FontWeight.w500,
+                color: _statusCoin == 0? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -250,29 +253,16 @@ class _DepositsPageState extends State<DepositsPage> {
   Widget buttonBs(){
     var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.only(left:20),
+      padding: EdgeInsets.only(left:30),
       child: GestureDetector(
         onTap: () => verifyStatusBank(context, 1), 
         child: Container(
-          width:size.width / 5,
-          height: size.height / 25,
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                _statusCoin == 1? colorGreen : colorGrey,
-                _statusCoin == 1? colorGreen : colorGrey
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
           child: Center(
             child: Text(
               "Bs",
               style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
+                color: _statusCoin == 1? colorGreen : Colors.grey,
+                fontSize: size.width / 15,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -353,8 +343,7 @@ class _DepositsPageState extends State<DepositsPage> {
     setState(() =>_statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>_statusButton.remove(index));
-    print("data");
-    print(myProvider.dataCommercesUser.length);
+
     if(myProvider.dataCommercesUser.length != 0){
       //TODO: Falta validar diferente comercio
       Navigator.push(context, SlideLeftRoute(page: page));

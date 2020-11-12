@@ -346,7 +346,7 @@ class _PerfilPageState extends State<PerfilPage> {
           if (jsonResponse['statusCode'] == 201) {
             DefaultCacheManager().emptyCache();
             setState(() =>_image = File(picture.path));
-            myProvider.getDataUser(false, context);
+            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1306,7 +1306,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, context);
+            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1350,7 +1350,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, context);
+            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
           } 
         }
@@ -1387,7 +1387,7 @@ class _PerfilPageState extends State<PerfilPage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, context);
+            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1448,7 +1448,7 @@ class _PerfilPageState extends State<PerfilPage> {
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, context);
+            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));

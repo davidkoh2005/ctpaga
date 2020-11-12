@@ -4,6 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -117,15 +118,32 @@ class _MenuPageState extends State<MenuPage> {
       } on SocketException catch (_) {
         print("error");
       } 
-    }else if(myProvider.dataCommercesUser.length == 0){
+    }else if(verifyDataCommerce()){
       showMessage("Debe ingresar los datos de la empresa", false);
+    }else if(title == "Recomentar a un comercio"){
+      launchWhatsApp(false);
+    }else if(title == "Pedir ayuda"){
+      launchWhatsApp(true);
     }else{
-      if(title == "Productos")
+      if(title == "Productos"){
         myProvider.selectProductsServices = 0;
-      else
+        myProvider.getListCategories();
+      }else if(title == "Servicios"){
         myProvider.selectProductsServices = 1;
+        myProvider.getListCategories();
+      }
       Navigator.push(context, SlideLeftRoute(page: page));
     }
+  }
+
+  verifyDataCommerce(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    if(myProvider.dataCommercesUser.length != 0){
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce] != null)
+        return false;
+    }
+
+    return true;
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
@@ -174,6 +192,30 @@ class _MenuPageState extends State<MenuPage> {
         );
       },
     );
+  }
+
+  void launchWhatsApp(status) async {
+    String url() {
+      if(status){
+        if (Platform.isIOS) {
+          return "whatsapp://wa.me/$phoneCtpaga/?text=$messageHelp";
+        } else {
+          return "whatsapp://send?phone=$phoneCtpaga&text=$messageHelp";
+        }
+      }else{
+        if (Platform.isIOS) {
+          return "whatsapp://wa.me/?text=$recommend";
+        } else {
+          return "whatsapp://send?text=$recommend";
+        }
+      }
+    }
+
+    if (await canLaunch(url())) {
+      await launch(url());
+    } else {
+      throw 'Could not launch ${url()}';
+    }
   }
 
 

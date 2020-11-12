@@ -267,7 +267,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
           var listVerification = myProvider.listVerification;
           listVerification.add(_title);
           myProvider.listVerification  = listVerification;
-          myProvider.getDataUser(false, context);
+          myProvider.getDataUser(false, false, context);
           Navigator.pop(context);
           Navigator.pop(context);
           Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));

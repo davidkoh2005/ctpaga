@@ -138,10 +138,18 @@ class MyProvider with ChangeNotifier {
   }
 
   Product _selectProducts = Product();
-  Product get dataSelectProductService =>_selectProducts;
+  Product get dataSelectProduct =>_selectProducts;
 
-  set dataSelectProductService(Product newProducts){
+  set dataSelectProduct(Product newProducts){
     _selectProducts = newProducts;
+    notifyListeners();
+  }
+
+  Service _selectService = Service();
+  Service get dataSelectService =>_selectService;
+
+  set dataSelectService(Service newServices){
+    _selectService = newServices;
     notifyListeners();
   }
 
@@ -204,7 +212,7 @@ class MyProvider with ChangeNotifier {
     listVerification = null;
   }
 
-  getDataUser(status, context)async{
+  getDataUser(status, loading, context)async{
 
     var result, response, jsonResponse;
     listPicturesUser = [];
@@ -323,6 +331,10 @@ class MyProvider with ChangeNotifier {
           await Future.delayed(Duration(seconds: 3));
 
           if(status){
+            if(loading){
+              Navigator.pop(context);
+            }
+            
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
           }
         }else{
@@ -335,11 +347,11 @@ class MyProvider with ChangeNotifier {
         dataBanksUser = await dbctpaga.getBanksUser();
         dataPicturesUser = await dbctpaga.getPicturesUser();
         dataCommercesUser = await dbctpaga.getCommercesUser();
-        dataCategories = await dbctpaga.getCategories();
+        dataCategories = await dbctpaga.getCategories(selectProductsServices);
         dataProducts = await dbctpaga.getProducts();
         dataServices = await dbctpaga.getServices();
         dataShipping = await dbctpaga.getShipping();
-        dataShipping = await dbctpaga.getDiscounts();
+        dataDiscount = await dbctpaga.getDiscounts();
       }
 
       if(status){
@@ -391,7 +403,7 @@ class MyProvider with ChangeNotifier {
       }
     } on SocketException catch (_) {
       if(accessTokenUser != null){
-        dataCategories = await dbctpaga.getCategories();
+        dataCategories = await dbctpaga.getCategories(selectProductsServices);
       }
     }
   }
@@ -580,7 +592,7 @@ class MyProvider with ChangeNotifier {
       }
     } on SocketException catch (_) {
       if(accessTokenUser != null){
-        dataShipping = await dbctpaga.getDiscounts();
+        dataDiscount = await dbctpaga.getDiscounts();
       }
 
     }

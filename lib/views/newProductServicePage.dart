@@ -33,7 +33,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   final _controllerDescription = TextEditingController();
   final _controllerStock = TextEditingController();
   final _controllerPostPurchase = TextEditingController();
-  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  rightSymbol: ' \$', );
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
   
   // ignore: unused_field
   String _name, _description, _categories, _price, _selectCategories, _postPurchase;
@@ -64,14 +64,28 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     else
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   
-    if(myProvider.dataSelectProductService != null){
-      lowPrice.updateValue(double.parse(myProvider.dataSelectProductService.price));
-      _controllerName.text = myProvider.dataSelectProductService.name;
-      _controllerDescription.text = myProvider.dataSelectProductService.description;
-      _switchPublish = myProvider.dataSelectProductService.publish;
-      _controllerStock.text = myProvider.dataSelectProductService.stock == null? "" : myProvider.dataSelectProductService.stock.toString();
-      _switchPostPurchase = myProvider.dataSelectProductService.postPurchase.length >0? true: false;
-      _controllerPostPurchase.text = myProvider.dataSelectProductService.postPurchase;
+    if(myProvider.dataSelectProduct != null){
+
+      lowPrice.updateValue(double.parse(myProvider.dataSelectProduct.price));
+      _controllerName.text = myProvider.dataSelectProduct.name;
+      _controllerDescription.text = myProvider.dataSelectProduct.description == 'null'? '' : myProvider.dataSelectProduct.description;
+      _switchPublish = myProvider.dataSelectProduct.publish;
+      _controllerStock.text = myProvider.dataSelectProduct.stock == null? "" : myProvider.dataSelectProduct.stock.toString();
+      _switchPostPurchase = myProvider.dataSelectProduct.postPurchase == null ? false :  myProvider.dataSelectProduct.postPurchase.length >0 ? true : false;
+      _controllerPostPurchase.text = myProvider.dataSelectProduct.postPurchase == null ? "": myProvider.dataSelectProduct.postPurchase;
+
+      setState(() {
+        _dataProductsService.add("Picture");
+        _dataProductsService.add("Name");
+        _dataProductsService.add("Price");
+      });
+    }else if(myProvider.dataSelectService != null){
+      lowPrice.updateValue(double.parse(myProvider.dataSelectService.price));
+      _controllerName.text = myProvider.dataSelectService.name;
+      _controllerDescription.text = myProvider.dataSelectService.description == 'null'? '' : myProvider.dataSelectService.description;
+      _switchPublish = myProvider.dataSelectService.publish;
+      _switchPostPurchase = myProvider.dataSelectService.postPurchase == null ? false :  myProvider.dataSelectService.postPurchase.length >0 ? true : false;
+      _controllerPostPurchase.text = myProvider.dataSelectService.postPurchase == null ? "": myProvider.dataSelectService.postPurchase;
 
       setState(() {
         _dataProductsService.add("Picture");
@@ -90,7 +104,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            myProvider.selectProductsServices== 0? myProvider.dataSelectProductService != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectProductService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
+            myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -103,7 +117,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       children: <Widget>[
                         buttonNewProductService(),
                         Visibility(
-                          visible: myProvider.dataSelectProductService != null? true : false,
+                          visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
                           child: Padding(
                             padding: EdgeInsets.only(top:20),
                             child: buttonDeleteProductService()
@@ -237,7 +251,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.transparent),
                           ),
-                        ),                  
+                        ),    
+                        onTap: () => lowPrice.selection = TextSelection.fromPosition(TextPosition(offset: lowPrice.text.length)),                 
                       ),
                     ),
 
@@ -578,12 +593,33 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           ),
         )
       );
-    }else if(myProvider.dataSelectProductService != null){
+    }else if(myProvider.dataSelectProduct != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: url+myProvider.dataSelectProductService.url,
+            imageUrl: url+myProvider.dataSelectProduct.url,
+            fit: BoxFit.cover,
+            height: size.width / 4,
+            width: size.width / 4,
+            placeholder: (context, url) {
+              return Container(
+                margin: EdgeInsets.all(15),
+                child:CircularProgressIndicator(
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                ),
+              );
+            },
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+          ),
+        )
+      );
+    }if(myProvider.dataSelectService != null){
+      return GestureDetector(
+        onTap: () => _showSelectionDialog(context),
+        child: ClipOval(
+          child: CachedNetworkImage(
+            imageUrl: url+myProvider.dataSelectService.url,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,
@@ -681,10 +717,12 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         )
       );
 
-      this.setState(() {
-        _image = cropped;
-        _dataProductsService.add("Picture");
-      });
+      if(cropped != null){
+        this.setState(() {
+          _image = cropped;
+          _dataProductsService.add("Picture");
+        });
+      }
       Navigator.of(context).pop();
       
     }
@@ -720,7 +758,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         ),
         child: Center(
           child: Text(
-            myProvider.selectProductsServices == 0? myProvider.dataSelectProductService != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectProductService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
+            myProvider.selectProductsServices == 0? myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
               fontSize: size.width / 20,
@@ -788,7 +826,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     setState(() => _statusButton = false);
 
     
-    if (_formKeyProductService.currentState.validate() && myProvider.dataSelectProductService == null) {
+    if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null || myProvider.dataSelectService == null)) {
       _formKeyProductService.currentState.save();
       try
       {
@@ -848,14 +886,17 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             myProvider.getListProducts();
             myProvider.getListServices();
             Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
             Navigator.pop(context);
           }
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet");
+        showMessage("Sin conexión a internet",false);
       }
-    }else if (_formKeyProductService.currentState.validate() && myProvider.dataSelectProductService != null) {
+    }else if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
       _formKeyProductService.currentState.save();
       try
       {
@@ -867,7 +908,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           if(_image != null)
             base64Image = base64Encode(_image.readAsBytesSync());
           else
-            base64Image = myProvider.dataSelectProductService.url;
+            base64Image = myProvider.dataSelectProduct.url;
 
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
@@ -878,7 +919,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataSelectProductService.id,
+                "id": myProvider.dataSelectProduct.id,
                 "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
                 "image":base64Image,
                 "name": _name,
@@ -889,7 +930,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "publish": _switchPublish,
                 "stock": _stock,
                 "postPurchase": _switchPostPurchase,
-                "url": _image == null? myProvider.dataSelectProductService.url : null,
+                "url": _image == null? myProvider.dataSelectProduct.url : null,
               }),
             ); 
           }else{
@@ -901,7 +942,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataSelectProductService.id,
+                "id": myProvider.dataSelectService.id,
                 "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
                 "image":base64Image,
                 "name": _name,
@@ -912,7 +953,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "publish": _switchPublish,
                 "stock": _stock,
                 "postPurchase": _switchPostPurchase,
-                "url": _image == null? myProvider.dataSelectProductService.url : null,
+                "url": _image == null? myProvider.dataSelectService.url : null,
               }),
             ); 
           }
@@ -923,12 +964,15 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           if (jsonResponse['statusCode'] == 201) {
             myProvider.getListProducts();
             Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
             Navigator.pop(context);
           }
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet");
+        showMessage("Sin conexión a internet", false);
       } 
     }
   }
@@ -956,7 +1000,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataSelectProductService.id,
+                "id": myProvider.dataSelectProduct.id,
               }),
             ); 
           }else{
@@ -968,7 +1012,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataSelectProductService.id,
+                "id": myProvider.dataSelectService.id,
               }),
             ); 
           }
@@ -979,25 +1023,28 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           if (jsonResponse['statusCode'] == 201) {
             var dbctpaga = DBctpaga();
             if(myProvider.selectProductsServices == 0){
-              dbctpaga.deleteProduct(myProvider.dataSelectProductService.id);
+              dbctpaga.deleteProduct(myProvider.dataSelectProduct.id);
               myProvider.getListProducts();
             }
             else{
-              dbctpaga.deleteService(myProvider.dataSelectProductService.id);
+              dbctpaga.deleteService(myProvider.dataSelectService.id);
               myProvider.getListServices();
             }
             
+            Navigator.pop(context);
+            showMessage("Eliminado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
             Navigator.pop(context);
           }
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet");
+        showMessage("Sin conexión a internet", false);
       } 
   }
 
-  Future<void> showMessage(_titleMessage) async {
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1011,7 +1058,15 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Padding(
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.error,
@@ -1023,7 +1078,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 padding: EdgeInsets.all(5),
                 child: Text(
                   _titleMessage,
-                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: size.width / 20,

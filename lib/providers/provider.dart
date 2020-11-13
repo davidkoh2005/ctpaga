@@ -8,18 +8,20 @@ import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/service.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
+import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:shared_preferences/shared_preferences.dart';
 
 class MyProvider with ChangeNotifier {
   //call function BD    
@@ -161,6 +163,22 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  bool _statusDolar;
+  bool get statusDolar =>_statusDolar; 
+  
+  set statusDolar(bool newStatus) {
+    _statusDolar = newStatus; 
+    notifyListeners(); 
+  }
+
+  bool _statusBs;
+  bool get statusBs =>_statusBs; 
+  
+  set statusBs(bool newStatus) {
+    _statusBs = newStatus; 
+    notifyListeners(); 
+  }
+
   bool _statusShipping;
   bool get statusShipping =>_statusShipping; 
   
@@ -191,6 +209,46 @@ class MyProvider with ChangeNotifier {
   set dataDiscount(List newDiscount){
     _discount = newDiscount;
     notifyListeners();
+  }
+
+  List _rates = new List();
+  List get dataRates =>_rates;
+
+  set dataRates(List newRates){
+    _rates = newRates;
+    notifyListeners();
+  }
+
+  List _ratesSelectToday = new List();
+  List get dataRatesSelectToday =>_ratesSelectToday;
+
+  set dataRatesSelectToday(List newRates){
+    _ratesSelectToday = newRates;
+    notifyListeners();
+  }
+
+  List _ratesSelectWeek = new List();
+  List get dataRatesSelectWeek =>_ratesSelectWeek;
+
+  set dataRatesSelectWeek(List newRates){
+    _ratesSelectWeek = newRates;
+    notifyListeners();
+  }
+
+  List _ratesSelectMonth = new List();
+  List get dataRatesSelectMonth =>_ratesSelectMonth;
+
+  set dataRatesSelectMonth(List newRates){
+    _ratesSelectMonth = newRates;
+    notifyListeners();
+  }
+
+  int _selectDate;
+  int get selectDateRate =>_selectDate; 
+  
+  set selectDateRate(int newSelect) {
+    _selectDate = newSelect; 
+    notifyListeners(); 
   }
 
   User user = User();
@@ -323,11 +381,14 @@ class MyProvider with ChangeNotifier {
 
           }
 
+          statusDolar = false;
+          statusBs = false;
           getListCategories();
           getListProducts();
           getListServices();
           getListShipping();
           getListDiscounts();
+          getListRates();
           await Future.delayed(Duration(seconds: 3));
 
           if(status){
@@ -352,6 +413,8 @@ class MyProvider with ChangeNotifier {
         dataServices = await dbctpaga.getServices();
         dataShipping = await dbctpaga.getShipping();
         dataDiscount = await dbctpaga.getDiscounts();
+        dataRates = await dbctpaga.getRates();
+        getRatesDate();
       }
 
       if(status){
@@ -449,6 +512,12 @@ class MyProvider with ChangeNotifier {
             );
             _listProducts.add(product);
             dbctpaga.createOrUpdateProducts(product);
+
+            if(item['coin'] == 0)
+              statusDolar = true;
+            else if(item['coin'] == 1)
+              statusBs = true;
+
           }
           dataProducts = _listProducts;
         } 
@@ -501,6 +570,11 @@ class MyProvider with ChangeNotifier {
             );
             _listService.add(service);
             dbctpaga.createOrUpdateServices(service);
+
+            if(item['coin'] == 0)
+              statusDolar = true;
+            else if(item['coin'] == 1)
+              statusBs = true;
           }
           dataServices = _listService;
         } 
@@ -618,6 +692,127 @@ class MyProvider with ChangeNotifier {
       }
       dataProductsServicesCategories = listProductsServicesCategories;
     }
+  }
+
+  Rate rate = Rate();
+  List _listRates = new List();
+  List _listRatesToday = new List();
+  List _listRatesWeek = new List();
+  List _listRatesMonth = new List();
+
+  getListRates()async{
+    List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var formatterDay = new DateFormat('EEEE');
+    DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
+    var result, response, jsonResponse;
+    _listRates = [];
+    _listRatesToday = [];
+    _listRatesWeek = [];
+    _listRatesMonth = [];
+    dataRatesSelectToday = null;
+    dataRatesSelectMonth = null;
+    dataRatesSelectWeek = null;
+
+    _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
+    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
+    _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
+    _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+    
+
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showRates",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            rate = Rate(
+              id: item['id'],
+              rate: item['rate'],
+              date: item['date'],
+            );
+
+            DateTime dateRate = DateTime.parse(item['date']);
+
+            if(dateRate.day == _today.day && dateRate.month == _today.month && dateRate.year == _today.year){
+              _listRatesToday.add(rate);
+            }
+
+            if(_firstDay.isBefore(dateRate) && _lastDay.isAfter(dateRate)){
+              _listRatesWeek.add(rate);
+            }
+
+            if(dateRate.month == _today.month){
+              _listRatesMonth.add(rate);
+            }
+
+            _listRates.add(rate);
+            dbctpaga.createRates(rate);
+          }
+          dataRates = _listRates;
+          dataRatesSelectToday = _listRatesToday;
+          dataRatesSelectWeek = _listRatesWeek;
+          dataRatesSelectMonth = _listRatesMonth;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataRates = await dbctpaga.getRates();
+      }
+    }
+  }
+
+  getRatesDate(){
+    List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+    var formatterDay = new DateFormat('EEEE');
+    DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
+    _listRates = [];
+    _listRatesToday = [];
+    _listRatesWeek = [];
+    _listRatesMonth = [];
+    dataRatesSelectToday = null;
+    dataRatesSelectMonth = null;
+    dataRatesSelectWeek = null;
+    _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
+    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
+    _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
+    _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+
+    for (var item in dataRates) {
+      rate = Rate(
+        id: item.id,
+        rate: item.rate,
+        date: item.date,
+      );
+
+      DateTime dateRate = DateTime.parse(item.date);
+
+      if(dateRate.day == _today.day && dateRate.month == _today.month && dateRate.year == _today.year){
+        _listRatesToday.add(rate);
+      }
+
+      if(_firstDay.isBefore(dateRate) && _lastDay.isAfter(dateRate)){
+        _listRatesWeek.add(rate);
+      }
+
+      if(dateRate.month == _today.month){
+        _listRatesMonth.add(rate);
+      }
+
+    }
+      dataRatesSelectToday = _listRatesToday;
+      dataRatesSelectWeek = _listRatesWeek;
+      dataRatesSelectMonth = _listRatesMonth;
   }
 
 

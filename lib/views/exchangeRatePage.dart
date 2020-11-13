@@ -6,12 +6,10 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
-
 
 class ExchangeRatePage extends StatefulWidget {
   
@@ -25,6 +23,8 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   var formatter = new DateFormat('dd/M/yyyy');
   var formatterDay = new DateFormat('EEEE');
   var formatterMonth = new DateFormat('MMMM');
+  var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
+
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusButtonDate = 0;
   bool _statusButton =false;
@@ -32,6 +32,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting();
     initialVariable();
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
@@ -46,12 +47,16 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.selectDateRate = 0;
 
+    if(myProvider.dataRates.length != 0)
+      lowPrice.updateValue(double.parse(myProvider.dataRates[0].rate));
+    
+    
   }
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
     return Scaffold(
         body: Container(
           child: Column(
@@ -94,7 +99,8 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                   Container(
                     padding: EdgeInsets.only(bottom: 30),
                     child: Text(
-                      "${lowPrice.text}",
+                      updatePrice(myProvider),
+                      textAlign: TextAlign.center,
                       style:  TextStyle(
                         fontSize: size.width / 6,
                       ),
@@ -104,13 +110,13 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: <Widget>[
-                      showButtonDate(0),
-                      showButtonDate(1),
-                      showButtonDate(2),
+                      showButtonDate(0, myProvider),
+                      showButtonDate(1, myProvider),
+                      showButtonDate(2, myProvider),
                     ],
                   ),
 
-                  showTable(),
+                  showTable(myProvider),
                   
                 ],
             )
@@ -118,6 +124,14 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
         );
       }
     );
+  }
+
+  updatePrice(myProvider){
+    if(myProvider.dataRates.length != 0)
+      lowPrice.updateValue(double.parse(myProvider.dataRates[0].rate));
+    
+
+    return "${lowPrice.text}";
   }
 
   showDate(){
@@ -129,18 +143,21 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
         return "TASA:  FECHA ${formatter.format(_firstDay)} - ${formatter.format(_lastDay)} ";
         break;
       default:
-        formatterMonth = new DateFormat('MMMM', 'es_ES');
+        formatterMonth = new DateFormat('MMMM','es_ES');
         return "TASA:  MES ${formatterMonth.format(_today).toUpperCase()}";
     }
   }
 
   
 
-  Widget showButtonDate(index){
+  Widget showButtonDate(index, myProvider){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => setState(() => _statusButtonDate = index),
+      onTap: () {
+        myProvider.selectDateRate = index;
+        setState(() => _statusButtonDate = index);
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
@@ -169,80 +186,107 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     );
   }
 
-  Widget showTable(){
+  Widget showTable(myProvider){
     return Padding(
       padding: EdgeInsets.all(20),
-      child: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Column(
-            children: <Widget> [
-              Container(
-                decoration: BoxDecoration(
-                  color: colorGreen,
-                  border: Border.all(color: Colors.black26),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'Fecha',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'Tasa',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: colorGrey,
-                  border: Border.all(color: Colors.black26),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'No ha agregado ninguna tasa',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    
-                  ],
-                ),
-              ),
-            ]
-          )
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              'FECHA',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'TASA',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
         ],
+        rows: verifyData(myProvider)?
+          const <DataRow>[]
+        :
+          List<DataRow>.generate(
+            tableLength(myProvider),
+            (index) => DataRow(
+              cells: [
+                DataCell(
+                  Text(showRate(myProvider, index)),
+                ),
+                DataCell(
+                  Text(showRateDate(myProvider, index)),
+                ),
+              ]
+            )
+          ).toList(),
+
       ),
     );
+  }
+
+  verifyData(myProvider){
+    if(myProvider.selectDateRate == 0){
+      if(myProvider.dataRatesSelectToday == null)
+        return true;
+      else if(myProvider.dataRatesSelectToday.length ==0)
+        return true;
+
+    }else if(myProvider.selectDateRate == 1){
+      if(myProvider.dataRatesSelectWeek == null)
+        return true;
+      else if(myProvider.dataRatesSelectWeek.length ==0)
+        return true;
+
+    }else if(myProvider.selectDateRate == 3){
+      if(myProvider.dataRatesSelectMonth == null)
+        return true;
+      else if(myProvider.dataRatesSelectMonth.length ==0)
+        return true;
+    } 
+
+    return false;
+  }
+
+  int tableLength(myProvider){
+    if(myProvider.selectDateRate == 0)
+      return myProvider.dataRatesSelectToday.length;
+
+    else if(myProvider.selectDateRate == 1)
+      return myProvider.dataRatesSelectWeek.length;
+
+    else if(myProvider.selectDateRate == 2)
+      return myProvider.dataRatesSelectMonth.length;
+    
+
+    return 0;
+  }
+
+  showRate(myProvider, index){
+    if(myProvider.selectDateRate == 0){
+      return showExhangeRate(myProvider.dataRatesSelectToday[index].rate);
+    }else if(myProvider.selectDateRate == 1){
+      return showExhangeRate(myProvider.dataRatesSelectWeek[index].rate);
+    }
+
+    return showExhangeRate(myProvider.dataRatesSelectMonth[index].rate);
+  }
+
+  showRateDate(myProvider, index){
+    if(myProvider.selectDateRate == 0){
+      return formatterTable.format(DateTime.parse(myProvider.dataRatesSelectToday[index].date));
+    }else if(myProvider.selectDateRate == 1){
+      return formatterTable.format(DateTime.parse(myProvider.dataRatesSelectWeek[index].date));
+    }
+    return formatterTable.format(DateTime.parse(myProvider.dataRatesSelectMonth[index].date));
+  }
+
+  showExhangeRate(rate){
+    var lowRate = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+
+    lowRate.updateValue(double.parse(rate));
+
+    return "${lowRate.text}";
   }
 
   Widget buttonNew(){

@@ -65,8 +65,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   
     if(myProvider.dataSelectProduct != null){
-
-      lowPrice.updateValue(double.parse(myProvider.dataSelectProduct.price));
+      updatePrice(myProvider.dataSelectProduct.price, myProvider.dataSelectProduct.coin);
       _controllerName.text = myProvider.dataSelectProduct.name;
       _controllerDescription.text = myProvider.dataSelectProduct.description == 'null'? '' : myProvider.dataSelectProduct.description;
       _switchPublish = myProvider.dataSelectProduct.publish;
@@ -80,7 +79,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         _dataProductsService.add("Price");
       });
     }else if(myProvider.dataSelectService != null){
-      lowPrice.updateValue(double.parse(myProvider.dataSelectService.price));
+      updatePrice(myProvider.dataSelectService.price, myProvider.dataSelectService.coin);
       _controllerName.text = myProvider.dataSelectService.name;
       _controllerDescription.text = myProvider.dataSelectService.description == 'null'? '' : myProvider.dataSelectService.description;
       _switchPublish = myProvider.dataSelectService.publish;
@@ -94,6 +93,19 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       });
     }
       
+  }
+
+  updatePrice(price, coin){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    double priceDouble = double.parse(price);
+    double varRate = double.parse(myProvider.dataRates[0].rate);
+
+    if(coin == 0 && myProvider.coinUsers == 1)
+      lowPrice.updateValue(priceDouble * varRate);
+    else if(coin == 1 && myProvider.coinUsers == 0)
+      lowPrice.updateValue(priceDouble / varRate);
+    else
+      lowPrice.updateValue(priceDouble);
   }
 
   @override
@@ -239,7 +251,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           });
                         },
                         validator: (value) => !_dataProductsService.contains("Price")? 'Debe ingresar un precio Válido' : null,
-                        textInputAction: TextInputAction.next,
                         cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         style: TextStyle(
@@ -826,7 +837,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     setState(() => _statusButton = false);
 
     
-    if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null || myProvider.dataSelectService == null)) {
+    if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
       _formKeyProductService.currentState.save();
       try
       {

@@ -1,6 +1,7 @@
 import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/discounts.dart';
 import 'package:ctpaga/models/commerce.dart';
+import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/models/shipping.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
@@ -54,6 +55,7 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS services (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, postPurchase text)');
     await db.execute('CREATE TABLE IF NOT EXISTS shipping (id INTEGER, price VARCHAR(50), coin INTEGER, description text)');
     await db.execute('CREATE TABLE IF NOT EXISTS discounts (id INTEGER, code VARCHAR(50), percentage INTEGER)');
+    await db.execute('CREATE TABLE IF NOT EXISTS rates (id INTEGER, rate VARCHAR(50), created_at VARCHAR(50))');
   }
 
   /*
@@ -519,6 +521,39 @@ class DBctpaga{
     await dbConnection.transaction((transaction) async{
       return await transaction.rawQuery(query);
     });
+  }
+
+  // Get Rate
+  Future <List<dynamic>> getRates() async{
+    List<Rate> listRates = new List();
+    listRates = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM rates');
+    Rate rate = new Rate();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      rate = Rate(
+        id : list[i]['id'],
+        rate : list[i]['rate'],
+        date : list[i]['created_at'],
+      );
+
+      listRates.add(rate);
+
+    }
+
+    return listRates;
+  }
+
+  // Create Rate
+  void createRates(Rate rate) async{
+    var dbConnection = await db;
+    String query = 'INSERT INTO rates (id, rate, created_at) VALUES ( \'${rate.id}\', \'${rate.rate}\', \'${rate.date}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
   }
 
 }

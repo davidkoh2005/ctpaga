@@ -236,88 +236,35 @@ class _SalesReportPageState extends State<SalesReportPage> {
   Widget showTable(){
     return Padding(
       padding: EdgeInsets.all(20),
-      child: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Column(
-            children: <Widget> [
-              Container(
-                decoration: BoxDecoration(
-                  color: colorGreen,
-                  border: Border.all(color: Colors.black26),
-                  borderRadius: BorderRadius.only(
-                    topLeft: Radius.circular(20),
-                    topRight: Radius.circular(20),
-                  )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'Productos y/o Servicios',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'Fecha',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'Precio',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                decoration: BoxDecoration(
-                  color: colorGrey,
-                  border: Border.all(color: Colors.black26),
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(20),
-                    bottomRight: Radius.circular(20),
-                  )
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: <Widget>[
-                    Container(
-                      padding: EdgeInsets.all(10),
-                      child: Center(
-                        child: Text(
-                          'No ha realizado ninguna venta',
-                          textAlign: TextAlign.center,
-                          style: TextStyle(color: Colors.black),
-                        ),
-                      ),
-                    ),
-                    
-                  ],
-                ),
-              ),
-            ]
-          )
+      child: DataTable(
+        columns: const <DataColumn>[
+          DataColumn(
+            label: Text(
+              'Productos y/o Servicios',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'Fecha',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
+          DataColumn(
+            label: Text(
+              'Precio',
+              style: TextStyle(fontStyle: FontStyle.italic),
+            ),
+          ),
         ],
-      ),
-      
-      
+        rows: const <DataRow>[
+          /* DataRow(
+            cells: <DataCell>[
+              DataCell(Text('No se ha agregado ninguna tasa')),
+            ],
+          ), */
+        ], 
+      ),  
       
     );
   }

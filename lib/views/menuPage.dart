@@ -125,7 +125,9 @@ class _MenuPageState extends State<MenuPage> {
     }else if(title == "Pedir ayuda"){
       launchWhatsApp(true);
     }else{
-      if(title == "Productos"){
+      if((title == "Productos" || title == "Servicios") && myProvider.dataRates.length == 0){
+        showMessage("Debe ingresar la tasa de cambio", false);
+      }else if(title == "Productos"){
         myProvider.selectProductsServices = 0;
         myProvider.getListCategories();
       }else if(title == "Servicios"){

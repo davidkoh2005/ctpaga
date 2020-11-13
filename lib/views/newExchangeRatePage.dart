@@ -25,22 +25,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   String _rate;
 
   @override
-  void initState() {
-    super.initState();
-    initialVariable();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-  }
-
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    
-  }
-
-  @override
   Widget build(BuildContext context) {
 
     return Scaffold(
@@ -130,7 +114,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   Widget buttonSave(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => _statusRate??saveRate(),
+      onTap: () => _statusRate?saveRate(): null,
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -172,14 +156,15 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
     setState(() => _statusButtonSave = false);
     if (_formKeyRate.currentState.validate()) {
       _formKeyRate.currentState.save();
-
-      /* try
+      if(!_rate.contains(",00"))
+        _rate = _rate.substring(0, _rate.length - 2);
+      try
       {
         _onLoading();
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"newShipping",
+            urlApi+"newRates",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -193,7 +178,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListShipping();
+            myProvider.getListRates();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -204,7 +189,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
       } on SocketException catch (_) {
         Navigator.pop(context);
         showMessage("Sin conexión a internet", false);
-      }   */
+      }  
       
     }
   }

@@ -28,6 +28,22 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       _statusButtonCharge = false;
 
   @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.selectDateRate = 0;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
@@ -468,13 +484,20 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   showPrice(price, coin){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    double priceDouble = double.parse(price);
+    double varRate = double.parse(myProvider.dataRates[0].rate);
 
-    if(coin == 1)
+    if(myProvider.coinUsers  == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
 
-
-    lowPrice.updateValue(double.parse(price));
+    if(coin == 0 && myProvider.coinUsers == 1)
+      lowPrice.updateValue(priceDouble * varRate);
+    else if(coin == 1 && myProvider.coinUsers == 0)
+      lowPrice.updateValue(priceDouble / varRate);
+    else
+      lowPrice.updateValue(priceDouble);
 
     return "${lowPrice.text}";
   }

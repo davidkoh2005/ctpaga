@@ -249,6 +249,8 @@ class _MainPageState extends State<MainPage> {
     
     if(myProvider.dataCommercesUser.length == 0){
       showMessage("Debe ingresar los datos de la empresa", false);
+    }else if((myProvider.dataRates.length == 0 )){
+      showMessage("Debe ingresar la tasa de cambio", false);
     }else{
       Navigator.push(context, SlideLeftRoute(page: page));
     }

@@ -204,7 +204,7 @@ class _SelfiePageState extends State<SelfiePage> {
       _controller?.dispose();
 
       //TODO: Eliminar if
-      if(!urlApi.contains("herokuapp")){
+      if(!urlApi.contains("herokuapp") || !urlApi.contains("54.196.181.42")){
         String base64Image = base64Encode(File(filePath).readAsBytesSync());
         String fileName = filePath.split("/").last;
 

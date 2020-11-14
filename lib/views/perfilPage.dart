@@ -323,7 +323,7 @@ class _PerfilPageState extends State<PerfilPage> {
       {
         
         //TODO: Eliminar if
-        if(!urlApi.contains("herokuapp")){
+        if(!urlApi.contains("herokuapp") || !urlApi.contains("54.196.181.42")){
           String base64Image = base64Encode(File(picture.path).readAsBytesSync());
           String fileName = picture.path.split("/").last;
 

@@ -13,10 +13,14 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "http://192.168.1.104:8000";
+//String url = "http://192.168.1.124:8000";
 
 //TODO: Url Api (heroku)
 //String url = "http://ctpaga.herokuapp.com";
+
+//TODO: Url Api (AWS)
+String url = "http://54.196.181.42/";
+
 String urlApi = "$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);

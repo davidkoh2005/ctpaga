@@ -243,7 +243,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
       _onLoading();
       _controller?.dispose();
 
-      if(!urlApi.contains("herokuapp")){
+      //TODO: Eliminar if
+      if(!urlApi.contains("herokuapp") || !urlApi.contains("54.196.181.42")){
         String base64Image = base64Encode(File(filePath).readAsBytesSync());
         String fileName = filePath.split("/").last;
 

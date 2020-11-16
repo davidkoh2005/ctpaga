@@ -837,7 +837,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     setState(() => _statusButton = false);
 
     //TODO: Eliminar if
-    if(!urlApi.contains("herokuapp") || !urlApi.contains("54.196.181.42")){
+    if(!urlApi.contains("herokuapp")){
       if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
         _formKeyProductService.currentState.save();
         try

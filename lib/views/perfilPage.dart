@@ -91,7 +91,7 @@ class _PerfilPageState extends State<PerfilPage> {
                       builder: (context, myProvider, child) {
                         if(myProvider.dataCommercesUser.length <=1){
                           return Container(
-                            padding: EdgeInsets.only(top:5),
+                            padding: EdgeInsets.only(top:5, bottom: 5),
                             child: Center(
                               child: Text(
                                 myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
@@ -104,7 +104,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           );
                         }
                         return Container(
-                          padding: EdgeInsets.only(top:5),
+                          padding: EdgeInsets.only(top:5, bottom: 5),
                           child: Center(
                             child: DropdownButton<Commerce>(
                               value: myProvider.dataCommercesUser[myProvider.selectCommerce],
@@ -323,7 +323,7 @@ class _PerfilPageState extends State<PerfilPage> {
       {
         
         //TODO: Eliminar if
-        if(!urlApi.contains("herokuapp") || !urlApi.contains("54.196.181.42")){
+        if(!urlApi.contains("herokuapp")){
           String base64Image = base64Encode(File(picture.path).readAsBytesSync());
           String fileName = picture.path.split("/").last;
 

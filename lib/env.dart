@@ -19,7 +19,7 @@ import 'package:flutter/material.dart';
 //String url = "http://ctpaga.herokuapp.com";
 
 //TODO: Url Api (AWS)
-String url = "http://54.196.181.42/";
+String url = "http://54.196.181.42";
 
 String urlApi = "$url/api/auth/";
 

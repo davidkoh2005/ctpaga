@@ -90,22 +90,13 @@ class _MainPageState extends State<MainPage> {
   }
 
   Widget buttonMain(_title, _index, _page){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
       child: GestureDetector(
         onTap: () {
-          if(_title == "Productos"){
-            myProvider.selectProductsServices = 0;
-            myProvider.getListCategories();
-          }else if(_title == "Servicios"){
-            myProvider.selectProductsServices = 1;
-            myProvider.getListCategories();
-          }
-
           setState(() => clickBotton = _index); //I add color selected button
-          nextPage(_page); //next page
+          nextPage(_page, _title); //next page
         },
         child: Container(
           width:size.width - 100,
@@ -242,7 +233,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  nextPage(Widget page)async{
+  nextPage(Widget page, _title)async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
@@ -252,6 +243,13 @@ class _MainPageState extends State<MainPage> {
     }else if((myProvider.dataRates.length == 0 )){
       showMessage("Debe ingresar la tasa de cambio", false);
     }else{
+      if(_title == "Productos"){
+        myProvider.selectProductsServices = 0;
+        myProvider.getListCategories();
+      }else if(_title == "Servicios"){
+        myProvider.selectProductsServices = 1;
+        myProvider.getListCategories();
+      }
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

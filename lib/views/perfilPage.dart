@@ -84,7 +84,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 child: Column(
                   children: <Widget> [
                     Padding(
-                      padding: EdgeInsets.only(top:20, bottom: 5),
+                      padding: EdgeInsets.only(bottom: 5),
                       child: showImage()
                     ),
                     Consumer<MyProvider>(
@@ -94,7 +94,7 @@ class _PerfilPageState extends State<PerfilPage> {
                             padding: EdgeInsets.only(top:5, bottom: 5),
                             child: Center(
                               child: Text(
-                                myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                                myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
                                 style: TextStyle(
                                   fontSize: size.width / 14,
                                   color: colorText,
@@ -216,6 +216,9 @@ class _PerfilPageState extends State<PerfilPage> {
                 break;
               }
             }
+            
+            removeCache();
+
             if (urlProfile != null)
             {
               return GestureDetector(
@@ -1298,6 +1301,7 @@ class _PerfilPageState extends State<PerfilPage> {
               'name': _nameCompany,
               'address': _addressCompany,
               'phone': _phoneCompany,
+              'commerce_id': myProvider.dataCommercesUser.length != 0? myProvider.dataCommercesUser[myProvider.selectCommerce].id : 0,
             }),
           ); 
 

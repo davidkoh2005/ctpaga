@@ -51,8 +51,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
     if(myProvider.dataRates.length != 0)
       lowPrice.updateValue(double.parse(myProvider.dataRates[0].rate));
-    
-    
+     
   }
 
   @override

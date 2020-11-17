@@ -147,6 +147,7 @@ class _MyHomePageState extends State<MyHomePage> {
       myProvider.statusShipping = prefs.getBool('statusShipping');
       myProvider.descriptionShipping = prefs.getString('descriptionShipping');
       myProvider.getDataUser(true, false, context);
+      myProvider.dataPurchase = [];
     }else{
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }

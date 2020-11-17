@@ -1,7 +1,10 @@
+import 'dart:convert';
+
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
-import 'package:ctpaga/views/newProductServicePage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/newProductServicePage.dart';
+import 'package:ctpaga/views/newSalesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -24,8 +27,10 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   final bool _statusCharge;
   String _statusDropdown = "";
   int _selectCategories = 0, _idSelectCategories=0;
-  bool _statusButton = false,
-      _statusButtonCharge = false;
+  double _total=0.0;
+  bool _statusButton = false, _statusButtonCharge = false,
+      _statusPurchase = false;
+  List  _indexProduct = new List(), _indexService = new List();
 
   @override
   void initState() {
@@ -59,7 +64,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    SizedBox(height:20),
                     myProvider.selectProductsServices == 0? dropdownList("Productos") : dropdownList("Servicios"),
                     Visibility(
                       visible: _statusProductsServices(myProvider),
@@ -165,14 +169,22 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           itemCount: myProvider.dataProducts.length,
           itemBuilder:  (BuildContext ctxt, int index) {
             return GestureDetector(
-              onTap: () {
-                setState(() => _statusDropdown = "");
-                if(myProvider.dataProducts[index].categories != null)
-                  myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
-                
-                myProvider.dataSelectProduct = myProvider.dataProducts[index];
-                myProvider.dataSelectService = null;
-                Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
+              onTap: () async {
+                if(_statusCharge){
+                  addProductsServices(myProvider.dataProducts[index]);
+                  setState(() =>_indexProduct.add(index));
+                  await Future.delayed(Duration(milliseconds: 150));
+                  setState(() =>_indexProduct.remove(index));
+                }else{
+                  setState(() => _statusDropdown = "");
+                  if(myProvider.dataProducts[index].categories != null)
+                    myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
+                  
+                  myProvider.dataSelectProduct = myProvider.dataProducts[index];
+                  myProvider.dataSelectService = null;
+
+                  nextPage(NewProductServicePage());
+                }
               }, 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -184,15 +196,17 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                       Text(
                         myProvider.dataProducts[index].name,
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: _indexProduct.contains(index)? colorGreen :  colorText,
                           fontSize: size.width / 22,
+                          fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
                       Text(
                         "${myProvider.dataProducts[index].stock} disponibles",
                         style: TextStyle(
-                          color: colorText,
+                          color: _indexProduct.contains(index)? colorGreen :  colorText,
                           fontSize: size.width / 22,
+                          fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
                     ]
@@ -203,8 +217,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                         child: Text(
                           showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
                           style: TextStyle(
-                            color: colorText,
+                            color: _indexProduct.contains(index)? colorGreen :  colorText,
                             fontSize: size.width / 22,
+                            fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                           ),
                         )
                       ),
@@ -228,14 +243,21 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           itemCount: myProvider.dataServices.length,
           itemBuilder:  (BuildContext ctxt, int index) {
             return GestureDetector(
-              onTap: () {
-                setState(() => _statusDropdown = "");
-                if(myProvider.dataServices[index].categories != null)
-                  myProvider.dataCategoriesSelect = myProvider.dataServices[index].categories.split(",");
-                
-                myProvider.dataSelectService = myProvider.dataServices[index];
-                myProvider.dataSelectProduct = null;
-                Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
+              onTap: () async {
+                if(_statusCharge){
+                  addProductsServices(myProvider.dataServices[index]);
+                  setState(() =>_indexService.add(index));
+                  await Future.delayed(Duration(milliseconds: 150));
+                  setState(() =>_indexService.remove(index));
+                }else{
+                  setState(() => _statusDropdown = "");
+                  if(myProvider.dataServices[index].categories != null)
+                    myProvider.dataCategoriesSelect = myProvider.dataServices[index].categories.split(",");
+                  
+                  myProvider.dataSelectService = myProvider.dataServices[index];
+                  myProvider.dataSelectProduct = null;
+                  nextPage(NewProductServicePage());
+                }
               }, 
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -247,8 +269,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                       Text(
                         myProvider.dataServices[index].name,
                         style: TextStyle(
-                          color: Colors.grey,
+                          color: _indexService.contains(index)? colorGreen : colorText,
                           fontSize: size.width / 22,
+                          fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                         ),
                       ),
                     ]
@@ -259,8 +282,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                         child: Text(
                           showPrice(myProvider.dataServices[index].price, myProvider.dataServices[index].coin),
                           style: TextStyle(
-                            color: colorText,
+                            color: _indexService.contains(index)? colorGreen : colorText,
                             fontSize: size.width / 22,
+                            fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                           ),
                         )
                       ),
@@ -275,6 +299,35 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       );
     }
 
+  }
+
+  addProductsServices(data){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    List _listSales = new List();
+    bool _status = false;
+    if(myProvider.dataPurchase.length == 0){
+      myProvider.dataPurchase.add({
+        "data" :data,
+        "count" : 1
+      });
+    }else{
+      for (var item in myProvider.dataPurchase) {
+        if(item['data'].name == data.name && item['data'].id == data.id){
+          item['count'] +=1;
+          _status = true;
+        }
+        
+        _listSales.add(item);
+      }
+
+      if(!_status)
+        _listSales.add({
+          "data" :data,
+          "count" : 1
+        });
+
+      myProvider.dataPurchase = _listSales;
+    }
   }
 
 
@@ -322,7 +375,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     return  GestureDetector(
       onTap: () {
         setState(() => _statusButton = true);
-        nextPage();
+        nextPage(NewProductServicePage());
       },
       child: Container(
         width:size.width - 100,
@@ -359,43 +412,77 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget buttonCharge(){
     var size = MediaQuery.of(context).size;
-    return Visibility(
-      visible: _statusCharge,
-      child: GestureDetector(
-        onTap: () {
-          setState(() => _statusButtonCharge = true);
-        },
-        child: Container(
-          width:size.width - 100,
-          height: size.height / 20,
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: colorGrey, 
-              width: 1.0,
-            ),
-            gradient: LinearGradient(
-              colors: [
-                _statusButtonCharge? colorGreen : colorGrey,
-                _statusButtonCharge? colorGreen : colorGrey,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-            borderRadius: BorderRadius.circular(30),
-            ),
-          child: Center(
-            child: Text(
-              "COBRAR",
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: size.width / 20,
-                fontWeight: FontWeight.w500,
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Visibility(
+          visible: _statusCharge,
+          child: GestureDetector(
+            onTap: () {
+              if(myProvider.dataPurchase.length != 0){
+                setState(() => _statusButtonCharge = true);
+                nextPage(NewSalesPage());
+              }
+            },
+            child: Container(
+              width:size.width - 100,
+              height: size.height / 20,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: colorGrey, 
+                  width: 1.0,
+                ),
+                gradient: LinearGradient(
+                  colors: [
+                    myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
+                    myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(30),
+                ),
+              child: Center(
+                child: Text(
+                  myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: size.width / 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      )
+          )
+        );
+      }
     );
+  }
+
+  showTotal(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    double priceDouble;
+    double varRate = double.parse(myProvider.dataRates[0].rate);
+    _total = 0.0;
+
+    if(myProvider.coinUsers  == 1)
+      lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+
+    for (var item in myProvider.dataPurchase) {
+      priceDouble = double.parse(item['data'].price);
+      priceDouble *= item['count'];
+      if(item['data'].coin == 0 && myProvider.coinUsers == 1)
+        _total+=(priceDouble * varRate);
+      else if(item['data'].coin == 1 && myProvider.coinUsers == 0)
+        _total+=(priceDouble / varRate);
+      else
+        _total+=(priceDouble);
+
+    }
+
+    lowPurchase.updateValue(_total);
+
+    return "${lowPurchase.text}";
   }
 
   showProductCategories(idCategories){
@@ -417,18 +504,29 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 itemCount: myProvider.dataProductsServicesCategories.length,
                 itemBuilder:  (BuildContext ctxt, int index) {
                   return GestureDetector(
-                    onTap: () {
-                      setState(() => _statusDropdown = "");
-                      myProvider.dataCategoriesSelect = myProvider.dataProductsServicesCategories[index].categories.split(",");
-                      if(myProvider.selectProductsServices == 0){
-                        myProvider.dataSelectProduct = myProvider.dataProductsServicesCategories[index];
-                        myProvider.dataSelectService = null;
+                    onTap: () async {
+                      if(_statusCharge && myProvider.selectProductsServices == 0){
+                        addProductsServices(myProvider.dataProductsServicesCategories[index]);
+                        setState(() =>_indexProduct.add(index));
+                        await Future.delayed(Duration(milliseconds: 150));
+                        setState(() =>_indexProduct.remove(index));
+                      }else if(_statusCharge && myProvider.selectProductsServices == 1){
+                        addProductsServices(myProvider.dataProductsServicesCategories[index]);
+                        setState(() =>_indexService.add(index));
+                        await Future.delayed(Duration(milliseconds: 150));
+                        setState(() =>_indexService.remove(index));
                       }else{
-                        myProvider.dataSelectService = myProvider.dataProductsServicesCategories[index];
-                        myProvider.dataSelectProduct = null;
+                        setState(() => _statusDropdown = "");
+                        myProvider.dataCategoriesSelect = myProvider.dataProductsServicesCategories[index].categories.split(",");
+                        if(myProvider.selectProductsServices == 0){
+                          myProvider.dataSelectProduct = myProvider.dataProductsServicesCategories[index];
+                          myProvider.dataSelectService = null;
+                        }else{
+                          myProvider.dataSelectService = myProvider.dataProductsServicesCategories[index];
+                          myProvider.dataSelectProduct = null;
+                        }
+                        nextPage(NewProductServicePage());
                       }
-                      
-                      Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -502,13 +600,19 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     return "${lowPrice.text}";
   }
 
-  nextPage()async{
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.dataSelectProduct = null;
-    myProvider.dataSelectService = null;
-    myProvider.dataCategoriesSelect = [];
-    await Future.delayed(Duration(milliseconds: 150));
-    setState(() {_statusButton = false; _statusDropdown = "";});
-    Navigator.push(context, SlideLeftRoute(page: NewProductServicePage()));
+  nextPage(page)async{
+    if(_statusButtonCharge){
+      await Future.delayed(Duration(milliseconds: 150));
+      setState(() {_statusButtonCharge = false; _statusDropdown = "";});
+    }else if(_statusButton){
+      var myProvider = Provider.of<MyProvider>(context, listen: false);
+      myProvider.dataSelectProduct = null;
+      myProvider.dataSelectService = null;
+      myProvider.dataCategoriesSelect = [];
+      await Future.delayed(Duration(milliseconds: 150));
+      setState(() {_statusButton = false; _statusDropdown = "";});
+    }
+
+    Navigator.push(context, SlideLeftRoute(page: page));
   }
 }

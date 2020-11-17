@@ -111,23 +111,23 @@ class _MenuPageState extends State<MenuPage> {
           print(jsonResponse);
           prefs.remove("access_token");
           prefs.remove('selectCommerce');
-          myProvider.logout();
+          myProvider.removeSession(context);
           Navigator.pop(context);
           Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
         print("error");
       } 
-    }else if(verifyDataCommerce()){
+    }else if(verifyDataCommerce(myProvider)){
       showMessage("Debe ingresar los datos de la empresa", false);
     }else if(title == "Recomentar a un comercio"){
       launchWhatsApp(false);
     }else if(title == "Pedir ayuda"){
       launchWhatsApp(true);
+    }else if((title == "Productos" || title == "Servicios") && myProvider.dataRates.length == 0 ){
+      showMessage("Debe ingresar la tasa de cambio", false);
     }else{
-      if((title == "Productos" || title == "Servicios") && myProvider.dataRates.length == 0){
-        showMessage("Debe ingresar la tasa de cambio", false);
-      }else if(title == "Productos"){
+      if(title == "Productos"){
         myProvider.selectProductsServices = 0;
         myProvider.getListCategories();
       }else if(title == "Servicios"){
@@ -138,10 +138,9 @@ class _MenuPageState extends State<MenuPage> {
     }
   }
 
-  verifyDataCommerce(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
+  verifyDataCommerce(myProvider){
     if(myProvider.dataCommercesUser.length != 0){
-      if(myProvider.dataCommercesUser[myProvider.selectCommerce] != null)
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' || myProvider.dataCommercesUser[myProvider.selectCommerce].name != '')
         return false;
     }
 

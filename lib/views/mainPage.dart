@@ -238,7 +238,7 @@ class _MainPageState extends State<MainPage> {
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
     
-    if(myProvider.dataCommercesUser.length == 0){
+    if(verifyDataCommerce(myProvider)){
       showMessage("Debe ingresar los datos de la empresa", false);
     }else if((myProvider.dataRates.length == 0 )){
       showMessage("Debe ingresar la tasa de cambio", false);
@@ -252,6 +252,15 @@ class _MainPageState extends State<MainPage> {
       }
       Navigator.push(context, SlideLeftRoute(page: page));
     }
+  }
+
+  verifyDataCommerce(myProvider){
+    if(myProvider.dataCommercesUser.length != 0){
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' || myProvider.dataCommercesUser[myProvider.selectCommerce].name != '')
+        return false;
+    }
+
+    return true;
   }
 
 }

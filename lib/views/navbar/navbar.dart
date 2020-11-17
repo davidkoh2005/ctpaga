@@ -27,13 +27,13 @@ class _NavbarState extends State<Navbar> {
       children: <Widget>[
         Container(
           width: size.width,
-          height: size.height/5.5,
+          height: size.height/7,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: EdgeInsets.only(top:40),
+                padding: EdgeInsets.only(top:20),
                 child: Row(
                   children: <Widget>[
                       IconButton(
@@ -59,7 +59,7 @@ class _NavbarState extends State<Navbar> {
               Visibility(
                 visible: _statusMenu,
                 child: Padding(
-                  padding: EdgeInsets.only(top:40, right:20),
+                  padding: EdgeInsets.only(top:20, right:20),
                   child: IconButton(
                     iconSize: size.width / 10,
                     icon: Icon(

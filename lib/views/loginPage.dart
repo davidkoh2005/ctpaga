@@ -329,6 +329,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.descriptionShipping = "";
             _passwordController.clear();
             myProvider.getDataUser(true, true, context);
+            myProvider.dataPurchase = [];
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

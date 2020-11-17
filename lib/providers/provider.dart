@@ -251,6 +251,14 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  List _listPurchase  = new List();
+  List get dataPurchase =>_listPurchase ;
+
+  set dataPurchase(List newPurchase){
+    _listPurchase  = newPurchase;
+    notifyListeners();
+  }
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -258,17 +266,6 @@ class MyProvider with ChangeNotifier {
   Picture pictureUser = Picture();
   List listPicturesUser = new List();
   List listCommerces = new List();
-
-  logout(){
-    accessTokenUser = null;
-    dataUser = null;
-    coinUsers = null;
-    dataBanksUser = null;
-    dataPicturesUser = null;
-    dataCommercesUser = null;
-    selectCommerce = null;
-    listVerification = null;
-  }
 
   getDataUser(status, loading, context)async{
 
@@ -368,7 +365,7 @@ class MyProvider with ChangeNotifier {
                 Commerce commercesUser = Commerce(
                   id: item['id'],
                   rif: item['rif'] == null? '' : item['rif'],
-                  name: item['name'],
+                  name: item['name'] == null? '' : item['name'],
                   address: item['address'] == null? '' : item['address'],
                   phone: item['phone'] == null? '' : item['phone'],
                 ); 
@@ -834,6 +831,7 @@ class MyProvider with ChangeNotifier {
     dataServices = [];
     dataProductsServicesCategories = [];
     dbctpaga.deleteAll();
+    dataPurchase = [];
     Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 

@@ -74,8 +74,8 @@ class _DepositsPageState extends State<DepositsPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Navbar("Depósitos", false),
-              Container(
-                height: size.height - 160,
+              Expanded(
+                //height: size.height - 160,
                 child: Scrollbar(
                   controller: _scrollController, 
                   isAlwaysShown: true,

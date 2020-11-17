@@ -22,14 +22,14 @@ class _NavbarMainState extends State<NavbarMain> {
       children: <Widget>[
         Container(
           width: size.width,
-          height: size.height/5.5,
+          height: size.height/7,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               
               Padding(
-                padding: EdgeInsets.only(top:40, right:20),
+                padding: EdgeInsets.only(top:20, right:20),
                 child: IconButton(
                   iconSize: size.width / 10,
                   icon: Icon(
@@ -45,7 +45,7 @@ class _NavbarMainState extends State<NavbarMain> {
 
         Container(
           alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 50, left: 50),
+          padding: EdgeInsets.only(top: 30, left: 50),
           child: ClipOval(
             child: Image.asset(
               "assets/icons/perfil.png",

@@ -87,7 +87,12 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.only(left: 20),
-                            child: Text(myProvider.dataCategories[index].name),
+                            child: Text(
+                              myProvider.dataCategories[index].name,
+                              style: TextStyle(
+                                fontSize: size.width / 20,
+                              ),
+                            ),
                           ),
                         ),
                       ],

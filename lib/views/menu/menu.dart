@@ -100,9 +100,7 @@ class _MenuPageState extends State<MenuPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
 
-    if(title == "Perfil"){
-      Navigator.push(context, SlideLeftRoute(page: page));
-    }else if(title == "Cerrar sesión"){
+    if(title == "Cerrar sesión"){
       _onLoading();
       var myProvider = Provider.of<MyProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();

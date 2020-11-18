@@ -1,7 +1,7 @@
-import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/menuPage.dart';
+import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class Navbar extends StatefulWidget {
@@ -20,7 +20,7 @@ class _NavbarState extends State<Navbar> {
 
   @override
   Widget build(BuildContext context) {
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Stack(
@@ -66,7 +66,7 @@ class _NavbarState extends State<Navbar> {
                       Icons.menu,
                       color: Colors.black,
                       ),
-                    onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
+                    onPressed: () => myProvider.statusButtonMenu = true,
                   )
                 )
               )

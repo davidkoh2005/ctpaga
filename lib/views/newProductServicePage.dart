@@ -1,8 +1,9 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/database.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/listCategoryPage.dart';
 import 'package:ctpaga/providers/provider.dart';
+import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
@@ -112,34 +113,47 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        body: Stack(
           children: <Widget>[
-            myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  formProduct(),
-                  Padding(
-                    padding: EdgeInsets.all(20),
-                    child: Column(
-                      children: <Widget>[
-                        buttonNewProductService(),
-                        Visibility(
-                          visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
-                          child: Padding(
-                            padding: EdgeInsets.only(top:20),
-                            child: buttonDeleteProductService()
-                          )
-                        )
-                      ],
-                    ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: <Widget>[
+                      formProduct(),
+                      Padding(
+                        padding: EdgeInsets.all(20),
+                        child: Column(
+                          children: <Widget>[
+                            buttonNewProductService(),
+                            Visibility(
+                              visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
+                              child: Padding(
+                                padding: EdgeInsets.only(top:20),
+                                child: buttonDeleteProductService()
+                              )
+                            )
+                          ],
+                        ),
+                      ),
+                    ]
                   ),
-                ]
-              ),
+                ),
+              ],
+            ),
+
+            Consumer<MyProvider>(
+              builder: (context, myProvider, child) {
+                return Visibility(
+                  visible: myProvider.statusButtonMenu,
+                  child: MenuPage(),
+                );
+              }
             ),
           ],
         ),
@@ -210,6 +224,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
+                        ),
+                        style: TextStyle(
+                          fontSize: size.width / 15,
                         ),
                       ),
                     ),
@@ -332,6 +349,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
                               ),
+                            ),
+                            style: TextStyle(
+                              fontSize: size.width / 15,
                             ),
                           ),
                         );
@@ -576,6 +596,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               borderSide: BorderSide(color: Colors.black),
                             ),
                           ),
+                          style: TextStyle(
+                            fontSize: size.width / 20,
+                          ),
                         ),
                       ),
                     ),
@@ -621,7 +644,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 ),
               );
             },
-            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 8,),
           ),
         )
       );
@@ -642,7 +665,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 ),
               );
             },
-            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red,),
+            errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 8,),
           ),
         )
       );
@@ -836,160 +859,154 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
 
-    //TODO: Eliminar if
-    if(!urlApi.contains("herokuapp")){
-      if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
-        _formKeyProductService.currentState.save();
-        try
-        {
-          _onLoading();
-          
-          result = await InternetAddress.lookup('google.com'); //verify network
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
+      _formKeyProductService.currentState.save();
+      try
+      {
+        _onLoading();
+        
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
-            String base64Image = base64Encode(_image.readAsBytesSync());
-            if(myProvider.selectProductsServices == 0){
-              response = await http.post(
-                urlApi+"newProducts",
-                headers:{
-                  'Content-Type': 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'authorization': 'Bearer ${myProvider.accessTokenUser}',
-                },
-                body: jsonEncode({
-                  "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-                  "image":base64Image,
-                  "name": _name,
-                  "price": _price,
-                  "coin": _statusCoin,
-                  "description": _description,
-                  "categories": _selectCategories,
-                  "publish": _switchPublish,
-                  "stock": _stock,
-                  "postPurchase": _postPurchase,
-                }),
-              ); 
-            }else{
-              response = await http.post(
-                urlApi+"newServices",
-                headers:{
-                  'Content-Type': 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'authorization': 'Bearer ${myProvider.accessTokenUser}',
-                },
-                body: jsonEncode({
-                  "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-                  "image":base64Image,
-                  "name": _name,
-                  "price": _price,
-                  "coin": _statusCoin,
-                  "description": _description,
-                  "categories": _selectCategories,
-                  "publish": _switchPublish,
-                  "postPurchase": _postPurchase,
-                }),
-              ); 
-            }
-            
-
-            var jsonResponse = jsonDecode(response.body); 
-            print(jsonResponse); 
-            if (jsonResponse['statusCode'] == 201) {
-              myProvider.getListProducts();
-              myProvider.getListServices();
-              Navigator.pop(context);
-              showMessage("Guardado Correctamente", true);
-              await Future.delayed(Duration(seconds: 1));
-              Navigator.pop(context);
-              Navigator.pop(context);
-            }
+          String base64Image = base64Encode(_image.readAsBytesSync());
+          if(myProvider.selectProductsServices == 0){
+            response = await http.post(
+              urlApi+"newProducts",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _postPurchase,
+              }),
+            ); 
+          }else{
+            response = await http.post(
+              urlApi+"newServices",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "postPurchase": _postPurchase,
+              }),
+            ); 
           }
-        } on SocketException catch (_) {
-          Navigator.pop(context);
-          showMessage("Sin conexión a internet",false);
+          
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            myProvider.getListProducts();
+            myProvider.getListServices();
+            Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
         }
-      }else if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
-        _formKeyProductService.currentState.save();
-        try
-        {
-          _onLoading();
-          
-          result = await InternetAddress.lookup('google.com'); //verify network
-          if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-            String base64Image;
-            if(_image != null)
-              base64Image = base64Encode(_image.readAsBytesSync());
-            else
-              base64Image = myProvider.dataSelectProduct.url;
-
-            if(myProvider.selectProductsServices == 0){
-              response = await http.post(
-                urlApi+"updateProducts",
-                headers:{
-                  'Content-Type': 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'authorization': 'Bearer ${myProvider.accessTokenUser}',
-                },
-                body: jsonEncode({
-                  "id": myProvider.dataSelectProduct.id,
-                  "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-                  "image":base64Image,
-                  "name": _name,
-                  "price": _price,
-                  "coin": _statusCoin,
-                  "description": _description,
-                  "categories": _selectCategories,
-                  "publish": _switchPublish,
-                  "stock": _stock,
-                  "postPurchase": _postPurchase,
-                  "url": _image == null? myProvider.dataSelectProduct.url : null,
-                }),
-              ); 
-            }else{
-              response = await http.post(
-                urlApi+"updateServices",
-                headers:{
-                  'Content-Type': 'application/json',
-                  'X-Requested-With': 'XMLHttpRequest',
-                  'authorization': 'Bearer ${myProvider.accessTokenUser}',
-                },
-                body: jsonEncode({
-                  "id": myProvider.dataSelectService.id,
-                  "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-                  "image":base64Image,
-                  "name": _name,
-                  "price": _price,
-                  "coin": _statusCoin,
-                  "description": _description,
-                  "categories": _selectCategories,
-                  "publish": _switchPublish,
-                  "stock": _stock,
-                  "postPurchase": _postPurchase,
-                  "url": _image == null? myProvider.dataSelectService.url : null,
-                }),
-              ); 
-            }
-            
-
-            var jsonResponse = jsonDecode(response.body); 
-            print(jsonResponse); 
-            if (jsonResponse['statusCode'] == 201) {
-              myProvider.getListProducts();
-              Navigator.pop(context);
-              showMessage("Guardado Correctamente", true);
-              await Future.delayed(Duration(seconds: 1));
-              Navigator.pop(context);
-              Navigator.pop(context);
-            }
-          }
-        } on SocketException catch (_) {
-          Navigator.pop(context);
-          showMessage("Sin conexión a internet", false);
-        } 
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet",false);
       }
-    }else{
-      Navigator.pop(context);
-      showMessage("No se puede guardar la imagen en el servidor", false);
+    }else if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
+      _formKeyProductService.currentState.save();
+      try
+      {
+        _onLoading();
+        
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          String base64Image;
+          if(_image != null)
+            base64Image = base64Encode(_image.readAsBytesSync());
+          else
+            base64Image = myProvider.dataSelectProduct.url;
+
+          if(myProvider.selectProductsServices == 0){
+            response = await http.post(
+              urlApi+"updateProducts",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectProduct.id,
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _postPurchase,
+                "url": _image == null? myProvider.dataSelectProduct.url : null,
+              }),
+            ); 
+          }else{
+            response = await http.post(
+              urlApi+"updateServices",
+              headers:{
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest',
+                'authorization': 'Bearer ${myProvider.accessTokenUser}',
+              },
+              body: jsonEncode({
+                "id": myProvider.dataSelectService.id,
+                "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+                "image":base64Image,
+                "name": _name,
+                "price": _price,
+                "coin": _statusCoin,
+                "description": _description,
+                "categories": _selectCategories,
+                "publish": _switchPublish,
+                "stock": _stock,
+                "postPurchase": _postPurchase,
+                "url": _image == null? myProvider.dataSelectService.url : null,
+              }),
+            ); 
+          }
+          
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            myProvider.getListProducts();
+            Navigator.pop(context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
+            Navigator.pop(context);
+          }
+        }
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet", false);
+      } 
     }
   }
 

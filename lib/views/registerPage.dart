@@ -361,6 +361,7 @@ class _RegisterPageState extends State<RegisterPage> {
             myProvider.descriptionShipping = "";
             myProvider.getDataUser(true, true, context);
             myProvider.dataPurchase = [];
+            myProvider.statusButtonMenu = false;
 
           } else if(jsonResponse['errors'] != null){
 

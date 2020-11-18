@@ -15,9 +15,6 @@ import 'package:flutter/material.dart';
 //TODO: Url Api (LocalHost)
 //String url = "http://192.168.1.119:8000";
 
-//TODO: Url Api (heroku)
-//String url = "http://ctpaga.herokuapp.com";
-
 //TODO: Url Api (AWS)
 String url = "http://54.196.181.42";
 
@@ -38,7 +35,7 @@ List listMenu = [
     "page": PerfilPage(),
   },
   {
-    "title": "Depósitos",
+    "title": "Banco",
     "icon": "assets/icons/depositos.png",
     "page": DepositsPage(),
   },
@@ -58,14 +55,9 @@ List listMenu = [
     "page": ShippingPage(),
   },
   {
-    "title": "Códigos de descuento",
+    "title": "Descuento",
     "icon": "assets/icons/descuento.png",
     "page": DiscountPage(),
-  },
-  {
-    "title": "Reporte de ventas",
-    "icon": "assets/icons/reporte.png",
-    "page": SalesReportPage(),
   },
   {
     "title": "Tasa de cambio",
@@ -73,12 +65,17 @@ List listMenu = [
     "page": ExchangeRatePage(),
   },
   {
-    "title": "Crear otro comercio",
+    "title": "Transacciones",
+    "icon": "assets/icons/reporte.png",
+    "page": SalesReportPage(),
+  },
+  {
+    "title": "Agregar comercio",
     "icon": "assets/icons/crearComercio.png",
     "page": NewCommercePage(),
   },
   {
-    "title": "Recomentar a un comercio",
+    "title": "Compartir un comercio",
     "icon": "assets/icons/recomendarComercio.png",
     "page": null,
   },
@@ -395,7 +392,7 @@ var listBankPanama = [
   },
   {
    "title": "The Bank of Nova Scotia",
-   "img": "assets/banks/Panama/ScotiaBankpng",
+   "img": "assets/banks/Panama/ScotiaBank.png",
   },
   {
    "title": "Towerbank International Inc.",

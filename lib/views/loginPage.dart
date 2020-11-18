@@ -330,6 +330,7 @@ class _LoginPageState extends State<LoginPage> {
             _passwordController.clear();
             myProvider.getDataUser(true, true, context);
             myProvider.dataPurchase = [];
+            myProvider.statusButtonMenu = false;
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

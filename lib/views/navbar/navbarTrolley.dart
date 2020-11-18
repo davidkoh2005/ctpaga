@@ -1,6 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/listSalesPage.dart';
-import 'package:ctpaga/views/menuPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -21,7 +20,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
 
   @override
   Widget build(BuildContext context) {
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Stack(
@@ -69,17 +68,17 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                             padding: EdgeInsets.only(top:10),
                             child: Image.asset(
                               "assets/icons/logoCarrito.png",
-                              width: size.width/7,
-                              height: size.width/7,
+                              width: size.width/9,
+                              height: size.width/9,
                               fit: BoxFit.cover
                             )
                           ),
                           
                           Padding(
-                            padding: EdgeInsets.only(left: 34),
+                            padding: EdgeInsets.only(left: 27),
                             child: Container(
-                              width: size.width / 15,
-                              height: size.width / 15,
+                              width: size.width / 17,
+                              height: size.width / 17,
                               decoration: BoxDecoration(
                                 color: colorGreen,
                                 shape: BoxShape.circle,
@@ -111,7 +110,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                     Icons.menu,
                     color: Colors.black,
                     ),
-                  onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
+                  onPressed: () => myProvider.statusButtonMenu = true,
                 )
               )
             ]

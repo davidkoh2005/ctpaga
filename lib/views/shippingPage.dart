@@ -146,6 +146,9 @@ class _ShippingPageState extends State<ShippingPage> {
                           borderSide: BorderSide(color: Colors.black),
                         ),
                       ),
+                      style: TextStyle(
+                        fontSize: size.width / 20,
+                      ),
                     ),
                   ),
 

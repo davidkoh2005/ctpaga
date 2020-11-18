@@ -35,6 +35,14 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  bool _statusButtonMenu;
+  bool get statusButtonMenu =>_statusButtonMenu; 
+  
+  set statusButtonMenu(bool newStatus) {
+    _statusButtonMenu = newStatus; 
+    notifyListeners(); 
+  }
+
   User _user = User();
   User get dataUser =>_user;
 

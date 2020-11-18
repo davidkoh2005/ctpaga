@@ -19,6 +19,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
+  static int versionDB = 5;
 
   Future<Database> get db async{
     if(dbInstance == null)
@@ -31,7 +32,7 @@ class DBctpaga{
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
     String path = join(documentsDirectory.path, "ctpaga.db");
 
-    var db = await openDatabase(path, version: 5, 
+    var db = await openDatabase(path, version: versionDB, 
       onCreate: onCreateFunc,
       onUpgrade: (db, oldVersion, newVersion) async {
           if (oldVersion != newVersion) {
@@ -63,11 +64,21 @@ class DBctpaga{
   */
 
    // Delete service
-  void deleteAll () async{
-    io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "ctpaga.db");
+  Future deleteAll() async{
+    var dbConnection = await db;
+    await dbConnection.execute('DROP TABLE IF EXISTS users');
+    await dbConnection.execute('DROP TABLE IF EXISTS banks');
+    await dbConnection.execute('DROP TABLE IF EXISTS pictures');
+    await dbConnection.execute('DROP TABLE IF EXISTS commerces');
+    await dbConnection.execute('DROP TABLE IF EXISTS categories');
+    await dbConnection.execute('DROP TABLE IF EXISTS products');
+    await dbConnection.execute('DROP TABLE IF EXISTS services');
+    await dbConnection.execute('DROP TABLE IF EXISTS shipping');
+    await dbConnection.execute('DROP TABLE IF EXISTS discounts');
+    await dbConnection.execute('DROP TABLE IF EXISTS rates');
+  
+    onCreateFunc(dbConnection, versionDB);
 
-    await deleteDatabase(path);
   }
 
   // Get User

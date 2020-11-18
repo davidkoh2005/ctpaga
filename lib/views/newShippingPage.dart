@@ -144,6 +144,9 @@ class _NewShippingPageState extends State<NewShippingPage> {
                   borderSide: BorderSide(color:  Colors.black),
                 ),
               ),
+              style: TextStyle(
+                fontSize: size.width / 20,
+              ),
             ),
           ),
 

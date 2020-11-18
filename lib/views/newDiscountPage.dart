@@ -136,6 +136,9 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                   borderSide: BorderSide(color:  Colors.black),
                 ),
               ),
+              style: TextStyle(
+                fontSize: size.width / 20,
+              ),
             ),
           ),
 
@@ -179,12 +182,15 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               decoration: InputDecoration(
                 hintText: "50",
                 hintStyle: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: size.width / 15,
                 color: colorGrey,
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color:  Colors.black),
                 ),
+              ),
+              style: TextStyle(
+                fontSize: size.width / 15,
               ),
             ),
           ),

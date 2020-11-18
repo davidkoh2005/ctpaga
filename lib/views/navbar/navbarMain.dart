@@ -1,6 +1,8 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/menuPage.dart';
+import 'package:ctpaga/views/perfilPage.dart';
+import 'package:ctpaga/providers/provider.dart';
 
+import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class NavbarMain extends StatefulWidget {
@@ -15,7 +17,7 @@ class _NavbarMainState extends State<NavbarMain> {
 
   @override
   Widget build(BuildContext context) {
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Stack(
@@ -27,7 +29,6 @@ class _NavbarMainState extends State<NavbarMain> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              
               Padding(
                 padding: EdgeInsets.only(top:20, right:20),
                 child: IconButton(
@@ -36,24 +37,30 @@ class _NavbarMainState extends State<NavbarMain> {
                     Icons.menu,
                     color: Colors.black,
                     ),
-                  onPressed: () => Navigator.push(context, SlideLeftRoute(page: MenuPage())),
+                  onPressed: () => myProvider.statusButtonMenu = true,
                 )
               )
             ]
           ),
         ),
 
-        Container(
-          alignment: Alignment.topLeft,
-          padding: EdgeInsets.only(top: 30, left: 50),
-          child: ClipOval(
-            child: Image.asset(
-              "assets/icons/perfil.png",
-              width: size.width/3,
-              height: size.width/3,
-              fit: BoxFit.cover
-            ),
-          ),
+        Padding(
+          padding: EdgeInsets.only(top: 40, left: 50),
+          child: GestureDetector(
+            onTap: () => Navigator.push(context, SlideLeftRoute(page: PerfilPage())),
+            child: Container(
+              width: size.width/5,
+              height: size.width/5,
+              child: ClipOval(
+                child: Image.asset(
+                  "assets/icons/perfil.png",
+                  width: size.width/5,
+                  height: size.width/5,
+                  fit: BoxFit.cover
+                ),
+              ),
+            )
+          )
         ),
 
       ],

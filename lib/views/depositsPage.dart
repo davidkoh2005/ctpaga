@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -67,154 +68,167 @@ class _DepositsPageState extends State<DepositsPage> {
 
     var size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Container(
-          height: size.height,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Navbar("Depósitos", false),
-              Expanded(
-                //height: size.height - 160,
-                child: Scrollbar(
-                  controller: _scrollController, 
-                  isAlwaysShown: true,
-                  child: SingleChildScrollView(
-                    controller: _scrollController, 
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget> [
-                        Padding(
-                          padding: EdgeInsets.only(right: 30),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: <Widget>[
-                              buttonBs(),
-                              Padding(
-                                padding: EdgeInsets.only(left: 15, right: 15),
-                                child: Text(
-                                  "< >",
-                                  style: TextStyle(
-                                    color: colorGreen,
-                                    fontSize: size.width / 20,
-                                    fontWeight: FontWeight.bold,
+        body: Stack(
+          children: <Widget>[
+            Container(
+              height: size.height,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Navbar("Depósitos", false),
+                  Expanded(
+                    //height: size.height - 160,
+                    child: Scrollbar(
+                      controller: _scrollController, 
+                      isAlwaysShown: true,
+                      child: SingleChildScrollView(
+                        controller: _scrollController, 
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: <Widget> [
+                            Padding(
+                              padding: EdgeInsets.only(right: 30),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: <Widget>[
+                                  buttonBs(),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15),
+                                    child: Text(
+                                      "< >",
+                                      style: TextStyle(
+                                        color: colorGreen,
+                                        fontSize: size.width / 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
                                   ),
-                                )
-                              ),
-                              buttonUSD(),
-                            ],
-                          )
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(25),
-                            child: Text(
-                              "PROXIMO DEPÓSITO",
-                              style:  TextStyle(
-                                fontSize: size.width / 20,
-                                color: colorGrey
-                              ),
+                                  buttonUSD(),
+                                ],
+                              )
                             ),
-                          ),
-                        ),
-                        Container(
-                          child: Text(
-                            showDeposits(),
-                            style:  TextStyle(
-                              fontSize: size.width / 6,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top: 10, bottom: 10),
-                          child: GestureDetector(
-                            onTap: () {},
-                            child: Container(
-                              width:size.width - 100,
-                              height: size.height / 20,
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  colors: [
-                                    Colors.red,
-                                    Colors.red,
-                                  ],
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius: BorderRadius.circular(30),
-                              ),
-                              child: Center(
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.all(25),
                                 child: Text(
-                                  'No podemos enviarte tu dinero',
-                                  style: TextStyle(
-                                    color: Colors.white,
+                                  "PROXIMO DEPÓSITO",
+                                  style:  TextStyle(
                                     fontSize: size.width / 20,
+                                    color: colorGrey
                                   ),
                                 ),
                               ),
                             ),
-                          )
-                        ),
-                        Visibility(
-                          visible: _listVerification.length != 4? true : false,
-                          child: Text(
-                            "Necesitamos que completes la información marcada en rojo debajo",
-                            textAlign: TextAlign.center,
-                            style:  TextStyle(
-                              fontSize: size.width / 20,
-                              color: colorGrey
-                            ),
-                          )
-                        ),
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Padding(
-                            padding: EdgeInsets.all(25),
-                            child: Text(
-                              "INFORMACIÓN DEL DEPÓSITO",
-                              style:  TextStyle(
-                                fontSize: size.width / 20,
-                                color: colorGrey
+                            Container(
+                              child: Text(
+                                showDeposits(),
+                                style:  TextStyle(
+                                  fontSize: size.width / 6,
+                                ),
                               ),
                             ),
-                          ),
-                        ),
-                        dropdownList(0, 'Bank'),
-                        dropdownList(1, 'Selfie'),
-                        dropdownList(2, 'Identification'),
-                        dropdownList(3, 'RIF'),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                          child: Text(
-                            "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
-                            textAlign: TextAlign.center,
-                            style:  TextStyle(
-                              fontSize: size.width / 20,
-                              color: colorGrey
+                            Padding(
+                              padding: EdgeInsets.only(top: 10, bottom: 10),
+                              child: GestureDetector(
+                                onTap: () {},
+                                child: Container(
+                                  width:size.width - 100,
+                                  height: size.height / 20,
+                                  decoration: BoxDecoration(
+                                    gradient: LinearGradient(
+                                      colors: [
+                                        Colors.red,
+                                        Colors.red,
+                                      ],
+                                      begin: Alignment.topLeft,
+                                      end: Alignment.bottomRight,
+                                    ),
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      'No podemos enviarte tu dinero',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: size.width / 20,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              )
                             ),
-                          ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                          child: Text(
-                            "El depósito te llegara dos dias habiles despues",
-                            textAlign: TextAlign.center,
-                            style:  TextStyle(
-                              fontSize: size.width / 20,
-                              color: colorGrey
+                            Visibility(
+                              visible: _listVerification.length != 4? true : false,
+                              child: Text(
+                                "Necesitamos que completes la información marcada en rojo debajo",
+                                textAlign: TextAlign.center,
+                                style:  TextStyle(
+                                  fontSize: size.width / 20,
+                                  color: colorGrey
+                                ),
+                              )
                             ),
-                          ),
-                        ),
-                        
-                      ],
-                    )
-                  )
-                ),
-              ),
-            ],
-          )
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.all(25),
+                                child: Text(
+                                  "INFORMACIÓN DEL DEPÓSITO",
+                                  style:  TextStyle(
+                                    fontSize: size.width / 20,
+                                    color: colorGrey
+                                  ),
+                                ),
+                              ),
+                            ),
+                            dropdownList(0, 'Bank'),
+                            dropdownList(1, 'Selfie'),
+                            dropdownList(2, 'Identification'),
+                            dropdownList(3, 'RIF'),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
+                              child: Text(
+                                "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
+                                textAlign: TextAlign.center,
+                                style:  TextStyle(
+                                  fontSize: size.width / 20,
+                                  color: colorGrey
+                                ),
+                              ),
+                            ),
+                            Padding(
+                              padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                              child: Text(
+                                "El depósito te llegara dos dias habiles despues",
+                                textAlign: TextAlign.center,
+                                style:  TextStyle(
+                                  fontSize: size.width / 20,
+                                  color: colorGrey
+                                ),
+                              ),
+                            ),
+                            
+                          ],
+                        )
+                      )
+                    ),
+                  ),
+                ],
+              )
+            ),
+
+            Consumer<MyProvider>(
+              builder: (context, myProvider, child) {
+                return Visibility(
+                  visible: myProvider.statusButtonMenu,
+                  child: MenuPage(),
+                );
+              }
+            ),
+          ],
         ),
       );
   }

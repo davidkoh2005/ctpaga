@@ -3,6 +3,7 @@ import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/productsServicesPage.dart';
 import 'package:ctpaga/views/amountPage.dart';
 import 'package:ctpaga/providers/provider.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
@@ -45,46 +46,59 @@ class _MainPageState extends State<MainPage> {
     return WillPopScope(
       onWillPop: () async =>false,
       child: Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            NavbarMain(),
-            Container(
-              alignment: Alignment.centerRight,
-              padding: EdgeInsets.only(top: 10, right:30),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[
-                  buttonBs(),
-                  Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Text(
-                      "< >",
-                      style: TextStyle(
-                        color: colorGreen,
-                        fontSize: size.width / 20,
-                        fontWeight: FontWeight.bold,
+        body: Stack(
+          children: <Widget> [
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                NavbarMain(),
+                Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(top: 10, right:30),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      buttonBs(),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Text(
+                          "< >",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: size.width / 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
                       ),
-                    )
-                  ),
-                  buttonUSD(),
-                ],
-              )
+                      buttonUSD(),
+                    ],
+                  )
+                ),
+                Expanded(
+                  child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      buttonMain("Productos",1, ProductsServicesPage(true)), //send variable the same design
+                      buttonMain("Servicios",2, ProductsServicesPage(true)), //send variable the same design
+                      buttonMain("Monto",3, AmountPage()), //send variable the same design
+                      SizedBox(height:100),
+                    ]
+                  )
+                ),
+              ],
             ),
-            Expanded(
-              child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  buttonMain("Productos",1, ProductsServicesPage(true)), //send variable the same design
-                  buttonMain("Servicios",2, ProductsServicesPage(true)), //send variable the same design
-                  buttonMain("Monto",3, AmountPage()), //send variable the same design
-                  SizedBox(height:100),
-                ]
-              )
+
+            Consumer<MyProvider>(
+              builder: (context, myProvider, child) {
+                return Visibility(
+                  visible: myProvider.statusButtonMenu,
+                  child: MenuPage(),
+                );
+              }
             ),
-          ],
-        ),
+          ]
+        )
       )
     );
   }

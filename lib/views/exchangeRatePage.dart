@@ -192,13 +192,13 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
         columns: const <DataColumn>[
           DataColumn(
             label: Text(
-              'FECHA',
+              'TASA',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),
           DataColumn(
             label: Text(
-              'TASA',
+              'FECHA',
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),

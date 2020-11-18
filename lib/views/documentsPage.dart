@@ -243,40 +243,33 @@ class _DocumentsPageState extends State<DocumentsPage> {
       _onLoading();
       _controller?.dispose();
 
-      //TODO: Eliminar if
-      if(!urlApi.contains("herokuapp")){
-        String base64Image = base64Encode(File(filePath).readAsBytesSync());
-        String fileName = filePath.split("/").last;
+      String base64Image = base64Encode(File(filePath).readAsBytesSync());
+      String fileName = filePath.split("/").last;
 
-        var response = await http.post(
-          urlApi+"updateUserImg",
-          headers:{
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-          body: {
-            "image": base64Image,
-            "name": fileName,
-            "description": _title,
-            "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-          }
-        );
-
-        var jsonResponse = jsonDecode(response.body); 
-        print(jsonResponse); 
-        if (jsonResponse['statusCode'] == 201) {
-          var listVerification = myProvider.listVerification;
-          listVerification.add(_title);
-          myProvider.listVerification  = listVerification;
-          myProvider.getDataUser(false, false, context);
-          Navigator.pop(context);
-          Navigator.pop(context);
-          Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
+      var response = await http.post(
+        urlApi+"updateUserImg",
+        headers:{
+          'X-Requested-With': 'XMLHttpRequest',
+          'authorization': 'Bearer ${myProvider.accessTokenUser}',
+        },
+        body: {
+          "image": base64Image,
+          "name": fileName,
+          "description": _title,
+          "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
         }
-      }else{
+      );
+
+      var jsonResponse = jsonDecode(response.body); 
+      print(jsonResponse); 
+      if (jsonResponse['statusCode'] == 201) {
+        var listVerification = myProvider.listVerification;
+        listVerification.add(_title);
+        myProvider.listVerification  = listVerification;
+        myProvider.getDataUser(false, false, context);
         Navigator.pop(context);
-        setState(() => clickCamera = false);
-        showMessage("No se puede guardar la imagen en el servidor");
+        Navigator.pop(context);
+        Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
       }
 
     } catch (e) {

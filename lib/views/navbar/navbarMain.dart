@@ -45,17 +45,15 @@ class _NavbarMainState extends State<NavbarMain> {
         ),
 
         Padding(
-          padding: EdgeInsets.only(top: 40, left: 50),
+          padding: EdgeInsets.only(top: 50, left: 50),
           child: GestureDetector(
             onTap: () => Navigator.push(context, SlideLeftRoute(page: PerfilPage())),
             child: Container(
-              width: size.width/5,
-              height: size.width/5,
+              width: size.width/8,
+              height: size.width/8,
               child: ClipOval(
                 child: Image.asset(
                   "assets/icons/perfil.png",
-                  width: size.width/5,
-                  height: size.width/5,
                   fit: BoxFit.cover
                 ),
               ),

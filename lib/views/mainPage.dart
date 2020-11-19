@@ -22,7 +22,7 @@ class _MainPageState extends State<MainPage> {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
-  int clickBotton = 0, _statusCoin = 0;
+  int clickBotton = 0, _statusCoin = 0, _statusButton = 1;
 
   @override
   void initState() {
@@ -93,6 +93,7 @@ class _MainPageState extends State<MainPage> {
                     ]
                   )
                 ),
+                _showMenu(),
               ],
             ),
 
@@ -109,6 +110,86 @@ class _MainPageState extends State<MainPage> {
                 ) ;
               }
             ),
+          ]
+        )
+      )
+    );
+  }
+
+  Widget _showMenu(){
+    var size = MediaQuery.of(context).size;
+    return Container(
+      height: size.height / 7,
+      child: Stack(
+        children: <Widget>[
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: size.height / 10,
+              decoration: BoxDecoration(
+                border: Border(
+                  top: BorderSide(
+                    width: 0.5,
+                    color: Colors.black
+                  )
+                )
+              ),
+              child: Container(),
+            )
+          ),
+          Padding(
+            padding: EdgeInsets.only(top:28),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
+                SizedBox(width: 1),
+                _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 1),
+                SizedBox(width: 1),
+                _buildNavItem("Transacciónes", "assets/icons/reporte.png", _statusButton, 2),
+              ]
+            ),
+          ),
+        ],
+      )
+    );
+  }
+
+  Widget _buildNavItem(String _title, String _icon, int _status, int code){
+    var size = MediaQuery.of(context).size;
+    return GestureDetector(
+      onTap: () => setState(()=> _statusButton = code),
+      child: Container(
+        alignment: Alignment.topCenter,
+        child: Column(
+          children: <Widget> [
+            Container(
+              width: size.width / 7,
+              height: size.width / 7,
+              decoration: BoxDecoration(
+                color: _status == code? colorGreen : Colors.transparent,
+                shape: BoxShape.circle,
+                ),
+              child: Center(
+                child: Image.asset(
+                  _icon,
+                  width: size.width / 12,
+                  height: size.width / 12,
+                  color: _status == code? Colors.white : Colors.black,
+                )
+              )
+            ),
+            Container(
+              padding: EdgeInsets.only(top: 5),
+              child: Text(
+                _title,
+                style: TextStyle(
+                  color: Colors.black,
+                  fontSize: size.width / 25,
+                  fontWeight: _status == code? FontWeight.bold: FontWeight.normal
+                ),
+              ),
+            )
           ]
         )
       )
@@ -290,4 +371,51 @@ class _MainPageState extends State<MainPage> {
     return true;
   }
 
+}
+
+class NavBarClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    var sw = size.width;
+    var sh = size.height;
+
+    path.cubicTo(sw / 12, 0, sw / 12, 2 * sh / 5, 2 * sw / 12, 2 * sh / 5);
+    path.cubicTo(3 * sw / 12, 2 * sh / 5, 3 * sw / 12, 0, 4 * sw / 12, 0);
+    path.cubicTo(
+        5 * sw / 12, 0, 5 * sw / 12, 2 * sh / 5, 6 * sw / 12, 2 * sh / 5);
+    path.cubicTo(7 * sw / 12, 2 * sh / 5, 7 * sw / 12, 0, 8 * sw / 12, 0);
+    path.cubicTo(
+        9 * sw / 12, 0, 9 * sw / 12, 2 * sh / 5, 10 * sw / 12, 2 * sh / 5);
+    path.cubicTo(11 * sw / 12, 2 * sh / 5, 11 * sw / 12, 0, sw, 0);
+    path.lineTo(sw, sh);
+    path.lineTo(0, sh);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
+}
+
+class NavBarClipperSearch extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    var sw = size.width;
+    var sh = size.height;
+
+    path.cubicTo(4 * sw / 12, sh / 40, 3 * sw / 12, 0, 4 * sw / 12, 0);
+    path.cubicTo(
+        5 * sw / 12, 0, 5 * sw / 12, 2 * sh / 5, 6 * sw / 12, 2 * sh / 5);
+    path.cubicTo(7 * sw / 12, 2 * sh / 5, 7 * sw / 12, 0, 8 * sw / 12, 0);
+    path.lineTo(sw, 0);
+    path.lineTo(sw, sh);
+    path.lineTo(0, sh);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

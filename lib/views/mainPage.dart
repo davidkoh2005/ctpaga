@@ -42,9 +42,16 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return WillPopScope(
-      onWillPop: () async =>false,
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+        }
+        
+        return false;
+      },
       child: Scaffold(
         body: Stack(
           children: <Widget> [

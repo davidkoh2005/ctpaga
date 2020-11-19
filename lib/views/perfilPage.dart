@@ -72,145 +72,154 @@ class _PerfilPageState extends State<PerfilPage> {
 
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Navbar("Perfil", true),
-                Expanded(
-                  child: SingleChildScrollView(
-                    controller: _scrollController,
-                    child: Column(
-                      children: <Widget> [
-                        Padding(
-                          padding: EdgeInsets.only(bottom: 5),
-                          child: showImage()
-                        ),
-                        Consumer<MyProvider>(
-                          builder: (context, myProvider, child) {
-                            if(myProvider.dataCommercesUser.length <=1){
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else
+          return true;
+      },
+      child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Navbar("Perfil", true),
+                  Expanded(
+                    child: SingleChildScrollView(
+                      controller: _scrollController,
+                      child: Column(
+                        children: <Widget> [
+                          Padding(
+                            padding: EdgeInsets.only(bottom: 5),
+                            child: showImage()
+                          ),
+                          Consumer<MyProvider>(
+                            builder: (context, myProvider, child) {
+                              if(myProvider.dataCommercesUser.length <=1){
+                                return Container(
+                                  padding: EdgeInsets.only(top:5, bottom: 5),
+                                  child: Center(
+                                    child: Text(
+                                      myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                                      style: TextStyle(
+                                        fontSize: size.width / 14,
+                                        color: colorText,
+                                      ),
+                                    ),
+                                  ),
+                                );
+                              }
                               return Container(
                                 padding: EdgeInsets.only(top:5, bottom: 5),
                                 child: Center(
-                                  child: Text(
-                                    myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
-                                    style: TextStyle(
-                                      fontSize: size.width / 14,
-                                      color: colorText,
-                                    ),
-                                  ),
-                                ),
-                              );
-                            }
-                            return Container(
-                              padding: EdgeInsets.only(top:5, bottom: 5),
-                              child: Center(
-                                child: DropdownButton<Commerce>(
-                                  value: myProvider.dataCommercesUser[myProvider.selectCommerce],
-                                  icon: Icon(Icons.arrow_drop_down, color: colorGreen),
-                                  elevation: 16,
-                                  underline: Container(
-                                    height: 2,
-                                    color: colorGreen,
-                                  ),
-                                  onChanged: (Commerce newValue) {
-                                    // ignore: unused_local_variable
-                                    int count = 0;
-                                    for (var item in myProvider.dataCommercesUser) {
-                                      if(item == newValue){
-                                        DefaultCacheManager().emptyCache();
-                                        myProvider.selectCommerce = count;
-                                        break;
-                                      }
-                                      
-                                      count++;
-                                    }
-                                  },
-                                  items: myProvider.dataCommercesUser.map((commerce) {
-                                      return DropdownMenuItem<Commerce>(
-                                        value: commerce,
-                                        child: Container(
-                                          child: Text(
-                                            commerce.name,
-                                            style: TextStyle(
-                                              fontSize: size.width / 15,
-                                              color: colorText,
-                                            ),
-                                          )
-                                        ),
-                                      );
-                                  }).toList(),
-                                ),
-                              ),
-                            ); 
-                          }
-                        ),
-                        dropdownList("Datos de la empresa"),
-                        Visibility(
-                          visible: _statusDropdown == "Datos de la empresa"? true : false,
-                          child: formCompany(),
-                        ),
-                        dropdownList("Datos de Usuario"),
-                        Visibility(
-                          visible: _statusDropdown == "Datos de Usuario"? true : false,
-                          child: formUser(),
-                        ),
-                        dropdownList("Persona de Contacto"),
-                        Visibility(
-                          visible: _statusDropdown == "Persona de Contacto"? true : false,
-                          child: formContact(),
-                        ), 
-                        dropdownList("Datos Bancarios"),
-                        Visibility(
-                          visible: _statusDropdown == "Datos Bancarios"? true : false,
-                          child: Padding(
-                            padding: EdgeInsets.only(right:30, top:20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: <Widget>[
-                                buttonBs(),
-                                Padding(
-                                  padding: EdgeInsets.only(left: 15, right: 15),
-                                  child: Text(
-                                    "< >",
-                                    style: TextStyle(
+                                  child: DropdownButton<Commerce>(
+                                    value: myProvider.dataCommercesUser[myProvider.selectCommerce],
+                                    icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                                    elevation: 16,
+                                    underline: Container(
+                                      height: 2,
                                       color: colorGreen,
-                                      fontSize: size.width / 20,
-                                      fontWeight: FontWeight.bold,
                                     ),
-                                  )
+                                    onChanged: (Commerce newValue) {
+                                      // ignore: unused_local_variable
+                                      int count = 0;
+                                      for (var item in myProvider.dataCommercesUser) {
+                                        if(item == newValue){
+                                          DefaultCacheManager().emptyCache();
+                                          myProvider.selectCommerce = count;
+                                          break;
+                                        }
+                                        
+                                        count++;
+                                      }
+                                    },
+                                    items: myProvider.dataCommercesUser.map((commerce) {
+                                        return DropdownMenuItem<Commerce>(
+                                          value: commerce,
+                                          child: Container(
+                                            child: Text(
+                                              commerce.name,
+                                              style: TextStyle(
+                                                fontSize: size.width / 15,
+                                                color: colorText,
+                                              ),
+                                            )
+                                          ),
+                                        );
+                                    }).toList(),
+                                  ),
                                 ),
-                                buttonUSD(),
-                              ],
+                              ); 
+                            }
+                          ),
+                          dropdownList("Datos de la empresa"),
+                          Visibility(
+                            visible: _statusDropdown == "Datos de la empresa"? true : false,
+                            child: formCompany(),
+                          ),
+                          dropdownList("Datos de Usuario"),
+                          Visibility(
+                            visible: _statusDropdown == "Datos de Usuario"? true : false,
+                            child: formUser(),
+                          ),
+                          dropdownList("Persona de Contacto"),
+                          Visibility(
+                            visible: _statusDropdown == "Persona de Contacto"? true : false,
+                            child: formContact(),
+                          ), 
+                          dropdownList("Datos Bancarios"),
+                          Visibility(
+                            visible: _statusDropdown == "Datos Bancarios"? true : false,
+                            child: Padding(
+                              padding: EdgeInsets.only(right:30, top:20),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: <Widget>[
+                                  buttonBs(),
+                                  Padding(
+                                    padding: EdgeInsets.only(left: 15, right: 15),
+                                    child: Text(
+                                      "< >",
+                                      style: TextStyle(
+                                        color: colorGreen,
+                                        fontSize: size.width / 20,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  ),
+                                  buttonUSD(),
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                        Visibility(
-                          visible: _statusDropdown == "Datos Bancarios"? true : false,
-                          child: formBanking(),
-                        ), 
-                      ]
+                          Visibility(
+                            visible: _statusDropdown == "Datos Bancarios"? true : false,
+                            child: formBanking(),
+                          ), 
+                        ]
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-
-            Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
-                return Visibility(
-                  visible: myProvider.statusButtonMenu,
-                  child: MenuPage(),
-                );
-              }
-            ),
-          ],
-        ),
-      );
+                ],
+              ),
+                Consumer<MyProvider>(
+                builder: (context, myProvider, child) {
+                  return Visibility(
+                    visible: myProvider.statusButtonMenu,
+                    child: MenuPage(),
+                  );
+                }
+              ),
+            ],
+          ),
+        )
+    );
   }
 
   Widget showImage(){

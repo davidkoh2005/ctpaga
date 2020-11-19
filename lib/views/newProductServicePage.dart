@@ -112,52 +112,60 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
-                Expanded(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: <Widget>[
-                      formProduct(),
-                      Padding(
-                        padding: EdgeInsets.all(20),
-                        child: Column(
-                          children: <Widget>[
-                            buttonNewProductService(),
-                            Visibility(
-                              visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
-                              child: Padding(
-                                padding: EdgeInsets.only(top:20),
-                                child: buttonDeleteProductService()
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else
+          return true;
+      },
+      child: Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        formProduct(),
+                        Padding(
+                          padding: EdgeInsets.all(20),
+                          child: Column(
+                            children: <Widget>[
+                              buttonNewProductService(),
+                              Visibility(
+                                visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
+                                child: Padding(
+                                  padding: EdgeInsets.only(top:20),
+                                  child: buttonDeleteProductService()
+                                )
                               )
-                            )
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ]
+                      ]
+                    ),
                   ),
-                ),
-              ],
-            ),
-
-            Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
-                return Visibility(
-                  visible: myProvider.statusButtonMenu,
-                  child: MenuPage(),
-                );
-              }
-            ),
-          ],
-        ),
-      );
+                ],
+              ),
+                Consumer<MyProvider>(
+                builder: (context, myProvider, child) {
+                  return Visibility(
+                    visible: myProvider.statusButtonMenu,
+                    child: MenuPage(),
+                  );
+                }
+              ),
+            ],
+          ),
+        )
+    );
   }
 
   Widget formProduct(){

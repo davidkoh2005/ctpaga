@@ -109,15 +109,17 @@ class _MenuPageState extends State<MenuPage> {
         showMessage("Debe ingresar la tasa de cambio", false);
         await Future.delayed(Duration(seconds: 1));
         Navigator.pop(context);
-      }else if(title == "Productos"){
-        myProvider.selectProductsServices = 0;
-        myProvider.getListCategories();
-      }else if(title == "Servicios"){
-        myProvider.selectProductsServices = 1;
-        myProvider.getListCategories();
+      }else{
+        if(title == "Productos"){
+          myProvider.selectProductsServices = 0;
+          myProvider.getListCategories();
+        }else if(title == "Servicios"){
+          myProvider.selectProductsServices = 1;
+          myProvider.getListCategories();
+        }
+        myProvider.statusButtonMenu = false;
+        Navigator.push(context, SlideLeftRoute(page: page));
       }
-      myProvider.statusButtonMenu = false;
-      Navigator.push(context, SlideLeftRoute(page: page));
     }else if(title == "Cerrar sesión"){
       _onLoading();
       var myProvider = Provider.of<MyProvider>(context, listen: false);

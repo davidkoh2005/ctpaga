@@ -52,66 +52,72 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
-        return Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  myProvider.selectProductsServices == 0? _statusCharge? NavbarTrolley("Productos") : Navbar("Productos", true) : _statusCharge? NavbarTrolley("Servicios") : Navbar("Servicios", true),
-                  Expanded(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: <Widget>[
-                        myProvider.selectProductsServices == 0? dropdownList("Productos") : dropdownList("Servicios"),
-                        Visibility(
-                          visible: _statusProductsServices(myProvider),
-                          child: 
-
-                          myProvider.selectProductsServices == 0? Container(
-                              height: myProvider.dataProducts.length <3? size.height / ((4-myProvider.dataProducts.length)*3) : size.height / 5,
+        return WillPopScope(
+          onWillPop: () async {
+            if(myProvider.statusButtonMenu){
+              myProvider.statusButtonMenu = false;
+              return false;
+            }else
+              return true;
+          },
+          child: Scaffold(
+            body: Stack(
+              children: <Widget>[
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    myProvider.selectProductsServices == 0? _statusCharge? NavbarTrolley("Productos") : Navbar("Productos", true) : _statusCharge? NavbarTrolley("Servicios") : Navbar("Servicios", true),
+                    Expanded(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: <Widget>[
+                          myProvider.selectProductsServices == 0? dropdownList("Productos") : dropdownList("Servicios"),
+                          Visibility(
+                            visible: _statusProductsServices(myProvider),
+                            child: 
+                              myProvider.selectProductsServices == 0? Container(
+                                height: myProvider.dataProducts.length <3? size.height / ((4-myProvider.dataProducts.length)*3) : size.height / 5,
+                                child: listProductsServices(),
+                              )
+                            : Container(
+                              height: myProvider.dataServices.length <3? size.height / ((4-myProvider.dataServices.length)*3) : size.height / 5,
                               child: listProductsServices(),
-                            )
-                          : Container(
-                            height: myProvider.dataServices.length <3? size.height / ((4-myProvider.dataServices.length)*3) : size.height / 5,
-                            child: listProductsServices(),
+                            ),
+                            ),
+                          dropdownList("Categoría"),
+                          Visibility(
+                            visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length  > 0? true : false : false,
+                            child: Container(
+                              height: myProvider.dataCategories.length >3 ? size.height / 6 : size.height / 4,
+                              child: listCategory()
+                            ),
                           ),
-
-                        ),
-                        dropdownList("Categoría"),
-                        Visibility(
-                          visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length  > 0? true : false : false,
-                          child: Container(
-                            height: myProvider.dataCategories.length >3 ? size.height / 6 : size.height / 4,
-                            child: listCategory()
+                          Padding(
+                            padding: EdgeInsets.only(top:15),
+                            child: buttonCreateProductService()
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(top:15),
-                          child: buttonCreateProductService()
-                        ),
-                        ]
+                          ]
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom:30),
-                    child: buttonCharge()
-                  ),
-                ],
+                    Padding(
+                      padding: EdgeInsets.only(bottom:30),
+                      child: buttonCharge()
+                    ),
+                  ],
+                ),
+                  Consumer<MyProvider>(
+                builder: (context, myProvider, child) {
+                  return Visibility(
+                    visible: myProvider.statusButtonMenu,
+                    child: MenuPage(),
+                  );
+                }
               ),
-
-              Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
-                return Visibility(
-                  visible: myProvider.statusButtonMenu,
-                  child: MenuPage(),
-                );
-              }
+              ],
             ),
-            ],
-          ),
+          )
         );
       }
     );

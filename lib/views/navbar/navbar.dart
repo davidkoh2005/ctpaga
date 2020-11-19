@@ -42,7 +42,11 @@ class _NavbarState extends State<Navbar> {
                         Icons.keyboard_arrow_left,
                         color: colorGreen,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: () {
+                        if(_title == 'Perfil' || _title == 'Productos' || _title == 'Servicios' )
+                          myProvider.titleButtonMenu = "";
+                        Navigator.pop(context);
+                      }
                     ),
                     Text(
                       _title,

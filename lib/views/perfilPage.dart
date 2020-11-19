@@ -133,6 +133,9 @@ class _PerfilPageState extends State<PerfilPage> {
                                         if(item == newValue){
                                           DefaultCacheManager().emptyCache();
                                           myProvider.selectCommerce = count;
+                                          _onLoading();
+                                          myProvider.getDataUser(false, true, context);
+                                          setState(() {});
                                           break;
                                         }
                                         
@@ -208,12 +211,17 @@ class _PerfilPageState extends State<PerfilPage> {
                   ),
                 ],
               ),
-                Consumer<MyProvider>(
+              Consumer<MyProvider>(
                 builder: (context, myProvider, child) {
-                  return Visibility(
-                    visible: myProvider.statusButtonMenu,
-                    child: MenuPage(),
-                  );
+                  return AnimatedContainer(
+                    duration: Duration(seconds:1),
+                    width: !myProvider.statusButtonMenu? 0 : size.width,
+                    child: AnimatedOpacity(
+                      opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child:MenuPage(),
+                    )
+                  ) ;
                 }
               ),
             ],
@@ -240,7 +248,8 @@ class _PerfilPageState extends State<PerfilPage> {
               }
             }
             
-            removeCache();
+            //removeCache();
+            print("result: $url$urlApi");
 
             if (urlProfile != null)
             {

@@ -88,6 +88,10 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                   borderSide: BorderSide(color: Colors.black),
                 ),
               ),
+              style: TextStyle(
+                color: colorText,
+                fontSize: size.width / 15,
+              ),
             ),
           ),
         ],

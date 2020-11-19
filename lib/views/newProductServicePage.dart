@@ -112,6 +112,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
+
     return WillPopScope(
       onWillPop: () async {
         if(myProvider.statusButtonMenu){
@@ -154,12 +156,17 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   ),
                 ],
               ),
-                Consumer<MyProvider>(
+              Consumer<MyProvider>(
                 builder: (context, myProvider, child) {
-                  return Visibility(
-                    visible: myProvider.statusButtonMenu,
-                    child: MenuPage(),
-                  );
+                  return AnimatedContainer(
+                    duration: Duration(seconds:1),
+                    width: !myProvider.statusButtonMenu? 0 : size.width,
+                    child: AnimatedOpacity(
+                      opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                      duration: Duration(milliseconds: 500),
+                      child:MenuPage(),
+                    )
+                  ) ;
                 }
               ),
             ],

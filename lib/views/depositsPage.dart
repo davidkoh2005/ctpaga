@@ -21,19 +21,16 @@ class _DepositsPageState extends State<DepositsPage> {
 
   void initState() {
     super.initState();
-    verifyStatusBank(context, null);
+    verifyStatusDeposits(context, null);
   }
 
   void dispose(){
     super.dispose();
   }
 
-  verifyStatusBank(BuildContext context, coin){
+  verifyStatusDeposits(BuildContext context, coin){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    //myProvider.getDataUser(false, context);
     _listVerification = [];
-
-  
 
     setState(() {
       if(coin == null && myProvider.selectCoinDeposits == null){
@@ -51,9 +48,9 @@ class _DepositsPageState extends State<DepositsPage> {
         _listVerification.add("Bank");
       }
       for (var item in myProvider.dataPicturesUser) {
-        if(item.description == 'Identification'){
+        if(item.description == 'Identification' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
             _listVerification.add("Identification");
-        }else if(item.description == 'Selfie'){
+        }else if(item.description == 'Selfie' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
             _listVerification.add("Selfie");
         }else if(item.description == 'RIF' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
           _listVerification.add("RIF"); 
@@ -78,7 +75,6 @@ class _DepositsPageState extends State<DepositsPage> {
                 children: <Widget>[
                   Navbar("Banco", false),
                   Expanded(
-                    //height: size.height - 160,
                     child: Scrollbar(
                       controller: _scrollController, 
                       isAlwaysShown: true,
@@ -247,7 +243,7 @@ class _DepositsPageState extends State<DepositsPage> {
     return Padding(
       padding: EdgeInsets.only(right:0),
       child: GestureDetector(
-        onTap: () => verifyStatusBank(context, 0), 
+        onTap: () => verifyStatusDeposits(context, 0), 
         child: Container(
           child: Center(
             child: Text(
@@ -269,7 +265,7 @@ class _DepositsPageState extends State<DepositsPage> {
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => verifyStatusBank(context, 1), 
+        onTap: () => verifyStatusDeposits(context, 1), 
         child: Container(
           child: Center(
             child: Text(
@@ -355,14 +351,9 @@ class _DepositsPageState extends State<DepositsPage> {
   nextPage(page, index)async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() =>_statusButton.add(index));
-    await Future.delayed(Duration(milliseconds: 150));
+    await Future.delayed(Duration(milliseconds: 100));
     setState(() =>_statusButton.remove(index));
 
-    if(myProvider.dataCommercesUser.length != 0){
-      //TODO: Falta validar diferente comercio
-      Navigator.push(context, SlideLeftRoute(page: page));
-    }else{
-      Navigator.push(context, SlideLeftRoute(page: page));
-    }
+    Navigator.push(context, SlideLeftRoute(page: page));
   }
 }

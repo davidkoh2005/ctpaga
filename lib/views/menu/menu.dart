@@ -27,7 +27,7 @@ class _MenuPageState extends State<MenuPage> {
       children: <Widget>[
         Expanded(
           child: Container(
-            color: colorGreen,
+            color: colorGreen.withOpacity(0.8),
             child: ListView.builder(
               padding: EdgeInsets.only(top:40),
               itemCount: listMenu.length,
@@ -56,13 +56,15 @@ class _MenuPageState extends State<MenuPage> {
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(left:10),
-                          child: Text(
-                            listMenu[index]['title'],
-                            style: TextStyle(
-                              fontSize: size.width / 20,
-                              color: statusButton.contains(index)? Colors.black : Colors.white,
-                              fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
-                            ),
+                          child: Container(
+                            child: Text(
+                              listMenu[index]['title'],
+                              style: TextStyle(
+                                fontSize: size.width / 20,
+                                color: statusButton.contains(index)? Colors.black : Colors.white,
+                                fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                              ),
+                            )
                           ),
                         ),
                       ),
@@ -73,17 +75,20 @@ class _MenuPageState extends State<MenuPage> {
             )
           )
         ),
-        Align(
-          alignment: Alignment(0, -0.9),
-          child: GestureDetector(
-            onTap: () => myProvider.statusButtonMenu = false,
-            child: ClipPath(
-              clipper: CustomMenuClipper() ,
-              child: Container(
-                width: 35,
-                height: 110,
-                color: colorGreen,
-                child: Icon(Icons.chevron_left, size: 30,),
+        Visibility(
+          visible: myProvider.statusButtonMenu,
+          child: Align(
+            alignment: Alignment(0, -0.9),
+            child: GestureDetector(
+              onTap: () => myProvider.statusButtonMenu = false,
+              child: ClipPath(
+                clipper: CustomMenuClipper() ,
+                child: Container(
+                  width: 36,
+                  height: 110,
+                  color: colorGreen.withOpacity(0.8),
+                  child: Icon(Icons.chevron_left, size: 30,),
+                )
               )
             )
           )
@@ -100,7 +105,10 @@ class _MenuPageState extends State<MenuPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
 
-    if(title == "Productos" || title == "Servicios"){
+    if(title == myProvider.titleButtonMenu){
+      myProvider.statusButtonMenu = false;
+      await Future.delayed(Duration(milliseconds: 150));
+    }else if(title == "Productos" || title == "Servicios"){
       if(verifyDataCommerce(myProvider)){
         showMessage("Debe ingresar los datos de la empresa", false);
         await Future.delayed(Duration(seconds: 1));
@@ -118,6 +126,8 @@ class _MenuPageState extends State<MenuPage> {
           myProvider.getListCategories();
         }
         myProvider.statusButtonMenu = false;
+        myProvider.titleButtonMenu = title;
+        await Future.delayed(Duration(milliseconds: 150));
         Navigator.push(context, SlideLeftRoute(page: page));
       }
     }else if(title == "Cerrar sesión"){
@@ -144,6 +154,8 @@ class _MenuPageState extends State<MenuPage> {
           myProvider.removeSession(context);
           Navigator.pop(context);
           myProvider.statusButtonMenu = false;
+          myProvider.titleButtonMenu = title;
+          await Future.delayed(Duration(milliseconds: 150));
           Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
@@ -155,6 +167,8 @@ class _MenuPageState extends State<MenuPage> {
       launchWhatsApp(true);
     }else{
       myProvider.statusButtonMenu = false;
+      myProvider.titleButtonMenu = title;
+      await Future.delayed(Duration(milliseconds: 150));
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

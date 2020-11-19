@@ -58,46 +58,49 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
 
               Consumer<MyProvider>(
                 builder: (context, myProvider, child) {
-                  return GestureDetector(
-                    onTap: () => myProvider.dataPurchase.length > 0? Navigator.push(context, SlideLeftRoute(page: ListSalesPage())) : null,
-                    child: Container(
-                      alignment: Alignment.center,
-                      child: Stack(
-                        children: <Widget>[
-                          Container(
-                            padding: EdgeInsets.only(top:10),
-                            child: Image.asset(
-                              "assets/icons/logoCarrito.png",
-                              width: size.width/9,
-                              height: size.width/9,
-                              fit: BoxFit.cover
-                            )
-                          ),
-                          
-                          Padding(
-                            padding: EdgeInsets.only(left: 27),
-                            child: Container(
-                              width: size.width / 17,
-                              height: size.width / 17,
-                              decoration: BoxDecoration(
-                                color: colorGreen,
-                                shape: BoxShape.circle,
-                                ),
-                              child: Center(
-                                child: Text(
-                                  showCount(myProvider),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: size.width / 30,
-                                    fontWeight: FontWeight.bold,
-                                  )
-                                ),
+                  return Transform.scale(
+                    scale: myProvider.statusTrolleyAnimation,
+                    child: GestureDetector(
+                      onTap: () => myProvider.dataPurchase.length > 0? Navigator.push(context, SlideLeftRoute(page: ListSalesPage())) : null,
+                      child: Container(
+                        alignment: Alignment.center,
+                        child: Stack(
+                          children: <Widget>[
+                            Container(
+                              padding: EdgeInsets.only(top:15),
+                              child: Image.asset(
+                                "assets/icons/logoCarrito.png",
+                                width: size.width/9,
+                                height: size.width/9,
+                                fit: BoxFit.cover
                               )
-                            )
-                          ),
-                        ],
+                            ),
+                            
+                            Padding(
+                              padding: EdgeInsets.only(left: 27, top: 4),
+                              child: Container(
+                                width: size.width / 17,
+                                height: size.width / 17,
+                                decoration: BoxDecoration(
+                                  color: colorGreen,
+                                  shape: BoxShape.circle,
+                                  ),
+                                child: Center(
+                                  child: Text(
+                                    showCount(myProvider),
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: size.width / 30,
+                                      fontWeight: FontWeight.bold,
+                                    )
+                                  ),
+                                )
+                              )
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
+                    )
                   );
                 }
               ),

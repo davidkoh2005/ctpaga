@@ -45,6 +45,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.selectDateRate = 0;
+    myProvider.statusTrolleyAnimation = 1.0;
   }
 
   @override
@@ -107,14 +108,19 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     ),
                   ],
                 ),
-                  Consumer<MyProvider>(
-                builder: (context, myProvider, child) {
-                  return Visibility(
-                    visible: myProvider.statusButtonMenu,
-                    child: MenuPage(),
-                  );
-                }
-              ),
+                Consumer<MyProvider>(
+                  builder: (context, myProvider, child) {
+                    return AnimatedContainer(
+                      duration: Duration(seconds:1),
+                      width: !myProvider.statusButtonMenu? 0 : size.width,
+                      child: AnimatedOpacity(
+                        opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                        duration: Duration(milliseconds: 500),
+                        child:MenuPage(),
+                      )
+                    ) ;
+                  }
+                ),
               ],
             ),
           )
@@ -191,7 +197,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 if(_statusCharge){
                   addProductsServices(myProvider.dataProducts[index]);
                   setState(() =>_indexProduct.add(index));
+                  myProvider.statusTrolleyAnimation = 1.5;
                   await Future.delayed(Duration(milliseconds: 150));
+                  myProvider.statusTrolleyAnimation = 1.0;
                   setState(() =>_indexProduct.remove(index));
                 }else{
                   setState(() => _statusDropdown = "");
@@ -265,7 +273,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 if(_statusCharge){
                   addProductsServices(myProvider.dataServices[index]);
                   setState(() =>_indexService.add(index));
+                  myProvider.statusTrolleyAnimation = 1.5;
                   await Future.delayed(Duration(milliseconds: 150));
+                  myProvider.statusTrolleyAnimation = 1.0;
                   setState(() =>_indexService.remove(index));
                 }else{
                   setState(() => _statusDropdown = "");

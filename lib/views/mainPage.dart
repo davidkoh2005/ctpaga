@@ -98,10 +98,15 @@ class _MainPageState extends State<MainPage> {
 
             Consumer<MyProvider>(
               builder: (context, myProvider, child) {
-                return Visibility(
-                  visible: myProvider.statusButtonMenu,
-                  child: MenuPage(),
-                );
+                return AnimatedContainer(
+                  duration: Duration(seconds:1),
+                  width: !myProvider.statusButtonMenu? 0 : size.width,
+                  child: AnimatedOpacity(
+                    opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                    duration: Duration(seconds:1),
+                    child:MenuPage(),
+                  )
+                ) ;
               }
             ),
           ]
@@ -271,6 +276,7 @@ class _MainPageState extends State<MainPage> {
         myProvider.selectProductsServices = 1;
         myProvider.getListCategories();
       }
+      myProvider.titleButtonMenu = _title;
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

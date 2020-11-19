@@ -177,7 +177,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
               focusNode: _priceFocus,
               onSaved: (value) => _price = value,
               onChanged: (value) {
-                print("price: $value");
                 setState(() {
                   if (!value.contains("0,0") && !_dataShipping.contains("Price")){
                     _dataShipping.add("Price");

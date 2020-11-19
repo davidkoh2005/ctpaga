@@ -43,6 +43,14 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  String _titleButtonMenu;
+  String get titleButtonMenu =>_titleButtonMenu; 
+  
+  set titleButtonMenu(String newtitle) {
+    _titleButtonMenu = newtitle; 
+    notifyListeners(); 
+  }
+
   User _user = User();
   User get dataUser =>_user;
 
@@ -168,6 +176,14 @@ class MyProvider with ChangeNotifier {
   
   set selectProductsServices(int newSelect) {
     _selectProductsServicesInt = newSelect; 
+    notifyListeners(); 
+  }
+
+  double _statusTrolley;
+  double get statusTrolleyAnimation =>_statusTrolley; 
+  
+  set statusTrolleyAnimation(double newValue) {
+    _statusTrolley = newValue; 
     notifyListeners(); 
   }
 
@@ -398,11 +414,11 @@ class MyProvider with ChangeNotifier {
           getListRates();
           await Future.delayed(Duration(seconds: 3));
 
+          if(loading){
+            Navigator.pop(context);
+          }
+
           if(status){
-            if(loading){
-              Navigator.pop(context);
-            }
-            
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
           }
         }else{
@@ -499,7 +515,6 @@ class MyProvider with ChangeNotifier {
             "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
           }),
         ); 
-
         jsonResponse = jsonDecode(response.body);
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {

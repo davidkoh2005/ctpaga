@@ -31,11 +31,11 @@ class _ListSalesPageState extends State<ListSalesPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               NavbarSales("Nueva Venta"),
-              Expanded(
+              Container(
                 child: showList(myProvider),
               ),
               Padding(
-                padding: EdgeInsets.only(bottom:30),
+                padding: EdgeInsets.only(top: 30, bottom:30),
                 child: buttonCharge(myProvider)
               ),
             ],
@@ -47,78 +47,82 @@ class _ListSalesPageState extends State<ListSalesPage> {
 
   Widget showList(myProvider){
     var size = MediaQuery.of(context).size;
-    return Scrollbar(
-      controller: _scrollController, 
-      isAlwaysShown: true,
-      child: ListView.builder(
-        controller: _scrollController,
-          padding: EdgeInsets.all(10),
-          itemCount: myProvider.dataPurchase.length,
-          itemBuilder: (BuildContext ctxt, int index) {
-            return GestureDetector(
-              onTap: () => null,
-              child: Container(
-                height: size.width / 5,
-                width: size.width / 5,
-                child: Card(
-                  color: colorGrey,
-                  shape: StadiumBorder(
-                    side: BorderSide(
-                      color: colorGreen,
-                      width: 1.0,
+    return Container(
+      height: myProvider.dataPurchase.length < 8? (myProvider.dataPurchase.length*(size.height-230)/7) : size.height-230,
+      child: Scrollbar(
+        controller: _scrollController, 
+        isAlwaysShown: true,
+        child: ListView.builder(
+          shrinkWrap: true,
+          controller: _scrollController,
+            padding: EdgeInsets.all(10),
+            itemCount: myProvider.dataPurchase.length,
+            itemBuilder: (BuildContext ctxt, int index) {
+              return GestureDetector(
+                onTap: () => null,
+                child: Container(
+                  height: size.width / 5,
+                  width: size.width / 5,
+                  child: Card(
+                    color: colorGrey,
+                    shape: StadiumBorder(
+                      side: BorderSide(
+                        color: colorGreen,
+                        width: 1.0,
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left: 30),
-                        child: Container(
-                          width: size.width / 10,
-                          height: size.width / 10,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left: 30),
+                          child: Container(
+                            width: size.width / 10,
+                            height: size.width / 10,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                            child: Center(
+                              child: Text(
+                                myProvider.dataPurchase[index]['count'].toString(),
+                                style: TextStyle(
+                                  fontSize: size.width / 20,
+                                ),
+                              )
+                            ),
+                          )
+                        ),
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(left: 20),
                             child: Text(
-                              myProvider.dataPurchase[index]['count'].toString(),
+                              myProvider.dataPurchase[index]['data'].name,
                               style: TextStyle(
                                 fontSize: size.width / 20,
                               ),
-                            )
-                          ),
-                        )
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(left: 20),
-                          child: Text(
-                            myProvider.dataPurchase[index]['data'].name,
-                            style: TextStyle(
-                              fontSize: size.width / 20,
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Container(
-                          padding: EdgeInsets.only(right: 20),
-                          child: Text(
-                            showPrice(myProvider.dataPurchase[index]['data'].price, myProvider.dataPurchase[index]['data'].coin),
-                            style: TextStyle(
-                              fontSize: size.width / 20,
+                        Expanded(
+                          child: Container(
+                            padding: EdgeInsets.only(right: 20),
+                            child: Text(
+                              showPrice(myProvider.dataPurchase[index]['data'].price, myProvider.dataPurchase[index]['data'].coin),
+                              style: TextStyle(
+                                fontSize: size.width / 20,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    )
                   )
-                )
-              ),
-            );
-          }
-      ),
+                ),
+              );
+            }
+        ),
+      )
     );
   }
 
@@ -197,13 +201,15 @@ class _ListSalesPageState extends State<ListSalesPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
-            myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: size.width / 20,
-              fontWeight: FontWeight.w500,
-            ),
+          child: Container(
+            child: Text(
+              myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: size.width / 18,
+                fontWeight: FontWeight.w500,
+              ),
+            )
           ),
         ),
       ),

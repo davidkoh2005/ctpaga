@@ -24,11 +24,13 @@ class _SalesReportPageState extends State<SalesReportPage> {
   var formatterMonth = new DateFormat('MMMM');
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusCoin = 1, _statusButtonDate = 0;
+  List _listVerification = new List();
 
   @override
   void initState() {
     super.initState();
     initialVariable();
+    verifyStatusDocuments();
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
@@ -43,6 +45,29 @@ class _SalesReportPageState extends State<SalesReportPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
 
+  }
+
+
+  verifyStatusDocuments(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    _listVerification = [];
+
+    setState(() {
+
+      if (myProvider.dataBanksUser[_statusCoin] != null ){
+        _listVerification.add("Bank");
+      }
+      for (var item in myProvider.dataPicturesUser) {
+        if(item.description == 'Identification' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+            _listVerification.add("Identification");
+        }else if(item.description == 'Selfie' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+            _listVerification.add("Selfie");
+        }else if(item.description == 'RIF' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+          _listVerification.add("RIF"); 
+        }
+      }
+    });
+    myProvider.listVerification = _listVerification;
   }
 
   @override
@@ -158,13 +183,58 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     )
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      showButtonDate(0),
-                      showButtonDate(1),
-                      showButtonDate(2),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        width:size.width - 100,
+                        height: size.height / 20,
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [
+                              Colors.red,
+                              Colors.red,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                        child: Center(
+                          child: Text(
+                            'No podemos enviarte tu dinero',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: size.width / 20,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
+                  ),
+                  Visibility(
+                    visible: _listVerification.length != 4? true : false,
+                    child: Text(
+                      "Necesitamos que completes la información que aparece en el Banco",
+                      textAlign: TextAlign.center,
+                      style:  TextStyle(
+                        fontSize: size.width / 20,
+                        color: colorGrey
+                      ),
+                    )
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.only(top:20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        showButtonDate(0),
+                        showButtonDate(1),
+                        showButtonDate(2),
+                      ],
+                    )
                   ),
 
                   showTable(),

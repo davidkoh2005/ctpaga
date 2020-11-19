@@ -76,7 +76,7 @@ class _DepositsPageState extends State<DepositsPage> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Navbar("Depósitos", false),
+                  Navbar("Banco", false),
                   Expanded(
                     //height: size.height - 160,
                     child: Scrollbar(

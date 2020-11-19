@@ -54,7 +54,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Navbar("Reporte de ventas", false),
+              Navbar("Transacciones", false),
               Padding(
                 padding: EdgeInsets.only(right:30),
                 child: Row(

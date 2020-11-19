@@ -100,7 +100,25 @@ class _MenuPageState extends State<MenuPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
 
-    if(title == "Cerrar sesión"){
+    if(title == "Productos" || title == "Servicios"){
+      if(verifyDataCommerce(myProvider)){
+        showMessage("Debe ingresar los datos de la empresa", false);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }else if(myProvider.dataRates.length == 0 ){
+        showMessage("Debe ingresar la tasa de cambio", false);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }else if(title == "Productos"){
+        myProvider.selectProductsServices = 0;
+        myProvider.getListCategories();
+      }else if(title == "Servicios"){
+        myProvider.selectProductsServices = 1;
+        myProvider.getListCategories();
+      }
+      myProvider.statusButtonMenu = false;
+      Navigator.push(context, SlideLeftRoute(page: page));
+    }else if(title == "Cerrar sesión"){
       _onLoading();
       var myProvider = Provider.of<MyProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -129,26 +147,11 @@ class _MenuPageState extends State<MenuPage> {
       } on SocketException catch (_) {
         print("error");
       } 
-    }else if(verifyDataCommerce(myProvider)){
-      showMessage("Debe ingresar los datos de la empresa", false);
-      await Future.delayed(Duration(seconds: 1));
-      Navigator.pop(context);
-    }else if(title == "Recomentar a un comercio"){
+    }else if(title == "Compartir un comercio"){
       launchWhatsApp(false);
     }else if(title == "Pedir ayuda"){
       launchWhatsApp(true);
-    }else if((title == "Productos" || title == "Servicios") && myProvider.dataRates.length == 0 ){
-      showMessage("Debe ingresar la tasa de cambio", false);
-      await Future.delayed(Duration(seconds: 1));
-      Navigator.pop(context);
     }else{
-      if(title == "Productos"){
-        myProvider.selectProductsServices = 0;
-        myProvider.getListCategories();
-      }else if(title == "Servicios"){
-        myProvider.selectProductsServices = 1;
-        myProvider.getListCategories();
-      }
       myProvider.statusButtonMenu = false;
       Navigator.push(context, SlideLeftRoute(page: page));
     }

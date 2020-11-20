@@ -62,12 +62,12 @@ List listMenu = [
   {
     "title": "Tasa de cambio",
     "icon": "assets/icons/tasa.png",
-    "page": ExchangeRatePage(),
+    "page": ExchangeRatePage(true),
   },
   {
     "title": "Transacciones",
     "icon": "assets/icons/reporte.png",
-    "page": SalesReportPage(),
+    "page": SalesReportPage(true),
   },
   {
     "title": "Agregar comercio",

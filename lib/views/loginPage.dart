@@ -2,7 +2,6 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/forgotPassword.dart';
 import 'package:ctpaga/views/registerPage.dart';
 import 'package:ctpaga/providers/provider.dart';
-import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';

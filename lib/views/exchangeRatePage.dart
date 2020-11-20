@@ -12,12 +12,15 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 class ExchangeRatePage extends StatefulWidget {
-  
+  ExchangeRatePage(this._statusMenuBar);
+  final bool _statusMenuBar;
   @override
-  _ExchangeRatePageState createState() => _ExchangeRatePageState();
+  _ExchangeRatePageState createState() => _ExchangeRatePageState(this._statusMenuBar);
 }
 
 class _ExchangeRatePageState extends State<ExchangeRatePage> {
+  _ExchangeRatePageState(this._statusMenuBar);
+  final bool _statusMenuBar;
   var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var formatter = new DateFormat('dd/M/yyyy');
@@ -62,8 +65,12 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Navbar("Tasa de cambio", false),
+              Visibility(
+                visible:_statusMenuBar,
+                child: Navbar("Tasa de cambio", false),
+              ),
               showReport(),
+              
               Padding(
                 padding: EdgeInsets.only(top: 20, bottom: 50),
                 child: buttonNew()
@@ -83,7 +90,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             child: Column(
               children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+                    padding: _statusMenuBar? const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0) : const EdgeInsets.fromLTRB(30.0, 60.0, 30.0, 30.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
@@ -281,7 +288,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   showExhangeRate(rate){
-    var lowRate = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    var lowRate = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
 
     lowRate.updateValue(double.parse(rate));
 

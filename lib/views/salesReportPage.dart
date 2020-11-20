@@ -12,12 +12,16 @@ import 'package:intl/intl.dart';
 
 
 class SalesReportPage extends StatefulWidget {
-  
+  SalesReportPage(this._statusMenuBar);
+  final bool _statusMenuBar;
   @override
-  _SalesReportPageState createState() => _SalesReportPageState();
+  _SalesReportPageState createState() => _SalesReportPageState(this._statusMenuBar);
 }
 
 class _SalesReportPageState extends State<SalesReportPage> {
+  _SalesReportPageState(this._statusMenuBar);
+  final bool _statusMenuBar;
+
   List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var formatter = new DateFormat('dd/M/yyyy');
   var formatterDay = new DateFormat('EEEE');
@@ -79,7 +83,10 @@ class _SalesReportPageState extends State<SalesReportPage> {
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Navbar("Transacciones", false),
+              Visibility(
+                visible:_statusMenuBar,
+                child: Navbar("Transacciones", false),
+              ),
               Padding(
                 padding: EdgeInsets.only(right:30),
                 child: Row(
@@ -262,7 +269,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   showSales(){
-    var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
   
     if(_statusCoin == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );

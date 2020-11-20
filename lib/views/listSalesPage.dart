@@ -1,9 +1,9 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/newCategoryPage.dart';
 import 'package:ctpaga/views/navbar/navbarSales.dart';
+import 'package:ctpaga/views/modifySalesPage.dart';
+import 'package:ctpaga/views/newSalesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
-import 'package:ctpaga/views/newSalesPage.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
@@ -59,7 +59,11 @@ class _ListSalesPageState extends State<ListSalesPage> {
             itemCount: myProvider.dataPurchase.length,
             itemBuilder: (BuildContext ctxt, int index) {
               return GestureDetector(
-                onTap: () => null,
+                onTap: () {
+                  myProvider.positionModify = index;
+                  myProvider.typePositionModify = myProvider.dataPurchase[index]['type'];
+                  nextPage(ModifySalesPage());
+                },
                 child: Container(
                   height: size.width / 5,
                   width: size.width / 5,
@@ -128,7 +132,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
 
   showPrice(price, coin){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
     double priceDouble = double.parse(price);
     double varRate = double.parse(myProvider.dataRates[0].rate);
 
@@ -148,9 +152,8 @@ class _ListSalesPageState extends State<ListSalesPage> {
 
   showTotal(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
-    double priceDouble;
-    double varRate = double.parse(myProvider.dataRates[0].rate);
+    var lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+    double priceDouble, varRate = double.parse(myProvider.dataRates[0].rate);
     _total = 0.0;
 
     if(myProvider.coinUsers  == 1)

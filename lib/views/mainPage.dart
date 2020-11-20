@@ -3,7 +3,6 @@ import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/productsServicesPage.dart';
 import 'package:ctpaga/views/amountPage.dart';
 import 'package:ctpaga/providers/provider.dart';
-import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
@@ -93,22 +92,8 @@ class _MainPageState extends State<MainPage> {
                     ]
                   )
                 ),
-                _showMenu(),
+                //_showMenu(),
               ],
-            ),
-
-            Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
-                return AnimatedContainer(
-                  duration: Duration(seconds:1),
-                  width: !myProvider.statusButtonMenu? 0 : size.width,
-                  child: AnimatedOpacity(
-                    opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-                    duration: Duration(seconds:1),
-                    child:MenuPage(),
-                  )
-                ) ;
-              }
             ),
           ]
         )

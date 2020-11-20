@@ -34,7 +34,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   final _controllerDescription = TextEditingController();
   final _controllerStock = TextEditingController();
   final _controllerPostPurchase = TextEditingController();
-  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   
   // ignore: unused_field
   String _name, _description, _categories, _price, _selectCategories, _postPurchase;

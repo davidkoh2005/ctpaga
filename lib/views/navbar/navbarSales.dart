@@ -72,7 +72,7 @@ class _NavbarSalesState extends State<NavbarSales> {
     );
   }
 
-  Widget showAlert(){
+  void showAlert(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     showDialog(
       barrierDismissible: false,
@@ -86,6 +86,7 @@ class _NavbarSalesState extends State<NavbarSales> {
               child: Text('SÍ'),
               onPressed: () {
                 myProvider.dataPurchase = [];
+                myProvider.statusRemoveShopping = true;
                 Navigator.pop(context);
                 Navigator.pop(context);
               },

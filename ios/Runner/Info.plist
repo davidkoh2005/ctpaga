@@ -42,10 +42,13 @@
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 
 	<key>NSPhotoLibraryUsageDescription</key>
-	<string>Permitir el acceso a la biblioteca de fotos</string>
+	<string>Permitir el acceso a la biblioteca de fotos.</string>
 
 	<key>NSCameraUsageDescription</key>
-	<string>Permitir el acceso a la cámara para capturar fotos</string>
+	<string>Permitir el acceso a la cámara para capturar fotos.</string>
+
+	<key>NSContactsUsageDescription</key>  
+	<string>Esta aplicación requiere acceso a los contactos para funcionar correctamente.</string>  
 
 	<key>LSApplicationQueriesSchemes</key>
 	<array>

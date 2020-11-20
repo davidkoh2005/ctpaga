@@ -25,7 +25,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   final _formKeyShipping = new GlobalKey<FormState>();
   final _controllerDescription= TextEditingController();
   final FocusNode _priceFocus = FocusNode();
-  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+  var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   bool _statusButtonSave = false, _switchFree = false, _statusButtonDelete = false;
   int _statusCoin;
   String _description, _price;

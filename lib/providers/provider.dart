@@ -10,6 +10,7 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/views/loginPage.dart';
+import 'package:ctpaga/views/mainMenuBar.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
@@ -48,6 +49,30 @@ class MyProvider with ChangeNotifier {
   
   set titleButtonMenu(String newtitle) {
     _titleButtonMenu = newtitle; 
+    notifyListeners(); 
+  }
+
+  bool _statusRemoveShopping;
+  bool get statusRemoveShopping =>_statusRemoveShopping; 
+  
+  set statusRemoveShopping(bool newShopping) {
+    _statusRemoveShopping = newShopping; 
+    notifyListeners(); 
+  }
+
+  int _positionModify;
+  int get positionModify =>_positionModify; 
+  
+  set positionModify(int newPosition) {
+    _positionModify = newPosition; 
+    notifyListeners(); 
+  }
+
+  int _typePositionModify;
+  int get typePositionModify =>_typePositionModify; 
+  
+  set typePositionModify(int newTypePosition) {
+    _typePositionModify = newTypePosition; 
     notifyListeners(); 
   }
 
@@ -419,7 +444,7 @@ class MyProvider with ChangeNotifier {
           }
 
           if(status){
-            Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+            Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
           }
         }else{
           removeSession(context);
@@ -441,7 +466,7 @@ class MyProvider with ChangeNotifier {
       }
 
       if(status){
-        Navigator.pushReplacement(context, SlideLeftRoute(page: MainPage()));
+        Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
       }
     }
   }

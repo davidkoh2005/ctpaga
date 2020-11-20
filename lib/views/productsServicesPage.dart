@@ -336,7 +336,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     if(myProvider.dataPurchase.length == 0){
       myProvider.dataPurchase.add({
         "data" :data,
-        "count" : 1
+        "count" : 1,
+        "type": myProvider.selectProductsServices,
       });
     }else{
       for (var item in myProvider.dataPurchase) {
@@ -351,7 +352,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       if(!_status)
         _listSales.add({
           "data" :data,
-          "count" : 1
+          "count" : 1,
+          "type": myProvider.selectProductsServices,
         });
 
       myProvider.dataPurchase = _listSales;
@@ -488,7 +490,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   showTotal(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    var lowPurchase = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
     double priceDouble;
     double varRate = double.parse(myProvider.dataRates[0].rate);
     _total = 0.0;
@@ -611,7 +613,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   showPrice(price, coin){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: ' \$', );
+    var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
     double priceDouble = double.parse(price);
     double varRate = double.parse(myProvider.dataRates[0].rate);
 

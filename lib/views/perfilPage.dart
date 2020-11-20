@@ -10,6 +10,7 @@ import 'package:ctpaga/env.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -62,7 +63,7 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
-    removeCache();
+    //removeCache();
   }
 
   void dispose(){
@@ -126,13 +127,15 @@ class _PerfilPageState extends State<PerfilPage> {
                                       height: 2,
                                       color: colorGreen,
                                     ),
-                                    onChanged: (Commerce newValue) {
+                                    onChanged: (Commerce newValue) async{
                                       // ignore: unused_local_variable
                                       int count = 0;
                                       for (var item in myProvider.dataCommercesUser) {
                                         if(item == newValue){
+                                          SharedPreferences prefs = await SharedPreferences.getInstance();
                                           DefaultCacheManager().emptyCache();
                                           myProvider.selectCommerce = count;
+                                          prefs.setInt('selectCommerce', count);
                                           _onLoading();
                                           myProvider.getDataUser(false, true, context);
                                           setState(() {});
@@ -249,7 +252,7 @@ class _PerfilPageState extends State<PerfilPage> {
             }
             
             //removeCache();
-            print("result: $url$urlApi");
+            print("result: $url$urlProfile");
 
             if (urlProfile != null)
             {
@@ -379,8 +382,7 @@ class _PerfilPageState extends State<PerfilPage> {
         if (jsonResponse['statusCode'] == 201) {
           DefaultCacheManager().emptyCache();
           setState(() =>_image = File(picture.path));
-          myProvider.getDataUser(false, false, context);
-          Navigator.pop(context);
+          myProvider.getDataUser(false, true, context);
           showMessage("Guardado Correctamente", true);
           await Future.delayed(Duration(seconds: 1));
           Navigator.pop(context);

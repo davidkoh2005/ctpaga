@@ -130,7 +130,7 @@ class _SelfiePageState extends State<SelfiePage> {
                 textAlign: TextAlign.center,
                 style:  TextStyle(
                   fontSize: size.width / 20,
-                  color: colorGrey
+                  color: colorText
                 ),
               ),
             ),

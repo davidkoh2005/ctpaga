@@ -122,7 +122,7 @@ class _DepositsPageState extends State<DepositsPage> {
                               child: Text(
                                 showDeposits(),
                                 style:  TextStyle(
-                                  fontSize: size.width / 6,
+                                  fontSize: size.width / 10,
                                 ),
                               ),
                             ),
@@ -349,7 +349,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   nextPage(page, index)async{
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() =>_statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 100));
     setState(() =>_statusButton.remove(index));

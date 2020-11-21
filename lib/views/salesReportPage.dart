@@ -181,11 +181,11 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     ),
                   ),
                   Container(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.only(bottom: 10),
                     child: Text(
                       showSales(),
                       style:  TextStyle(
-                        fontSize: size.width / 6,
+                        fontSize: size.width / 8,
                       ),
                     )
                   ),
@@ -226,8 +226,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
                       "Necesitamos que completes la información que aparece en el Banco",
                       textAlign: TextAlign.center,
                       style:  TextStyle(
-                        fontSize: size.width / 20,
-                        color: colorGrey
+                        fontSize: size.width / 25,
+                        color: colorText
                       ),
                     )
                   ),
@@ -301,7 +301,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: size.width / 25,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -314,10 +314,11 @@ class _SalesReportPageState extends State<SalesReportPage> {
     return Padding(
       padding: EdgeInsets.all(20),
       child: DataTable(
-        columns: const <DataColumn>[
+        columns: <DataColumn>[
           DataColumn(
             label: Text(
-              'Productos y/o Servicios',
+              'Productos y/o \n\n Servicios',
+              textAlign: TextAlign.center,
               style: TextStyle(fontStyle: FontStyle.italic),
             ),
           ),

@@ -37,7 +37,7 @@ class _NavbarState extends State<Navbar> {
                 child: Row(
                   children: <Widget>[
                       IconButton(
-                      iconSize: 65,
+                      iconSize: size.width/7,
                       icon: Icon(
                         Icons.keyboard_arrow_left,
                         color: colorGreen,
@@ -52,7 +52,7 @@ class _NavbarState extends State<Navbar> {
                       _title,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: size.width / 14,
+                        fontSize: size.width / 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

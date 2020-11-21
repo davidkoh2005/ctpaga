@@ -182,7 +182,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               decoration: InputDecoration(
                 hintText: "50",
                 hintStyle: TextStyle(
-                fontSize: size.width / 15,
+                fontSize: size.width / 17,
                 color: colorGrey,
                 ),
                 focusedBorder: UnderlineInputBorder(
@@ -190,7 +190,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: size.width / 15,
+                fontSize: size.width / 17,
               ),
             ),
           ),

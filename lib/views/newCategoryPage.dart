@@ -61,7 +61,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 "NOMBRE DEL LA CATEGORÍA",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 15,
+                  fontSize: size.width / 17,
                 ),
               ),
             ),
@@ -90,7 +90,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               ),
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 15,
+                fontSize: size.width / 17,
               ),
             ),
           ),

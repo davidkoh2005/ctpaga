@@ -28,67 +28,68 @@ class _MenuPageState extends State<MenuPage> {
         Expanded(
           child: Container(
             color: colorGreen.withOpacity(0.8),
-            child: ListView.builder(
-              padding: EdgeInsets.only(top:40),
-              itemCount: listMenu.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () => nextPage(listMenu[index]['title'], listMenu[index]['page'], index),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left:25),
-                        child: Container(
-                          width: 60,
-                          height: 60,
+            child: AnimatedOpacity(
+              duration: Duration(milliseconds: 1500),
+              opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+              child: ListView.builder(
+                padding: EdgeInsets.only(top:40),
+                itemCount: listMenu.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () => nextPage(listMenu[index]['title'], listMenu[index]['page'], index),
+                    child: Row(
+                      children: <Widget>[
+                        Padding(
+                          padding: EdgeInsets.only(left:25),
+                          child: Container(
+                            width: 60,
+                            height: 60,
+                            child: Padding(
+                              padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
+                              child: Visibility(
+                                visible: listMenu[index]['icon'] == ''? false : true,
+                                child: Image.asset(
+                                  listMenu[index]['icon'],
+                                  color: statusButton.contains(index)? Colors.black : Colors.white,
+                                )
+                              ),
+                            ),
+                          ),
+                        ),
+                        Expanded(
                           child: Padding(
-                            padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
-                            child: Visibility(
-                              visible: listMenu[index]['icon'] == ''? false : true,
-                              child: Image.asset(
-                                listMenu[index]['icon'],
-                                color: statusButton.contains(index)? Colors.black : Colors.white,
+                            padding: EdgeInsets.only(left:10),
+                            child: Container(
+                              child: Text(
+                                listMenu[index]['title'],
+                                style: TextStyle(
+                                  fontSize: size.width / 20,
+                                  color: statusButton.contains(index)? Colors.black : Colors.white,
+                                  fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                                ),
                               )
                             ),
                           ),
                         ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left:10),
-                          child: Container(
-                            child: Text(
-                              listMenu[index]['title'],
-                              style: TextStyle(
-                                fontSize: size.width / 20,
-                                color: statusButton.contains(index)? Colors.black : Colors.white,
-                                fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
-                              ),
-                            )
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              )
             )
           )
         ),
-        Visibility(
-          visible: myProvider.statusButtonMenu,
-          child: Align(
-            alignment: Alignment(0, -0.9),
-            child: GestureDetector(
-              onTap: () => myProvider.statusButtonMenu = false,
-              child: ClipPath(
-                clipper: CustomMenuClipper() ,
-                child: Container(
-                  width: 36,
-                  height: 110,
-                  color: colorGreen.withOpacity(0.8),
-                  child: Icon(Icons.chevron_left, size: 30,),
-                )
+        Align(
+          alignment: Alignment(0, -0.9),
+          child: GestureDetector(
+            onTap: () => myProvider.statusButtonMenu = false,
+            child: ClipPath(
+              clipper: CustomMenuClipper() ,
+              child: Container(
+                width: 36,
+                height: 110,
+                color: colorGreen.withOpacity(0.8),
+                child: Icon(Icons.chevron_left, size: 30,),
               )
             )
           )

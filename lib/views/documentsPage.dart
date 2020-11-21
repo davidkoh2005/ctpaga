@@ -136,7 +136,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   textAlign: TextAlign.center,
                   style:  TextStyle(
                     fontSize: size.width / 20,
-                    color: colorGrey
+                    color: colorText
                   ),
                 ),
               )
@@ -147,7 +147,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   textAlign: TextAlign.center,
                   style:  TextStyle(
                     fontSize: size.width / 20,
-                    color: colorGrey
+                    color: colorText
                   ),
                 ),
               ),

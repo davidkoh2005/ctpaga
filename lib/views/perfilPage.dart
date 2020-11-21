@@ -63,7 +63,6 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
-    //removeCache();
   }
 
   void dispose(){
@@ -252,7 +251,6 @@ class _PerfilPageState extends State<PerfilPage> {
             }
             
             //removeCache();
-            print("result: $url$urlProfile");
 
             if (urlProfile != null)
             {
@@ -292,18 +290,6 @@ class _PerfilPageState extends State<PerfilPage> {
         );
       }
     );
-  }
-
-  void removeCache()async{
-    var result;
-      try {
-        result = await InternetAddress.lookup('google.com'); //verify network
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          DefaultCacheManager().emptyCache();
-        }
-      } on SocketException catch (_) {
-        print("error network");
-      } 
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
@@ -841,6 +827,16 @@ class _PerfilPageState extends State<PerfilPage> {
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: Text(
+                "Nombre del banco",
+                style: TextStyle(
+                  color:colorText,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
               child: SearchableDropdown.single(
                 items: _statusCountry? listBankUSA.map((result) {
                     return (DropdownMenuItem(
@@ -876,12 +872,10 @@ class _PerfilPageState extends State<PerfilPage> {
                   }).toList(),
                 value: _nameBankingUSD,
                 hint: "Nombre del Banco",
-                searchHint: null,
+                searchHint: "Nombre del Banco",
                 onChanged: (value)=> _nameBankingUSD = value,
-                dialogBox: false,
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
-                menuConstraints: BoxConstraints.tight(Size.fromHeight(350)),
               ),
             ),
 
@@ -1014,7 +1008,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Nombre de la cuenta',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1039,7 +1033,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Cedula (V-123456789)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1067,7 +1061,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Número de Cuenta',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1082,6 +1076,16 @@ class _PerfilPageState extends State<PerfilPage> {
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: Text(
+                "Nombre del banco",
+                style: TextStyle(
+                  color:colorText,
+                ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
               child: SearchableDropdown.single(
                 items: listBankBs.map((result) {
                   return (DropdownMenuItem(
@@ -1101,12 +1105,10 @@ class _PerfilPageState extends State<PerfilPage> {
                 }).toList(),
                 value: myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
                 hint: "Nombre del Banco",
-                searchHint: null,
+                searchHint: "Nombre del Banco",
                 onChanged: (value)=> _nameBankingBs = value,
-                dialogBox: false,
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,
-                menuConstraints: BoxConstraints.tight(Size.fromHeight(350)),
               ),
             ),
 
@@ -1120,7 +1122,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 decoration: InputDecoration(
                   labelText: 'Tipo de cuenta (C o A)',
                   labelStyle: TextStyle(
-                    color: colorGrey
+                    color: colorText
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),

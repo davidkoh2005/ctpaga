@@ -65,7 +65,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 "NOMBRE DEL NEGOCIO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 15,
+                  fontSize: size.width / 20,
                 ),
               ),
             ),
@@ -86,6 +86,10 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color:  Colors.black),
                 ),
+              ),
+              style: TextStyle(
+                color: colorText,
+                fontSize: size.width / 20,
               ),
             ),
           ),

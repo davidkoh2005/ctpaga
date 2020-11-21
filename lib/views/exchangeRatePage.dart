@@ -108,7 +108,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                       updatePrice(myProvider),
                       textAlign: TextAlign.center,
                       style:  TextStyle(
-                        fontSize: size.width / 6,
+                        fontSize: size.width / 8,
                       ),
                     )
                   ),
@@ -193,20 +193,21 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget showTable(myProvider){
+    var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.all(20),
       child: DataTable(
-        columns: const <DataColumn>[
+        columns:  <DataColumn>[
           DataColumn(
             label: Text(
               'TASA',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: size.width / 20),
             ),
           ),
           DataColumn(
             label: Text(
               'FECHA',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: size.width / 20),
             ),
           ),
         ],

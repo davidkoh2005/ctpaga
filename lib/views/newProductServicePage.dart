@@ -202,7 +202,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Nombre",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
@@ -241,7 +241,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: size.width / 15,
+                          fontSize: size.width / 17,
                         ),
                       ),
                     ),
@@ -255,7 +255,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Precio",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
@@ -286,7 +286,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: size.width / 10,
+                          fontSize: size.width / 11,
                           color: colorGrey,
                         ),
                         decoration: InputDecoration(
@@ -308,17 +308,17 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Descrición (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 10.0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 10.0),
                       child: new TextFormField(
                         controller: _controllerDescription,
                         keyboardType: TextInputType.multiline,
-                        maxLines: 5,
+                        maxLines: 3,
                         textCapitalization:TextCapitalization.sentences,
                         autofocus: false,
                         focusNode: _descriptionFocus,
@@ -328,6 +328,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
                           ),
+                        ),
+                        style: TextStyle(
+                          fontSize: size.width / 17,
                         ),
                       ),
                     ),
@@ -340,7 +343,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Categorías (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
@@ -349,7 +352,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       builder: (context, myProvider, child) {
                         _showCategories();
                         return Padding(
-                          padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 10.0),
+                          padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 10.0),
                           child: new TextFormField(
                             onTap: () => Navigator.push(context, SlideLeftRoute(page: ListCategoryPage())) ,
                             readOnly: true,
@@ -366,7 +369,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               ),
                             ),
                             style: TextStyle(
-                              fontSize: size.width / 15,
+                              fontSize: size.width / 17,
                             ),
                           ),
                         );
@@ -381,7 +384,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
@@ -398,7 +401,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                 "Publicar",
                                 style: TextStyle(
                                   color: colorText,
-                                  fontSize: size.width / 30,
+                                  fontSize: size.width / 25,
                                 ),
                               ),
                               Container(
@@ -446,7 +449,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             "Cantidad disponible",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 15,
+                              fontSize: size.width / 17,
                             ),
                           ),
                         ),
@@ -468,7 +471,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           cursorColor: colorGreen,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: size.width / 10,
+                            fontSize: size.width / 11,
                             color: colorGrey,
                           ),
                           decoration: InputDecoration(
@@ -520,25 +523,27 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Correo post-compra",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 15,
+                            fontSize: size.width / 17,
                           ),
                         ),
                       ),
                     ),
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 50.0),
+                      padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 50.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
-                                "Enviar automaticamente",
-                                style: TextStyle(
-                                  color: colorText,
-                                  fontSize: size.width / 20,
-                                ),
+                              Container(
+                                child: Text(
+                                  "Enviar automaticamente",
+                                  style: TextStyle(
+                                    color: colorText,
+                                    fontSize: size.width / 20,
+                                  ),
+                                )
                               ),
                               Container(
                                 width: size.width - 140,
@@ -546,7 +551,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   "Enviar correo personalizado automaticamente luego de la compra",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: size.width / 25,
+                                    fontSize: size.width / 30,
                                   ),
                                 ),
                               ),
@@ -586,7 +591,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             "Contenido del correo",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 15,
+                              fontSize: size.width / 17,
                             ),
                           ),
                         ),
@@ -600,7 +605,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         child: new TextFormField(
                           controller: _controllerPostPurchase,
                           keyboardType: TextInputType.multiline,
-                          maxLines: 5,
+                          maxLines: 3,
                           textCapitalization:TextCapitalization.sentences,
                           autofocus: false,
                           onSaved: (value) => _postPurchase = value.trim(),

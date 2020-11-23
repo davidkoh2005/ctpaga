@@ -1,11 +1,11 @@
 class Product{
   // ignore: non_constant_identifier_names
-  int id, commerce_id, coin, stock, type;
+  int id, commerce_id, coin, stock;
   String name, url, price, description, categories, postPurchase;
   bool publish;
 
   // ignore: non_constant_identifier_names
-  Product({this.id, this.commerce_id, this.url, this.name, this.price, this.coin, this.description, this.categories, this.publish, this.stock, this.postPurchase, this.type});
+  Product({this.id, this.commerce_id, this.url, this.name, this.price, this.coin, this.description, this.categories, this.publish, this.stock, this.postPurchase});
 
   factory Product.fromMap(dynamic data) => Product(
     id: data['id'],
@@ -19,7 +19,6 @@ class Product{
     publish: data['publish'],
     stock: data['stock'],
     postPurchase: data['postPurchase'],
-    type: data['type'],
   );
 
   Map<String, dynamic> toJson()=> {
@@ -34,7 +33,6 @@ class Product{
     'publish': publish,
     'stock': stock,
     'postPurchase': postPurchase,
-    'type': type,
   };
 
 }

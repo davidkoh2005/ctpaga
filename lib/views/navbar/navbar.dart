@@ -43,8 +43,7 @@ class _NavbarState extends State<Navbar> {
                         color: colorGreen,
                       ),
                       onPressed: () {
-                        if(_title == 'Perfil' || _title == 'Productos' || _title == 'Servicios' )
-                          myProvider.titleButtonMenu = "";
+                        myProvider.titleButtonMenu = "";
                         Navigator.pop(context);
                       }
                     ),

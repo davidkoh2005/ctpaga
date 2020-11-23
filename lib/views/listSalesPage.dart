@@ -89,7 +89,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                             ),
                             child: Center(
                               child: Text(
-                                myProvider.dataPurchase[index]['count'].toString(),
+                                myProvider.dataPurchase[index]['quantity'].toString(),
                                 style: TextStyle(
                                   fontSize: size.width / 20,
                                 ),
@@ -161,7 +161,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
 
     for (var item in myProvider.dataPurchase) {
       priceDouble = double.parse(item['data'].price);
-      priceDouble *= item['count'];
+      priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
         _total+=(priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)

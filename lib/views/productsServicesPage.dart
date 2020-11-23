@@ -336,13 +336,13 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     if(myProvider.dataPurchase.length == 0){
       myProvider.dataPurchase.add({
         "data" :data,
-        "count" : 1,
+        "quantity" : 1,
         "type": myProvider.selectProductsServices,
       });
     }else{
       for (var item in myProvider.dataPurchase) {
         if(item['data'].name == data.name && item['data'].id == data.id){
-          item['count'] +=1;
+          item['quantity'] +=1;
           _status = true;
         }
         
@@ -352,7 +352,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       if(!_status)
         _listSales.add({
           "data" :data,
-          "count" : 1,
+          "quantity" : 1,
           "type": myProvider.selectProductsServices,
         });
 
@@ -500,7 +500,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
     for (var item in myProvider.dataPurchase) {
       priceDouble = double.parse(item['data'].price);
-      priceDouble *= item['count'];
+      priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
         _total+=(priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)

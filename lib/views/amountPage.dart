@@ -205,7 +205,7 @@ class _AmountPageState extends State<AmountPage> {
 
     for (var item in myProvider.dataPurchase) {
       priceDouble = double.parse(item['data'].price);
-      priceDouble *= item['count'];
+      priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
         _total+=(priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)
@@ -284,7 +284,7 @@ class _AmountPageState extends State<AmountPage> {
 
       _listPurchase.add({
         "data" :productAmount,
-        "count" : 1
+        "quantity" : 1
       });
     }
 

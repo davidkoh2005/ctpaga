@@ -18,8 +18,24 @@ class NewCommercePage extends StatefulWidget {
 
 class _NewCommercePageState extends State<NewCommercePage> {
   final _formKeyCommerce = new GlobalKey<FormState>();
-  bool _statusButtonSave = false, _statusButton = false;
-  String _name;
+  final _controllerUser = TextEditingController();
+  bool _statusButtonSave = false, _statusName = false, _statusUser = false;
+  String _name, _userUrl;
+
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  void dispose(){
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.statusUrlCommerce = false;
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -71,15 +87,14 @@ class _NewCommercePageState extends State<NewCommercePage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 0.0),
+            padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 20.0),
             child: new TextFormField(
               maxLines: 1,
               textCapitalization:TextCapitalization.words,
               autofocus: false,
               validator: _validateName,
               onSaved: (value) => _name = value.trim(),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusButton = true ) : setState(() => _statusButton = false ),
-              textInputAction: TextInputAction.next,
+              onChanged: (value)=> value.trim().length >3? setState(() => _statusName = true ) : setState(() => _statusName = false ),
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
@@ -93,6 +108,66 @@ class _NewCommercePageState extends State<NewCommercePage> {
               ),
             ),
           ),
+
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                "USUARIO",
+                style: TextStyle(
+                  color: colorText,
+                  fontSize: size.width / 20,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
+            child: TextFormField(
+              controller: _controllerUser,
+              maxLength: 20,
+              inputFormatters: [
+                WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
+                BlacklistingTextInputFormatter(RegExp("[/\\\\ \s\b|\b\s]")),
+              ],
+              cursorColor: colorGreen,
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color:  Colors.black),
+                ),
+                prefixText: url+"/",
+                prefixStyle: TextStyle(
+                  color: colorText,
+                  fontSize: size.width / 20,
+                ),
+              ),
+              style: TextStyle(
+                color: colorText,
+                fontSize: size.width / 20,
+              ),
+              onChanged: (value)=> value.trim().length >3? setState(() => _statusUser = true ) : setState(() => _statusUser = false ),
+              onSaved: (value) => _userUrl = value.trim(),
+              validator: (value) => value.trim().length <=3? "Ingrese un usuario correctamente": null,
+            ),
+          ),
+
+          Consumer<MyProvider>(
+            builder: (context, myProvider, child) {
+              return Visibility(
+                visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 10.00, bottom: 30.0),
+                  child: new Text(
+                    "Usuario ingresado ya existe",
+                    style: TextStyle(
+                      color:Colors.red,
+                    ),
+                  ),
+                ),
+              );
+            }
+          ),
         ],
       )
     );
@@ -101,7 +176,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
   Widget buttonSave(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => saveName(),
+      onTap: () => _statusName && _statusUser? saveName(): null,
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -112,8 +187,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _statusButton?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusButton? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _statusName && _statusUser?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+              _statusName && _statusUser? _statusButtonSave? colorGrey : colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -134,13 +209,47 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
+  verifyUrl(value)async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var response, result;
+    try {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"verifyUrl",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+          },
+          body: jsonEncode({
+            "userUrl": value,
+          }),
+
+        ); 
+
+        var jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.statusUrlCommerce = true;
+          return true;
+        }else{
+          myProvider.statusUrlCommerce = false;
+          return false;
+        }
+      }
+    } on SocketException catch (_) {
+      showMessage("Sin conexión a internet", false);
+    }
+  }
+
   saveName()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
+    verifyUrl(_controllerUser.text);
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyCommerce.currentState.validate()) {
+    if (_formKeyCommerce.currentState.validate() && myProvider.statusUrlCommerce) {
       _formKeyCommerce.currentState.save();
       try
       {
@@ -156,18 +265,20 @@ class _NewCommercePageState extends State<NewCommercePage> {
             },
             body: jsonEncode({
               "name": _name,
+              "userUrl": _userUrl,
             }),
           ); 
           var jsonResponse = jsonDecode(response.body); 
-          print(jsonResponse); 
+          print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
+            myProvider.titleButtonMenu = "";
             myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
             Navigator.pop(context);
-          }
+          } 
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
@@ -176,7 +287,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
       
     }
   }
-
+  
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;
 

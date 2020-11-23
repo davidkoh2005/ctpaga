@@ -13,12 +13,12 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-//String url = "http://192.168.1.119:8000";
+String url = "192.168.1.124:8000";
 
 //TODO: Url Api (AWS)
-String url = "http://54.196.181.42";
+//String url = "54.196.181.42";
 
-String urlApi = "$url/api/auth/";
+String urlApi = "http://$url/api/auth/";
 
 Color colorGreen = Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(230,230,230,1);

@@ -43,8 +43,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                         color: colorGreen,
                       ),
                       onPressed: () {
-                        if(_title == 'Perfil' || _title == 'Productos' || _title == 'Servicios' )
-                          myProvider.titleButtonMenu = "";
+                        myProvider.titleButtonMenu = "";
                         Navigator.pop(context);
                       }
                     ),
@@ -131,7 +130,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
   showCount(myProvider){
     int count = 0;
     for (var item in myProvider.dataPurchase) {
-      count += item['count'];
+      count += item['quantity'];
     }
 
     return count.toString();

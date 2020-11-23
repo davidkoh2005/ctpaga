@@ -1,13 +1,14 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/verifyDataClientPage.dart';
 import 'package:ctpaga/views/contacts_dialog.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:contacts_service/contacts_service.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -21,7 +22,8 @@ class _NewSalesPageState extends State<NewSalesPage> {
   final _formKeyNewSales = new GlobalKey<FormState>();
   final _controllerName = TextEditingController();
   bool _statusButton = false, _statusButtonName = false;
-  String _name;
+  String _nameContacts, _initialsContacts;
+  List<int> _avatarContacts = [];
   List<Contact> contacts = [];
   Iterable<Contact> _contacts;
 
@@ -43,7 +45,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Navbar("Nuevo Cobro", false),
+          Navbar("Nuevo Cobro", true),
           Expanded(
             child: formNewSales(),
           ),
@@ -58,67 +60,64 @@ class _NewSalesPageState extends State<NewSalesPage> {
 
   formNewSales(){
     var size = MediaQuery.of(context).size;
-    return new Form(
-      key: _formKeyNewSales,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "CLIENTE",
-                style: TextStyle(
-                  color: colorText,
-                  fontSize: size.width / 15,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-            child: new TextFormField(
-              controller: _controllerName,
-              maxLines: 1,
-              textCapitalization:TextCapitalization.words,
-              inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
-              ], 
-              autofocus: false,
-              maxLength: 50,
-              validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
-              onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
-              textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.black),
-                ),
-              ),
-              style: TextStyle(
-                color: colorText,
-                fontSize: size.width / 15,
-              ),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.fromLTRB(80, 20, 80, 40),
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+          child: Align(
+            alignment: Alignment.centerLeft,
             child: Text(
-              "Escribe el nombre de tu cliente o búscalo en tus contactos",
-              textAlign: TextAlign.center,
+              "CLIENTE",
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 25,
+                fontSize: size.width / 20,
               ),
             ),
           ),
-          buttonSearch(),
-        ],
-      )
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+          child: new TextFormField(
+            controller: _controllerName,
+            maxLines: 1,
+            textCapitalization:TextCapitalization.words,
+            inputFormatters: [
+              WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+              BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+            ], 
+            autofocus: false,
+            maxLength: 50,
+            validator: _validateName,
+            onSaved: (value) => _nameContacts = value.trim(),
+            onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
+            textInputAction: TextInputAction.next,
+            cursorColor: colorGreen,
+            textAlign: TextAlign.center,
+            decoration: InputDecoration(
+              focusedBorder: UnderlineInputBorder(
+                borderSide: BorderSide(color: Colors.black),
+              ),
+            ),
+            style: TextStyle(
+              color: colorText,
+              fontSize: size.width / 15,
+            ),
+          ),
+        ),
+        Container(
+          padding: EdgeInsets.fromLTRB(80, 20, 80, 40),
+          child: Text(
+            "Escribe el nombre de tu cliente o búscalo en tus contactos",
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              color: colorText,
+              fontSize: size.width / 22,
+            ),
+          ),
+        ),
+        buttonSearch(),
+      ],
     );
   }
 
@@ -154,7 +153,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             "BUSCAR CLIENTE",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: size.width / 18,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -190,7 +189,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             "CONTINUAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: size.width / 18,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -229,9 +228,11 @@ class _NewSalesPageState extends State<NewSalesPage> {
         _contacts = contacts;
       });
 
+      Navigator.pop(context);
+
       if (_contacts != null)
       {
-        Navigator.pop(context);
+        //SelectionDialogContacts class file contacts_dialog.dart
         showDialog(
           context: context,
           builder: (_) =>
@@ -249,6 +250,10 @@ class _NewSalesPageState extends State<NewSalesPage> {
               _controllerName.text = e.displayName;
               _statusButton = true;
             });
+
+            _nameContacts = e.displayName;
+            _avatarContacts = e.avatar;
+            _initialsContacts = e.initials();
           }
         });
       } 
@@ -320,11 +325,32 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   nextPage()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    FocusScope.of(context).requestFocus(new FocusNode());
     setState(() =>_statusButton = false);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>_statusButton = true);
 
-    //Navigator.push(context, SlideLeftRoute(page: page));
+    if(_controllerName.text == _nameContacts){
+      myProvider.nameClient = _nameContacts;
+      myProvider.avatarClient = _avatarContacts;
+      myProvider.initialsClient = _initialsContacts;
+    }else{
+      myProvider.nameClient = _controllerName.text;
+      myProvider.avatarClient = [];
+      myProvider.initialsClient = initialsClient(_controllerName.text);
+    }
+
+    Navigator.push(context, SlideLeftRoute(page: VerifyDataClientPage()));
+  }
+
+  initialsClient(value){
+    var listName = value.split(" ");
+
+    if(listName.length >=2)
+      return listName[0].substring(0, 1)+listName[listName.length-1].substring(0, 1);
+    else
+      return listName[0].substring(0, 1);
   }
 
   String _validateName(String value) {

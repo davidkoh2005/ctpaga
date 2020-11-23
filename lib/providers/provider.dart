@@ -308,6 +308,38 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _statusUrl;
+  bool get statusUrlCommerce =>_statusUrl; 
+  
+  set statusUrlCommerce(bool newStatus) {
+    _statusUrl = newStatus; 
+    notifyListeners(); 
+  }
+
+  String _nameClient;
+  String get nameClient =>_nameClient; 
+  
+  set nameClient(String newName) {
+    _nameClient = newName; 
+    notifyListeners(); 
+  }
+
+  String _initialsClient;
+  String get initialsClient =>_initialsClient; 
+  
+  set initialsClient(String newValue) {
+    _initialsClient = newValue; 
+    notifyListeners(); 
+  }
+
+  List<int> _avatarClient;
+  List<int> get avatarClient =>_avatarClient; 
+  
+  set avatarClient(List<int> newAvatar) {
+    _avatarClient = newAvatar; 
+    notifyListeners(); 
+  }
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -408,7 +440,6 @@ class MyProvider with ChangeNotifier {
 
           dataPicturesUser = listPicturesUser; 
 
-
           if(jsonResponse['data']['commerces'] != null){
             for (var item in jsonResponse['data']['commerces']) {
                 Commerce commercesUser = Commerce(
@@ -417,6 +448,7 @@ class MyProvider with ChangeNotifier {
                   name: item['name'] == null? '' : item['name'],
                   address: item['address'] == null? '' : item['address'],
                   phone: item['phone'] == null? '' : item['phone'],
+                  userUrl: item['userUrl'] == null? '' : item['userUrl'],
                 ); 
 
                 dbctpaga.createOrUpdateCommercesUser(commercesUser);
@@ -424,6 +456,12 @@ class MyProvider with ChangeNotifier {
             }
 
             dataCommercesUser = listCommerces;
+
+            statusUrlCommerce = false;
+
+            if(dataCommercesUser.length != 0) 
+              if (dataCommercesUser[selectCommerce].userUrl != '')
+                statusUrlCommerce = true;
 
           }
 

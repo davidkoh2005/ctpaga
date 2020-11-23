@@ -34,6 +34,7 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _nameCompanyFocus = FocusNode();
   final FocusNode _addressCompanyFocus = FocusNode();  
   final FocusNode _phoneCompanyFocus = FocusNode();
+  final FocusNode _userCompanyFocus = FocusNode();
   final FocusNode _nameFocus = FocusNode(); 
   final FocusNode _addressFocus = FocusNode();
   final FocusNode _phoneFocus = FocusNode();
@@ -46,15 +47,16 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _accountNameBankingBsFocus = FocusNode();
   final FocusNode _idCardBankingBsFocus = FocusNode();
   final FocusNode _accountNumberBankingBsFocus = FocusNode();
+  final _controllerUser = TextEditingController();
 
   String _statusDropdown = "",
-         _rifCompany, _nameCompany, _addressCompany, _phoneCompany,
+         _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
         _email, _name, _address, _phone,
         _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusCoin = 1;
   File _image;
-  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
+  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false ;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -63,10 +65,17 @@ class _PerfilPageState extends State<PerfilPage> {
   
   void initState() {
     super.initState();
+    initialVariable();
   }
 
   void dispose(){
     super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.statusUrlCommerce = myProvider.dataCommercesUser.length == 0? false : true;
+    _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
   }
 
 
@@ -127,21 +136,25 @@ class _PerfilPageState extends State<PerfilPage> {
                                       color: colorGreen,
                                     ),
                                     onChanged: (Commerce newValue) async{
-                                      // ignore: unused_local_variable
                                       int count = 0;
-                                      for (var item in myProvider.dataCommercesUser) {
-                                        if(item == newValue){
-                                          SharedPreferences prefs = await SharedPreferences.getInstance();
-                                          DefaultCacheManager().emptyCache();
-                                          myProvider.selectCommerce = count;
-                                          prefs.setInt('selectCommerce', count);
-                                          _onLoading();
-                                          myProvider.getDataUser(false, true, context);
-                                          setState(() {});
-                                          break;
+                                      
+                                      if(myProvider.dataCommercesUser[myProvider.selectCommerce] != newValue){
+                                        for( var i = 0 ; i <= myProvider.dataCommercesUser.length; i++ ) {
+                                          if(myProvider.dataCommercesUser[i] == newValue){
+                                            count = i;
+                                            break;
+                                          }
                                         }
-                                        
-                                        count++;
+
+                                        SharedPreferences prefs = await SharedPreferences.getInstance();
+                                        DefaultCacheManager().emptyCache();
+                                        myProvider.selectCommerce = count;
+                                        prefs.setInt('selectCommerce', count);
+                                        _onLoading();
+                                        myProvider.getDataUser(false, true, context);
+                                        _controllerUser.clear();
+                                        _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
+                                        setState(() => _statusDropdown = '');
                                       }
                                     },
                                     items: myProvider.dataCommercesUser.map((commerce) {
@@ -418,7 +431,6 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Widget formCompany(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-
     return new Form(
       key: _formKeyCompany,
       child: new ListView(
@@ -497,7 +509,7 @@ class _PerfilPageState extends State<PerfilPage> {
           ),
 
           Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
               initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].phone,
               autofocus: false,
@@ -514,19 +526,113 @@ class _PerfilPageState extends State<PerfilPage> {
               onSaved: (String value) => _phoneCompany = value,
               validator: _validatePhone,
               focusNode: _phoneCompanyFocus,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (term){
-                FocusScope.of(context).requestFocus(new FocusNode());
-                buttonClickSaveCompany();
-              },
+              textInputAction: TextInputAction.next,
+              onEditingComplete: () => FocusScope.of(context).requestFocus(_userCompanyFocus),
               cursorColor: colorGreen,
             ),
+          ),
+
+          Consumer<MyProvider>(
+            builder: (context, myProvider, child) {
+              
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
+                child: Column(
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.only(top: 10.0),
+                      child: new TextFormField(
+                        controller: _controllerUser,
+                        autofocus: false,
+                        focusNode: _userCompanyFocus,
+                        keyboardType: TextInputType.text,
+                        maxLength: 20,
+                        inputFormatters: [
+                          WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
+                          BlacklistingTextInputFormatter(RegExp("[/\\ \s\b|\b\s]")),
+                        ],
+                        decoration: InputDecoration(
+                          labelText: 'Usuario',
+                          labelStyle: TextStyle(
+                            color: colorText
+                          ),
+                          focusedBorder: UnderlineInputBorder(
+                            borderSide: BorderSide(color: colorGreen),
+                          ),
+                          prefixText: url+"/",
+                          prefixStyle: TextStyle(
+                            color: colorText,
+                          ),
+                        ),
+                        validator: _validateUrl,
+                        onSaved: (String value) => _userCompany = value,
+                        onFieldSubmitted: (term){
+                          FocusScope.of(context).requestFocus(new FocusNode());
+                          verifyUrl(_controllerUser.text).then((_)=> buttonClickSaveCompany());
+                        },cursorColor: colorGreen,
+                      ),
+                    ),
+                    Visibility(
+                      visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 10.00),
+                        child: new Text(
+                          "Usuario ingresado ya existe",
+                          style: TextStyle(
+                            color:Colors.red,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              );
+            }
           ),
 
           buttonSave("Company"),
         ],
       ),
     );
+  }
+
+  verifyUrl(value)async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var response, result;
+    var userCommerce = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
+    if(userCommerce == value){
+      myProvider.statusUrlCommerce = true;
+      return true;
+    }else{
+      try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+          response = await http.post(
+            urlApi+"verifyUrl",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+            body: jsonEncode({
+              "userUrl": value,
+            }),
+
+          ); 
+
+          var jsonResponse = jsonDecode(response.body); 
+
+          if (jsonResponse['statusCode'] == 201) {
+            myProvider.statusUrlCommerce = true;
+            return true;
+          }else{
+            myProvider.statusUrlCommerce = false;
+            return false;
+          }
+        }
+      } on SocketException catch (_) {
+        showMessage("Sin conexión a internet", false);
+      }
+    }
   }
 
   Widget formUser(){
@@ -1218,6 +1324,18 @@ class _PerfilPageState extends State<PerfilPage> {
     return 'Ingrese un número de teléfono válido';
   }
 
+  String _validateUrl(String value) {
+    // This is just a regular expression for userUrl*$
+
+    if (value.length >=4) {
+      // So, the userUrl is valid
+      return null;
+    }
+
+    // The pattern of the userUrl didn't match the regex above.
+    return 'Ingrese un usuario correctamente';
+  }
+
   String _validateCountry(value){
     value = value.toLowerCase();
     // This is just a regular expression for RIF
@@ -1256,7 +1374,7 @@ class _PerfilPageState extends State<PerfilPage> {
         onTap: () {
           switch (button) {
             case "Company":
-              buttonClickSaveCompany();
+              verifyUrl(_controllerUser.text).then((_)=> buttonClickSaveCompany());
               break;
             case "User":
               buttonClickSaveUser();
@@ -1308,11 +1426,13 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   void buttonClickSaveCompany()async{
-    if (_formKeyCompany.currentState.validate()) {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    verifyUrl(_controllerUser.text);
+    if (_formKeyCompany.currentState.validate() && myProvider.statusUrlCommerce) {
       _formKeyCompany.currentState.save();
       _onLoading();
       var result, response, jsonResponse;
-       try {
+      try {
         result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
@@ -1330,6 +1450,7 @@ class _PerfilPageState extends State<PerfilPage> {
               'address': _addressCompany,
               'phone': _phoneCompany,
               'commerce_id': myProvider.dataCommercesUser.length != 0? myProvider.dataCommercesUser[myProvider.selectCommerce].id : 0,
+              'userUrl': _userCompany
             }),
           ); 
 

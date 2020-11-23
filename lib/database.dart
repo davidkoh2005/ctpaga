@@ -19,7 +19,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
-  static int versionDB = 5;
+  static int versionDB = 6;
 
   Future<Database> get db async{
     if(dbInstance == null)
@@ -50,7 +50,7 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email Text, name VARCHAR(100), address Text, phone VARCHAR(20) )');
     await db.execute('CREATE TABLE IF NOT EXISTS banks (id INTEGER PRIMARY KEY AUTOINCREMENT, coin VARCHAR(3), country VARCHAR(10), accountName VARCHAR(100), accountNumber VARCHAR(50), idCard VARCHAR(50), route VARCHAR(9), swift VARCHAR(20), address Text, bankName VARCHAR(100), accountType VARCHAR(1))');
     await db.execute('CREATE TABLE IF NOT EXISTS pictures (id INTEGER PRIMARY KEY AUTOINCREMENT, description VARCHAR(30), url Text, commerce_id INTEGER )');
-    await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20) )');
+    await db.execute('CREATE TABLE IF NOT EXISTS commerces (id INTEGER PRIMARY KEY AUTOINCREMENT, rif VARCHAR(15), name Text, address Text, phone VARCHAR(20), userUrl VARCHAR(20))');
     await db.execute('CREATE TABLE IF NOT EXISTS categories (id INTEGER, name VARCHAR(50), commerce_id INTEGER, type INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS products (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, stock INTEGER, postPurchase text)');
     await db.execute('CREATE TABLE IF NOT EXISTS services (id INTEGER, commerce_id INTEGER, url text, name Text, price VARCHAR(50), coin INTEGER, description text, categories VARCHAR(50), publish INTEGER, postPurchase text)');
@@ -243,6 +243,7 @@ class DBctpaga{
         name : list[i]['name'],
         address : list[i]['address'],
         phone : list[i]['phone'],
+        userUrl : list[i]['userUrl'],
       );
 
       listCommercesUser.add(commerceUser);
@@ -256,7 +257,7 @@ class DBctpaga{
   void createOrUpdateCommercesUser (Commerce commerce) async{
     var dbConnection = await db;
 
-    String query = 'INSERT OR REPLACE INTO commerces (id, rif, name, address, phone) VALUES ( (SELECT id FROM commerces WHERE rif = \'${commerce.rif}\'), \'${commerce.rif}\', \'${commerce.name}\',\'${commerce.address}\',\'${commerce.phone}\')';
+    String query = 'INSERT OR REPLACE INTO commerces (id, rif, name, address, phone, userUrl) VALUES ( (SELECT id FROM commerces WHERE rif = \'${commerce.rif}\'), \'${commerce.rif}\', \'${commerce.name}\',\'${commerce.address}\',\'${commerce.phone}\',\'${commerce.userUrl}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });

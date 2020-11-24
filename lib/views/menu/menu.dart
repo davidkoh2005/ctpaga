@@ -176,7 +176,7 @@ class _MenuPageState extends State<MenuPage> {
 
   verifyDataCommerce(myProvider){
     if(myProvider.dataCommercesUser.length != 0){
-      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' || myProvider.dataCommercesUser[myProvider.selectCommerce].name != '')
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' && myProvider.dataCommercesUser[myProvider.selectCommerce].name != '' && myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl != '')
         return false;
     }
 

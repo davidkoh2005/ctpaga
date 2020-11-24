@@ -1,6 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/processSalesPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -20,18 +21,36 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Navbar("Nuevo Cobro", true),
-          Expanded(
-            child: formDataSales(),
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Navbar("Nuevo Cobro", true),
+                  Expanded(
+                    child: formDataSales(),
+                  ),
+                ],
+              ),
+              AnimatedContainer(
+                duration: Duration(seconds:1),
+                width: !myProvider.statusButtonMenu? 0 : size.width,
+                child: AnimatedOpacity(
+                  opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                  duration: Duration(seconds:1),
+                  child: MenuPage(),
+                )
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 

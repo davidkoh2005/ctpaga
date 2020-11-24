@@ -30,7 +30,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() {
-      _quantity = myProvider.dataPurchase[myProvider.positionModify]['count'].toString();
+      _quantity = myProvider.dataPurchase[myProvider.positionModify]['quantity'].toString();
     });
 
   }
@@ -211,7 +211,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
     if(int.parse(_quantity)>0){
       for (var item in myProvider.dataPurchase) {
         if(item['data'].id == myProvider.dataPurchase[myProvider.positionModify]['data'].id && item['type'] == myProvider.dataPurchase[myProvider.positionModify]['type'] ){
-          item['count'] = int.parse(_quantity);
+          item['quantity'] = int.parse(_quantity);
         }
         _listPurchase.add(item);
       }

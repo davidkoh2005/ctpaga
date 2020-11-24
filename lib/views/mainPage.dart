@@ -92,89 +92,8 @@ class _MainPageState extends State<MainPage> {
                     ]
                   )
                 ),
-                //_showMenu(),
               ],
             ),
-          ]
-        )
-      )
-    );
-  }
-
-  Widget _showMenu(){
-    var size = MediaQuery.of(context).size;
-    return Container(
-      height: size.height / 7,
-      child: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: size.height / 10,
-              decoration: BoxDecoration(
-                border: Border(
-                  top: BorderSide(
-                    width: 0.5,
-                    color: Colors.black
-                  )
-                )
-              ),
-              child: Container(),
-            )
-          ),
-          Padding(
-            padding: EdgeInsets.only(top:28),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
-                SizedBox(width: 1),
-                _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 1),
-                SizedBox(width: 1),
-                _buildNavItem("Transacciónes", "assets/icons/reporte.png", _statusButton, 2),
-              ]
-            ),
-          ),
-        ],
-      )
-    );
-  }
-
-  Widget _buildNavItem(String _title, String _icon, int _status, int code){
-    var size = MediaQuery.of(context).size;
-    return GestureDetector(
-      onTap: () => setState(()=> _statusButton = code),
-      child: Container(
-        alignment: Alignment.topCenter,
-        child: Column(
-          children: <Widget> [
-            Container(
-              width: size.width / 7,
-              height: size.width / 7,
-              decoration: BoxDecoration(
-                color: _status == code? colorGreen : Colors.transparent,
-                shape: BoxShape.circle,
-                ),
-              child: Center(
-                child: Image.asset(
-                  _icon,
-                  width: size.width / 12,
-                  height: size.width / 12,
-                  color: _status == code? Colors.white : Colors.black,
-                )
-              )
-            ),
-            Container(
-              padding: EdgeInsets.only(top: 5),
-              child: Text(
-                _title,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: size.width / 25,
-                  fontWeight: _status == code? FontWeight.bold: FontWeight.normal
-                ),
-              ),
-            )
           ]
         )
       )
@@ -349,7 +268,7 @@ class _MainPageState extends State<MainPage> {
 
   verifyDataCommerce(myProvider){
     if(myProvider.dataCommercesUser.length != 0){
-      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' || myProvider.dataCommercesUser[myProvider.selectCommerce].name != '')
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce].rif != '' && myProvider.dataCommercesUser[myProvider.selectCommerce].name != '' && myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl != '')
         return false;
     }
 

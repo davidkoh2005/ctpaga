@@ -11,6 +11,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -271,7 +272,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 onTap: () => _showSelectionDialog(context),
                 child: ClipOval(
                   child: CachedNetworkImage(
-                    imageUrl: url+urlProfile,
+                    imageUrl: "http://"+url+urlProfile,
                     fit: BoxFit.cover,
                     height: size.width / 3,
                     width: size.width / 3,
@@ -352,42 +353,67 @@ class _PerfilPageState extends State<PerfilPage> {
   _getImage(BuildContext context, ImageSource source) async {
     var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    Navigator.of(context).pop();
+
+    var cropped;
 
     if(picture != null){
-      _onLoading();
-      try
-      {
-        
-        String base64Image = base64Encode(File(picture.path).readAsBytesSync());
-        String fileName = picture.path.split("/").last;
+      cropped = await ImageCropper.cropImage(
+        sourcePath: picture.path,
+        aspectRatio:  CropAspectRatio(
+          ratioX: 1, ratioY: 1
+        ),
+        compressQuality: 100,
+        maxWidth: 700,
+        maxHeight: 700,
+        compressFormat: ImageCompressFormat.jpg,
+        androidUiSettings: AndroidUiSettings(
+          toolbarTitle: "Editar Foto",
+          backgroundColor: Colors.black,
+          toolbarWidgetColor: Colors.black,
+        ),
+        iosUiSettings: IOSUiSettings(
+          title: 'Editar Foto',
+        )
+      );
 
-        var response = await http.post(
-          urlApi+"updateUserImg",
-          headers:{
-            'X-Requested-With': 'XMLHttpRequest',
-            'authorization': 'Bearer ${myProvider.accessTokenUser}',
-          },
-          body: {
-            "image": base64Image,
-            "name": fileName,
-            "description": "Profile",
-            "commerce_id": myProvider.dataCommercesUser.length == 0? '0' : myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-          }
-        );
+      if(cropped != null){
 
-        var jsonResponse = jsonDecode(response.body); 
-        print(jsonResponse); 
-        if (jsonResponse['statusCode'] == 201) {
-          DefaultCacheManager().emptyCache();
-          setState(() =>_image = File(picture.path));
-          myProvider.getDataUser(false, true, context);
-          showMessage("Guardado Correctamente", true);
-          await Future.delayed(Duration(seconds: 1));
-          Navigator.pop(context);
-        }  
-      }on SocketException catch (_) {
-        print("error network");
+        Navigator.of(context).pop();
+
+        _onLoading();
+        try
+        {
+          
+          String base64Image = base64Encode(cropped.readAsBytesSync());
+          String fileName = picture.path.split("/").last;
+
+          var response = await http.post(
+            urlApi+"updateUserImg",
+            headers:{
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer ${myProvider.accessTokenUser}',
+            },
+            body: {
+              "image": base64Image,
+              "name": fileName,
+              "description": "Profile",
+              "commerce_id": myProvider.dataCommercesUser.length == 0? '0' : myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+            }
+          );
+
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse); 
+          if (jsonResponse['statusCode'] == 201) {
+            DefaultCacheManager().emptyCache();
+            setState(() =>_image = cropped);
+            myProvider.getDataUser(false, true, context);
+            showMessage("Guardado Correctamente", true);
+            await Future.delayed(Duration(seconds: 1));
+            Navigator.pop(context);
+          }  
+        }on SocketException catch (_) {
+          print("error network");
+        }
       }
     }
   }
@@ -549,7 +575,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         maxLength: 20,
                         inputFormatters: [
                           WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
-                          BlacklistingTextInputFormatter(RegExp("[/\\ \s\b|\b\s]")),
+                          //BlacklistingTextInputFormatter(RegExp("[/\\ \s\b|\b\s]")),
                         ],
                         decoration: InputDecoration(
                           labelText: 'Usuario',

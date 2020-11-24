@@ -1,6 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/loadingPage.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -19,23 +20,40 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Navbar("Nuevo Cobro", true),
-          Expanded(
-            child: formProcessSales(),
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Navbar("Nuevo Cobro", true),
+                  Expanded(
+                    child: formProcessSales(),
+                  ),
+                ],
+              ),
+              AnimatedContainer(
+                duration: Duration(seconds:1),
+                width: !myProvider.statusButtonMenu? 0 : size.width,
+                child: AnimatedOpacity(
+                  opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                  duration: Duration(seconds:1),
+                  child: MenuPage(),
+                )
+              ),
+            ],
           ),
-        ],
-      ),
+        );
+      }
     );
   }
 
   formProcessSales(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
 
     return Column(
@@ -69,7 +87,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
         Container(
           padding: EdgeInsets.only(top:30, bottom: 30),
           child: Text(
-            "Escoge como desea cobrar:",
+            "Escoge como deseas cobrar:",
             style: TextStyle(
               fontSize: size.width / 20,
               color: colorText,

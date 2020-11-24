@@ -1,4 +1,5 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/shareUrlPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -43,13 +44,17 @@ class _LoadingPageState extends State<LoadingPage> {
           body: jsonEncode({
             "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
             "sales": myProvider.dataPurchase,
+            "coin": myProvider.coinUsers,
+            "rate": myProvider.dataRates[0].rate,
           }),
         ); 
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse);
-        /* if (jsonResponse['statusCode'] == 201) {
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.codeUrl = jsonResponse['codeUrl'];
           Navigator.pop(context);
-        }  */
+          Navigator.push(context, SlideLeftRoute(page: ShareUrlPage()));
+        }  
       }
     } on SocketException catch (_) {
       Navigator.pop(context);
@@ -63,7 +68,7 @@ class _LoadingPageState extends State<LoadingPage> {
     var size = MediaQuery.of(context).size;
 
     return WillPopScope(
-      onWillPop: () async =>true,
+      onWillPop: () async => false,
       child: Scaffold(
         body: Center(
           child: Column(

@@ -2,7 +2,9 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/verifyDataClientPage.dart';
 import 'package:ctpaga/views/contacts_dialog.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/providers/provider.dart';
+
 import 'package:ctpaga/env.dart';
 
 import 'package:contacts_service/contacts_service.dart';
@@ -39,22 +41,40 @@ class _NewSalesPageState extends State<NewSalesPage> {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
 
-    return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: <Widget>[
-          Navbar("Nuevo Cobro", true),
-          Expanded(
-            child: formNewSales(),
-          ),
-          Padding(
-            padding: EdgeInsets.only(bottom: 30),
-            child: buttonContinue()
-          ),
-        ],
-      ),
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Scaffold(
+          body: Stack(
+            children: <Widget>[
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Navbar("Nuevo Cobro", true),
+                  Expanded(
+                    child: formNewSales(),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 30),
+                    child: buttonContinue()
+                  ),
+                ],
+              ),
+              AnimatedContainer(
+                duration: Duration(seconds:1),
+                width: !myProvider.statusButtonMenu? 0 : size.width,
+                child: AnimatedOpacity(
+                  opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
+                  duration: Duration(seconds:1),
+                  child: MenuPage(),
+                )
+              ),
+            ],
+          ), 
+        );
+      }
     );
   }
 

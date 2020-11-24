@@ -11,7 +11,6 @@ import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/mainMenuBar.dart';
-import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
@@ -73,6 +72,14 @@ class MyProvider with ChangeNotifier {
   
   set typePositionModify(int newTypePosition) {
     _typePositionModify = newTypePosition; 
+    notifyListeners(); 
+  }
+
+  String _codUrl;
+  String get codeUrl =>_codUrl; 
+  
+  set codeUrl(String newCode) {
+    _codUrl = newCode; 
     notifyListeners(); 
   }
 

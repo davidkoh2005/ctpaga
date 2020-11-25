@@ -57,12 +57,12 @@ class _PerfilPageState extends State<PerfilPage> {
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusCoin = 1;
   File _image;
-  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false ;
+  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false, _statusImage = false;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
-  var urlProfileUser;
+  var urlProfile;
   
   void initState() {
     super.initState();
@@ -248,7 +248,6 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Widget showImage(){
     var size = MediaQuery.of(context).size;
-    var urlProfile;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         if(myProvider.dataPicturesUser != null && myProvider.dataPicturesUser.length != 0){
@@ -268,10 +267,11 @@ class _PerfilPageState extends State<PerfilPage> {
 
             if (urlProfile != null)
             {
+              _statusImage = true;
               return GestureDetector(
                 onTap: () => _showSelectionDialog(context),
                 child: ClipOval(
-                  child: CachedNetworkImage(
+                  child: new CachedNetworkImage(
                     imageUrl: "http://"+url+urlProfile,
                     fit: BoxFit.cover,
                     height: size.width / 3,
@@ -383,10 +383,8 @@ class _PerfilPageState extends State<PerfilPage> {
         _onLoading();
         try
         {
-          
-          String base64Image = base64Encode(cropped.readAsBytesSync());
-          String fileName = picture.path.split("/").last;
 
+          String base64Image = base64Encode(cropped.readAsBytesSync());
           var response = await http.post(
             urlApi+"updateUserImg",
             headers:{
@@ -395,16 +393,15 @@ class _PerfilPageState extends State<PerfilPage> {
             },
             body: {
               "image": base64Image,
-              "name": fileName,
               "description": "Profile",
               "commerce_id": myProvider.dataCommercesUser.length == 0? '0' : myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+              "urlPrevious": urlProfile,
             }
           );
 
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            DefaultCacheManager().emptyCache();
             setState(() =>_image = cropped);
             myProvider.getDataUser(false, true, context);
             showMessage("Guardado Correctamente", true);
@@ -575,7 +572,7 @@ class _PerfilPageState extends State<PerfilPage> {
                         maxLength: 20,
                         inputFormatters: [
                           WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
-                          //BlacklistingTextInputFormatter(RegExp("[/\\ \s\b|\b\s]")),
+                          BlacklistingTextInputFormatter(RegExp("[/\\ ]")),
                         ],
                         decoration: InputDecoration(
                           labelText: 'Usuario',

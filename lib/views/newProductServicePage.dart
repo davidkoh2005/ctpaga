@@ -652,7 +652,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: url+myProvider.dataSelectProduct.url,
+            imageUrl: "http://"+url+myProvider.dataSelectProduct.url,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,

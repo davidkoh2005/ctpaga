@@ -46,6 +46,7 @@ class _LoadingPageState extends State<LoadingPage> {
             "sales": myProvider.dataPurchase,
             "coin": myProvider.coinUsers,
             "rate": myProvider.dataRates[0].rate,
+            "nameClient": myProvider.nameClient,
           }),
         ); 
         var jsonResponse = jsonDecode(response.body); 

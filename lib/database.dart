@@ -19,7 +19,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
-  static int versionDB = 6;
+  static int versionDB = 7;
 
   Future<Database> get db async{
     if(dbInstance == null)

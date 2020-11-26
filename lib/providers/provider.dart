@@ -474,11 +474,9 @@ class MyProvider with ChangeNotifier {
 
           statusDolar = false;
           statusBs = false;
-          if(dataCommercesUser.length != 0){
-            getListCategories();
-            getListProducts();
-            getListServices();
-          }
+          getListCategories();
+          getListProducts();
+          getListServices();
           getListShipping();
           getListDiscounts();
           getListRates();

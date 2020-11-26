@@ -289,7 +289,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   showExhangeRate(rate){
-    var lowRate = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+    var lowRate = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
 
     lowRate.updateValue(double.parse(rate));
 

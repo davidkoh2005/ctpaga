@@ -383,7 +383,6 @@ class _PerfilPageState extends State<PerfilPage> {
         _onLoading();
         try
         {
-
           String base64Image = base64Encode(cropped.readAsBytesSync());
           var response = await http.post(
             urlApi+"updateUserImg",
@@ -395,7 +394,7 @@ class _PerfilPageState extends State<PerfilPage> {
               "image": base64Image,
               "description": "Profile",
               "commerce_id": myProvider.dataCommercesUser.length == 0? '0' : myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
-              "urlPrevious": urlProfile,
+              "urlPrevious": urlProfile== null? '' : urlProfile,
             }
           );
 
@@ -1661,44 +1660,47 @@ class _PerfilPageState extends State<PerfilPage> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          backgroundColor: Colors.white,
-          content: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
-              Container(
-                padding: EdgeInsets.all(5),
-                child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
-                ),
-              ),
-              Container(
-                padding: EdgeInsets.all(5),
-                child: RichText(
-                  text: TextSpan(
-                    children: [
-                      TextSpan(
-                        text: "Cargando ",
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: size.width / 20,
-                        )
-                      ),
-                      TextSpan(
-                        text: "...",
-                        style: TextStyle(
-                          color: colorGreen,
-                          fontSize: size.width / 20,
-                        )
-                      ),
-                    ]
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
                   ),
                 ),
-              ),
-            ],
-          ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Cargando ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: size.width / 20,
+                          )
+                        ),
+                        TextSpan(
+                          text: "...",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: size.width / 20,
+                          )
+                        ),
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
         );
       },
     );

@@ -21,7 +21,7 @@ class _MainPageState extends State<MainPage> {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
-  int clickBotton = 0, _statusCoin = 0, _statusButton = 1;
+  int clickBotton = 0, _statusCoin = 0;
 
   @override
   void initState() {
@@ -248,10 +248,12 @@ class _MainPageState extends State<MainPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
-    
+
     if(verifyDataCommerce(myProvider)){
       showMessage("Debe ingresar los datos de la empresa", false);
-    }else if((myProvider.dataRates.length == 0 )){
+    }else if(verifyPicture(myProvider)){
+      showMessage("Debe ingresar el logo de la empresa", false);
+    }else if(myProvider.dataRates.length == 0){
       showMessage("Debe ingresar la tasa de cambio", false);
     }else{
       if(_title == "Productos"){
@@ -264,6 +266,15 @@ class _MainPageState extends State<MainPage> {
       myProvider.titleButtonMenu = _title;
       Navigator.push(context, SlideLeftRoute(page: page));
     }
+  }
+
+  verifyPicture(myProvider){
+    for (var item in myProvider.dataPicturesUser) {
+      if(item != null && item.description == 'Profile' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+        return false;
+      }
+    }
+    return true;
   }
 
   verifyDataCommerce(myProvider){

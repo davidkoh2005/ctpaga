@@ -110,6 +110,7 @@ class _ShippingPageState extends State<ShippingPage> {
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
+        myProvider.dataShipping.length == 0? _statusMsg = true :  _statusMsg = false;
         return Expanded(
           child: SingleChildScrollView(
             child: Column(
@@ -240,16 +241,24 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   showPrice(price, coin){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    
     if(price == "FREE")
       return "Gratis";
 
     var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+    double priceDouble = double.parse(price);
+    double varRate = double.parse(myProvider.dataRates[0].rate);
 
-    if(coin == 1)
+    if(myProvider.coinUsers  == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
 
-
-    lowPrice.updateValue(double.parse(price));
+    if(coin == 0 && myProvider.coinUsers == 1)
+      lowPrice.updateValue(priceDouble * varRate);
+    else if(coin == 1 && myProvider.coinUsers == 0)
+      lowPrice.updateValue(priceDouble / varRate);
+    else
+      lowPrice.updateValue(priceDouble);
 
     return "${lowPrice.text}";
   }

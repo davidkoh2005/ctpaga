@@ -53,7 +53,6 @@ class _LoadingPageState extends State<LoadingPage> {
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           myProvider.codeUrl = jsonResponse['codeUrl'];
-          Navigator.pop(context);
           Navigator.push(context, SlideLeftRoute(page: ShareUrlPage()));
         }  
       }

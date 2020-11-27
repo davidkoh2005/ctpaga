@@ -29,7 +29,6 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
 
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
-  int _statusButtonDate = 0;
   bool _statusButton =false;
 
   @override
@@ -50,7 +49,6 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.selectDateRate = 0;
 
     if(myProvider.dataRates.length != 0)
       lowPrice.updateValue(double.parse(myProvider.dataRates[0].rate));
@@ -59,26 +57,38 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Visibility(
-                visible:_statusMenuBar,
-                child: Navbar("Tasa de cambio", false),
-              ),
-              showReport(),
-              
-              Padding(
-                padding: EdgeInsets.only(top: 20, bottom: 50),
-                child: buttonNew()
-              ), 
-            ],
-          )
-        ),
-      );
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else{
+          myProvider.clickButtonMenu = 0;
+          return true;
+        }
+      },
+      child: Scaffold(
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Visibility(
+                  visible:_statusMenuBar,
+                  child: Navbar("Tasa de cambio", false),
+                ),
+                showReport(),
+                
+                Padding(
+                  padding: EdgeInsets.only(top: 20, bottom: 50),
+                  child: buttonNew()
+                ), 
+              ],
+            )
+          ),
+        )
+    );
   }
 
   Widget showReport(){
@@ -94,7 +104,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        showDate(),
+                        showDate(myProvider),
                         style: TextStyle(
                           color: colorText,
                           fontSize: size.width / 22,
@@ -140,8 +150,8 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     return "${lowPrice.text}";
   }
 
-  showDate(){
-    switch (_statusButtonDate) {
+  showDate(myProvider){
+    switch (myProvider.selectDateRate) {
       case 0:
         return "TASA:  HOY ${formatter.format(_today)}";
         break;
@@ -162,15 +172,14 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     return GestureDetector(
       onTap: () {
         myProvider.selectDateRate = index;
-        setState(() => _statusButtonDate = index);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              _statusButtonDate == index? colorGreen : colorGrey,
-              _statusButtonDate == index? colorGreen : colorGrey,
+              myProvider.selectDateRate == index? colorGreen : colorGrey,
+              myProvider.selectDateRate == index? colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -183,7 +192,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: size.width / 25,
               fontWeight: FontWeight.w500,
             ),
           ),

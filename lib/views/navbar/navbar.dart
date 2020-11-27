@@ -43,7 +43,7 @@ class _NavbarState extends State<Navbar> {
                         color: colorGreen,
                       ),
                       onPressed: () {
-                        myProvider.titleButtonMenu = "";
+                        myProvider.clickButtonMenu = 0;
                         Navigator.pop(context);
                       }
                     ),

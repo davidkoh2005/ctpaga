@@ -38,8 +38,18 @@ class _NewCommercePageState extends State<NewCommercePage> {
 
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else{
+          myProvider.clickButtonMenu = 0;
+          return true;
+        }
+      },
+      child: Scaffold(
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -63,7 +73,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
             ),
           ],
         ),
-      );
+      )
+    );
   }
 
   Widget formCommerce(){
@@ -271,7 +282,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.titleButtonMenu = "";
             myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);

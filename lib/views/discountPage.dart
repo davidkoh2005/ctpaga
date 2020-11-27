@@ -38,25 +38,36 @@ class _DiscountPageState extends State<DiscountPage> {
   Widget build(BuildContext context) {
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
-        return Scaffold(
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                !_statusNewDiscount? Navbar("Descuentos", false) : Navbar("Nuevo Descuento", false),
-                
-                myProvider.dataDiscount.length == 0? 
-                  showMsg()
-                :
-                  showList(myProvider),
-                
-                Padding(
-                  padding: EdgeInsets.only(top: 30, bottom: 30),
-                  child: buttonNew()
-                ),
-              ],
-            )
-          ),
+        return WillPopScope(
+          onWillPop: () async {
+            if(myProvider.statusButtonMenu){
+              myProvider.statusButtonMenu = false;
+              return false;
+            }else{
+              myProvider.clickButtonMenu = 0;
+              return true;
+            }
+          },
+          child: Scaffold(
+            body: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: <Widget>[
+                  !_statusNewDiscount? Navbar("Descuentos", false) : Navbar("Nuevo Descuento", false),
+                  
+                  myProvider.dataDiscount.length == 0? 
+                    showMsg()
+                  :
+                    showList(myProvider),
+                  
+                  Padding(
+                    padding: EdgeInsets.only(top: 30, bottom: 30),
+                    child: buttonNew()
+                  ),
+                ],
+              )
+            ),
+          )
         );
       }
     );

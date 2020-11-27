@@ -43,11 +43,11 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  String _titleButtonMenu;
-  String get titleButtonMenu =>_titleButtonMenu; 
+  int _clickButtonMenu;
+  int get clickButtonMenu =>_clickButtonMenu; 
   
-  set titleButtonMenu(String newtitle) {
-    _titleButtonMenu = newtitle; 
+  set clickButtonMenu(int newClick) {
+    _clickButtonMenu = newClick; 
     notifyListeners(); 
   }
 
@@ -512,6 +512,29 @@ class MyProvider with ChangeNotifier {
         Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
       }
     }
+  }
+
+  verifyStatusDeposits(){
+    _listVerification = [];
+
+    if(selectCoinDeposits == null)
+      selectCoinDeposits = 1;
+
+    if (dataBanksUser[selectCoinDeposits] != null ){
+      _listVerification.add("Bank");
+    }
+
+    for (var item in dataPicturesUser) {
+      if(item.description == 'Identification' && item.commerce_id == dataCommercesUser[selectCommerce].id){
+        _listVerification.add("Identification");
+      }else if(item.description == 'Selfie'){
+          _listVerification.add("Selfie");
+      }else if(item.description == 'RIF' && item.commerce_id == dataCommercesUser[selectCommerce].id){
+        _listVerification.add("RIF"); 
+      }
+    }
+
+    listVerification = _listVerification;
   }
 
   Categories category = Categories();

@@ -48,8 +48,8 @@ class _NavbarMainState extends State<NavbarMain> {
           padding: EdgeInsets.only(top: 50, left: 50),
           child: GestureDetector(
             onTap: () {
+              myProvider.clickButtonMenu = 1;
               Navigator.push(context, SlideLeftRoute(page: PerfilPage()));
-              myProvider.titleButtonMenu = "Perfil";
             },
             child: Container(
               width: size.width/8,

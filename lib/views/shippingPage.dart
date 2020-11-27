@@ -48,24 +48,36 @@ class _ShippingPageState extends State<ShippingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Navbar("Envíos", false),
-              statusSend(),
-              _statusButtonShipping? 
-                formShipping() 
-              :  
-              Expanded(
-                child: formMsg()
-              ),
-            ],
-          )
-        ),
-      );
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else{
+          myProvider.clickButtonMenu = 0;
+          return true;
+        }
+      },
+      child: Scaffold(
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Navbar("Envíos", false),
+                statusSend(),
+                _statusButtonShipping? 
+                  formShipping() 
+                :  
+                Expanded(
+                  child: formMsg()
+                ),
+              ],
+            )
+          ),
+        )
+    );
   }
 
   Widget statusSend(){

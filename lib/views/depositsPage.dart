@@ -16,240 +16,218 @@ class DepositsPage extends StatefulWidget {
 class _DepositsPageState extends State<DepositsPage> {
   final _scrollController = ScrollController();
   List _statusButton = new List();
-  List _listVerification = new List();
-  int _statusCoin = 0;
 
   void initState() {
     super.initState();
-    verifyStatusDeposits(context, null);
   }
 
   void dispose(){
     super.dispose();
   }
 
-  verifyStatusDeposits(BuildContext context, coin){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    _listVerification = [];
-
-    setState(() {
-      if(coin == null && myProvider.selectCoinDeposits == null){
-        myProvider.selectCoinDeposits = 1;
-        _statusCoin = 1;
-      }else if(coin != null){
-        myProvider.selectCoinDeposits = coin;
-        _statusCoin = coin;
-      }else{
-        _statusCoin = myProvider.selectCoinDeposits;
-      }
-
-
-      if (myProvider.dataBanksUser[_statusCoin] != null ){
-        _listVerification.add("Bank");
-      }
-      for (var item in myProvider.dataPicturesUser) {
-        if(item.description == 'Identification' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-            _listVerification.add("Identification");
-        }else if(item.description == 'Selfie' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-            _listVerification.add("Selfie");
-        }else if(item.description == 'RIF' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-          _listVerification.add("RIF"); 
-        }
-      }
-    });
-    myProvider.listVerification = _listVerification;
-  }
 
   @override
   Widget build(BuildContext context) {
-
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: Stack(
-          children: <Widget>[
-            Container(
-              height: size.height,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Navbar("Banco", false),
-                  Expanded(
-                    child: Scrollbar(
-                      controller: _scrollController, 
-                      isAlwaysShown: true,
-                      child: SingleChildScrollView(
-                        controller: _scrollController, 
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: <Widget> [
-                            Padding(
-                              padding: EdgeInsets.only(right: 30),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: <Widget>[
-                                  buttonBs(),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15, right: 15),
-                                    child: Text(
-                                      "< >",
-                                      style: TextStyle(
-                                        color: colorGreen,
-                                        fontSize: size.width / 20,
-                                        fontWeight: FontWeight.bold,
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return WillPopScope(
+          onWillPop: () async {
+            if(myProvider.statusButtonMenu){
+              myProvider.statusButtonMenu = false;
+              return false;
+            }else{
+              myProvider.clickButtonMenu = 0;
+              return true;
+            }
+          },
+          child: Scaffold(
+            body: Stack(
+              children: <Widget>[
+                Container(
+                  height: size.height,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: <Widget>[
+                      Navbar("Banco", false),
+                      Expanded(
+                        child: Scrollbar(
+                          controller: _scrollController, 
+                          isAlwaysShown: true,
+                          child: SingleChildScrollView(
+                            controller: _scrollController, 
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: <Widget> [
+                                Padding(
+                                  padding: EdgeInsets.only(right: 30),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.end,
+                                    children: <Widget>[
+                                      buttonBs(myProvider),
+                                      Padding(
+                                        padding: EdgeInsets.only(left: 15, right: 15),
+                                        child: Text(
+                                          "< >",
+                                          style: TextStyle(
+                                            color: colorGreen,
+                                            fontSize: size.width / 20,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        )
                                       ),
-                                    )
-                                  ),
-                                  buttonUSD(),
-                                ],
-                              )
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.all(25),
-                                child: Text(
-                                  "PROXIMO DEPÓSITO",
-                                  style:  TextStyle(
-                                    fontSize: size.width / 20,
-                                    color: colorGrey
-                                  ),
+                                      buttonUSD(myProvider),
+                                    ],
+                                  )
                                 ),
-                              ),
-                            ),
-                            Container(
-                              child: Text(
-                                showDeposits(),
-                                style:  TextStyle(
-                                  fontSize: size.width / 10,
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10, bottom: 10),
-                              child: GestureDetector(
-                                onTap: () {},
-                                child: Container(
-                                  width:size.width - 100,
-                                  height: size.height / 20,
-                                  decoration: BoxDecoration(
-                                    gradient: LinearGradient(
-                                      colors: [
-                                        Colors.red,
-                                        Colors.red,
-                                      ],
-                                      begin: Alignment.topLeft,
-                                      end: Alignment.bottomRight,
-                                    ),
-                                    borderRadius: BorderRadius.circular(30),
-                                  ),
-                                  child: Center(
+                                Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(25),
                                     child: Text(
-                                      'No podemos enviarte tu dinero',
-                                      style: TextStyle(
-                                        color: Colors.white,
+                                      "PROXIMO DEPÓSITO",
+                                      style:  TextStyle(
                                         fontSize: size.width / 20,
+                                        color: colorGrey
                                       ),
                                     ),
                                   ),
                                 ),
-                              )
-                            ),
-                            Visibility(
-                              visible: _listVerification.length != 4? true : false,
-                              child: Text(
-                                "Necesitamos que completes la información marcada en rojo debajo",
-                                textAlign: TextAlign.center,
-                                style:  TextStyle(
-                                  fontSize: size.width / 20,
-                                  color: colorGrey
-                                ),
-                              )
-                            ),
-                            Align(
-                              alignment: Alignment.centerLeft,
-                              child: Padding(
-                                padding: EdgeInsets.all(25),
-                                child: Text(
-                                  "INFORMACIÓN DEL DEPÓSITO",
-                                  style:  TextStyle(
-                                    fontSize: size.width / 20,
-                                    color: colorGrey
+                                Container(
+                                  child: Text(
+                                    showDeposits(myProvider),
+                                    style:  TextStyle(
+                                      fontSize: size.width / 10,
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ),
-                            dropdownList(0, 'Bank'),
-                            dropdownList(1, 'Selfie'),
-                            dropdownList(2, 'Identification'),
-                            dropdownList(3, 'RIF'),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                              child: Text(
-                                "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
-                                textAlign: TextAlign.center,
-                                style:  TextStyle(
-                                  fontSize: size.width / 20,
-                                  color: colorGrey
+                                Padding(
+                                  padding: EdgeInsets.only(top: 10, bottom: 10),
+                                  child: GestureDetector(
+                                    onTap: () {},
+                                    child: Container(
+                                      width:size.width - 100,
+                                      height: size.height / 20,
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Colors.red,
+                                            Colors.red,
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(30),
+                                      ),
+                                      child: Center(
+                                        child: Text(
+                                          'No podemos enviarte tu dinero',
+                                          style: TextStyle(
+                                            color: Colors.white,
+                                            fontSize: size.width / 20,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  )
                                 ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                              child: Text(
-                                "El depósito te llegara dos dias habiles despues",
-                                textAlign: TextAlign.center,
-                                style:  TextStyle(
-                                  fontSize: size.width / 20,
-                                  color: colorGrey
+                                Consumer<MyProvider>(
+                                  builder: (context, myProvider, child) {
+                                    return Visibility(
+                                      visible: myProvider.listVerification.length != 4? true : false,
+                                      child: Text(
+                                        "Necesitamos que completes la información marcada en rojo debajo",
+                                        textAlign: TextAlign.center,
+                                        style:  TextStyle(
+                                          fontSize: size.width / 20,
+                                          color: colorGrey
+                                        ),
+                                      )
+                                    );
+                                  }
                                 ),
-                              ),
-                            ),
-                            
-                          ],
-                        )
-                      )
-                    ),
-                  ),
-                ],
-              )
+                                  Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.all(25),
+                                    child: Text(
+                                      "INFORMACIÓN DEL DEPÓSITO",
+                                      style:  TextStyle(
+                                        fontSize: size.width / 20,
+                                        color: colorGrey
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                dropdownList(0, 'Bank', myProvider),
+                                dropdownList(1, 'Selfie', myProvider),
+                                dropdownList(2, 'Identification', myProvider),
+                                dropdownList(3, 'RIF', myProvider),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
+                                  child: Text(
+                                    "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
+                                    textAlign: TextAlign.center,
+                                    style:  TextStyle(
+                                      fontSize: size.width / 20,
+                                      color: colorGrey
+                                    ),
+                                  ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
+                                  child: Text(
+                                    "El depósito te llegara dos dias habiles despues",
+                                    textAlign: TextAlign.center,
+                                    style:  TextStyle(
+                                      fontSize: size.width / 20,
+                                      color: colorGrey
+                                    ),
+                                  ),
+                                ),
+                                
+                              ],
+                            )
+                          )
+                        ),
+                      ),
+                    ],
+                  )
+                ),
+              ],
             ),
-
-            Consumer<MyProvider>(
-              builder: (context, myProvider, child) {
-                return Visibility(
-                  visible: myProvider.statusButtonMenu,
-                  child: MenuPage(),
-                );
-              }
-            ),
-          ],
-        ),
-      );
+          )
+        );
+      }
+    );
   }
 
-  showDeposits(){
+  showDeposits(myProvider){
     var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   
-    if(_statusCoin == 1)
+    if(myProvider.selectCoinDeposits == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     
     return "${lowPrice.text}";
   }
 
-  Widget buttonUSD(){
+  Widget buttonUSD(myProvider){
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(right:0),
       child: GestureDetector(
-        onTap: () => verifyStatusDeposits(context, 0), 
+        onTap: () {
+          myProvider.selectCoinDeposits = 0;
+          myProvider.verifyStatusDeposits();
+        }, 
         child: Container(
           child: Center(
             child: Text(
               "\$",
               style: TextStyle(
-                color: _statusCoin == 0? colorGreen : Colors.grey,
+                color: myProvider.selectCoinDeposits == 0? colorGreen : Colors.grey,
                 fontSize: size.width / 15,
                 fontWeight: FontWeight.bold,
               ),
@@ -260,18 +238,22 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
-  Widget buttonBs(){
+  Widget buttonBs(myProvider){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(left:30),
       child: GestureDetector(
-        onTap: () => verifyStatusDeposits(context, 1), 
+        onTap: () {
+          myProvider.selectCoinDeposits = 1;
+          myProvider.verifyStatusDeposits();
+        }, 
         child: Container(
           child: Center(
             child: Text(
               "Bs",
               style: TextStyle(
-                color: _statusCoin == 1? colorGreen : Colors.grey,
+                color: myProvider.selectCoinDeposits == 1? colorGreen : Colors.grey,
                 fontSize: size.width / 15,
                 fontWeight: FontWeight.w500,
               ),
@@ -282,8 +264,7 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
-  dropdownList(index, title){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
+  dropdownList(index, title, myProvider){
 
     var size = MediaQuery.of(context).size;
     return GestureDetector(

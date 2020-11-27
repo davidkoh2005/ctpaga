@@ -32,61 +32,73 @@ List listMenu = [
   {
     "title": "Perfil",
     "icon": "assets/icons/perfilMenu.png",
+    "code": 1,
     "page": PerfilPage(),
   },
   {
     "title": "Banco",
     "icon": "assets/icons/depositos.png",
+    "code": 2,
     "page": DepositsPage(),
   },
   {
     "title": "Productos",
     "icon": "assets/icons/productos.png",
+    "code": 3,
     "page": ProductsServicesPage(false),
   },
   {
     "title": "Servicios",
     "icon": "assets/icons/servicios.png",
+    "code": 4,
     "page": ProductsServicesPage(false),
   },
   {
     "title": "Envíos",
     "icon": "assets/icons/envios.png",
+    "code": 5,
     "page": ShippingPage(),
   },
   {
     "title": "Descuento",
     "icon": "assets/icons/descuento.png",
+    "code": 6,
     "page": DiscountPage(),
   },
   {
     "title": "Tasa de cambio",
     "icon": "assets/icons/tasa.png",
+    "code": 7,
     "page": ExchangeRatePage(true),
   },
   {
     "title": "Transacciones",
     "icon": "assets/icons/reporte.png",
+    "code": 8,
     "page": SalesReportPage(true),
   },
   {
     "title": "Agregar comercio",
     "icon": "assets/icons/crearComercio.png",
+    "code": 9,
     "page": NewCommercePage(),
   },
   {
     "title": "Compartir un comercio",
     "icon": "assets/icons/recomendarComercio.png",
+    "code": 10,
     "page": null,
   },
   {
     "title": "Pedir ayuda",
     "icon": "assets/icons/ayuda.png",
+    "code": 11,
     "page": null,
   },
   {
     "title": "Cerrar sesión",
     "icon": "",
+    "code": 12,
     "page": LoginPage(),
   },
 ];
@@ -95,21 +107,25 @@ List listMenuDeposits = [
   {
     "title": "Cuenta Bancaria",
     "icon": "assets/icons/depositos.png",
+    "code": 0,
     "page": PerfilPage(),
   },
   {
     "title": "Agregar selfie",
     "icon": "assets/icons/selfie.png",
+    "code": 0,
     "page": SelfiePage(),
   },
   {
     "title": "Agregar identificacion",
     "icon": "assets/icons/tarjeta-de-identificacion.png",
+    "code": 0,
     "page": DocumentsPage("Identification"),
   },
    {
     "title": "Agregar registro jurídico",
     "icon": "assets/icons/tarjeta-de-identificacion.png",
+    "code": 0,
     "page": DocumentsPage("RIF"),
   },
 ];

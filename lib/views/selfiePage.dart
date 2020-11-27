@@ -216,20 +216,18 @@ class _SelfiePageState extends State<SelfiePage> {
         body: {
           "image": base64Image,
           "name": fileName,
-          "description": "Selfie"
+          "description": "Selfie",
+          "commerce_id": myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
         }
       );
 
       var jsonResponse = jsonDecode(response.body); 
       print(jsonResponse); 
       if (jsonResponse['statusCode'] == 201) {
-        var listVerification = myProvider.listVerification;
-        listVerification.add("Selfie");
-        myProvider.listVerification  = listVerification;
+        myProvider.listVerification.add("Selfie");       
         myProvider.getDataUser(false, false, context);
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
       }
 
     } catch (e) {

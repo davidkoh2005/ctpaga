@@ -27,8 +27,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   String _statusDropdown = "";
   int _selectCategories = 0, _idSelectCategories=0;
   double _total=0.0;
-  bool _statusButton = false, _statusButtonCharge = false,
-      _statusPurchase = false;
+  bool _statusButton = false, _statusButtonCharge = false;
   List  _indexProduct = new List(), _indexService = new List();
 
   @override
@@ -58,8 +57,10 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             if(myProvider.statusButtonMenu){
               myProvider.statusButtonMenu = false;
               return false;
-            }else
+            }else{
+              myProvider.clickButtonMenu = 0;
               return true;
+            }
           },
           child: Scaffold(
             body: Stack(
@@ -110,15 +111,14 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 ),
                 Consumer<MyProvider>(
                   builder: (context, myProvider, child) {
-                    return AnimatedContainer(
-                      duration: Duration(seconds:1),
-                      width: !myProvider.statusButtonMenu? 0 : size.width,
-                      child: AnimatedOpacity(
-                        opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-                        duration: Duration(milliseconds: 500),
-                        child:MenuPage(),
-                      )
-                    ) ;
+                    return AnimatedPositioned(
+                      duration: Duration(milliseconds:250),
+                      top: 0,
+                      bottom: 0,
+                      left: myProvider.statusButtonMenu? 0 : -size.width,
+                      right: myProvider.statusButtonMenu? 0 : size.width,
+                      child: MenuPage(),
+                    );
                   }
                 ),
               ],

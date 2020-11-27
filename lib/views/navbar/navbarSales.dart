@@ -18,9 +18,8 @@ class _NavbarSalesState extends State<NavbarSales> {
 
   @override
   Widget build(BuildContext context) {
-
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-
     return Stack(
       children: <Widget>[
         Container(
@@ -40,7 +39,10 @@ class _NavbarSalesState extends State<NavbarSales> {
                         Icons.keyboard_arrow_left,
                         color: colorGreen,
                       ),
-                      onPressed: () => Navigator.pop(context),
+                      onPressed: (){ 
+                        myProvider.clickButtonMenu = 0;
+                        Navigator.pop(context);
+                      },
                     ),
                     Text(
                       _title,

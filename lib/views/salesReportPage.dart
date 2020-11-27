@@ -33,8 +33,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   @override
   void initState() {
     super.initState();
-    initialVariable();
-    verifyStatusDocuments();
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
@@ -46,73 +44,57 @@ class _SalesReportPageState extends State<SalesReportPage> {
     super.dispose();
   }
 
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-
-  }
-
-
-  verifyStatusDocuments(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    _listVerification = [];
-
-    setState(() {
-
-      if (myProvider.dataBanksUser[_statusCoin] != null ){
-        _listVerification.add("Bank");
-      }
-      for (var item in myProvider.dataPicturesUser) {
-        if(item.description == 'Identification' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-            _listVerification.add("Identification");
-        }else if(item.description == 'Selfie' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-            _listVerification.add("Selfie");
-        }else if(item.description == 'RIF' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
-          _listVerification.add("RIF"); 
-        }
-      }
-    });
-    myProvider.listVerification = _listVerification;
-  }
-
   @override
   Widget build(BuildContext context) {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    return Scaffold(
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Visibility(
-                visible:_statusMenuBar,
-                child: Navbar("Transacciones", false),
-              ),
-              Padding(
-                padding: EdgeInsets.only(right:30),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: <Widget>[
-                    buttonBs(),
-                    Padding(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      child: Text(
-                        "< >",
-                        style: TextStyle(
-                          color: colorGreen,
-                          fontSize: size.width / 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      )
-                    ),
-                    buttonUSD(),
-                  ],
+    return WillPopScope(
+      onWillPop: () async {
+        if(myProvider.statusButtonMenu){
+          myProvider.statusButtonMenu = false;
+          return false;
+        }else{
+          myProvider.clickButtonMenu = 0;
+          return true;
+        }
+      },
+      child: Scaffold(
+          body: Container(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Visibility(
+                  visible:_statusMenuBar,
+                  child: Navbar("Transacciones", false),
                 ),
-              ),
-              showReport() 
-            ],
-          )
-        ),
-      );
+                Padding(
+                  padding: _statusMenuBar? EdgeInsets.only(right:30) : EdgeInsets.only(right:30, top:60),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: <Widget>[
+                      buttonBs(),
+                      Padding(
+                        padding: EdgeInsets.only(left: 15, right: 15),
+                        child: Text(
+                          "< >",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: size.width / 20,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        )
+                      ),
+                      buttonUSD(),
+                    ],
+                  ),
+                ),
+                showReport() 
+              ],
+            )
+          ),
+        )
+    );
   }
 
   Widget buttonUSD(){
@@ -311,27 +293,37 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget showTable(){
+    var size = MediaQuery.of(context).size;
     return Padding(
-      padding: EdgeInsets.all(20),
+      padding: EdgeInsets.only(top: 20, bottom:20),
       child: DataTable(
         columns: <DataColumn>[
           DataColumn(
             label: Text(
-              'Productos y/o \n\n Servicios',
+              'Productos y/o \n Servicios',
               textAlign: TextAlign.center,
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: size.width / 20,
+              ),
             ),
           ),
           DataColumn(
             label: Text(
               'Fecha',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: size.width / 20,
+              ),
             ),
           ),
           DataColumn(
             label: Text(
               'Precio',
-              style: TextStyle(fontStyle: FontStyle.italic),
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: size.width / 20,
+              ),
             ),
           ),
         ],

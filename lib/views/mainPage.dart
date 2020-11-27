@@ -107,7 +107,7 @@ class _MainPageState extends State<MainPage> {
       child: GestureDetector(
         onTap: () {
           setState(() => clickBotton = _index); //I add color selected button
-          nextPage(_page, _title); //next page
+          nextPage(_page, _index); //next page
         },
         child: Container(
           width:size.width - 100,
@@ -244,7 +244,7 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  nextPage(Widget page, _title)async{
+  nextPage(Widget page, _index)async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     await Future.delayed(Duration(milliseconds: 150)); //wait time
     setState(() => clickBotton = 0); //delete selected button color
@@ -256,14 +256,15 @@ class _MainPageState extends State<MainPage> {
     }else if(myProvider.dataRates.length == 0){
       showMessage("Debe ingresar la tasa de cambio", false);
     }else{
-      if(_title == "Productos"){
+      if(_index == 1){
+        myProvider.clickButtonMenu = 3;
         myProvider.selectProductsServices = 0;
         myProvider.getListCategories();
-      }else if(_title == "Servicios"){
+      }else if(_index == 2){
+        myProvider.clickButtonMenu = 4;
         myProvider.selectProductsServices = 1;
         myProvider.getListCategories();
       }
-      myProvider.titleButtonMenu = _title;
       Navigator.push(context, SlideLeftRoute(page: page));
     }
   }

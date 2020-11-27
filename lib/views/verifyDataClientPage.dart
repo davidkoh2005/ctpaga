@@ -38,14 +38,14 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                   ),
                 ],
               ),
-              AnimatedContainer(
-                duration: Duration(seconds:1),
-                width: !myProvider.statusButtonMenu? 0 : size.width,
-                child: AnimatedOpacity(
-                  opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-                  duration: Duration(seconds:1),
-                  child: MenuPage(),
-                )
+              
+              AnimatedPositioned(
+                duration: Duration(milliseconds:250),
+                top: 0,
+                bottom: 0,
+                left: myProvider.statusButtonMenu? 0 : -size.width,
+                right: myProvider.statusButtonMenu? 0 : size.width,
+                child: MenuPage(),
               ),
             ],
           ),

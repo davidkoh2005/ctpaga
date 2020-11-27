@@ -89,8 +89,10 @@ class _PerfilPageState extends State<PerfilPage> {
         if(myProvider.statusButtonMenu){
           myProvider.statusButtonMenu = false;
           return false;
-        }else
+        }else{
+          myProvider.clickButtonMenu = 0;
           return true;
+        }
       },
       child: Scaffold(
           body: Stack(
@@ -229,15 +231,14 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
               Consumer<MyProvider>(
                 builder: (context, myProvider, child) {
-                  return AnimatedContainer(
-                    duration: Duration(seconds:1),
-                    width: !myProvider.statusButtonMenu? 0 : size.width,
-                    child: AnimatedOpacity(
-                      opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-                      duration: Duration(milliseconds: 500),
-                      child:MenuPage(),
-                    )
-                  ) ;
+                  return AnimatedPositioned(
+                    duration: Duration(milliseconds:250),
+                    top: 0,
+                    bottom: 0,
+                    left: myProvider.statusButtonMenu? 0 : -size.width,
+                    right: myProvider.statusButtonMenu? 0 : size.width,
+                    child: MenuPage(),
+                  );
                 }
               ),
             ],

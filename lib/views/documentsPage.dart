@@ -263,13 +263,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
       var jsonResponse = jsonDecode(response.body); 
       print(jsonResponse); 
       if (jsonResponse['statusCode'] == 201) {
-        var listVerification = myProvider.listVerification;
-        listVerification.add(_title);
-        myProvider.listVerification  = listVerification;
+        myProvider.listVerification.add(_title);
         myProvider.getDataUser(false, false, context);
         Navigator.pop(context);
         Navigator.pop(context);
-        Navigator.pushReplacement(context, SlideLeftRoute(page: DepositsPage()));
       }
 
     } catch (e) {

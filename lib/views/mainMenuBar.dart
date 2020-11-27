@@ -1,6 +1,5 @@
 import 'package:ctpaga/views/exchangeRatePage.dart';
 import 'package:ctpaga/views/menu/menu.dart';
-import 'package:ctpaga/views/navbar/navbarMain.dart';
 import 'package:ctpaga/views/salesReportPage.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -40,14 +39,14 @@ class _MainMenuBarState extends State<MainMenuBar> {
                     _showMenu(),
                   ]
                 ),
-                AnimatedContainer(
-                  duration: Duration(seconds:1),
-                  width: !myProvider.statusButtonMenu? 0 : size.width,
-                  child: AnimatedOpacity(
-                    opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-                    duration: Duration(seconds:1),
-                    child:MenuPage(),
-                  )
+                
+                AnimatedPositioned(
+                  duration: Duration(milliseconds:250),
+                  top: 0,
+                  bottom: 0,
+                  left: myProvider.statusButtonMenu? 0 : -size.width,
+                  right: myProvider.statusButtonMenu? 0 : size.width,
+                  child: MenuPage(),
                 ),
               ]
             )
@@ -69,18 +68,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
           )
         )
       ),
-      child: Padding(
-        padding: EdgeInsets.only(top:15),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
-            SizedBox(width: 1),
-            _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 1),
-            SizedBox(width: 1),
-            _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 2),
-          ]
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: <Widget>[
+          _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
+          SizedBox(width: 1),
+          _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 1),
+          SizedBox(width: 1),
+          _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 2),
+        ]
       ),
     );
   }
@@ -90,6 +86,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
     return GestureDetector(
       onTap: () => setState(()=> _statusButton = code),
       child: Container(
+        padding: EdgeInsets.only(top:20),
+        width: size.width / 3.4,
         child: Column(
           children: <Widget> [
             Container(

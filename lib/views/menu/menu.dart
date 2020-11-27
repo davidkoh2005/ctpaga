@@ -28,54 +28,50 @@ class _MenuPageState extends State<MenuPage> {
         Expanded(
           child: Container(
             color: colorGreen.withOpacity(0.8),
-            child: AnimatedOpacity(
-              duration: Duration(milliseconds: 1500),
-              opacity: myProvider.statusButtonMenu? 1.0 : 0.0,
-              child: ListView.builder(
-                padding: EdgeInsets.only(top:40),
-                itemCount: listMenu.length,
-                itemBuilder: (BuildContext context, int index) {
-                  return GestureDetector(
-                    onTap: () => nextPage(listMenu[index]['title'], listMenu[index]['page'], index),
-                    child: Row(
-                      children: <Widget>[
-                        Padding(
-                          padding: EdgeInsets.only(left:25),
-                          child: Container(
-                            width: 60,
-                            height: 60,
-                            child: Padding(
-                              padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
-                              child: Visibility(
-                                visible: listMenu[index]['icon'] == ''? false : true,
-                                child: Image.asset(
-                                  listMenu[index]['icon'],
-                                  color: statusButton.contains(index)? Colors.black : Colors.white,
-                                )
-                              ),
-                            ),
-                          ),
-                        ),
-                        Expanded(
+            child: ListView.builder(
+              padding: EdgeInsets.only(top:40),
+              itemCount: listMenu.length,
+              itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () => nextPage(listMenu[index]['code'], listMenu[index]['page'], index),
+                  child: Row(
+                    children: <Widget>[
+                      Padding(
+                        padding: EdgeInsets.only(left:25),
+                        child: Container(
+                          width: 60,
+                          height: 60,
                           child: Padding(
-                            padding: EdgeInsets.only(left:10),
-                            child: Container(
-                              child: Text(
-                                listMenu[index]['title'],
-                                style: TextStyle(
-                                  fontSize: size.width / 20,
-                                  color: statusButton.contains(index)? Colors.black : Colors.white,
-                                  fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
-                                ),
+                            padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
+                            child: Visibility(
+                              visible: listMenu[index]['icon'] == ''? false : true,
+                              child: Image.asset(
+                                listMenu[index]['icon'],
+                                color: statusButton.contains(index)? Colors.black : Colors.white,
                               )
                             ),
                           ),
                         ),
-                      ],
-                    ),
-                  );
-                },
-              )
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding: EdgeInsets.only(left:10),
+                          child: Container(
+                            child: Text(
+                              listMenu[index]['title'],
+                              style: TextStyle(
+                                fontSize: size.width / 20,
+                                color: statusButton.contains(index)? Colors.black : Colors.white,
+                                fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                              ),
+                            )
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              },
             )
           )
         ),
@@ -100,16 +96,15 @@ class _MenuPageState extends State<MenuPage> {
 
  
 
-  nextPage(title, page, index)async{
+  nextPage(code, page, index)async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() =>statusButton.add(index));
     await Future.delayed(Duration(milliseconds: 150));
     setState(() =>statusButton.remove(index));
-
-    if(title == myProvider.titleButtonMenu){
+    
+    if(code == myProvider.clickButtonMenu)
       myProvider.statusButtonMenu = false;
-      await Future.delayed(Duration(milliseconds: 150));
-    }else if(title == "Productos" || title == "Servicios"){
+    else if(code == 3 || code == 4){
       if(verifyDataCommerce(myProvider)){
         showMessage("Debe ingresar los datos de la empresa", false);
         await Future.delayed(Duration(seconds: 1));
@@ -119,19 +114,19 @@ class _MenuPageState extends State<MenuPage> {
         await Future.delayed(Duration(seconds: 1));
         Navigator.pop(context);
       }else{
-        if(title == "Productos"){
+        if(code == 3){
           myProvider.selectProductsServices = 0;
           myProvider.getListCategories();
-        }else if(title == "Servicios"){
+        }else if(code == 4){
           myProvider.selectProductsServices = 1;
           myProvider.getListCategories();
         }
         myProvider.statusButtonMenu = false;
-        myProvider.titleButtonMenu = title;
         await Future.delayed(Duration(milliseconds: 150));
+        myProvider.clickButtonMenu = code;
         Navigator.push(context, SlideLeftRoute(page: page));
       }
-    }else if(title == "Cerrar sesión"){
+    }else if(code == 12){
       _onLoading();
       var myProvider = Provider.of<MyProvider>(context, listen: false);
       SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -155,20 +150,27 @@ class _MenuPageState extends State<MenuPage> {
           myProvider.removeSession(context);
           Navigator.pop(context);
           myProvider.statusButtonMenu = false;
-          myProvider.titleButtonMenu = title;
           await Future.delayed(Duration(milliseconds: 150));
+          myProvider.clickButtonMenu = 0;
           Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
         print("error");
       } 
-    }else if(title == "Compartir un comercio"){
+    }else if(code == 10){
+      myProvider.clickButtonMenu = 0;
       launchWhatsApp(false);
-    }else if(title == "Pedir ayuda"){
+    }else if(code == 11){
+      myProvider.clickButtonMenu = 0;
       launchWhatsApp(true);
     }else{
       myProvider.statusButtonMenu = false;
-      myProvider.titleButtonMenu = title;
+      myProvider.selectDateRate = 0;
+      
+      if(code == 2 || code == 8)
+        myProvider.verifyStatusDeposits();
+
+      myProvider.clickButtonMenu = code;
       await Future.delayed(Duration(milliseconds: 150));
       Navigator.push(context, SlideLeftRoute(page: page));
     }

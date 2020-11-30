@@ -185,7 +185,10 @@ class _NewSalesPageState extends State<NewSalesPage> {
   Widget buttonContinue(){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => nextPage(),
+      onTap: () {
+        if(_statusButton)
+          nextPage();
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 20,

@@ -117,6 +117,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               textCapitalization:TextCapitalization.none,
               autofocus: false,
               validator: validateCode,
+              maxLength: 20,
               onSaved: (value) => _code = value.trim(),
               onChanged: (value) {
                 setState(() {

@@ -22,7 +22,7 @@ class _ShippingPageState extends State<ShippingPage> {
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
   bool _statusButtonNew = false, _statusButtonShipping = false, _statusMsg = true;
-  String _description;
+  String _description, _descriptionData;
 
   @override
   void initState() {

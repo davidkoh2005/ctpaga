@@ -28,7 +28,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   bool _statusButtonSave = false, _switchFree = false, _statusButtonDelete = false;
   int _statusCoin;
-  String _description, _price;
+  String _description, _descriptionData, _price;
   List _dataShipping = new List();
 
   @override
@@ -61,6 +61,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
         lowPrice.updateValue(double.parse(myProvider.dataShipping[index].price));
       
       _controllerDescription.text = myProvider.dataShipping[index].description;
+      _descriptionData = myProvider.dataShipping[index].description;
       setState(() {
         _dataShipping.add("Description");
         _dataShipping.add("Price");
@@ -534,10 +535,12 @@ class _NewShippingPageState extends State<NewShippingPage> {
     if (value.length <=3){
       return 'Debe ingresar la descripción correctamente';
     }else{
-      for (var item in myProvider.dataShipping) {
-        if (item.description == value)
-          return 'La descripción ingresado ya se encuentra registrado';
-      }
+      if(_descriptionData != value)
+        for (var item in myProvider.dataShipping) {
+          if (item.description == value)
+            return 'La descripción ingresado ya se encuentra registrado';
+        }
+
       return null;
     }
   }

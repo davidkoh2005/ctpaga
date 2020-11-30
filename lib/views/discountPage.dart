@@ -21,7 +21,6 @@ class _DiscountPageState extends State<DiscountPage> {
   @override
   void initState() {
     super.initState();
-    initialVariable();
   }
 
   @override
@@ -29,10 +28,6 @@ class _DiscountPageState extends State<DiscountPage> {
     super.dispose();
   }
 
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-
-  }
 
   @override
   Widget build(BuildContext context) {

@@ -13,6 +13,7 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -49,6 +50,7 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _idCardBankingBsFocus = FocusNode();
   final FocusNode _accountNumberBankingBsFocus = FocusNode();
   final _controllerUser = TextEditingController();
+  VideoPlayerController _controller;
 
   String _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
@@ -70,6 +72,7 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   void dispose(){
+    _controller.dispose();
     super.dispose();
   }
 
@@ -77,6 +80,7 @@ class _PerfilPageState extends State<PerfilPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.statusUrlCommerce = myProvider.dataCommercesUser.length == 0? false : true;
     _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
+    changeVideo();
   }
 
 
@@ -197,26 +201,28 @@ class _PerfilPageState extends State<PerfilPage> {
                           dropdownList("Datos Bancarios"),
                           Visibility(
                             visible: _statusDropdown == "Datos Bancarios"? true : false,
-                            child: Padding(
-                              padding: EdgeInsets.only(right:30, top:20),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                children: <Widget>[
-                                  buttonBs(),
-                                  Padding(
-                                    padding: EdgeInsets.only(left: 15, right: 15),
-                                    child: Text(
-                                      "< >",
-                                      style: TextStyle(
-                                        color: colorGreen,
-                                        fontSize: size.width / 20,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    )
-                                  ),
-                                  buttonUSD(),
-                                ],
-                              ),
+                            child: GestureDetector(
+                              onTap: () async {
+                                myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
+                                setState(() {
+                                  _controller.play();
+                                  _statusCoin = _statusCoin == 0 ? 1 : 0;
+                                });
+                                await Future.delayed(Duration(milliseconds: 150));
+                                changeVideo();
+                              },
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                padding: EdgeInsets.only(top: 20, left:30),
+                                child: _controller != null?
+                                    Container(
+                                        width: size.width/3.5,
+                                        height: size.width/3.5,
+                                        child: VideoPlayer(_controller),
+                                      )
+                                  :
+                                    Container(),
+                              )
                             ),
                           ),
                           Visibility(
@@ -814,50 +820,14 @@ class _PerfilPageState extends State<PerfilPage> {
     );
   }
 
-  Widget buttonUSD(){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(right:0),
-      child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 0), 
-        child: Container(
-          child: Center(
-            child: Text(
-              "\$",
-              style: TextStyle(
-                color: _statusCoin == 0? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
+  changeVideo(){
+    if(_statusCoin == 0){
+      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
+    }else{
+       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
+    }
+    _controller.initialize();
   }
-
-  Widget buttonBs(){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left:30),
-      child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 1), 
-        child: Container(
-          child: Center(
-            child: Text(
-              "Bs",
-              style: TextStyle(
-                color: _statusCoin == 1? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
 
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
@@ -1004,6 +974,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 value: _nameBankingUSD,
                 hint: "Nombre del Banco",
                 searchHint: "Nombre del Banco",
+                keyboardType: TextInputType.text,
                 onChanged: (value)=> _nameBankingUSD = value,
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
@@ -1237,6 +1208,7 @@ class _PerfilPageState extends State<PerfilPage> {
                 value: myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
                 hint: "Nombre del Banco",
                 searchHint: "Nombre del Banco",
+                keyboardType: TextInputType.text,
                 onChanged: (value)=> _nameBankingBs = value,
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,

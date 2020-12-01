@@ -54,6 +54,12 @@
 	<array>
 	<string>whatsapp</string>
 	</array>
+
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	
 	<false/>
 </dict>

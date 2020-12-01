@@ -1,6 +1,8 @@
 import 'package:ctpaga/views/exchangeRatePage.dart';
-import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/salesReportPage.dart';
+import 'package:ctpaga/views/shippingPage.dart';
+import 'package:ctpaga/views/depositsPage.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -15,12 +17,14 @@ class MainMenuBar extends StatefulWidget {
 }
 
 class _MainMenuBarState extends State<MainMenuBar> {
-  int _statusButton = 1;
+  int _statusButton = 2;
 
   final _pageOptions = [
-    ExchangeRatePage(false),
+    ExchangeRatePage(true),
+    ShippingPage(true),
     MainPage(),
-    SalesReportPage(false),
+    DepositsPage(true),
+    SalesReportPage(true),
   ];
   
   @override
@@ -59,7 +63,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
   Widget _showMenu(){
     var size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 10,
+      height: size.height / 12,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -72,10 +76,10 @@ class _MainMenuBarState extends State<MainMenuBar> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
           _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
-          SizedBox(width: 1),
-          _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 1),
-          SizedBox(width: 1),
-          _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 2),
+          _buildNavItem("Envios" ,"assets/icons/envios.png",_statusButton, 1),
+          _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 2),
+          _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 3),
+          _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 4),
         ]
       ),
     );
@@ -86,8 +90,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
     return GestureDetector(
       onTap: () => setState(()=> _statusButton = code),
       child: Container(
-        padding: EdgeInsets.only(top:20),
-        width: size.width / 3.4,
+        padding: EdgeInsets.only(top:10),
+        width: size.width / 5.1,
         child: Column(
           children: <Widget> [
             Container(

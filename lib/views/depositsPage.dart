@@ -1,28 +1,40 @@
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
 class DepositsPage extends StatefulWidget {
+  DepositsPage(this._statusMenuBar);
+  final bool _statusMenuBar;
   @override
-  _DepositsPageState createState() => _DepositsPageState();
+  _DepositsPageState createState() => _DepositsPageState(this._statusMenuBar);
 }
 
 class _DepositsPageState extends State<DepositsPage> {
+  _DepositsPageState(this._statusMenuBar);
+  final bool _statusMenuBar;
   final _scrollController = ScrollController();
+  VideoPlayerController _controller;
   List _statusButton = new List();
 
   void initState() {
     super.initState();
+    initialVariable();
   }
 
   void dispose(){
+    _controller.dispose();
     super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    changeVideo(myProvider);
   }
 
 
@@ -50,7 +62,10 @@ class _DepositsPageState extends State<DepositsPage> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      Navbar("Banco", false),
+                      Visibility(
+                        visible: !_statusMenuBar,
+                        child: Navbar("Banco", false)
+                      ),
                       Expanded(
                         child: Scrollbar(
                           controller: _scrollController, 
@@ -61,25 +76,26 @@ class _DepositsPageState extends State<DepositsPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget> [
-                                Padding(
-                                  padding: EdgeInsets.only(right: 30),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.end,
-                                    children: <Widget>[
-                                      buttonBs(myProvider),
-                                      Padding(
-                                        padding: EdgeInsets.only(left: 15, right: 15),
-                                        child: Text(
-                                          "< >",
-                                          style: TextStyle(
-                                            color: colorGreen,
-                                            fontSize: size.width / 20,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        )
-                                      ),
-                                      buttonUSD(myProvider),
-                                    ],
+                                GestureDetector(
+                                  onTap: () async {
+                                    myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
+                                    setState(() {
+                                      _controller.play();
+                                    });
+                                    await Future.delayed(Duration(milliseconds: 150));
+                                    changeVideo(myProvider);
+                                  },
+                                  child: Container(
+                                    alignment: Alignment.centerRight,
+                                    padding: EdgeInsets.only(top: 20, right:30),
+                                    child: _controller != null?
+                                        Container(
+                                            width: size.width/3.5,
+                                            height: size.width/3.5,
+                                            child: VideoPlayer(_controller),
+                                          )
+                                      :
+                                        Container(),
                                   )
                                 ),
                                 Align(
@@ -204,6 +220,15 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
+  changeVideo(myProvider){
+    if(myProvider.selectCoinDeposits == 0){
+      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
+    }else{
+       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
+    }
+    _controller.initialize();
+  }
+
   showDeposits(myProvider){
     var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   
@@ -211,57 +236,6 @@ class _DepositsPageState extends State<DepositsPage> {
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     
     return "${lowPrice.text}";
-  }
-
-  Widget buttonUSD(myProvider){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(right:0),
-      child: GestureDetector(
-        onTap: () {
-          myProvider.selectCoinDeposits = 0;
-          myProvider.verifyStatusDeposits();
-        }, 
-        child: Container(
-          child: Center(
-            child: Text(
-              "\$",
-              style: TextStyle(
-                color: myProvider.selectCoinDeposits == 0? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
-  Widget buttonBs(myProvider){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left:30),
-      child: GestureDetector(
-        onTap: () {
-          myProvider.selectCoinDeposits = 1;
-          myProvider.verifyStatusDeposits();
-        }, 
-        child: Container(
-          child: Center(
-            child: Text(
-              "Bs",
-              style: TextStyle(
-                color: myProvider.selectCoinDeposits == 1? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
   }
 
   dropdownList(index, title, myProvider){

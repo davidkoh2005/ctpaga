@@ -2,6 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/newCategoryPage.dart';
 import 'package:ctpaga/views/newProductServicePage.dart';
 import 'package:ctpaga/views/newSalesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -43,8 +44,13 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.selectDateRate = 0;
-    myProvider.statusTrolleyAnimation = 1.0;
+  
+    setState(() {
+      if(myProvider.selectProductsServices == 0)
+        _statusDropdown = "Productos";
+      else
+        _statusDropdown = "Servicios";
+    });
   }
 
   @override
@@ -75,7 +81,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
-                          myProvider.selectProductsServices == 0? dropdownList("Productos") : dropdownList("Servicios"),
+                          myProvider.selectProductsServices == 0?  showOptiones(myProvider, "Productos") : showOptiones(myProvider, "Servicios"),
+
                           Visibility(
                             visible: _statusProductsServices(myProvider),
                             child: 
@@ -87,8 +94,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                               height: myProvider.dataServices.length <3? size.height / ((4-myProvider.dataServices.length)*3) : size.height / 5,
                               child: listProductsServices(),
                             ),
-                            ),
-                          dropdownList("Categoría"),
+                          ),
+
                           Visibility(
                             visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length  > 0? true : false : false,
                             child: Container(
@@ -100,7 +107,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                             padding: EdgeInsets.only(top:15),
                             child: buttonCreateProductService()
                           ),
-                          ]
+                        ]
                       ),
                     ),
                     Padding(
@@ -126,6 +133,54 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           )
         );
       }
+    );
+  }
+
+  showOptiones(myProvider, title){
+    var size = MediaQuery.of(context).size;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        GestureDetector(
+          
+          onTap: () => setState(() {
+            _selectCategories = 0;
+            _statusDropdown = title;
+          }),
+          child: Container(
+            alignment: Alignment.center,
+            color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : colorGrey,
+            width: size.width/2,
+            height: size.width/7,
+            child: Text(
+              myProvider.selectProductsServices == 0? "Productos" : "Servicios",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: size.width / 20,
+              ),
+            ),
+          )
+        ),
+        GestureDetector(
+          onTap: () => setState(() {
+            _selectCategories = 0;
+            _statusDropdown = "Categoría";
+          }),
+          child: Container(
+            alignment: Alignment.center,
+            color: _statusDropdown == "Categoría"? colorGreen : colorGrey,
+            width: size.width/2,
+            height: size.width/7,
+            child: Text(
+              "Categoría",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: size.width / 20,
+              ),
+            ),
+          )
+        ),
+      ],
     );
   }
 
@@ -405,7 +460,10 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     return  GestureDetector(
       onTap: () {
         setState(() => _statusButton = true);
-        nextPage(NewProductServicePage());
+        if(_statusDropdown == "Categoría")
+          nextPage(NewCategoryPage());
+        else
+          nextPage(NewProductServicePage());
       },
       child: Container(
         width:size.width - 100,
@@ -428,7 +486,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
         ),
         child: Center(
           child: Text(
-            myProvider.selectProductsServices == 0? "CREAR PRODUCTO" : "CREAR SERVICIO",
+            _statusDropdown == "Categoría"? "CREAR CATEGORÍA" : myProvider.selectProductsServices == 0? "CREAR PRODUCTO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
               fontSize: size.width / 20,
@@ -546,7 +604,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                         await Future.delayed(Duration(milliseconds: 150));
                         setState(() =>_indexService.remove(index));
                       }else{
-                        setState(() => _statusDropdown = "");
                         myProvider.dataCategoriesSelect = myProvider.dataProductsServicesCategories[index].categories.split(",");
                         if(myProvider.selectProductsServices == 0){
                           myProvider.dataSelectProduct = myProvider.dataProductsServicesCategories[index];
@@ -633,14 +690,14 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   nextPage(page)async{
     if(_statusButtonCharge){
       await Future.delayed(Duration(milliseconds: 150));
-      setState(() {_statusButtonCharge = false; _statusDropdown = "";});
+      setState(() {_statusButtonCharge = false;});
     }else if(_statusButton){
       var myProvider = Provider.of<MyProvider>(context, listen: false);
       myProvider.dataSelectProduct = null;
       myProvider.dataSelectService = null;
       myProvider.dataCategoriesSelect = [];
       await Future.delayed(Duration(milliseconds: 150));
-      setState(() {_statusButton = false; _statusDropdown = "";});
+      setState(() {_statusButton = false;});
     }
 
     Navigator.push(context, SlideLeftRoute(page: page));

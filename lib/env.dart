@@ -13,10 +13,10 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-//String url = "192.168.1.119:8000";
+String url = "192.168.1.119:8000";
 
 //TODO: Url Api (AWS)
-String url = "54.196.181.42";
+//String url = "54.196.181.42";
 
 String urlApi = "http://$url/api/auth/";
 
@@ -39,7 +39,7 @@ List listMenu = [
     "title": "Banco",
     "icon": "assets/icons/depositos.png",
     "code": 2,
-    "page": DepositsPage(),
+    "page": DepositsPage(false),
   },
   {
     "title": "Productos",
@@ -57,7 +57,7 @@ List listMenu = [
     "title": "Envíos",
     "icon": "assets/icons/envios.png",
     "code": 5,
-    "page": ShippingPage(),
+    "page": ShippingPage(false),
   },
   {
     "title": "Descuento",
@@ -69,13 +69,13 @@ List listMenu = [
     "title": "Tasa de cambio",
     "icon": "assets/icons/tasa.png",
     "code": 7,
-    "page": ExchangeRatePage(true),
+    "page": ExchangeRatePage(false),
   },
   {
     "title": "Transacciones",
     "icon": "assets/icons/reporte.png",
     "code": 8,
-    "page": SalesReportPage(true),
+    "page": SalesReportPage(false),
   },
   {
     "title": "Agregar comercio",

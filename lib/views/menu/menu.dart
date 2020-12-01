@@ -116,9 +116,11 @@ class _MenuPageState extends State<MenuPage> {
       }else{
         if(code == 3){
           myProvider.selectProductsServices = 0;
+          myProvider.statusTrolleyAnimation = 1.0;
           myProvider.getListCategories();
         }else if(code == 4){
           myProvider.selectProductsServices = 1;
+          myProvider.statusTrolleyAnimation = 1.0;
           myProvider.getListCategories();
         }
         myProvider.statusButtonMenu = false;

@@ -7,6 +7,7 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -17,6 +18,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  VideoPlayerController _controller;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -31,12 +33,24 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
   }
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _statusCoin = myProvider.coinUsers;
+    changeVideo();
+  }
+
+  changeVideo(){
+    if(_statusCoin == 0){
+      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
+    }else{
+       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
+    }
+    print("coin: $_statusCoin");
+    _controller.initialize();
   }
 
   @override
@@ -59,26 +73,27 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 NavbarMain(),
-                Container(
-                  alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(top: 10, right:30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      buttonBs(),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Text(
-                          "< >",
-                          style: TextStyle(
-                            color: colorGreen,
-                            fontSize: size.width / 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ),
-                      buttonUSD(),
-                    ],
+                GestureDetector(
+                  onTap: () async {
+                    myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
+                    setState(() {
+                      _controller.play();
+                      _statusCoin = _statusCoin == 0 ? 1 : 0;
+                    });
+                    await Future.delayed(Duration(milliseconds: 150));
+                    changeVideo();
+                  },
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.only(top: 10, right:30),
+                    child: _controller != null?
+                        Container(
+                            width: size.width/3.5,
+                            height: size.width/3.5,
+                            child: VideoPlayer(_controller),
+                          )
+                      :
+                        Container(),
                   )
                 ),
                 Expanded(
@@ -99,6 +114,7 @@ class _MainPageState extends State<MainPage> {
       )
     );
   }
+  
 
   Widget buttonMain(_title, _index, _page){
     var size = MediaQuery.of(context).size;
@@ -129,58 +145,6 @@ class _MainPageState extends State<MainPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: size.width / 20,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
-  Widget buttonUSD(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(right:0),
-      child: GestureDetector(
-        onTap: () {
-          myProvider.coinUsers = 0;
-          setState(() => _statusCoin = 0);
-        }, 
-        child: Container(
-          child: Center(
-            child: Text(
-              "\$",
-              style: TextStyle(
-                color: _statusCoin == 0? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
-  Widget buttonBs(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left:30),
-      child: GestureDetector(
-        onTap: () {
-          myProvider.coinUsers = 1;
-          setState(() => _statusCoin = 1);
-        }, 
-        child: Container(
-          child: Center(
-            child: Text(
-              "Bs",
-              style: TextStyle(
-                color: _statusCoin == 1? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.w500,
               ),
             ),
           ),
@@ -259,10 +223,12 @@ class _MainPageState extends State<MainPage> {
       if(_index == 1){
         myProvider.clickButtonMenu = 3;
         myProvider.selectProductsServices = 0;
+        myProvider.statusTrolleyAnimation = 1.0;
         myProvider.getListCategories();
       }else if(_index == 2){
         myProvider.clickButtonMenu = 4;
         myProvider.selectProductsServices = 1;
+        myProvider.statusTrolleyAnimation = 1.0;
         myProvider.getListCategories();
       }
       Navigator.push(context, SlideLeftRoute(page: page));

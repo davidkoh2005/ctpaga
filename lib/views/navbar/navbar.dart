@@ -69,7 +69,9 @@ class _NavbarState extends State<Navbar> {
                       Icons.menu,
                       color: Colors.black,
                       ),
-                    onPressed: () => myProvider.statusButtonMenu = true,
+                    onPressed: () {
+                      myProvider.statusButtonMenu = true;
+                    }
                   )
                 )
               )

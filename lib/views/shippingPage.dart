@@ -13,12 +13,15 @@ import 'package:flutter/services.dart';
 
 
 class ShippingPage extends StatefulWidget {
-  
+  ShippingPage(this._statusMenuBar);
+  final bool _statusMenuBar;
   @override
-  _ShippingPageState createState() => _ShippingPageState();
+  _ShippingPageState createState() => _ShippingPageState(this._statusMenuBar);
 }
 
 class _ShippingPageState extends State<ShippingPage> {
+  _ShippingPageState(this._statusMenuBar);
+  final bool _statusMenuBar;
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
   bool _statusButtonNew = false, _statusButtonShipping = false, _statusMsg = true;
@@ -65,7 +68,10 @@ class _ShippingPageState extends State<ShippingPage> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                Navbar("Envíos", false),
+                Visibility(
+                  visible: !_statusMenuBar,
+                  child: Navbar("Envíos", false)
+                ),
                 statusSend(),
                 _statusButtonShipping? 
                   formShipping() 
@@ -85,7 +91,7 @@ class _ShippingPageState extends State<ShippingPage> {
     return Column(
       children: <Widget>[
         Padding(
-          padding: EdgeInsets.only(left: 30, right: 30),
+          padding: _statusMenuBar? EdgeInsets.only(left: 30, right: 30, top:50) : EdgeInsets.only(left: 30, right: 30),
           child: Align(
             alignment: Alignment.centerLeft,
             child: Text(

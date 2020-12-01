@@ -116,7 +116,9 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                     Icons.menu,
                     color: Colors.black,
                     ),
-                  onPressed: () => myProvider.statusButtonMenu = true,
+                  onPressed: () {
+                    myProvider.statusButtonMenu = true;
+                  }
                 )
               )
             ]

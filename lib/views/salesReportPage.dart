@@ -4,8 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:intl/date_symbol_data_local.dart';
+import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -21,6 +20,7 @@ class SalesReportPage extends StatefulWidget {
 class _SalesReportPageState extends State<SalesReportPage> {
   _SalesReportPageState(this._statusMenuBar);
   final bool _statusMenuBar;
+  VideoPlayerController _controller;
 
   List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var formatter = new DateFormat('dd/M/yyyy');
@@ -37,11 +37,18 @@ class _SalesReportPageState extends State<SalesReportPage> {
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
     _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+    initialVariable();
   }
 
   @override
   void dispose() {
+    _controller.dispose();
     super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    changeVideo(myProvider);
   }
 
   @override
@@ -65,29 +72,30 @@ class _SalesReportPageState extends State<SalesReportPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Visibility(
-                  visible:_statusMenuBar,
+                  visible: !_statusMenuBar,
                   child: Navbar("Transacciones", false),
                 ),
-                Padding(
-                  padding: _statusMenuBar? EdgeInsets.only(right:30) : EdgeInsets.only(right:30, top:60),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: <Widget>[
-                      buttonBs(),
-                      Padding(
-                        padding: EdgeInsets.only(left: 15, right: 15),
-                        child: Text(
-                          "< >",
-                          style: TextStyle(
-                            color: colorGreen,
-                            fontSize: size.width / 20,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        )
-                      ),
-                      buttonUSD(),
-                    ],
-                  ),
+                GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                      _controller.play();
+                      _statusCoin = _statusCoin == 0 ? 1 : 0;
+                    });
+                    await Future.delayed(Duration(milliseconds: 150));
+                    changeVideo(myProvider);
+                  },
+                  child: Container(
+                    alignment: Alignment.centerRight,
+                    padding: EdgeInsets.only(top: 20, right:30),
+                    child: _controller != null?
+                        Container(
+                            width: size.width/3.5,
+                            height: size.width/3.5,
+                            child: VideoPlayer(_controller),
+                          )
+                      :
+                        Container(),
+                  )
                 ),
                 showReport() 
               ],
@@ -97,48 +105,13 @@ class _SalesReportPageState extends State<SalesReportPage> {
     );
   }
 
-  Widget buttonUSD(){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(right:0),
-      child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 0), 
-        child: Container(
-          child: Center(
-            child: Text(
-              "\$",
-              style: TextStyle(
-                color: _statusCoin == 0? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
-  }
-
-  Widget buttonBs(){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(left:30),
-      child: GestureDetector(
-        onTap: () => setState(() => _statusCoin = 1), 
-        child: Container(
-          child: Center(
-            child: Text(
-              "Bs",
-              style: TextStyle(
-                color: _statusCoin == 1? colorGreen : Colors.grey,
-                fontSize: size.width / 15,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ),
-      )
-    );
+  changeVideo(myProvider){
+    if(_statusCoin == 0){
+      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
+    }else{
+       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
+    }
+    _controller.initialize();
   }
 
   Widget showReport(){

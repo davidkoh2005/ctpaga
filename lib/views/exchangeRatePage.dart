@@ -75,7 +75,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 Visibility(
-                  visible:_statusMenuBar,
+                  visible: !_statusMenuBar,
                   child: Navbar("Tasa de cambio", false),
                 ),
                 showReport(),

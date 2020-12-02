@@ -54,6 +54,7 @@ class _DepositsPageState extends State<DepositsPage> {
             }
           },
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: Stack(
               children: <Widget>[
                 Container(

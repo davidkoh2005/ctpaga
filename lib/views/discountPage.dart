@@ -44,6 +44,7 @@ class _DiscountPageState extends State<DiscountPage> {
             }
           },
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: Container(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,

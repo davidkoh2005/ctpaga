@@ -29,6 +29,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
     return WillPopScope(
       onWillPop: () async => false,
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,

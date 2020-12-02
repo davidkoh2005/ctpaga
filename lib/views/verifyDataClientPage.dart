@@ -26,6 +26,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Stack(
             children: <Widget>[
               Column(

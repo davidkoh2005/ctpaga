@@ -51,8 +51,9 @@ class _NavbarMainState extends State<NavbarMain> {
         Padding(
           padding: EdgeInsets.only(top: 50, left: 50),
           child: GestureDetector(
-            onTap: () {
+            onTap: () async {
               myProvider.clickButtonMenu = 1;
+              await Future.delayed(Duration(milliseconds: 150));
               Navigator.push(context, SlideLeftRoute(page: PerfilPage()));
             },
             child: Container(
@@ -71,7 +72,7 @@ class _NavbarMainState extends State<NavbarMain> {
   showImagen(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    var urlProfile='';
+    var urlProfile;
 
     if(myProvider.dataPicturesUser != null){
       for (var item in myProvider.dataPicturesUser) {

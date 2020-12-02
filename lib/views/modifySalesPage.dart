@@ -12,6 +12,7 @@ class ModifySalesPage extends StatefulWidget {
 }
 
 class _ModifySalesPageState extends State<ModifySalesPage> {
+  // ignore: unused_field
   String _name, _quantity;
   bool _statusButtonSave = false, _statusButtonDelete =false;
 
@@ -39,33 +40,34 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Navbar(myProvider.dataPurchase[myProvider.positionModify]['data'].name, false),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  formQuantity(),
-                ]
-              ),
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Navbar(myProvider.dataPurchase[myProvider.positionModify]['data'].name, false),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                formQuantity(),
+              ]
             ),
-            Padding(
-              padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
-              child: Column(
-                children: <Widget>[
-                  buttonDelete(),
-                  SizedBox(height:40),
-                  buttonSave(),
-                ],
-              ),
+          ),
+          Padding(
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
+            child: Column(
+              children: <Widget>[
+                buttonDelete(),
+                SizedBox(height:40),
+                buttonSave(),
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 
   Widget formQuantity(){

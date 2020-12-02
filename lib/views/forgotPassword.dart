@@ -20,6 +20,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
     return Center(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body:Container(
           child:Column(
             mainAxisAlignment: MainAxisAlignment.center,

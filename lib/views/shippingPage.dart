@@ -25,7 +25,7 @@ class _ShippingPageState extends State<ShippingPage> {
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
   bool _statusButtonNew = false, _statusButtonShipping = false, _statusMsg = true;
-  String _description, _descriptionData;
+  String _description;
 
   @override
   void initState() {
@@ -63,26 +63,27 @@ class _ShippingPageState extends State<ShippingPage> {
         }
       },
       child: Scaffold(
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Visibility(
-                  visible: !_statusMenuBar,
-                  child: Navbar("Envíos", false)
-                ),
-                statusSend(),
-                _statusButtonShipping? 
-                  formShipping() 
-                :  
-                Expanded(
-                  child: formMsg()
-                ),
-              ],
-            )
-          ),
-        )
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Visibility(
+                visible: !_statusMenuBar,
+                child: Navbar("Envíos", false)
+              ),
+              statusSend(),
+              _statusButtonShipping? 
+                formShipping() 
+              :  
+              Expanded(
+                child: formMsg()
+              ),
+            ],
+          )
+        ),
+      )
     );
   }
 

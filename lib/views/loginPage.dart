@@ -32,6 +32,7 @@ class _LoginPageState extends State<LoginPage> {
 
     return Center(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Container(
           alignment: Alignment.center,
           child: SingleChildScrollView(

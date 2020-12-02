@@ -21,7 +21,6 @@ class NewSalesPage extends StatefulWidget {
 }
 
 class _NewSalesPageState extends State<NewSalesPage> {
-  final _formKeyNewSales = new GlobalKey<FormState>();
   final _controllerName = TextEditingController();
   bool _statusButton = false, _statusButtonName = false;
   String _nameContacts, _initialsContacts;
@@ -46,6 +45,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Stack(
             children: <Widget>[
               Column(

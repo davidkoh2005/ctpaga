@@ -69,25 +69,26 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
         }
       },
       child: Scaffold(
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Visibility(
-                  visible: !_statusMenuBar,
-                  child: Navbar("Tasa de cambio", false),
-                ),
-                showReport(),
-                
-                Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 50),
-                  child: buttonNew()
-                ), 
-              ],
-            )
-          ),
-        )
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Visibility(
+                visible: !_statusMenuBar,
+                child: Navbar("Tasa de cambio", false),
+              ),
+              showReport(),
+              
+              Padding(
+                padding: EdgeInsets.only(top: 20, bottom: 50),
+                child: buttonNew()
+              ), 
+            ],
+          )
+        ),
+      )
     );
   }
 

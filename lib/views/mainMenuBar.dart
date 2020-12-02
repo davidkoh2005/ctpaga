@@ -35,6 +35,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         return WillPopScope(
           onWillPop: () async =>false,
           child: Scaffold(
+            backgroundColor: Colors.white,
             body: Stack(
               children: [
                 Column(
@@ -61,9 +62,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
   }
 
   Widget _showMenu(){
-    var size = MediaQuery.of(context).size;
     return Container(
-      height: size.height / 12,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
@@ -74,6 +73,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        mainAxisSize :MainAxisSize.max,
         children: <Widget>[
           _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
           _buildNavItem("Envios" ,"assets/icons/envios.png",_statusButton, 1),

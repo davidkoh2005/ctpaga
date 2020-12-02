@@ -785,28 +785,6 @@ class MyProvider with ChangeNotifier {
     }
   }
 
-  getListProductsServicesCategories(idCategories){
-    dataProductsServicesCategories = [];
-    List listProductsServicesCategories = new List();
-    listProductsServicesCategories = [];
-
-    if(selectProductsServices==0){
-      for (var item in dataProducts) {
-        if(item.categories != null && item.categories.contains(idCategories.toString())){
-          listProductsServicesCategories.add(item);
-        }
-      }
-      dataProductsServicesCategories = listProductsServicesCategories;
-    }else{
-      for (var item in dataServices) {
-        if(item.categories != null && item.categories.contains(idCategories.toString())){
-          listProductsServicesCategories.add(item);
-        }
-      }
-      dataProductsServicesCategories = listProductsServicesCategories;
-    }
-  }
-
   Rate rate = Rate();
   List _listRates = new List();
   List _listRatesToday = new List();

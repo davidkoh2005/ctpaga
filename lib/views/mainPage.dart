@@ -66,6 +66,7 @@ class _MainPageState extends State<MainPage> {
         return false;
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Stack(
           children: <Widget> [
             Column(
@@ -88,10 +89,10 @@ class _MainPageState extends State<MainPage> {
                     padding: EdgeInsets.only(top: 10, right:30),
                     child: _controller != null?
                         Container(
-                            width: size.width/3.5,
-                            height: size.width/3.5,
-                            child: VideoPlayer(_controller),
-                          )
+                          width: size.width/3.5,
+                          height: size.width/3.5,
+                          child: VideoPlayer(_controller),
+                        )
                       :
                         Container(),
                   )
@@ -230,6 +231,10 @@ class _MainPageState extends State<MainPage> {
         myProvider.selectProductsServices = 1;
         myProvider.statusTrolleyAnimation = 1.0;
         myProvider.getListCategories();
+      }else{
+        myProvider.selectDateRate = 0;
+        myProvider.statusTrolleyAnimation = 1.0;
+        myProvider.statusRemoveShopping = false;
       }
       Navigator.push(context, SlideLeftRoute(page: page));
     }

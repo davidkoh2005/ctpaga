@@ -58,8 +58,9 @@ class _PerfilPageState extends State<PerfilPage> {
         _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusCoin = 1;
+  // ignore: unused_field
   File _image;
-  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false, _statusImage = false;
+  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -99,157 +100,158 @@ class _PerfilPageState extends State<PerfilPage> {
         }
       },
       child: Scaffold(
-          body: Stack(
-            children: <Widget>[
-              Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Navbar("Perfil", true),
-                  Expanded(
-                    child: SingleChildScrollView(
-                      controller: _scrollController,
-                      child: Column(
-                        children: <Widget> [
-                          Padding(
-                            padding: EdgeInsets.only(bottom: 5),
-                            child: showImage()
-                          ),
-                          Consumer<MyProvider>(
-                            builder: (context, myProvider, child) {
-                              if(myProvider.dataCommercesUser.length <=1){
-                                return Container(
-                                  padding: EdgeInsets.only(top:5, bottom: 5),
-                                  child: Center(
-                                    child: Text(
-                                      myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
-                                      style: TextStyle(
-                                        fontSize: size.width / 14,
-                                        color: colorText,
-                                      ),
-                                    ),
-                                  ),
-                                );
-                              }
+        backgroundColor: Colors.white,
+        body: Stack(
+          children: <Widget>[
+            Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Navbar("Perfil", true),
+                Expanded(
+                  child: SingleChildScrollView(
+                    controller: _scrollController,
+                    child: Column(
+                      children: <Widget> [
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 5),
+                          child: showImage()
+                        ),
+                        Consumer<MyProvider>(
+                          builder: (context, myProvider, child) {
+                            if(myProvider.dataCommercesUser.length <=1){
                               return Container(
                                 padding: EdgeInsets.only(top:5, bottom: 5),
                                 child: Center(
-                                  child: DropdownButton<Commerce>(
-                                    value: myProvider.dataCommercesUser[myProvider.selectCommerce],
-                                    icon: Icon(Icons.arrow_drop_down, color: colorGreen),
-                                    elevation: 16,
-                                    underline: Container(
-                                      height: 2,
-                                      color: colorGreen,
+                                  child: Text(
+                                    myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                                    style: TextStyle(
+                                      fontSize: size.width / 14,
+                                      color: colorText,
                                     ),
-                                    onChanged: (Commerce newValue) async{
-                                      int count = 0;
-                                      
-                                      if(myProvider.dataCommercesUser[myProvider.selectCommerce] != newValue){
-                                        for( var i = 0 ; i <= myProvider.dataCommercesUser.length; i++ ) {
-                                          if(myProvider.dataCommercesUser[i] == newValue){
-                                            count = i;
-                                            break;
-                                          }
-                                        }
-
-                                        SharedPreferences prefs = await SharedPreferences.getInstance();
-                                        DefaultCacheManager().emptyCache();
-                                        myProvider.selectCommerce = count;
-                                        prefs.setInt('selectCommerce', count);
-                                        _onLoading();
-                                        myProvider.getDataUser(false, true, context);
-                                        _controllerUser.clear();
-                                        _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
-                                        setState(() => _statusDropdown = '');
-                                      }
-                                    },
-                                    items: myProvider.dataCommercesUser.map((commerce) {
-                                        return DropdownMenuItem<Commerce>(
-                                          value: commerce,
-                                          child: Container(
-                                            child: Text(
-                                              commerce.name,
-                                              style: TextStyle(
-                                                fontSize: size.width / 15,
-                                                color: colorText,
-                                              ),
-                                            )
-                                          ),
-                                        );
-                                    }).toList(),
                                   ),
                                 ),
-                              ); 
+                              );
                             }
+                            return Container(
+                              padding: EdgeInsets.only(top:5, bottom: 5),
+                              child: Center(
+                                child: DropdownButton<Commerce>(
+                                  value: myProvider.dataCommercesUser[myProvider.selectCommerce],
+                                  icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                                  elevation: 16,
+                                  underline: Container(
+                                    height: 2,
+                                    color: colorGreen,
+                                  ),
+                                  onChanged: (Commerce newValue) async{
+                                    int count = 0;
+                                    
+                                    if(myProvider.dataCommercesUser[myProvider.selectCommerce] != newValue){
+                                      for( var i = 0 ; i <= myProvider.dataCommercesUser.length; i++ ) {
+                                        if(myProvider.dataCommercesUser[i] == newValue){
+                                          count = i;
+                                          break;
+                                        }
+                                      }
+
+                                      SharedPreferences prefs = await SharedPreferences.getInstance();
+                                      DefaultCacheManager().emptyCache();
+                                      myProvider.selectCommerce = count;
+                                      prefs.setInt('selectCommerce', count);
+                                      _onLoading();
+                                      myProvider.getDataUser(false, true, context);
+                                      _controllerUser.clear();
+                                      _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
+                                      setState(() => _statusDropdown = '');
+                                    }
+                                  },
+                                  items: myProvider.dataCommercesUser.map((commerce) {
+                                      return DropdownMenuItem<Commerce>(
+                                        value: commerce,
+                                        child: Container(
+                                          child: Text(
+                                            commerce.name,
+                                            style: TextStyle(
+                                              fontSize: size.width / 15,
+                                              color: colorText,
+                                            ),
+                                          )
+                                        ),
+                                      );
+                                  }).toList(),
+                                ),
+                              ),
+                            ); 
+                          }
+                        ),
+                        dropdownList("Datos de la empresa"),
+                        Visibility(
+                          visible: _statusDropdown == "Datos de la empresa"? true : false,
+                          child: formCompany(),
+                        ),
+                        dropdownList("Datos de Usuario"),
+                        Visibility(
+                          visible: _statusDropdown == "Datos de Usuario"? true : false,
+                          child: formUser(),
+                        ),
+                        dropdownList("Persona de Contacto"),
+                        Visibility(
+                          visible: _statusDropdown == "Persona de Contacto"? true : false,
+                          child: formContact(),
+                        ), 
+                        dropdownList("Datos Bancarios"),
+                        Visibility(
+                          visible: _statusDropdown == "Datos Bancarios"? true : false,
+                          child: GestureDetector(
+                            onTap: () async {
+                              myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
+                              setState(() {
+                                _controller.play();
+                                _statusCoin = _statusCoin == 0 ? 1 : 0;
+                              });
+                              await Future.delayed(Duration(milliseconds: 150));
+                              changeVideo();
+                            },
+                            child: Container(
+                              alignment: Alignment.centerLeft,
+                              padding: EdgeInsets.only(top: 20, left:30),
+                              child: _controller != null?
+                                  Container(
+                                      width: size.width/3.5,
+                                      height: size.width/3.5,
+                                      child: VideoPlayer(_controller),
+                                    )
+                                :
+                                  Container(),
+                            )
                           ),
-                          dropdownList("Datos de la empresa"),
-                          Visibility(
-                            visible: _statusDropdown == "Datos de la empresa"? true : false,
-                            child: formCompany(),
-                          ),
-                          dropdownList("Datos de Usuario"),
-                          Visibility(
-                            visible: _statusDropdown == "Datos de Usuario"? true : false,
-                            child: formUser(),
-                          ),
-                          dropdownList("Persona de Contacto"),
-                          Visibility(
-                            visible: _statusDropdown == "Persona de Contacto"? true : false,
-                            child: formContact(),
-                          ), 
-                          dropdownList("Datos Bancarios"),
-                          Visibility(
-                            visible: _statusDropdown == "Datos Bancarios"? true : false,
-                            child: GestureDetector(
-                              onTap: () async {
-                                myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
-                                setState(() {
-                                  _controller.play();
-                                  _statusCoin = _statusCoin == 0 ? 1 : 0;
-                                });
-                                await Future.delayed(Duration(milliseconds: 150));
-                                changeVideo();
-                              },
-                              child: Container(
-                                alignment: Alignment.centerLeft,
-                                padding: EdgeInsets.only(top: 20, left:30),
-                                child: _controller != null?
-                                    Container(
-                                        width: size.width/3.5,
-                                        height: size.width/3.5,
-                                        child: VideoPlayer(_controller),
-                                      )
-                                  :
-                                    Container(),
-                              )
-                            ),
-                          ),
-                          Visibility(
-                            visible: _statusDropdown == "Datos Bancarios"? true : false,
-                            child: formBanking(),
-                          ), 
-                        ]
-                      ),
+                        ),
+                        Visibility(
+                          visible: _statusDropdown == "Datos Bancarios"? true : false,
+                          child: formBanking(),
+                        ), 
+                      ]
                     ),
                   ),
-                ],
-              ),
-              Consumer<MyProvider>(
-                builder: (context, myProvider, child) {
-                  return AnimatedPositioned(
-                    duration: Duration(milliseconds:250),
-                    top: 0,
-                    bottom: 0,
-                    left: myProvider.statusButtonMenu? 0 : -size.width,
-                    right: myProvider.statusButtonMenu? 0 : size.width,
-                    child: MenuPage(),
-                  );
-                }
-              ),
-            ],
-          ),
-        )
+                ),
+              ],
+            ),
+            Consumer<MyProvider>(
+              builder: (context, myProvider, child) {
+                return AnimatedPositioned(
+                  duration: Duration(milliseconds:250),
+                  top: 0,
+                  bottom: 0,
+                  left: myProvider.statusButtonMenu? 0 : -size.width,
+                  right: myProvider.statusButtonMenu? 0 : size.width,
+                  child: MenuPage(),
+                );
+              }
+            ),
+          ],
+        ),
+      )
     );
   }
 
@@ -274,7 +276,6 @@ class _PerfilPageState extends State<PerfilPage> {
 
             if (urlProfile != null)
             {
-              _statusImage = true;
               return GestureDetector(
                 onTap: () => _showSelectionDialog(context),
                 child: ClipOval(

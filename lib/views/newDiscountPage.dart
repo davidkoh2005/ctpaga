@@ -4,7 +4,6 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -59,32 +58,33 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Navbar("Nuevo descuento", false),
-            Expanded(
-              child: formDiscount(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: <Widget>[
-                  buttonSave(),
-                  Visibility(
-                    visible: index==null? false: true,
-                    child: Padding(
-                      padding: EdgeInsets.only(top:20),
-                      child: buttonDelete()
-                    )
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Navbar("Nuevo descuento", false),
+          Expanded(
+            child: formDiscount(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: <Widget>[
+                buttonSave(),
+                Visibility(
+                  visible: index==null? false: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(top:20),
+                    child: buttonDelete()
                   )
-                ],
-              ),
+                )
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 
   Widget formDiscount(){

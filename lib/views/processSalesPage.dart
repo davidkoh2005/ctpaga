@@ -25,6 +25,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Scaffold(
+          backgroundColor: Colors.white,
           body: Stack(
             children: <Widget>[
               Column(

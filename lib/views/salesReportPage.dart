@@ -66,42 +66,43 @@ class _SalesReportPageState extends State<SalesReportPage> {
         }
       },
       child: Scaffold(
-          body: Container(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Visibility(
-                  visible: !_statusMenuBar,
-                  child: Navbar("Transacciones", false),
-                ),
-                GestureDetector(
-                  onTap: () async {
-                    setState(() {
-                      _controller.play();
-                      _statusCoin = _statusCoin == 0 ? 1 : 0;
-                    });
-                    await Future.delayed(Duration(milliseconds: 150));
-                    changeVideo(myProvider);
-                  },
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(top: 20, right:30),
-                    child: _controller != null?
-                        Container(
-                            width: size.width/3.5,
-                            height: size.width/3.5,
-                            child: VideoPlayer(_controller),
-                          )
-                      :
-                        Container(),
-                  )
-                ),
-                showReport() 
-              ],
-            )
-          ),
-        )
+        backgroundColor: Colors.white,
+        body: Container(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Visibility(
+                visible: !_statusMenuBar,
+                child: Navbar("Transacciones", false),
+              ),
+              GestureDetector(
+                onTap: () async {
+                  setState(() {
+                    _controller.play();
+                    _statusCoin = _statusCoin == 0 ? 1 : 0;
+                  });
+                  await Future.delayed(Duration(milliseconds: 150));
+                  changeVideo(myProvider);
+                },
+                child: Container(
+                  alignment: Alignment.centerRight,
+                  padding: EdgeInsets.only(top: 20, right:30),
+                  child: _controller != null?
+                      Container(
+                          width: size.width/3.5,
+                          height: size.width/3.5,
+                          child: VideoPlayer(_controller),
+                        )
+                    :
+                      Container(),
+                )
+              ),
+              showReport() 
+            ],
+          )
+        ),
+      )
     );
   }
 

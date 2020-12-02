@@ -1,5 +1,3 @@
-import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -54,6 +52,7 @@ class _SelfiePageState extends State<SelfiePage> {
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

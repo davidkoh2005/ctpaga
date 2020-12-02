@@ -1,5 +1,4 @@
 
-import 'package:ctpaga/database.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -28,21 +27,22 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Navbar("Nueva tasa", false),
-            Expanded(
-              child: formRate(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: buttonSave(),
-            ),
-          ],
-        ),
-      );
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Navbar("Nueva tasa", false),
+          Expanded(
+            child: formRate(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: buttonSave(),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget formRate(){

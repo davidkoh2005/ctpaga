@@ -24,6 +24,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Consumer<MyProvider>(
         builder: (context, myProvider, child) {
           return Column(

@@ -73,32 +73,33 @@ class _NewShippingPageState extends State<NewShippingPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Navbar("Nueva tarifa", false),
-            Expanded(
-              child: formShipping(),
-            ),
-            Padding(
-              padding: EdgeInsets.all(20),
-              child: Column(
-                children: <Widget>[
-                  buttonSave(),
-                  Visibility(
-                    visible: index==null? false: true,
-                    child: Padding(
-                      padding: EdgeInsets.only(top:20),
-                      child: buttonDelete()
-                    )
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Navbar("Nueva tarifa", false),
+          Expanded(
+            child: formShipping(),
+          ),
+          Padding(
+            padding: EdgeInsets.all(20),
+            child: Column(
+              children: <Widget>[
+                buttonSave(),
+                Visibility(
+                  visible: index==null? false: true,
+                  child: Padding(
+                    padding: EdgeInsets.only(top:20),
+                    child: buttonDelete()
                   )
-                ],
-              ),
+                )
+              ],
             ),
-          ],
-        ),
-      );
+          ),
+        ],
+      ),
+    );
   }
 
   Widget formShipping(){

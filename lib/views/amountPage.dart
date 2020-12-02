@@ -1,5 +1,6 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/models/product.dart';
+import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/newSalesPage.dart';
 import 'package:ctpaga/views/productsServicesPage.dart';
@@ -38,9 +39,6 @@ class _AmountPageState extends State<AmountPage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.selectDateRate = 0;
-    myProvider.statusTrolleyAnimation = 1.0;
-    myProvider.statusRemoveShopping = false;
 
     if(myProvider.coinUsers  == 1)
       lowAmount = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
@@ -56,25 +54,43 @@ class _AmountPageState extends State<AmountPage> {
 
   @override
   Widget build(BuildContext context) {
-
+    var size = MediaQuery.of(context).size;
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            NavbarTrolley("Monto"),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  formQuantity(),
-                ]
+      backgroundColor: Colors.white,
+      body: Stack(
+        children: <Widget>[
+          Column(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              NavbarTrolley("Monto"),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    formQuantity(),
+                  ]
+                ),
               ),
-            ),
-          ],
-        ),
-      );
+            ],
+          ),
+
+          Consumer<MyProvider>(
+            builder: (context, myProvider, child) {
+              return AnimatedPositioned(
+                duration: Duration(milliseconds:250),
+                top: 0,
+                bottom: 0,
+                left: myProvider.statusButtonMenu? 0 : -size.width,
+                right: myProvider.statusButtonMenu? 0 : size.width,
+                child: MenuPage(),
+              );
+            }
+          ),
+        ],
+      ),   
+    );
   }
 
   Widget formQuantity(){

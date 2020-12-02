@@ -50,6 +50,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
         }
       },
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,

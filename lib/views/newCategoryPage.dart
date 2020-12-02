@@ -24,26 +24,27 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   Widget build(BuildContext context) {
 
     return Scaffold(
-        body: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Navbar("Nuevo Categoría", false),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height:20),
-                  formCommerce(),
-                ]
-              ),
+      backgroundColor: Colors.white,
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: <Widget>[
+          Navbar("Nuevo Categoría", false),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height:20),
+                formCommerce(),
+              ]
             ),
-            buttonSave(),
-            SizedBox(height:30),
-          ],
-        ),
-      );
+          ),
+          buttonSave(),
+          SizedBox(height:30),
+        ],
+      ),
+    );
   }
 
   Widget formCommerce(){

@@ -1,6 +1,4 @@
-import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/providers/provider.dart';
-import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
@@ -36,6 +34,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
     return Center(
       child: Scaffold(
+        backgroundColor: Colors.white,
         body: Container(
           alignment: Alignment.center,
           child: SingleChildScrollView(

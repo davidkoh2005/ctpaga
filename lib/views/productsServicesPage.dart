@@ -138,6 +138,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   showOptiones(myProvider, title){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -157,7 +158,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               myProvider.selectProductsServices == 0? "Productos" : "Servicios",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.width / 20,
+                fontSize: 20 * scaleFactor,
               ),
             ),
           )
@@ -176,7 +177,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               "Categoría",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.width / 20,
+                fontSize: 20 * scaleFactor,
               ),
             ),
           )
@@ -195,48 +196,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     return false;
   }
 
-  Widget dropdownList(_title){
-    var size = MediaQuery.of(context).size;
-    return Padding(
-      padding: EdgeInsets.only(top:5, bottom: 5),
-      child: GestureDetector(
-        onTap: () => setState(() {
-          _selectCategories = 0;
-          if(_statusDropdown == _title){
-            _statusDropdown = "";
-          }else{
-            _statusDropdown = _title;
-          }
-        }),
-        child: Container(
-          padding: EdgeInsets.only(left: 30, right: 30),
-          width: size.width,
-          height: 50,
-          color: colorGrey,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              Text(
-                _title,
-                style: TextStyle(
-                  fontSize: size.width / 20,
-                ),
-              ),
-              SizedBox(width:50),
-              Icon(
-                _statusDropdown == _title? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: colorGreen,
-              ),
-            ]
-          ),
-        )
-      )
-    );
-  }
-
   Widget listProductsServices(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     
     if(myProvider.selectProductsServices == 0){
       return Scrollbar(
@@ -245,10 +207,10 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
         child: ListView.separated(
           controller: _scrollControllerProductsServices,
           separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
-          padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
+          padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
           itemCount: myProvider.dataProducts.length,
           itemBuilder:  (BuildContext ctxt, int index) {
-            return GestureDetector(
+            return ListTile(
               onTap: () async {
                 if(_statusCharge){
                   addProductsServices(myProvider.dataProducts[index]);
@@ -261,55 +223,37 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   setState(() => _statusDropdown = "");
                   if(myProvider.dataProducts[index].categories != null)
                     myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
-                  
+
                   myProvider.dataSelectProduct = myProvider.dataProducts[index];
                   myProvider.dataSelectService = null;
 
                   nextPage(NewProductServicePage());
                 }
-              }, 
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children : <Widget>[
-                      Text(
-                        myProvider.dataProducts[index].name,
-                        style: TextStyle(
-                          color: _indexProduct.contains(index)? colorGreen :  colorText,
-                          fontSize: size.width / 22,
-                          fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                        ),
-                      ),
-                      Text(
-                        "${myProvider.dataProducts[index].stock} disponibles",
-                        style: TextStyle(
-                          color: _indexProduct.contains(index)? colorGreen :  colorText,
-                          fontSize: size.width / 22,
-                          fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                        ),
-                      ),
-                    ]
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
-                          style: TextStyle(
-                            color: _indexProduct.contains(index)? colorGreen :  colorText,
-                            fontSize: size.width / 22,
-                            fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                          ),
-                        )
-                      ),
-                    ]
-                  )
-                ],
+              },
+              title: Text(
+                myProvider.dataProducts[index].name,
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontSize: 15 * scaleFactor,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                ),
               ),
-              
+              subtitle: Text(
+                "${myProvider.dataProducts[index].stock} disponibles",
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontSize: 15 * scaleFactor,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
+              trailing: Text(
+                showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontSize: 15 * scaleFactor,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
             );
           }
         )
@@ -324,7 +268,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
           itemCount: myProvider.dataServices.length,
           itemBuilder:  (BuildContext ctxt, int index) {
-            return GestureDetector(
+            return ListTile(
               onTap: () async {
                 if(_statusCharge){
                   addProductsServices(myProvider.dataServices[index]);
@@ -342,41 +286,23 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   myProvider.dataSelectProduct = null;
                   nextPage(NewProductServicePage());
                 }
-              }, 
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children : <Widget>[
-                      Text(
-                        myProvider.dataServices[index].name,
-                        style: TextStyle(
-                          color: _indexService.contains(index)? colorGreen : colorText,
-                          fontSize: size.width / 22,
-                          fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
-                        ),
-                      ),
-                    ]
-                  ),
-                  Column(
-                    children: <Widget>[
-                      Container(
-                        child: Text(
-                          showPrice(myProvider.dataServices[index].price, myProvider.dataServices[index].coin),
-                          style: TextStyle(
-                            color: _indexService.contains(index)? colorGreen : colorText,
-                            fontSize: size.width / 22,
-                            fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
-                          ),
-                        )
-                      ),
-                    ]
-                  )
-                ],
+              },
+              title: Text(
+                myProvider.dataServices[index].name,
+                style: TextStyle(
+                  color: _indexService.contains(index)? colorGreen : colorText,
+                  fontSize: 15 * scaleFactor,
+                  fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
+                ),
               ),
-              
+              trailing: Text(
+                showPrice(myProvider.dataServices[index].price, myProvider.dataServices[index].coin),
+                style: TextStyle(
+                  color: _indexService.contains(index)? colorGreen : colorText,
+                  fontSize: 15 * scaleFactor,
+                  fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
+                ),
+              ),
             );
           }
         )
@@ -419,7 +345,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget listCategory(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return  ListView.separated(
       separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.transparent,),
       padding: EdgeInsets.fromLTRB(45, 20, 30, 10),
@@ -443,7 +369,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 myProvider.dataCategories[index].name,
                 style: TextStyle(
                   color: _selectCategories== index+1? colorGreen : Colors.grey,
-                  fontSize: size.width / 22,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
               Visibility(
@@ -459,6 +385,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget buttonCreateProductService(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -492,7 +419,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             _statusDropdown == "Categoría"? "CREAR CATEGORÍA" : myProvider.selectProductsServices == 0? "CREAR PRODUCTO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -502,6 +429,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   Widget buttonCharge(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -537,7 +465,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                     fontWeight: FontWeight.w500,
                   ),
                 ),
@@ -578,6 +506,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   showProductCategories(idCategories){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     if(_listProductsServicesCategories.length>0)
       return Container(
@@ -626,7 +555,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                           _listProductsServicesCategories[index].name,
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: size.width / 22,
+                            fontSize: 15 * scaleFactor,
                           ),
                         ),
                         myProvider.selectProductsServices == 0? 
@@ -634,7 +563,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                             "${_listProductsServicesCategories[index].stock} disponibles",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 22,
+                              fontSize: 15 * scaleFactor,
                             ),
                           )
                         :
@@ -648,7 +577,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                             showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 22,
+                              fontSize: 15 * scaleFactor,
                             ),
                           )
                         ),
@@ -688,7 +617,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     setState(() {
       _listProductsServicesCategories = listProductsServicesCategories;
     });
-    print(_listProductsServicesCategories.length);
   }
 
   showPrice(price, coin){

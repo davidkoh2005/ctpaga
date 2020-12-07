@@ -40,6 +40,7 @@ class _DepositsPageState extends State<DepositsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -91,8 +92,8 @@ class _DepositsPageState extends State<DepositsPage> {
                                     padding: EdgeInsets.only(top: 20, right:30),
                                     child: _controller != null?
                                         Container(
-                                            width: size.width/3.5,
-                                            height: size.width/3.5,
+                                            width: size.width/4,
+                                            height: size.width/4,
                                             child: VideoPlayer(_controller),
                                           )
                                       :
@@ -106,7 +107,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     child: Text(
                                       "PROXIMO DEPÓSITO",
                                       style:  TextStyle(
-                                        fontSize: size.width / 20,
+                                        fontSize: 15 * scaleFactor,
                                         color: colorGrey
                                       ),
                                     ),
@@ -116,7 +117,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                   child: Text(
                                     showDeposits(myProvider),
                                     style:  TextStyle(
-                                      fontSize: size.width / 10,
+                                      fontSize: 32 * scaleFactor,
                                     ),
                                   ),
                                 ),
@@ -143,7 +144,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                           'No podemos enviarte tu dinero',
                                           style: TextStyle(
                                             color: Colors.white,
-                                            fontSize: size.width / 20,
+                                            fontSize: 15 * scaleFactor,
                                           ),
                                         ),
                                       ),
@@ -158,7 +159,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                         "Necesitamos que completes la información marcada en rojo debajo",
                                         textAlign: TextAlign.center,
                                         style:  TextStyle(
-                                          fontSize: size.width / 20,
+                                          fontSize: 15 * scaleFactor,
                                           color: colorGrey
                                         ),
                                       )
@@ -172,7 +173,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     child: Text(
                                       "INFORMACIÓN DEL DEPÓSITO",
                                       style:  TextStyle(
-                                        fontSize: size.width / 20,
+                                        fontSize: 15 * scaleFactor,
                                         color: colorGrey
                                       ),
                                     ),
@@ -188,7 +189,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
                                     textAlign: TextAlign.center,
                                     style:  TextStyle(
-                                      fontSize: size.width / 20,
+                                      fontSize: 15 * scaleFactor,
                                       color: colorGrey
                                     ),
                                   ),
@@ -199,7 +200,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     "El depósito te llegara dos dias habiles despues",
                                     textAlign: TextAlign.center,
                                     style:  TextStyle(
-                                      fontSize: size.width / 20,
+                                      fontSize: 15 * scaleFactor,
                                       color: colorGrey
                                     ),
                                   ),
@@ -240,7 +241,7 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   dropdownList(index, title, myProvider){
-
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -286,7 +287,7 @@ class _DepositsPageState extends State<DepositsPage> {
             child: Text(
               listMenuDeposits[index]['title'],
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
                 color: _statusButton.contains(index)? Colors.white : Colors.black,
               ),
             ),

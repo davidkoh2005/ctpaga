@@ -57,6 +57,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
 
   formDataSales(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Column(
@@ -70,7 +71,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               "COBRAR",
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -85,7 +86,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 showTotal(),
                 textAlign: TextAlign.center,
                 style:  TextStyle(
-                  fontSize: size.width / 10,
+                  fontSize: 30 * scaleFactor,
                 ),
               ),
             ),
@@ -94,7 +95,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               child: Text(
                 "por $_totalProducts ${_totalProducts >1?'artículos':'artículo'}",
                 style: TextStyle(
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                   color: colorText,
                 ),
               ),
@@ -107,7 +108,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             child: Text(
               "A",
               style: TextStyle(
-                fontSize: size.width / 15,
+                fontSize: 25 * scaleFactor,
                 color: colorText,
               ),
             ),
@@ -121,20 +122,20 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               padding: EdgeInsets.only(top:30),
               child: myProvider.avatarClient.length ==0? 
                 CircleAvatar(
-                  minRadius: size.width / 8,
-                  maxRadius: size.width / 8,
+                  minRadius: size.width / 10,
+                  maxRadius: size.width / 10,
                   child: Text(
                     myProvider.initialsClient,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: size.width / 15,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
                   backgroundColor: colorGreen,
                 )
               : CircleAvatar(
-                  minRadius: size.width / 8,
-                  maxRadius: size.width / 8,
+                  minRadius: size.width / 10,
+                  maxRadius: size.width / 10,
                   backgroundImage: MemoryImage(myProvider.avatarClient),
                 )
             ),
@@ -153,7 +154,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               child: Text(
                 "Nuevo cliente",
                 style: TextStyle(
-                  fontSize: size.width / 22,
+                  fontSize: 15 * scaleFactor,
                   color: colorText,
                 ),
               ),
@@ -171,6 +172,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
   }
 
   Widget buttonContinue(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(),
@@ -197,7 +199,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             "CONTINUAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

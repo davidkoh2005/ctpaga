@@ -48,7 +48,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   }
 
   Widget formCommerce(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyCategory,
       child: Column(
@@ -62,7 +62,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 "NOMBRE DEL LA CATEGORÍA",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 17,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -91,7 +91,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               ),
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 17,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -101,6 +101,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   }
 
   Widget buttonSave(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveCategory(),
@@ -127,7 +128,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             "GUARDAR CATEGORÍA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -192,6 +193,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -227,7 +229,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -240,7 +242,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
 
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -270,14 +272,14 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

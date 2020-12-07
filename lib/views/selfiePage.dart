@@ -49,6 +49,7 @@ class _SelfiePageState extends State<SelfiePage> {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -93,7 +94,7 @@ class _SelfiePageState extends State<SelfiePage> {
                       "Tomar Foto",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: size.width / 20,
+                        fontSize: 15 * scaleFactor,
                       ),
                     ),
                   ),
@@ -107,6 +108,7 @@ class _SelfiePageState extends State<SelfiePage> {
   }
 
   Widget showInstructionsOrCamera(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     var parser = EmojiParser();
 
@@ -128,7 +130,7 @@ class _SelfiePageState extends State<SelfiePage> {
                 "Necesitamos una foto de tu cara (Sin Lentes ${parser.emojify(':sunglasses:')} ) para comparar con tu identificacion y cumplir con regulaciones finacieras.",
                 textAlign: TextAlign.center,
                 style:  TextStyle(
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                   color: colorText
                 ),
               ),
@@ -156,7 +158,7 @@ class _SelfiePageState extends State<SelfiePage> {
                         "Coloca tu cara dentro del cuadro blanco y toma foto",
                         textAlign: TextAlign.center,
                         style:  TextStyle(
-                          fontSize: size.width / 20,
+                          fontSize: 15 * scaleFactor,
                           color: Colors.white,
                         ),
                       )
@@ -237,6 +239,7 @@ class _SelfiePageState extends State<SelfiePage> {
   }
 
   Future<void> showMessage(_titleMessage) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -264,7 +267,7 @@ class _SelfiePageState extends State<SelfiePage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -276,7 +279,7 @@ class _SelfiePageState extends State<SelfiePage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -306,14 +309,14 @@ class _SelfiePageState extends State<SelfiePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

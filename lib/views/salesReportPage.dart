@@ -87,11 +87,11 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 },
                 child: Container(
                   alignment: Alignment.centerRight,
-                  padding: EdgeInsets.only(top: 20, right:30),
+                  padding: !_statusMenuBar? EdgeInsets.only(top: 0, right:30) : EdgeInsets.only(top: 25, right:30),
                   child: _controller != null?
                       Container(
-                          width: size.width/3.5,
-                          height: size.width/3.5,
+                          width: size.width/4,
+                          height: size.width/4,
                           child: VideoPlayer(_controller),
                         )
                     :
@@ -116,6 +116,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget showReport(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -131,7 +132,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                         showDate(),
                         style: TextStyle(
                           color: colorText,
-                          fontSize: size.width / 22,
+                          fontSize: 18 * scaleFactor,
                         ),
                       ),
                     ),
@@ -141,7 +142,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     child: Text(
                       showSales(),
                       style:  TextStyle(
-                        fontSize: size.width / 8,
+                        fontSize: 35 * scaleFactor,
                       ),
                     )
                   ),
@@ -169,7 +170,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                             'No podemos enviarte tu dinero',
                             style: TextStyle(
                               color: Colors.white,
-                              fontSize: size.width / 20,
+                              fontSize: 15 * scaleFactor,
                             ),
                           ),
                         ),
@@ -182,7 +183,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                       "Necesitamos que completes la información que aparece en el Banco",
                       textAlign: TextAlign.center,
                       style:  TextStyle(
-                        fontSize: size.width / 25,
+                        fontSize:  15 * scaleFactor,
                         color: colorText
                       ),
                     )
@@ -235,7 +236,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Widget showButtonDate(index){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: () => setState(() => _statusButtonDate = index),
       child: Container(
@@ -257,7 +258,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 25,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -267,7 +268,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget showTable(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Padding(
       padding: EdgeInsets.only(top: 20, bottom:20),
       child: DataTable(
@@ -278,7 +279,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -287,7 +288,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               'Fecha',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -296,7 +297,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               'Precio',
               style: TextStyle(
                 fontStyle: FontStyle.italic,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),

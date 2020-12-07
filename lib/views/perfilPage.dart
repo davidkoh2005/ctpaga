@@ -2,6 +2,7 @@ import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/updatePasswordPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
@@ -88,6 +89,7 @@ class _PerfilPageState extends State<PerfilPage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
@@ -126,7 +128,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                   child: Text(
                                     myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
                                     style: TextStyle(
-                                      fontSize: size.width / 14,
+                                      fontSize: 15 * scaleFactor,
                                       color: colorText,
                                     ),
                                   ),
@@ -173,7 +175,7 @@ class _PerfilPageState extends State<PerfilPage> {
                                           child: Text(
                                             commerce.name,
                                             style: TextStyle(
-                                              fontSize: size.width / 15,
+                                              fontSize: 20 * scaleFactor,
                                               color: colorText,
                                             ),
                                           )
@@ -315,7 +317,7 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showModalBottomSheet(
       context: context,
@@ -336,7 +338,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   title: new Text(
                     "Galeria",
                     style: TextStyle(
-                      fontSize: size.width / 20,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.gallery),       
@@ -346,7 +348,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   title: new Text(
                     "Camara",
                     style: TextStyle(
-                      fontSize: size.width / 20,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.camera),          
@@ -423,6 +425,7 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Widget dropdownList(_title){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: 	EdgeInsets.only(top: 5, bottom: 5),
@@ -438,14 +441,14 @@ class _PerfilPageState extends State<PerfilPage> {
           padding: EdgeInsets.only(left: 30, right: 30),
           width: size.width,
           height: 50,
-          color: colorGrey,
+          color: colorGreyOpacity,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               Text(
                 _title,
                 style: TextStyle(
-                  fontSize: size.width / 20,
+                  fontSize: 20 * scaleFactor,
                 ),
               ),
               Icon(
@@ -668,7 +671,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Widget formUser(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     
     return new Form(
       key: _formKeyUser,
@@ -707,12 +710,13 @@ class _PerfilPageState extends State<PerfilPage> {
           Align(
             alignment: Alignment.center,
             child: FlatButton(
-              onPressed: null,//TODO: Boton
+          
+              onPressed: () => nextPage(),
               child: Text(
                 "Cambiar contraseña",
                 style: TextStyle(
                   color: Colors.black87,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                   decoration: TextDecoration.underline,
                 )
               ),
@@ -832,6 +836,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     if(_statusCoin == 0){
       setState(() {
@@ -948,7 +953,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: size.width / 20),
+                          SizedBox(width: 15 * scaleFactor),
                           Expanded(child: Text(result['title']),),
                         ],
                       ),
@@ -964,7 +969,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: size.width / 20),
+                          SizedBox(width: 15 * scaleFactor),
                           Expanded(child: Text(result['title']),),
                         ],
                       ),
@@ -1198,7 +1203,7 @@ class _PerfilPageState extends State<PerfilPage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: size.width / 20),
+                          SizedBox(width: 15 * scaleFactor),
                           Expanded(child: Text(result['title']),),
                         ],
                       ),
@@ -1365,6 +1370,7 @@ class _PerfilPageState extends State<PerfilPage> {
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   Widget buttonSave(button){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(left:30, right:30, bottom:30),
@@ -1413,7 +1419,7 @@ class _PerfilPageState extends State<PerfilPage> {
               "GUARDAR",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -1622,15 +1628,13 @@ class _PerfilPageState extends State<PerfilPage> {
     return parametersUrl.substring(0, parametersUrl.length-1);
   }
 
-  nextPage(page, index)async{
-    //setState(() =>statusButton.add(index));
+  nextPage()async{
     await Future.delayed(Duration(milliseconds: 150));
-    //setState(() =>statusButton.remove(index));
-    Navigator.push(context, SlideLeftRoute(page: page));
+    Navigator.push(context, SlideLeftRoute(page: UpdatePasswordPage()));
   }
   
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -1660,14 +1664,14 @@ class _PerfilPageState extends State<PerfilPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]
@@ -1683,6 +1687,7 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1718,7 +1723,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),

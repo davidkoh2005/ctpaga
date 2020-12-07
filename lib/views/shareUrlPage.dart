@@ -36,7 +36,27 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Expanded(
-                child: showUrls(),
+                child: showData(),
+              ),
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children : [
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: buttonNetworks("WhatsApp", 1)
+                    ),      
+                    
+                    Padding(
+                      padding: EdgeInsets.only(top: 30),
+                      child: buttonNetworks("Compartir", 2)
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 30, bottom: 30),
+                      child: buttonNetworks("Copiar Link", 3)
+                    ),
+                  ]
+                ),
               ),
               Padding(
                 padding: EdgeInsets.only(top: 30, bottom: 60),
@@ -49,22 +69,22 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
     );
   }
 
-  showUrls(){
+  showData(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
-
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+ 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
       children: <Widget>[
         Padding(
-          padding: const EdgeInsets.fromLTRB(30.0, 100.0, 30.0, 0.0),
+          padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
           child: Container(
             child: Text(
               "COBRO DE",
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -76,7 +96,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             showTotal(),
             textAlign: TextAlign.center,
             style:  TextStyle(
-              fontSize: size.width / 10,
+              fontSize: 30 * scaleFactor,
             ),
           ),
         ),
@@ -86,7 +106,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
           child: Text(
             "${myProvider.nameClient} puede pagar en:",
             style: TextStyle(
-              fontSize: size.width / 17,
+              fontSize: 18 * scaleFactor,
               color: colorText,
             ),
           ),
@@ -100,7 +120,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               "ctpaga.compralotodo.com",
               style: TextStyle(
                 color: colorGreen,
-                fontSize: size.width / 18,
+                fontSize: 18 * scaleFactor,
                 fontWeight: FontWeight.w500,
               ),
           ),
@@ -112,7 +132,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
           child: Text(
             "Escoge como enviar",
             style: TextStyle(
-              fontSize: size.width / 17,
+              fontSize: 18 * scaleFactor,
               color: colorText,
             ),
           ),
@@ -121,30 +141,17 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
           child: Text(
             "tu cobro:",
             style: TextStyle(
-              fontSize: size.width / 17,
+              fontSize: 18 * scaleFactor,
               color: colorText,
             ),
           ),
-        ),
-
-        Padding(
-          padding: EdgeInsets.only(top: 60),
-          child: buttonNetworks("WhatsApp", 1)
-        ),      
-        
-        Padding(
-          padding: EdgeInsets.only(top: 30),
-          child: buttonNetworks("Compartir", 2)
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 30, bottom: 60),
-          child: buttonNetworks("Copiar Link", 3)
         ),
       ],
     );
   }
 
   Widget buttonNetworks(_title, index){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(index),
@@ -181,7 +188,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               _title,
               style: TextStyle(
                 color: _statusButtonNetworks == index? Colors.white : colorGreen,
-                fontSize: size.width / 18,
+                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
               ),
             ),
@@ -192,6 +199,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
   }
 
   Widget buttonReady(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(0),
@@ -218,7 +226,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             "LISTO",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

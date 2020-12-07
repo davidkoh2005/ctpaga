@@ -23,7 +23,7 @@ class _AmountPageState extends State<AmountPage> {
   final FocusNode _priceFocus = FocusNode();
   final _controllerDescription = TextEditingController();
   String _description, _price='';
-  bool _statusSales = false,  _statusButtonCharge = false;
+  bool _statusSalesProducts = false, _statusSalesServices = false,  _statusButtonCharge = false;
   double _total = 0.0;
 
   @override
@@ -94,6 +94,7 @@ class _AmountPageState extends State<AmountPage> {
   }
 
   Widget formQuantity(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -114,7 +115,7 @@ class _AmountPageState extends State<AmountPage> {
                       "${lowAmount.text}",
                       style: TextStyle(
                       color: colorText,
-                      fontSize: size.width / 6.5,
+                      fontSize: 35 * scaleFactor,
                       fontWeight: FontWeight.w800,
                       ),
                     ),
@@ -144,7 +145,7 @@ class _AmountPageState extends State<AmountPage> {
                         hintText: "AGREGAR DESCRIPCIÓN",
                         hintStyle: TextStyle(
                           color: colorGrey,
-                          fontSize: size.width / 20,
+                          fontSize: 15 * scaleFactor,
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -152,18 +153,60 @@ class _AmountPageState extends State<AmountPage> {
                       ),
                       style: TextStyle(
                         color: colorText,
-                        fontSize: size.width / 20,
+                        fontSize: 15 * scaleFactor,
                       ),
                     ),
                   ),
 
-                  GestureDetector(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      GestureDetector(
+                        onTap: () {
+                          myProvider.selectProductsServices = 0;
+                          setState(() => _statusSalesProducts = true);
+                          nextPage(ProductsServicesPage(true));
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 15, right: 15),
+                          height: size.height / 20,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: colorGrey, 
+                              width: 1.0,
+                            ),
+                            gradient: LinearGradient(
+                              colors: [
+                                _statusSalesProducts? colorGreen : colorGrey,
+                                _statusSalesProducts? colorGreen : colorGrey,
+                              ],
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                            ),
+                            borderRadius: BorderRadius.circular(30),
+
+                          ),
+                          child: Center(
+                            child: Text(
+                              "AGREGAR VENTAS",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15 * scaleFactor,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+
+                      GestureDetector(
                     onTap: () {
-                      setState(() => _statusSales = true);
+                      myProvider.selectProductsServices = 1;
+                      setState(() => _statusSalesServices = true);
                       nextPage(ProductsServicesPage(true));
                     },
                     child: Container(
-                      width:size.width - 100,
+                      padding: EdgeInsets.only(left: 15, right: 15),
                       height: size.height / 20,
                       decoration: BoxDecoration(
                         border: Border.all(
@@ -172,8 +215,8 @@ class _AmountPageState extends State<AmountPage> {
                         ),
                         gradient: LinearGradient(
                           colors: [
-                            _statusSales? colorGreen : colorGrey,
-                            _statusSales? colorGreen : colorGrey,
+                            _statusSalesServices? colorGreen : colorGrey,
+                            _statusSalesServices? colorGreen : colorGrey,
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -183,19 +226,28 @@ class _AmountPageState extends State<AmountPage> {
                       ),
                       child: Center(
                         child: Text(
-                          "AGREGAR VENTAS",
+                          "AGREGAR SERVICIOS",
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                             fontWeight: FontWeight.w500,
                           ),
                         ),
                       ),
                     ),
                   ),
+                    ],
+                  ),
 
-                  numPad(),
-                  buttonCharge(myProvider),
+
+                  Padding(
+                    padding: EdgeInsets.only(top:10),
+                    child: numPad()
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(top:30),
+                    child: buttonCharge(myProvider)
+                  ),
                   SizedBox(height:80),
 
                 ]
@@ -285,7 +337,8 @@ class _AmountPageState extends State<AmountPage> {
       if(item['data'].id == 0){
         _statusDataAmount = true;
         item['data'].price = result;
-        item['data'].name = _controllerDescription.text;
+        item['data'].name = _controllerDescription.text.length != 0? _controllerDescription.text : "Sin descripción";
+        item['data'].coin = myProvider.coinUsers;
       }
 
       _listPurchase.add(item);
@@ -300,7 +353,8 @@ class _AmountPageState extends State<AmountPage> {
 
       _listPurchase.add({
         "data" :productAmount,
-        "quantity" : 1
+        "quantity" : 1,
+        "type": 0,
       });
     }
 
@@ -312,6 +366,7 @@ class _AmountPageState extends State<AmountPage> {
 
 
   Widget buttonCharge(myProvider){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -342,7 +397,7 @@ class _AmountPageState extends State<AmountPage> {
             myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -353,10 +408,11 @@ class _AmountPageState extends State<AmountPage> {
 
   nextPage(page)async{
     await Future.delayed(Duration(milliseconds: 150));
-    if(_statusSales)
-      setState(() => _statusSales = false);
-    else if (_statusButtonCharge)
-      setState(() => _statusButtonCharge = false);
+    setState(() {
+      _statusSalesProducts = false;
+      _statusSalesServices = false;
+      _statusButtonCharge = false;
+    });
     
     Navigator.push(context, SlideLeftRoute(page: page));
   }

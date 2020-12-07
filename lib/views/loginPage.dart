@@ -171,6 +171,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget buttonLogin(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -207,7 +208,7 @@ class _LoginPageState extends State<LoginPage> {
             'Ingresar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -217,6 +218,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget buttonRegister(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -256,7 +258,7 @@ class _LoginPageState extends State<LoginPage> {
             'Regístrate',
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -355,7 +357,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -385,14 +387,14 @@ class _LoginPageState extends State<LoginPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

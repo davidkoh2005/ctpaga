@@ -47,9 +47,10 @@ class _ListSalesPageState extends State<ListSalesPage> {
   }
 
   Widget showList(myProvider){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Container(
-      height: myProvider.dataPurchase.length < 8? (myProvider.dataPurchase.length*(size.height-230)/7) : size.height-230,
+      height: myProvider.dataPurchase.length < 8? (myProvider.dataPurchase.length*(size.height-120)/7) : size.height-230,
       child: Scrollbar(
         controller: _scrollController, 
         isAlwaysShown: true,
@@ -69,7 +70,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                   height: size.width / 5,
                   width: size.width / 5,
                   child: Card(
-                    color: colorGrey,
+                    color: colorGreyOpacity,
                     shape: StadiumBorder(
                       side: BorderSide(
                         color: colorGreen,
@@ -92,7 +93,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                               child: Text(
                                 myProvider.dataPurchase[index]['quantity'].toString(),
                                 style: TextStyle(
-                                  fontSize: size.width / 20,
+                                  fontSize: 15 * scaleFactor,
                                 ),
                               )
                             ),
@@ -102,9 +103,9 @@ class _ListSalesPageState extends State<ListSalesPage> {
                           child: Container(
                             padding: EdgeInsets.only(left: 20),
                             child: Text(
-                              myProvider.dataPurchase[index]['data'].name,
+                              myProvider.dataPurchase[index]['data'].name.length != 0? myProvider.dataPurchase[index]['data'].name :  "Sin descripción",
                               style: TextStyle(
-                                fontSize: size.width / 20,
+                                fontSize: 15 * scaleFactor,
                               ),
                             ),
                           ),
@@ -115,7 +116,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                             child: Text(
                               showPrice(myProvider.dataPurchase[index]['data'].price, myProvider.dataPurchase[index]['data'].coin),
                               style: TextStyle(
-                                fontSize: size.width / 20,
+                                fontSize: 15 * scaleFactor,
                               ),
                             ),
                           ),
@@ -178,6 +179,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
   }
 
   Widget buttonCharge(myProvider){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -210,7 +212,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
               myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.width / 18,
+                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
               ),
             )

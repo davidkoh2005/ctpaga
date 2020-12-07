@@ -49,7 +49,6 @@ class _MainPageState extends State<MainPage> {
     }else{
        _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
     }
-    print("coin: $_statusCoin");
     _controller.initialize();
   }
 
@@ -118,6 +117,7 @@ class _MainPageState extends State<MainPage> {
   
 
   Widget buttonMain(_title, _index, _page){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -145,7 +145,8 @@ class _MainPageState extends State<MainPage> {
               _title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
+                fontWeight: FontWeight.bold,
               ),
             ),
           ),
@@ -162,6 +163,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -198,7 +200,7 @@ class _MainPageState extends State<MainPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),

@@ -67,6 +67,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return WillPopScope(
@@ -87,7 +88,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 child: Text(
                   "Cobrando...",
                   style: TextStyle(
-                    fontSize: size.width / 15,
+                    fontSize: 15 * scaleFactor,
                     color: colorText,
                   ),
                 ),
@@ -105,6 +106,7 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -140,7 +142,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),

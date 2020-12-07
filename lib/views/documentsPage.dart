@@ -51,6 +51,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   Widget build(BuildContext context) {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -95,7 +96,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       "Tomar Foto",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: size.width / 20,
+                        fontSize: 15 * scaleFactor,
                       ),
                     ),
                   ),
@@ -109,6 +110,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Widget showInstructionsOrCamera(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     if(!clickCamera){
@@ -134,7 +136,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   "Necesitamos una foto de tu identificacíon para comparar con tu selfie y cumplir con regulaciones finacieras.",
                   textAlign: TextAlign.center,
                   style:  TextStyle(
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                     color: colorText
                   ),
                 ),
@@ -145,7 +147,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   "Necesitamos una foto de tu RIF para verificar que no sea una empresa falsa.",
                   textAlign: TextAlign.center,
                   style:  TextStyle(
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                     color: colorText
                   ),
                 ),
@@ -182,7 +184,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           "Coloca tu identificacíon dentro del cuadro blanco y toma foto",
                           textAlign: TextAlign.center,
                           style:  TextStyle(
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                             color: Colors.white,
                           ),
                         )
@@ -196,7 +198,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           "Coloca tu registro jurídico dentro del cuadro blanco y toma foto",
                           textAlign: TextAlign.center,
                           style:  TextStyle(
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                             color: Colors.white,
                           ),
                         )
@@ -276,6 +278,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Future<void> showMessage(_titleMessage,) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -303,7 +306,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -315,7 +318,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -345,14 +348,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

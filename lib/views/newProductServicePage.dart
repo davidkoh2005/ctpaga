@@ -177,6 +177,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
   Widget formProduct(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Expanded(
@@ -202,7 +203,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Nombre",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -241,7 +242,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: size.width / 17,
+                          fontSize: 18 * scaleFactor,
                         ),
                       ),
                     ),
@@ -255,7 +256,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Precio",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -286,7 +287,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: size.width / 11,
+                          fontSize: 30 * scaleFactor,
                           color: colorGrey,
                         ),
                         decoration: InputDecoration(
@@ -308,7 +309,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Descrición (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -330,7 +331,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: size.width / 17,
+                          fontSize: 18 * scaleFactor,
                         ),
                       ),
                     ),
@@ -343,7 +344,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Categorías (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -369,7 +370,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               ),
                             ),
                             style: TextStyle(
-                              fontSize: size.width / 17,
+                              fontSize: 18 * scaleFactor,
                             ),
                           ),
                         );
@@ -384,7 +385,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -401,7 +402,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                 "Publicar",
                                 style: TextStyle(
                                   color: colorText,
-                                  fontSize: size.width / 25,
+                                  fontSize: 15 * scaleFactor,
                                 ),
                               ),
                               Container(
@@ -410,7 +411,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   "Mostrar en el catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: size.width / 25,
+                                    fontSize: 15 * scaleFactor,
                                   ),
                                 )
                               ),
@@ -449,7 +450,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             "Cantidad disponible",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 17,
+                              fontSize: 18 * scaleFactor,
                             ),
                           ),
                         ),
@@ -471,13 +472,13 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           cursorColor: colorGreen,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: size.width / 11,
+                            fontSize: 30 * scaleFactor,
                             color: colorGrey,
                           ),
                           decoration: InputDecoration(
                             hintText: "0",
                             hintStyle: TextStyle(
-                              fontSize: size.width / 10,
+                              fontSize: 30 * scaleFactor,
                               color: colorGrey,
                             ),
                             enabledBorder: InputBorder.none,
@@ -499,7 +500,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               "Llevar inventario del ${myProvider.selectProductsServices == 0? 'producto' : 'servico'}",
                               style: TextStyle(
                                 color: colorText,
-                                fontSize: size.width / 25,
+                                fontSize: 15 * scaleFactor,
                               ),
                             ),
                           ],
@@ -523,7 +524,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           "Correo post-compra",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 17,
+                            fontSize: 18 * scaleFactor,
                           ),
                         ),
                       ),
@@ -541,7 +542,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   "Enviar automaticamente",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: size.width / 20,
+                                    fontSize: 16 * scaleFactor,
                                   ),
                                 )
                               ),
@@ -551,7 +552,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   "Enviar correo personalizado automaticamente luego de la compra",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: size.width / 30,
+                                    fontSize: 13 * scaleFactor,
                                   ),
                                 ),
                               ),
@@ -591,7 +592,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             "Contenido del correo",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: size.width / 17,
+                              fontSize: 18 * scaleFactor,
                             ),
                           ),
                         ),
@@ -617,7 +618,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             ),
                           ),
                           style: TextStyle(
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           ),
                         ),
                       ),
@@ -704,7 +705,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showModalBottomSheet(
       context: context,
@@ -725,7 +726,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   title: new Text(
                     "Galeria",
                     style: TextStyle(
-                      fontSize: size.width / 20,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.gallery),       
@@ -735,7 +736,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   title: new Text(
                     "Camara",
                     style: TextStyle(
-                      fontSize: size.width / 20,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.camera),          
@@ -784,6 +785,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
   Widget buttonNewProductService(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -815,7 +817,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             myProvider.selectProductsServices == 0? myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -825,6 +827,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Widget buttonDeleteProductService(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteProductService(),
@@ -852,7 +855,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             "ELIMINAR PRODUCTO",
             style: TextStyle(
               color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -1100,6 +1103,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1135,7 +1139,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -1147,7 +1151,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -1177,14 +1181,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

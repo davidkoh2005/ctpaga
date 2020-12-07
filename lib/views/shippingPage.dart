@@ -88,7 +88,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget statusSend(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       children: <Widget>[
         Padding(
@@ -98,7 +98,7 @@ class _ShippingPageState extends State<ShippingPage> {
             child: Text(
               "Envío de Productos",
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
                 color: colorText,
               )
             )
@@ -116,7 +116,7 @@ class _ShippingPageState extends State<ShippingPage> {
             "Activa pedir información y cobrar por envíos a tus clientes",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               color: colorText,
             )
           ),
@@ -126,6 +126,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget formShipping(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -142,7 +143,7 @@ class _ShippingPageState extends State<ShippingPage> {
                         "DETALLES DE ENVIOS (OPTIONAL)",
                         style: TextStyle(
                           color: colorText,
-                          fontSize: size.width / 22,
+                          fontSize: 15 * scaleFactor,
                         ),
                       ),
                     ),
@@ -167,7 +168,7 @@ class _ShippingPageState extends State<ShippingPage> {
                         ),
                       ),
                       style: TextStyle(
-                        fontSize: size.width / 20,
+                        fontSize: 15 * scaleFactor,
                       ),
                     ),
                   ),
@@ -192,7 +193,7 @@ class _ShippingPageState extends State<ShippingPage> {
                           "TARIFAS DE ENVÍO",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: size.width / 22,
+                            fontSize: 15 * scaleFactor,
                           ),
                         )
                       ),
@@ -202,7 +203,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   Visibility(
                     visible: !_statusMsg,
                     child: Container(
-                      height: size.height - 620,
+                      height: size.height - 520,
                       child:Scrollbar(
                         controller: _scrollControllerShipping, 
                         isAlwaysShown: true,
@@ -225,7 +226,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                         myProvider.dataShipping[index].description,
                                         style: TextStyle(
                                           color: Colors.grey,
-                                          fontSize: size.width / 20,
+                                          fontSize: 15 * scaleFactor,
                                         ),
                                       ),
                                     ),
@@ -234,7 +235,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                         showPrice(myProvider.dataShipping[index].price, myProvider.dataShipping[index].coin),
                                         style: TextStyle(
                                           color: colorText,
-                                          fontSize: size.width / 20,
+                                          fontSize: 15 * scaleFactor,
                                         ),
                                       )
                                     ),
@@ -283,6 +284,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget formMsg(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -296,7 +298,7 @@ class _ShippingPageState extends State<ShippingPage> {
               "¡Agrega tus tarifas y cóbrale a tus clientes por el envío!",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
                 color: colorText,
               )
             )
@@ -305,7 +307,7 @@ class _ShippingPageState extends State<ShippingPage> {
               "¡Activa envíos para pedirle a tu cliente su dirección y cobrarle el envío!",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
                 color: colorText,
               )
             ),
@@ -316,6 +318,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget newShipping(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(NewShippingPage(null)),
@@ -342,7 +345,7 @@ class _ShippingPageState extends State<ShippingPage> {
             "CREAR TARIFA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -352,6 +355,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget buttonStatus(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -381,7 +385,7 @@ class _ShippingPageState extends State<ShippingPage> {
             !_statusButtonShipping? "ACTIVAR" : "DESACTIVAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -400,6 +404,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Future<void> showMessage(_titleMessage) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -428,7 +433,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),

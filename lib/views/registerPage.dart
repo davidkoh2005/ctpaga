@@ -268,6 +268,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Widget buttonRegister(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -304,7 +305,7 @@ class _RegisterPageState extends State<RegisterPage> {
             'Registrar Cuenta',
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -384,7 +385,7 @@ class _RegisterPageState extends State<RegisterPage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -414,14 +415,14 @@ class _RegisterPageState extends State<RegisterPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

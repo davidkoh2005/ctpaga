@@ -21,7 +21,7 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Row(
       children: <Widget>[
@@ -60,7 +60,7 @@ class _MenuPageState extends State<MenuPage> {
                             child: Text(
                               listMenu[index]['title'],
                               style: TextStyle(
-                                fontSize: size.width / 20,
+                                fontSize: 15 * scaleFactor,
                                 color: statusButton.contains(index)? Colors.black : Colors.white,
                                 fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
                               ),

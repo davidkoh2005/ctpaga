@@ -79,6 +79,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Widget buttonSend(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -115,7 +116,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             'Enviar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

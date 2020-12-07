@@ -54,10 +54,12 @@ class _NewSalesPageState extends State<NewSalesPage> {
                 children: <Widget>[
                   Navbar("Nuevo Cobro", true),
                   Expanded(
-                    child: formNewSales(),
+                    child: SingleChildScrollView(
+                      child: formNewSales(),
+                    ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(bottom: 30),
+                    padding: EdgeInsets.only(top: 30, bottom: 30),
                     child: buttonContinue()
                   ),
                 ],
@@ -79,7 +81,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   formNewSales(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -91,7 +93,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
               "CLIENTE",
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -121,7 +123,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             ),
             style: TextStyle(
               color: colorText,
-              fontSize: size.width / 15,
+              fontSize: 15 * scaleFactor,
             ),
           ),
         ),
@@ -132,7 +134,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               color: colorText,
-              fontSize: size.width / 22,
+              fontSize: 18 * scaleFactor,
             ),
           ),
         ),
@@ -142,6 +144,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Widget buttonSearch(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
@@ -173,7 +176,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             "BUSCAR CLIENTE",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -183,6 +186,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Widget buttonContinue(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -212,7 +216,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             "CONTINUAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -298,7 +302,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -328,14 +332,14 @@ class _NewSalesPageState extends State<NewSalesPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

@@ -10,31 +10,26 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class NewCommercePage extends StatefulWidget {
+class UpdatePasswordPage extends StatefulWidget {
   
   @override
-  _NewCommercePageState createState() => _NewCommercePageState();
+  _UpdatePasswordPageState createState() => _UpdatePasswordPageState();
 }
 
-class _NewCommercePageState extends State<NewCommercePage> {
-  final _formKeyCommerce = new GlobalKey<FormState>();
+class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
+  final _formKeyChangePassword = new GlobalKey<FormState>();
   final _controllerUser = TextEditingController();
-  bool _statusButtonSave = false, _statusName = false, _statusUser = false;
-  String _name, _userUrl;
+  bool _statusButtonSave = false, passwordVisible = true;
+  String _passwordCurrent, _password, _passwordConfirm;
 
   void initState() {
     super.initState();
-    initialVariable();
   }
 
   void dispose(){
     super.dispose();
   }
 
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.statusUrlCommerce = false;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +50,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Navbar("Nuevo comercio", false),
+            Navbar("Cambiar contraseña", false),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
@@ -63,7 +58,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 children: <Widget>[
                   Padding(
                     padding: EdgeInsets.only(top: 20),
-                    child: formCommerce()
+                    child: formChangePassword()
                   ),
                 ]
               ),
@@ -78,107 +73,127 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  Widget formCommerce(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+  Widget formChangePassword(){
     return new Form(
-      key: _formKeyCommerce,
+      key: _formKeyChangePassword,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "NOMBRE DEL NEGOCIO",
-                style: TextStyle(
-                  color: colorText,
-                  fontSize: 15 * scaleFactor,
-                ),
-              ),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 5.0, 15.0, 20.0),
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              maxLines: 1,
-              textCapitalization:TextCapitalization.words,
               autofocus: false,
-              validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusName = true ) : setState(() => _statusName = false ),
+              maxLines: 1,
+              keyboardType: TextInputType.text,
+              obscureText: passwordVisible,
+              decoration: new InputDecoration(
+                  labelText: 'Contraseña Actual',
+                  labelStyle: TextStyle(
+                    color: colorGreen
+                  ),
+                  icon: new Icon(
+                    Icons.lock,
+                    color: colorGreen
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                      color: colorGreen
+                      ),
+                    onPressed: () {
+                      setState(() {
+                          passwordVisible = !passwordVisible;
+                      });
+                    },
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorGreen),
+                  ),
+              ),
+              validator: _validatePassword,
+              onSaved: (String value) => _passwordCurrent = value,
+              textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
-              textAlign: TextAlign.center,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color:  Colors.black),
-                ),
-              ),
-              style: TextStyle(
-                color: colorText,
-                fontSize: 15 * scaleFactor,
-              ),
-            ),
-          ),
-
-          Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                "USUARIO",
-                style: TextStyle(
-                  color: colorText,
-                  fontSize: 15 * scaleFactor,
-                ),
-              ),
             ),
           ),
           Padding(
-            padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
-            child: TextFormField(
-              controller: _controllerUser,
-              maxLength: 20,
-              inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\ \s\b|\b\s]")),
-              ],
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+            child: new TextFormField(
+              autofocus: false,
+              maxLines: 1,
+              keyboardType: TextInputType.text,
+              obscureText: passwordVisible,
+              decoration: new InputDecoration(
+                  labelText: 'Contraseña Nueva',
+                  labelStyle: TextStyle(
+                    color: colorGreen
+                  ),
+                  icon: new Icon(
+                    Icons.lock,
+                    color: colorGreen
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                      color: colorGreen
+                      ),
+                    onPressed: () {
+                      setState(() {
+                          passwordVisible = !passwordVisible;
+                      });
+                    },
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorGreen),
+                  ),
+              ),
+              validator: _validatePassword,
+              onSaved: (String value) => _password = value,
+              textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
-              decoration: InputDecoration(
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color:  Colors.black),
-                ),
-                prefixText: url+"/",
-                prefixStyle: TextStyle(
-                  color: colorText,
-                  fontSize: 15 * scaleFactor,
-                ),
-              ),
-              style: TextStyle(
-                color: colorText,
-                fontSize: 15 * scaleFactor,
-              ),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusUser = true ) : setState(() => _statusUser = false ),
-              onSaved: (value) => _userUrl = value.trim(),
-              validator: (value) => value.trim().length <=3? "Ingrese un usuario correctamente": null,
             ),
           ),
-
-          Consumer<MyProvider>(
-            builder: (context, myProvider, child) {
-              return Visibility(
-                visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 10.00, bottom: 30.0),
-                  child: new Text(
-                    "Usuario ingresado ya existe",
-                    style: TextStyle(
-                      color:Colors.red,
-                    ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
+            child: new TextFormField(
+              autofocus: false,
+              maxLines: 1,
+              keyboardType: TextInputType.text,
+              obscureText: passwordVisible,
+              decoration: new InputDecoration(
+                  labelText: 'Confirmar Contraseña',
+                  labelStyle: TextStyle(
+                    color: colorGreen
+                  ),
+                  icon: new Icon(
+                    Icons.lock,
+                    color: colorGreen
+                  ),
+                  suffixIcon: IconButton(
+                    icon: Icon(
+                      passwordVisible
+                      ? Icons.visibility_off
+                      : Icons.visibility,
+                      color: colorGreen,
+                      ),
+                    onPressed: () {
+                      setState(() {
+                          passwordVisible = !passwordVisible;
+                      });
+                    },
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-              );
-            }
+              validator: _validatePasswordConfirm,
+              onSaved: (String value) => _passwordConfirm = value,
+              cursorColor: colorGreen,
+            ),
           ),
         ],
       )
@@ -189,7 +204,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => _statusName && _statusUser? saveName(): null,
+      onTap: () => savePassword() ,
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -200,8 +215,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
           ),
           gradient: LinearGradient(
             colors: [
-              _statusName && _statusUser?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusName && _statusUser? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+               _statusButtonSave? colorGrey : colorGreen,
+              _statusButtonSave? colorGrey : colorGreen,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -222,63 +237,30 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  verifyUrl(value)async{
+  
+  savePassword()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
-    try {
-      result = await InternetAddress.lookup('google.com');
-      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-        response = await http.post(
-          urlApi+"verifyUrl",
-          headers:{
-            'Content-Type': 'application/json',
-            'X-Requested-With': 'XMLHttpRequest',
-          },
-          body: jsonEncode({
-            "userUrl": value,
-          }),
-
-        ); 
-
-        var jsonResponse = jsonDecode(response.body); 
-        print(jsonResponse);
-        if (jsonResponse['statusCode'] == 201) {
-          myProvider.statusUrlCommerce = true;
-          return true;
-        }else{
-          myProvider.statusUrlCommerce = false;
-          return false;
-        }
-      }
-    } on SocketException catch (_) {
-      showMessage("Sin conexión a internet", false);
-    }
-  }
-
-  saveName()async{
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var response, result;
-    verifyUrl(_controllerUser.text);
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyCommerce.currentState.validate() && myProvider.statusUrlCommerce) {
-      _formKeyCommerce.currentState.save();
+    if (_formKeyChangePassword.currentState.validate()) {
+      _formKeyChangePassword.currentState.save();
       try
       {
         _onLoading();
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"createCommerce",
+            urlApi+"updatePassword",
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
             },
             body: jsonEncode({
-              "name": _name,
-              "userUrl": _userUrl,
+              "current_password" : _passwordCurrent,
+              "new_password" : _password,
             }),
           ); 
           var jsonResponse = jsonDecode(response.body); 
@@ -289,8 +271,12 @@ class _NewCommercePageState extends State<NewCommercePage> {
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
+            _onLoading();
+            myProvider.getDataUser(false, true, context);
+          }else{
             Navigator.pop(context);
-          } 
+            showMessage(jsonResponse['message'], false);
+          }
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
@@ -306,7 +292,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true, 
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
@@ -402,17 +388,58 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  String _validateName(String value) {
-    // This is just a regular expression for name
-    String p = '[a-zA-Z]';
-    RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
-      // So, the name is valid
-      return null;
+  String _validatePassword(String value) {
+    String errorValidate = 'La contraseña es inválida, debe tener:';
+    if (value.isEmpty) {
+      // The form is empty
+      return 'Ingrese una contraseña válido';
+    }
+    // This is just a regular expression for password
+    String epUpperCase = "(?=.*[A-Z])";                 // should contain at least one upper case
+    String epLowerCase = "(?=.*[a-z])";                    // should contain at least one lower case
+    String epDigit= "(?=.*?[0-9])";                        // should contain at least one digit
+    String epSpecialCharacter = "(?=.*?[-_!@#\$&*~])";  // should contain at least one Special character
+    RegExp regExp = new RegExp(epUpperCase);
+
+    if (!regExp.hasMatch(value)){
+      errorValidate = errorValidate + '\n\n Una letra mayúscula.';
+    }
+    regExp = new RegExp(epLowerCase);
+    if (!regExp.hasMatch(value)){
+      errorValidate = errorValidate + '\n\n Una letra minúscula.';
+    }
+    regExp = new RegExp(epDigit);
+    if (!regExp.hasMatch(value)){
+      errorValidate = errorValidate + '\n\n Un número numérico';
+    }
+    regExp = new RegExp(epSpecialCharacter);
+    if (!regExp.hasMatch(value)){
+      errorValidate = errorValidate + '\n\n Un Carácter Especial.';
     }
 
-    // The pattern of the name didn't match the regex above.
-    return 'Ingrese nombre del negocio válido';
+    if (value.length < 6){
+      errorValidate = errorValidate + '\n\n Al menos 6 caracteres.';
+    }
+
+    if (errorValidate == 'La contraseña es inválida, debe tener:'){
+      // So, the Password is valid
+      _password = value;
+      return null;
+    }
+    
+    return errorValidate;
+
   }
+
+  String _validatePasswordConfirm(String value) {
+    if(value.isNotEmpty){
+      if (_password == value){
+        return null;
+      }
+      return 'La contraseña no coincide';
+    }
+    return 'Ingrese una contraseña valido';
+  }
+
 }

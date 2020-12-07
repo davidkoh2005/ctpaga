@@ -93,7 +93,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget showReport(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Expanded(
@@ -108,7 +108,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                         showDate(myProvider),
                         style: TextStyle(
                           color: colorText,
-                          fontSize: size.width / 22,
+                          fontSize: 18 * scaleFactor,
                         ),
                       ),
                     ),
@@ -119,7 +119,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                       updatePrice(myProvider),
                       textAlign: TextAlign.center,
                       style:  TextStyle(
-                        fontSize: size.width / 8,
+                        fontSize: 35 * scaleFactor,
                       ),
                     )
                   ),
@@ -169,7 +169,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
   Widget showButtonDate(index, myProvider){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: () {
         myProvider.selectDateRate = index;
@@ -193,7 +193,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 25,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -203,7 +203,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget showTable(myProvider){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Padding(
       padding: EdgeInsets.all(20),
       child: DataTable(
@@ -211,13 +211,13 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
           DataColumn(
             label: Text(
               'TASA',
-              style: TextStyle(fontStyle: FontStyle.italic, fontSize: size.width / 20),
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15 * scaleFactor),
             ),
           ),
           DataColumn(
             label: Text(
               'FECHA',
-              style: TextStyle(fontStyle: FontStyle.italic, fontSize: size.width / 20),
+              style: TextStyle(fontStyle: FontStyle.italic, fontSize: 15 * scaleFactor),
             ),
           ),
         ],
@@ -307,6 +307,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget buttonNew(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () => nextPage(),
@@ -334,7 +335,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             "NUEVA TASA",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

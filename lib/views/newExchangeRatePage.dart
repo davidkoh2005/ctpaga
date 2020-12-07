@@ -46,7 +46,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   }
 
   Widget formRate(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyRate,
       child: ListView (
@@ -60,7 +60,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                 "TASA",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -90,7 +90,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width / 10,
+                fontSize: 30 * scaleFactor,
                 color: colorGrey,
               ),
               decoration: InputDecoration(
@@ -112,6 +112,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   }
 
   Widget buttonSave(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => _statusRate?saveRate(): null,
@@ -138,7 +139,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
             "GUARDAR TASA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -196,6 +197,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
 
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -231,7 +233,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -244,7 +246,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
 
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -274,14 +276,14 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

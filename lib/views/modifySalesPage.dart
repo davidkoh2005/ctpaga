@@ -45,7 +45,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
-          Navbar(myProvider.dataPurchase[myProvider.positionModify]['data'].name, false),
+          Navbar(myProvider.dataPurchase[myProvider.positionModify]['data'].name.length != 0? myProvider.dataPurchase[myProvider.positionModify]['data'].name : 'Sin descripción' , false),
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
@@ -71,6 +71,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
   }
 
   Widget formQuantity(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -86,7 +87,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
                       _quantity.length == 0? "0" : _quantity,
                       style: TextStyle(
                       color: colorText,
-                      fontSize: size.width / 6.5,
+                      fontSize: 35 * scaleFactor,
                       fontWeight: FontWeight.w800,
                       ),
                     ),

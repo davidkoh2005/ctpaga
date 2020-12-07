@@ -55,7 +55,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   formProcessSales(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
@@ -68,7 +68,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
               "COBRO DE",
               style: TextStyle(
                 color: colorText,
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -80,7 +80,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             showTotal(),
             textAlign: TextAlign.center,
             style:  TextStyle(
-              fontSize: size.width / 10,
+              fontSize: 30 * scaleFactor,
             ),
           ),
         ),
@@ -90,7 +90,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
           child: Text(
             "Escoge como deseas cobrar:",
             style: TextStyle(
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               color: colorText,
             ),
           ),
@@ -110,6 +110,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   Widget buttonLink(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(0),
@@ -133,10 +134,10 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
           ),
         child: Center(
           child: Text(
-            "Enviar enlance de pago",
+            "Enviar enlace de pago",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -146,6 +147,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   Widget buttonRegister(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(1),
@@ -172,7 +174,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             "Registrar pago",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 18,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

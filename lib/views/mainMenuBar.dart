@@ -87,6 +87,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
 
   Widget _buildNavItem(String _title, String _icon, int _status, int code){
     var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: () => setState(()=> _statusButton = code),
       child: Container(
@@ -105,12 +106,12 @@ class _MainMenuBarState extends State<MainMenuBar> {
               )
             ),
             Container(
-              padding: EdgeInsets.only(top:5),
+              padding: EdgeInsets.only(top:5, bottom: 5),
               child: Text(
                 _title,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: size.width / 25,
+                  fontSize: 12 * scaleFactor,
                   fontWeight: _status == code? FontWeight.bold: FontWeight.normal
                 ),
               ),

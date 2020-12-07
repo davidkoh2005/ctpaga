@@ -41,6 +41,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
   }
 
   Widget showList(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -67,7 +68,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                 },
                 child: Container(
                   child: Card(
-                    color: colorGrey,
+                    color: colorGreyOpacity,
                     shape: StadiumBorder(
                       side: BorderSide(
                         color: colorGreen,
@@ -91,7 +92,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                             child: Text(
                               myProvider.dataCategories[index].name,
                               style: TextStyle(
-                                fontSize: size.width / 20,
+                                fontSize: 15 * scaleFactor,
                               ),
                             ),
                           ),
@@ -109,6 +110,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
   }
 
   Widget buttonNew(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () => nextPage(),
@@ -136,7 +138,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
             "CREAR CATEGORÍA",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

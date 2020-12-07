@@ -88,7 +88,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget formDiscount(){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyDiscount,
       child: ListView (
@@ -101,7 +101,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 "CÓDIGO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -138,7 +138,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -151,7 +151,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 "DESCUENTO (%)",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -183,7 +183,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               decoration: InputDecoration(
                 hintText: "50",
                 hintStyle: TextStyle(
-                fontSize: size.width / 17,
+                fontSize: 25 * scaleFactor,
                 color: colorGrey,
                 ),
                 focusedBorder: UnderlineInputBorder(
@@ -191,7 +191,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: size.width / 17,
+                fontSize: 25 * scaleFactor,
               ),
             ),
           ),
@@ -201,6 +201,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget buttonSave(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveDiscount(),
@@ -227,7 +228,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             index == null? "CREAR DESCUENTO" : "GUARDAR DESCUENTO",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -237,6 +238,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget buttonDelete(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteDiscounts(),
@@ -264,7 +266,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             "ELIMINAR DESCUENTO",
             style: TextStyle(
               color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -381,6 +383,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -416,7 +419,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -429,7 +432,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
 
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -459,14 +462,14 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

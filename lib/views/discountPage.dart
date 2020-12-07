@@ -70,6 +70,7 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget showMsg(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -87,7 +88,7 @@ class _DiscountPageState extends State<DiscountPage> {
             "¡Agrega códigos de descuento para tu tienda en línea!",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               color: colorText,
             )
           )
@@ -98,7 +99,7 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget showList(myProvider){
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Container(
       child:Scrollbar(
         controller: _scrollControllerList, 
@@ -122,7 +123,7 @@ class _DiscountPageState extends State<DiscountPage> {
                         myProvider.dataDiscount[index].code,
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: size.width / 20,
+                          fontSize: 15 * scaleFactor,
                         ),
                       ),
                     ),
@@ -131,7 +132,7 @@ class _DiscountPageState extends State<DiscountPage> {
                         "${myProvider.dataDiscount[index].percentage} %",
                         style: TextStyle(
                           color: colorText,
-                          fontSize: size.width / 20,
+                          fontSize: 15 * scaleFactor,
                         ),
                       )
                     ),
@@ -146,6 +147,7 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget buttonNew(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(NewDiscountPage(null)),
@@ -172,7 +174,7 @@ class _DiscountPageState extends State<DiscountPage> {
             "CREAR DESCUENTO",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),

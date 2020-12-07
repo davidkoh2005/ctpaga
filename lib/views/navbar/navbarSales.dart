@@ -19,6 +19,7 @@ class _NavbarSalesState extends State<NavbarSales> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Stack(
       children: <Widget>[
@@ -48,7 +49,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                       _title,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: size.width / 16,
+                        fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.bold,
                       ),
                     ),

@@ -103,6 +103,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget formShipping(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return new Form(
       key: _formKeyShipping,
@@ -116,7 +117,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 "DESCRIPCIÓN",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -149,7 +150,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: size.width / 20,
+                fontSize: 15 * scaleFactor,
               ),
             ),
           ),
@@ -162,7 +163,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 "PRECIO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: size.width / 20,
+                  fontSize: 15 * scaleFactor,
                 ),
               ),
             ),
@@ -193,7 +194,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: size.width / 10,
+                fontSize: 30 * scaleFactor,
                 color: colorGrey,
               ),
               decoration: InputDecoration(
@@ -232,7 +233,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                     "Envíos gratis",
                     style: TextStyle(
                       color: colorText,
-                      fontSize: size.width / 15,
+                      fontSize: 20 * scaleFactor,
                     ),
                   ),
                 ],
@@ -245,6 +246,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget buttonSave(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveShipping(),
@@ -271,7 +273,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             index == null? "CREAR TARIFA" : "GUARDAR TARIFA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -281,6 +283,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget buttonDelete(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteShipping(),
@@ -308,7 +311,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             "ELIMINAR TARIFA",
             style: TextStyle(
               color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: size.width / 20,
+              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
             ),
           ),
@@ -430,6 +433,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -465,7 +469,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: size.width / 20,
+                    fontSize: 15 * scaleFactor,
                   )
                 ),
               ),
@@ -478,7 +482,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
 
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -508,14 +512,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
                           )
                         ),
                       ]

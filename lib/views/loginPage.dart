@@ -30,28 +30,31 @@ class _LoginPageState extends State<LoginPage> {
 
     var size = MediaQuery.of(context).size;
 
-    return Center(
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                  Image(
-                  image: AssetImage("assets/logo/logo.png"),
-                  width: size.width/2,
-                ),
-                formLogin(), //form login
-                buttonLogin(), //button login
-                SizedBox(height:20), //separation between two buttons
-                buttonRegister(), //button Register
-              ]
+    return WillPopScope(
+      onWillPop: () async =>false,
+      child: Center(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: Container(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                    Image(
+                    image: AssetImage("assets/logo/logo.png"),
+                    width: size.width/2,
+                  ),
+                  formLogin(), //form login
+                  buttonLogin(), //button login
+                  SizedBox(height:20), //separation between two buttons
+                  buttonRegister(), //button Register
+                ]
+              ),
             ),
           ),
         ),
-      ),
+      )
     );
   }
 
@@ -333,6 +336,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.getDataUser(true, true, context);
             myProvider.dataPurchase = [];
             myProvider.statusButtonMenu = false;
+            myProvider.clickButtonMenu = 0;
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

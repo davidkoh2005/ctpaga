@@ -149,6 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
       myProvider.getDataUser(true, false, context);
       myProvider.dataPurchase = [];
       myProvider.statusButtonMenu = false;
+      myProvider.clickButtonMenu = 0;
     }else{
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }

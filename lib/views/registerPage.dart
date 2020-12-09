@@ -363,6 +363,7 @@ class _RegisterPageState extends State<RegisterPage> {
             myProvider.getDataUser(true, true, context);
             myProvider.dataPurchase = [];
             myProvider.statusButtonMenu = false;
+            myProvider.clickButtonMenu = 0;
 
           } else if(jsonResponse['errors'] != null){
 
@@ -519,7 +520,7 @@ class _RegisterPageState extends State<RegisterPage> {
     }
     regExp = new RegExp(epDigit);
     if (!regExp.hasMatch(value)){
-      errorValidate = errorValidate + '\n\n Un número numérico';
+      errorValidate = errorValidate + '\n\n Un número numérico.';
     }
     regExp = new RegExp(epSpecialCharacter);
     if (!regExp.hasMatch(value)){

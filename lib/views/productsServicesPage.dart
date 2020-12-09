@@ -199,7 +199,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   Widget listProductsServices(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    
     if(myProvider.selectProductsServices == 0){
       return Scrollbar(
         controller: _scrollControllerProductsServices, 
@@ -220,7 +219,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   myProvider.statusTrolleyAnimation = 1.0;
                   setState(() =>_indexProduct.remove(index));
                 }else{
-                  setState(() => _statusDropdown = "");
                   if(myProvider.dataProducts[index].categories != null)
                     myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
 
@@ -278,7 +276,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   myProvider.statusTrolleyAnimation = 1.0;
                   setState(() =>_indexService.remove(index));
                 }else{
-                  setState(() => _statusDropdown = "");
                   if(myProvider.dataServices[index].categories != null)
                     myProvider.dataCategoriesSelect = myProvider.dataServices[index].categories.split(",");
                   

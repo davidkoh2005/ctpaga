@@ -18,7 +18,6 @@ class UpdatePasswordPage extends StatefulWidget {
 
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final _formKeyChangePassword = new GlobalKey<FormState>();
-  final _controllerUser = TextEditingController();
   bool _statusButtonSave = false, passwordVisible = true;
   String _passwordCurrent, _password, _passwordConfirm;
 
@@ -266,12 +265,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
-            showMessage("Guardado Correctamente", true);
-            await Future.delayed(Duration(seconds: 1));
-            Navigator.pop(context);
-            _onLoading();
             myProvider.getDataUser(false, true, context);
           }else{
             Navigator.pop(context);
@@ -411,7 +405,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
     }
     regExp = new RegExp(epDigit);
     if (!regExp.hasMatch(value)){
-      errorValidate = errorValidate + '\n\n Un número numérico';
+      errorValidate = errorValidate + '\n\n .';
     }
     regExp = new RegExp(epSpecialCharacter);
     if (!regExp.hasMatch(value)){

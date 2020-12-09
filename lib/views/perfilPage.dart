@@ -1497,8 +1497,6 @@ class _PerfilPageState extends State<PerfilPage> {
             }),
           ); 
 
-          //TODO: agregar seguridad cambio de email
-
           jsonResponse = jsonDecode(response.body); 
 
           print(jsonResponse);

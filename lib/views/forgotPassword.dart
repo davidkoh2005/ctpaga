@@ -1,6 +1,10 @@
 import 'package:ctpaga/env.dart';
 
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
 
 class ForgotPassword extends StatefulWidget {
 
@@ -125,13 +129,143 @@ class _ForgotPasswordState extends State<ForgotPassword> {
     );
   }
 
-  void clickButtonSend(){
+  void clickButtonSend()async{
     if (_formKeyForgotPassword.currentState.validate()) {
       _formKeyForgotPassword.currentState.save();
-      //_onLoading();
-      //TODO: Enviar Correo
+      var response, result;
+      try
+      {
+        _onLoading();
+        result = await InternetAddress.lookup('google.com'); //verify network
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          response = await http.get(
+            "http://$url/password/create?email=$_email",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+            },
+          ); 
+          var jsonResponse = jsonDecode(response.body); 
+          print(jsonResponse);
+          if (jsonResponse['statusCode'] == 201) {
+            Navigator.pop(context);
+            showMessage("Enlace de restablecimiento de contraseña se ha enviado al correo electrónico", true);
+
+          }else{
+            Navigator.pop(context);
+            showMessage(jsonResponse['message'], false);
+          }
+        }
+      } on SocketException catch (_) {
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet", false);
+      }
     }
   }
+
+  Future<void> _onLoading() async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Cargando ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                        TextSpan(
+                          text: "...",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        );
+      },
+    );
+  }
+
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: true, 
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 15 * scaleFactor,
+                  )
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+
 
   String _validateEmail(String value) {
     value = value.trim().toLowerCase();

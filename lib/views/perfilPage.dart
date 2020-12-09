@@ -56,12 +56,12 @@ class _PerfilPageState extends State<PerfilPage> {
   String _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
         _email, _name, _address, _phone,
-        _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
+        _valueListCountry, _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusCoin = 1;
   // ignore: unused_field
   File _image;
-  bool _statusCountry = false, _statusClickUSD = false, _statusClickBs = false;
+  bool _statusCountry = true, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -82,6 +82,11 @@ class _PerfilPageState extends State<PerfilPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     myProvider.statusUrlCommerce = myProvider.dataCommercesUser.length == 0? false : true;
     _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
+    setState(() {
+      _valueListCountry = myProvider.dataBanksUser[0] == null? 'USA' : myProvider.dataBanksUser[0].country;
+      _statusCountry = myProvider.dataBanksUser[0] == null? true: myProvider.dataBanksUser[0].country == 'USA'? true : false;
+        
+    });
     changeVideo();
   }
 
@@ -838,10 +843,8 @@ class _PerfilPageState extends State<PerfilPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
+    var _listCountry = ['Panamá','USA'];
     if(_statusCoin == 0){
-      setState(() {
-        _nameBankingUSD = myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].bankName;
-      });
       return new Form(
         key: _formKeyBankingUSD,
         child: new ListView(
@@ -850,38 +853,42 @@ class _PerfilPageState extends State<PerfilPage> {
           shrinkWrap: true,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].country,
-                autofocus: false,
-                textCapitalization:TextCapitalization.sentences,
-                inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                  BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
-                ], 
-                decoration: InputDecoration(
-                  labelText: 'País (Panamá o USA)',
-                  labelStyle: TextStyle(
-                    color: colorText
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
-                  ),
+              padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: Text(
+                "Pais",
+                style: TextStyle(
+                  color:colorText,
                 ),
-                onSaved: (String value) => _countryBankingUSD = value.toLowerCase(),
-                validator: _validateCountry,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNameBankingUSDFocus),
-                onChanged: (value) {
-                  if(value.trim().toLowerCase() == "usa")
-                    setState(()=>_statusCountry = true);
-                  else
-                    setState(()=>_statusCountry = false);
-                },
-                cursorColor: colorGreen,
               ),
             ),
+            Container(
+              padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
+              child: DropdownButton<String>(
+                value: _valueListCountry,
+                isExpanded: true,
+                icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                elevation: 16,
+                items: _listCountry.map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (String value) {                  
+                  setState(() {
+                    if(value == "USA")
+                      _statusCountry = true;
+                    else
+                      _statusCountry = false;
 
+                    _valueListCountry = value;
+                    _countryBankingUSD = value;
+
+                  });
+                },
+              ),
+            ),
+            
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
@@ -926,7 +933,7 @@ class _PerfilPageState extends State<PerfilPage> {
                   ),
                 ),
                 onSaved: (String value) => _accountNumberBankingUSD = value,
-                validator: (value) => value.length <=4? "Ingrese numero de cuenta válido" : null ,
+                validator: (value) => value.length <=7 && value.length >=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingUSDFocus,
                 cursorColor: colorGreen,
               ),
@@ -977,7 +984,7 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   );
                   }).toList(),
-                value: _nameBankingUSD,
+                value: myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName,
                 hint: "Nombre del Banco",
                 searchHint: "Nombre del Banco",
                 keyboardType: TextInputType.text,
@@ -987,55 +994,61 @@ class _PerfilPageState extends State<PerfilPage> {
               ),
             ),
 
-            Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
-                autofocus: false,
-                textCapitalization:TextCapitalization.sentences,
-                maxLength: 9,
-                decoration: InputDecoration(
-                  labelText: 'Ruta o Aba (si es USA)',
-                  labelStyle: TextStyle(
-                    color: colorText
+            Visibility(
+              visible: _statusCountry,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child: new TextFormField(
+                  initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
+                  autofocus: false,
+                  textCapitalization:TextCapitalization.sentences,
+                  maxLength: 9,
+                  decoration: InputDecoration(
+                    labelText: 'Ruta o Aba',
+                    labelStyle: TextStyle(
+                      color: colorText
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: colorGreen),
+                    ),
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
-                  ),
+                  onSaved: (String value) => _routeBankingUSD = value,
+                  validator: (value) => value.length != 9 && _statusCountry? "Ingrese numero de ruta o aba válido" : null ,
+                  textInputAction: TextInputAction.next,
+                  focusNode: _routeBankingUSDFocus,
+                  onEditingComplete: () => FocusScope.of(context).requestFocus(_swiftBankingUSDFocus),
+                  cursorColor: colorGreen,
                 ),
-                onSaved: (String value) => _routeBankingUSD = value,
-                validator: (value) => value.length != 9 && _statusCountry? "Ingrese numero de ruta o aba válido" : null ,
-                textInputAction: TextInputAction.next,
-                focusNode: _routeBankingUSDFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_swiftBankingUSDFocus),
-                cursorColor: colorGreen,
-              ),
+              )
             ),
 
             //INPUT SWIFT
 
-            /* Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
-                autofocus: false,
-                textCapitalization:TextCapitalization.sentences,
-                decoration: InputDecoration(
-                  labelText: 'Swift (si es Usa)',
-                  labelStyle: TextStyle(
-                    color: colorText
+            /* Visibility(
+              visible: _statusCountry,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child: new TextFormField(
+                  initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].swift,
+                  autofocus: false,
+                  textCapitalization:TextCapitalization.sentences,
+                  decoration: InputDecoration(
+                    labelText: 'Swift (si es Usa)',
+                    labelStyle: TextStyle(
+                      color: colorText
+                    ),
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: colorGreen),
+                    ),
                   ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
-                  ),
-                ),
-                onSaved: (String value) => _swiftBankingUSD = value,
-                validator: (value) => (!(value.length >=8 && value.length <=11)) && _statusCountry? "Ingrese el Swift válido": null,
-                textInputAction: TextInputAction.next,
-                focusNode: _swiftBankingUSDFocus,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_addressBankingUSDFocus),
-                cursorColor: colorGreen,
-              ),
+                  onSaved: (String value) => _swiftBankingUSD = value,
+                  validator: (value) => (!(value.length >=8 && value.length <=11)) && _statusCountry? "Ingrese el Swift válido": null,
+                  textInputAction: TextInputAction.next,
+                  focusNode: _swiftBankingUSDFocus,
+                  onEditingComplete: () => FocusScope.of(context).requestFocus(_addressBankingUSDFocus),
+                  cursorColor: colorGreen,
+                )
+            ),
             ), */
 
             Padding(
@@ -1078,8 +1091,8 @@ class _PerfilPageState extends State<PerfilPage> {
                     borderSide: BorderSide(color: colorGreen),
                   ),
                 ),
-                onSaved: (String value) => _accountTypeBankingUSD = value,
-                validator: (value) => value.toLowerCase() != 'c' || value.toLowerCase() != 'c'? "Ingrese tipo de cuenta válido": null,
+                onSaved: (String value) => _accountTypeBankingUSD = value.toUpperCase(),
+                validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
                 textInputAction: TextInputAction.done,
                 focusNode: _accountTypeBankingUSDFocus,
                 onEditingComplete: (){
@@ -1338,21 +1351,6 @@ class _PerfilPageState extends State<PerfilPage> {
     // The pattern of the userUrl didn't match the regex above.
     return 'Ingrese un usuario correctamente';
   }
-
-  String _validateCountry(value){
-    value = value.toLowerCase();
-    // This is just a regular expression for RIF
-    String p = r'^(panama|panamá|usa)+';
-    RegExp regExp = new RegExp(p);
-
-    if (regExp.hasMatch(value)) {
-      return null;
-    }
-
-    // The pattern of the RIf didn't match the regex above.
-    return 'Ingrese el país correctamente';
-  }
-
   
   String _validateIdCard(value){
     // This is just a regular expression for RIF
@@ -1581,7 +1579,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
           var parameters = jsonToUrl(jsonEncode({
               'coin': _statusCoin == 0? "USD" : "Bs",
-              'country': _statusCoin == 0? _countryBankingUSD == "usa"? _countryBankingUSD.toUpperCase() : capitalize(_countryBankingUSD) : "Venezuela",
+              'country': _statusCoin == 0? _countryBankingUSD : "Venezuela",
               'accountName': _statusCoin == 0? _accountNameBankingUSD : _accountNameBankingBs,
               'accountNumber': _statusCoin == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
               'idCard': _idCardBankingBs,

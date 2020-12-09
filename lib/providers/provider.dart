@@ -631,7 +631,7 @@ class MyProvider with ChangeNotifier {
             else if(item['coin'] == 1)
               statusBs = true;
 
-          }
+          } 
           dataProducts = _listProducts;
         } 
       }

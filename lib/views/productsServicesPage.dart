@@ -88,11 +88,11 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                             visible: _statusProductsServices(myProvider),
                             child: 
                               myProvider.selectProductsServices == 0? Container(
-                                height: myProvider.dataProducts.length <3? size.height / ((4-myProvider.dataProducts.length)*3) : size.height / 5,
+                                height: myProvider.dataProducts.length <5? size.height / (4.2-((myProvider.dataProducts.length-1)*0.6)) : size.height / 1.8,
                                 child: listProductsServices(),
                               )
                             : Container(
-                              height: myProvider.dataServices.length <3? size.height / ((4-myProvider.dataServices.length)*3) : size.height / 5,
+                              height: myProvider.dataServices.length <3? size.height / (4.2-((myProvider.dataServices.length-1)*0.6)) : size.height / 1.8,
                               child: listProductsServices(),
                             ),
                           ),
@@ -100,7 +100,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                           Visibility(
                             visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length  > 0? true : false : false,
                             child: Container(
-                              height: myProvider.dataCategories.length >3 ? size.height / 6 : size.height / 4,
+                              height: myProvider.dataCategories.length <3 ? size.height / 3 : size.height / 1.8,
                               child: listCategory()
                             ),
                           ),
@@ -510,17 +510,17 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     var size = MediaQuery.of(context).size;
     if(_listProductsServicesCategories.length>0)
       return Container(
-        height: _listProductsServicesCategories.length <3? size.height / ((4-_listProductsServicesCategories.length)*3) : size.height / 5,
+        height: _listProductsServicesCategories.length <3? size.height / (7.5-((_listProductsServicesCategories.length-1)*3)) : size.height / 4.5,
         child: Scrollbar(
           controller: _scrollControllerCategories, 
           isAlwaysShown: true,
           child: ListView.separated(
             controller: _scrollControllerCategories,
             separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+            padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
             itemCount: _listProductsServicesCategories.length,
             itemBuilder:  (BuildContext ctxt, int index) {
-              return GestureDetector(
+              return ListTile(
                 onTap: () async {
                   if(_statusCharge && myProvider.selectProductsServices == 0){
                     addProductsServices(_listProductsServicesCategories[index]);
@@ -544,48 +544,30 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     nextPage(NewProductServicePage());
                   }
                 },
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children : <Widget>[
-                        Text(
-                          _listProductsServicesCategories[index].name,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            fontSize: 15 * scaleFactor,
-                          ),
-                        ),
-                        myProvider.selectProductsServices == 0? 
-                          Text(
-                            "${_listProductsServicesCategories[index].stock} disponibles",
-                            style: TextStyle(
-                              color: colorText,
-                              fontSize: 15 * scaleFactor,
-                            ),
-                          )
-                        :
-                          Container(),
-                      ]
-                    ),
-                    Column(
-                      children: <Widget>[
-                        Container(
-                          child: Text(
-                            showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
-                            style: TextStyle(
-                              color: colorText,
-                              fontSize: 15 * scaleFactor,
-                            ),
-                          )
-                        ),
-                      ]
-                    )
-                  ],
+                title: Text(
+                  _listProductsServicesCategories[index].name,
+                  style: TextStyle(
+                    color: _indexProduct.contains(index)? colorGreen :  colorText,
+                    fontSize: 15 * scaleFactor,
+                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  ),
                 ),
-                
+                subtitle: Text(
+                  myProvider.selectProductsServices == 0? "${_listProductsServicesCategories[index].stock} disponibles" : "",
+                  style: TextStyle(
+                    color: _indexProduct.contains(index)? colorGreen :  colorText,
+                    fontSize: 15 * scaleFactor,
+                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
+                trailing: Text(
+                  showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
+                  style: TextStyle(
+                    color: _indexProduct.contains(index)? colorGreen :  colorText,
+                    fontSize: 15 * scaleFactor,
+                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  ),
+                ),
               ); 
             }
           )

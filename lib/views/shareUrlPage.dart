@@ -284,7 +284,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
     var codeUrl = myProvider.codeUrl;
 
     var link = "http://$url/$userCompany/$codeUrl";
-    var msg = "💰 Total:${lowPurchase.text} mas entrega \nCompleta tu pedido a $nameCompany aquí: $link";
+    var msg = "💰 Total: ${lowPurchase.text} mas entrega \nCompleta tu pedido a $nameCompany aquí: $link";
 
     if (index ==1){
       String urlWeb() {

@@ -64,7 +64,6 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                       selectCategory.add(myProvider.dataCategories[index].id.toString());
                       myProvider.dataCategoriesSelect = selectCategory;
                     }
-                  setState(() {});
                 },
                 child: Container(
                   child: Card(

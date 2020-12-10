@@ -9,6 +9,7 @@ import 'package:ctpaga/models/service.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/rate.dart';
+import 'package:ctpaga/models/paid.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/views/mainMenuBar.dart';
 import 'package:ctpaga/database.dart';
@@ -904,6 +905,61 @@ class MyProvider with ChangeNotifier {
       dataRatesSelectToday = _listRatesToday;
       dataRatesSelectWeek = _listRatesWeek;
       dataRatesSelectMonth = _listRatesMonth;
+  }
+
+
+  Paid paid = Paid();
+  List _listPaids = new List();
+
+  getListPaids()async{
+    var result, response, jsonResponse;
+    _listPaids = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showPaids",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            paid = Paid(
+              id: item['id'],
+              user_id: item['user_id'],
+              commerce_id: item['commerce_id'],
+              codeUrl: item['codeUrl'],
+              nameClient: item['nameClient'],
+              total: item['total'],
+              coin: item['coin'],
+              email: item['email'],
+              nameShopping: item['nameShopping'],
+              numberShopping: item['numberShopping'],
+              addressShopping: item['addressShopping'],
+              detailsShopping: item['detailsShopping'],
+              shipping_id: item['shipping_id'],
+              percentage: item['percentage'],
+              nameCompanyPayments: item['nameCompanyPayments'],
+            );
+            _listPaids.add(paid);
+            dbctpaga.createOrUpdatePaid(paid);
+          }
+          dataDiscount = _listPaids;
+        } 
+      }
+    } on SocketException catch (_) {
+      if(accessTokenUser != null){
+        dataDiscount = await dbctpaga.getPaids();
+      }
+
+    }
   }
 
 

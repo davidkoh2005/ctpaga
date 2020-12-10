@@ -1,11 +1,12 @@
 import 'package:ctpaga/models/categories.dart';
 import 'package:ctpaga/models/discounts.dart';
 import 'package:ctpaga/models/commerce.dart';
-import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/models/shipping.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/service.dart';
+import 'package:ctpaga/models/paid.dart';
+import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/user.dart';
 
@@ -19,7 +20,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
-  static int versionDB = 7;
+  static int versionDB = 8;
 
   Future<Database> get db async{
     if(dbInstance == null)
@@ -57,6 +58,7 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS shipping (id INTEGER, price VARCHAR(50), coin INTEGER, description text)');
     await db.execute('CREATE TABLE IF NOT EXISTS discounts (id INTEGER, code VARCHAR(50), percentage INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS rates (id INTEGER, rate VARCHAR(50), created_at VARCHAR(50))');
+    await db.execute('CREATE TABLE IF NOT EXISTS paids (id INTEGER, user_id INTEGER, commerce_id INTEGER, codeUrl VARCHAR(10), nameClient VARCHAR(50), total text, coin INTEGER, email text, nameShopping VARCHAR(50), numberShopping VARCHAR(50), addresShopping text, detailsShopping text, shipping_id INTEGER, percentage INTEGER, nameCompanyPayments VARCHAR(10))');
   }
 
   /*
@@ -76,6 +78,7 @@ class DBctpaga{
     await dbConnection.execute('DROP TABLE IF EXISTS shipping');
     await dbConnection.execute('DROP TABLE IF EXISTS discounts');
     await dbConnection.execute('DROP TABLE IF EXISTS rates');
+    await dbConnection.execute('DROP TABLE IF EXISTS paids');
   
     onCreateFunc(dbConnection, versionDB);
 
@@ -566,6 +569,61 @@ class DBctpaga{
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });
+  }
+
+  // Get Paids 
+  Future <List<dynamic>> getPaids() async{
+    List listPaids = new List();
+    listPaids = [];
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM paids');
+    Paid paid = new Paid();
+
+    for(int i = 0; i< list.length; i++)
+    {
+      paid = Paid(
+        id: list[i]['id'],
+        user_id: list[i]['user_id'],
+        commerce_id: list[i]['commerce_id'],
+        codeUrl: list[i]['codeUrl'],
+        nameClient: list[i]['nameClient'],
+        total: list[i]['total'],
+        coin: list[i]['coin'],
+        email: list[i]['email'],
+        nameShopping: list[i]['nameShopping'],
+        numberShopping: list[i]['numberShopping'],
+        addressShopping: list[i]['addressShopping'],
+        detailsShopping: list[i]['detailsShopping'],
+        shipping_id: list[i]['shipping_id'],
+        percentage: list[i]['percentage'],
+        nameCompanyPayments: list[i]['nameCompanyPayments'],
+      );
+
+      listPaids.add(paid);
+
+    }
+
+    return listPaids;
+  }
+
+  // Create or update Paid
+  void createOrUpdatePaid (Paid paid) async{
+    var dbConnection = await db;
+
+    List<Map> list = await dbConnection.rawQuery('SELECT * FROM paids WHERE id = \'${paid.id}\' ');
+    
+    if(list.length == 0){
+      String query = 'INSERT INTO paids (id, user_id, commerce_id, codeUrl, nameClient, total, coin, email, nameShopping, numberShopping, addressShopping, detailsShopping, shipping_id, percentage, nameCompanyPayments) VALUES ( \'${paid.id}\', \'${paid.user_id}\',\'${paid.commerce_id}\',\'${paid.codeUrl}\',\'${paid.nameClient}\',\'${paid.total}\',\'${paid.coin}\',\'${paid.email}\',\'${paid.nameShopping}\',\'${paid.numberShopping}\',\'${paid.addressShopping}\',\'${paid.detailsShopping}\',\'${paid.shipping_id}\',\'${paid.percentage}\',\'${paid.nameCompanyPayments}\')';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+    });
+    }else{
+      String query = 'UPDATE paids SET user_id=\'${paid.user_id}\', commerce_id=\'${paid.commerce_id}\', codeUrl=\'${paid.codeUrl}\', nameClient=\'${paid.nameClient}\', total=\'${paid.total}\', coin=\'${paid.coin}\', email=\'${paid.email}\', nameShopping=\'${paid.nameShopping}\', numberShopping=\'${paid.numberShopping}\', addressShopping=\'${paid.addressShopping}\', detailsShopping=\'${paid.detailsShopping}\', shipping_id=\'${paid.shipping_id}\', percentage=\'${paid.percentage}\', nameCompanyPayments=\'${paid.nameCompanyPayments}\' WHERE id= \'${paid.id}\'';
+      await dbConnection.transaction((transaction) async{
+        return await transaction.rawInsert(query);
+      });
+    }
   }
 
 }

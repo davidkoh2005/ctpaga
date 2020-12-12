@@ -85,7 +85,8 @@ class _PerfilPageState extends State<PerfilPage> {
     setState(() {
       _valueListCountry = myProvider.dataBanksUser[0] == null? 'USA' : myProvider.dataBanksUser[0].country;
       _statusCountry = myProvider.dataBanksUser[0] == null? true: myProvider.dataBanksUser[0].country == 'USA'? true : false;
-        
+      _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName; 
+      _nameBankingBs = myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName;
     });
     changeVideo();
   }
@@ -984,11 +985,10 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   );
                   }).toList(),
-                value: myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName,
-                hint: "Nombre del Banco",
+                hint: _nameBankingUSD,
                 searchHint: "Nombre del Banco",
                 keyboardType: TextInputType.text,
-                onChanged: (value)=> _nameBankingUSD = value,
+                onChanged: (value)=> setState(()=>_nameBankingUSD = value),
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
               ),
@@ -1224,11 +1224,12 @@ class _PerfilPageState extends State<PerfilPage> {
                     )
                   );
                 }).toList(),
-                value: myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName,
-                hint: "Nombre del Banco",
+                hint: _nameBankingBs,
                 searchHint: "Nombre del Banco",
                 keyboardType: TextInputType.text,
-                onChanged: (value)=> _nameBankingBs = value,
+                onChanged: (String newItem) {
+                  setState((){_nameBankingBs = newItem;});
+                },
                 isExpanded: true,
                 validator: (value) => value == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,
               ),

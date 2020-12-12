@@ -118,7 +118,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                 _title,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 12 * scaleFactor,
+                  fontSize: 10 * scaleFactor,
                   fontWeight: _status == code? FontWeight.bold: FontWeight.normal
                 ),
               ),

@@ -348,6 +348,24 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  List _paid = new List();
+  List get dataPaids =>_paid;
+
+  set dataPaids(List newPaid){
+    _paid = newPaid;
+    notifyListeners();
+  }
+
+  Paid _selectPaid = Paid();
+  Paid get selectPaid =>_selectPaid; 
+  
+  set selectPaid(Paid newItem) {
+    _selectPaid = newItem; 
+    notifyListeners(); 
+  }
+
+
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -481,6 +499,7 @@ class MyProvider with ChangeNotifier {
           getListShipping();
           getListDiscounts();
           getListRates();
+          getListPaids();
           await Future.delayed(Duration(seconds: 3));
 
           if(loading){
@@ -491,7 +510,7 @@ class MyProvider with ChangeNotifier {
             Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
           }
         }else{
-          removeSession(context);
+          removeSession(context, true);
         }
       }
     } on SocketException catch (_) {
@@ -507,6 +526,7 @@ class MyProvider with ChangeNotifier {
         dataDiscount = await dbctpaga.getDiscounts();
         dataRates = await dbctpaga.getRates();
         getRatesDate();
+        dataDiscount = await dbctpaga.getPaids();
       }
 
       if(status){
@@ -908,7 +928,7 @@ class MyProvider with ChangeNotifier {
   }
 
 
-  Paid paid = Paid();
+  Paid paids = Paid();
   List _listPaids = new List();
 
   getListPaids()async{
@@ -925,13 +945,16 @@ class MyProvider with ChangeNotifier {
             'X-Requested-With': 'XMLHttpRequest',
             'authorization': 'Bearer $accessTokenUser',
           },
+          body: jsonEncode({
+            "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
+          }),
         ); 
 
         jsonResponse = jsonDecode(response.body);
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           for (var item in jsonResponse['data']) {
-            paid = Paid(
+            paids = Paid(
               id: item['id'],
               user_id: item['user_id'],
               commerce_id: item['commerce_id'],
@@ -940,30 +963,34 @@ class MyProvider with ChangeNotifier {
               total: item['total'],
               coin: item['coin'],
               email: item['email'],
-              nameShopping: item['nameShopping'],
-              numberShopping: item['numberShopping'],
-              addressShopping: item['addressShopping'],
-              detailsShopping: item['detailsShopping'],
-              shipping_id: item['shipping_id'],
+              nameShipping: item['nameShipping'],
+              numberShipping: item['numberShipping'],
+              addressShipping: item['addressShipping'],
+              detailsShipping: item['detailsShipping'],
+              selectShipping: item['selectShipping'],
+              priceShipping: item['priceShipping'],
+              statusShipping: item['statusShipping'],
+              totalShipping: item['totalShipping'],
               percentage: item['percentage'],
               nameCompanyPayments: item['nameCompanyPayments'],
+              date: item['date'],
             );
-            _listPaids.add(paid);
-            dbctpaga.createOrUpdatePaid(paid);
+            _listPaids.add(paids);
+            dbctpaga.createOrUpdatePaid(paids);
           }
-          dataDiscount = _listPaids;
+          dataPaids = _listPaids;
         } 
       }
     } on SocketException catch (_) {
       if(accessTokenUser != null){
-        dataDiscount = await dbctpaga.getPaids();
+        dataPaids = await dbctpaga.getPaids();
       }
 
     }
   }
 
 
-  removeSession(BuildContext context)async{
+  removeSession(BuildContext context, status)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.remove("access_token");
     prefs.remove('selectCommerce');
@@ -980,7 +1007,9 @@ class MyProvider with ChangeNotifier {
     dataProductsServicesCategories = [];
     dbctpaga.deleteAll();
     dataPurchase = [];
-    Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
+
+    if(status)
+      Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
   }
 
 }

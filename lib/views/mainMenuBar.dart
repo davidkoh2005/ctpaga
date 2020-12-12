@@ -88,8 +88,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
   Widget _buildNavItem(String _title, String _icon, int _status, int code){
     var size = MediaQuery.of(context).size;
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     return GestureDetector(
-      onTap: () => setState(()=> _statusButton = code),
+      onTap: () {
+        if(code == 3 || code == 4){
+          myProvider.verifyStatusDeposits();
+          myProvider.getListPaids();
+        }
+        setState(()=> _statusButton = code);
+      },
       child: Container(
         padding: EdgeInsets.only(top:10),
         width: size.width / 5.1,

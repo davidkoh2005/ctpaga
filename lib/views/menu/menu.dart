@@ -149,7 +149,7 @@ class _MenuPageState extends State<MenuPage> {
           print(jsonResponse);
           prefs.remove("access_token");
           prefs.remove('selectCommerce');
-          myProvider.removeSession(context);
+          myProvider.removeSession(context, false);
           Navigator.pop(context);
           myProvider.statusButtonMenu = false;
           await Future.delayed(Duration(milliseconds: 150));
@@ -169,8 +169,10 @@ class _MenuPageState extends State<MenuPage> {
       myProvider.statusButtonMenu = false;
       myProvider.selectDateRate = 0;
       
-      if(code == 2 || code == 8)
+      if(code == 2 || code == 8){
         myProvider.verifyStatusDeposits();
+        myProvider.getListPaids();
+      }
 
       myProvider.clickButtonMenu = code;
       await Future.delayed(Duration(milliseconds: 150));

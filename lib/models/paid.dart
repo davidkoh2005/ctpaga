@@ -1,11 +1,10 @@
 class Paid{
   // ignore: non_constant_identifier_names
-  int id, user_id, commerce_id, coin, shipping_id, percentage;
+  int id, user_id, commerce_id, coin, percentage, statusShipping;
   // ignore: non_constant_identifier_names
-  String codeUrl, nameClient,total, email, nameShopping, numberShopping, addressShopping, detailsShopping, nameCompanyPayments;
-
+  String codeUrl, nameClient,total, email, nameShipping, numberShipping, addressShipping, detailsShipping, selectShipping, priceShipping, totalShipping, nameCompanyPayments, date;
   // ignore: non_constant_identifier_names
-  Paid({this.id, this.user_id, this.commerce_id, this.codeUrl, this.nameClient, this.total, this.coin, this.email, this.nameShopping, this.numberShopping, this.addressShopping, this.detailsShopping, this.shipping_id, this.percentage, this.nameCompanyPayments});
+  Paid({this.id, this.user_id, this.commerce_id, this.codeUrl, this.nameClient, this.total, this.coin, this.email, this.nameShipping, this.numberShipping, this.addressShipping, this.detailsShipping, this.statusShipping, this.selectShipping, this.priceShipping, this.totalShipping, this.percentage, this.nameCompanyPayments, this.date});
 
   factory Paid.fromMap(dynamic data) => Paid(
     id: data['id'],
@@ -16,13 +15,17 @@ class Paid{
     total: data['total'],
     coin: data['coin'],
     email: data['email'],
-    nameShopping: data['nameShopping'],
-    numberShopping: data['numberShopping'],
-    addressShopping: data['addressShopping'],
-    detailsShopping: data['detailsShopping'],
-    shipping_id: data['shipping_id'],
+    nameShipping: data['nameShipping'],
+    numberShipping: data['numberShipping'],
+    addressShipping: data['addressShipping'],
+    detailsShipping: data['detailsShipping'],
+    selectShipping: data['selectShipping'],
+    priceShipping: data['priceShipping'],
+    statusShipping: data['statusShipping'],
+    totalShipping: data['totalShipping'],
     percentage: data['percentage'],
     nameCompanyPayments: data['nameCompanyPayments'],
+    date: data['date'],
   );
 
   Map<String, dynamic> toJson()=> {
@@ -34,13 +37,17 @@ class Paid{
     'total': total,
     'coin': coin,
     'email': email,
-    'nameShopping': nameShopping,
-    'numberShopping': numberShopping,
-    'addressShopping': addressShopping,
-    'detailsShopping': detailsShopping,
-    'shipping_id': shipping_id,
+    'nameShipping': nameShipping,
+    'numberShipping': numberShipping,
+    'addressShipping': addressShipping,
+    'detailsShipping': detailsShipping,
+    'selectShipping': selectShipping,
+    'priceShipping': priceShipping,
+    'statusShipping': statusShipping,
+    'totalShipping': totalShipping,
     'percentage': percentage,
     'nameCompanyPayments': nameCompanyPayments,
+    'date': date,
   };
 
 }

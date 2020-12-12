@@ -1,5 +1,7 @@
 
+import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
+import 'package:ctpaga/views/showDAtaPaidPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -29,6 +31,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusCoin = 1, _statusButtonDate = 0;
   List _listVerification = new List();
+  var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
+  List _reportSales = new List ();
 
   @override
   void initState() {
@@ -82,6 +86,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     _controller.play();
                     _statusCoin = _statusCoin == 0 ? 1 : 0;
                   });
+                  verifyData();
                   await Future.delayed(Duration(milliseconds: 150));
                   changeVideo(myProvider);
                 },
@@ -121,90 +126,92 @@ class _SalesReportPageState extends State<SalesReportPage> {
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    showDate(),
+                    style: TextStyle(
+                      color: colorText,
+                      fontSize: 18 * scaleFactor,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(bottom: 10),
+                child: Text(
+                  showSales(),
+                  style:  TextStyle(
+                    fontSize: 35 * scaleFactor,
+                  ),
+                )
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(top: 10, bottom: 10),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    width:size.width - 100,
+                    height: size.height / 20,
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          Colors.red,
+                          Colors.red,
+                        ],
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                      ),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Center(
                       child: Text(
-                        showDate(),
+                        'No podemos enviarte tu dinero',
                         style: TextStyle(
-                          color: colorText,
-                          fontSize: 18 * scaleFactor,
+                          color: Colors.white,
+                          fontSize: 15 * scaleFactor,
                         ),
                       ),
                     ),
                   ),
-                  Container(
-                    padding: EdgeInsets.only(bottom: 10),
-                    child: Text(
-                      showSales(),
-                      style:  TextStyle(
-                        fontSize: 35 * scaleFactor,
-                      ),
-                    )
+                )
+              ),
+              Visibility(
+                visible: _listVerification.length != 4? true : false,
+                child: Text(
+                  "Necesitamos que completes la información que aparece en el Banco",
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(
+                    fontSize:  15 * scaleFactor,
+                    color: colorText
                   ),
+                )
+              ),
 
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: GestureDetector(
-                      onTap: () {},
-                      child: Container(
-                        width:size.width - 100,
-                        height: size.height / 20,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            colors: [
-                              Colors.red,
-                              Colors.red,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
-                          borderRadius: BorderRadius.circular(30),
-                        ),
-                        child: Center(
-                          child: Text(
-                            'No podemos enviarte tu dinero',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15 * scaleFactor,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ),
-                  Visibility(
-                    visible: _listVerification.length != 4? true : false,
-                    child: Text(
-                      "Necesitamos que completes la información que aparece en el Banco",
-                      textAlign: TextAlign.center,
-                      style:  TextStyle(
-                        fontSize:  15 * scaleFactor,
-                        color: colorText
-                      ),
-                    )
-                  ),
+              Padding(
+                padding: EdgeInsets.only(top:20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    showButtonDate(0),
+                    showButtonDate(1),
+                    showButtonDate(2),
+                  ],
+                )
+              ),
 
-                  Padding(
-                    padding: EdgeInsets.only(top:20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        showButtonDate(0),
-                        showButtonDate(1),
-                        showButtonDate(2),
-                      ],
-                    )
-                  ),
-
-                  showTable(),
-                  
-                ],
-            )
+              Expanded(
+                child: SingleChildScrollView(
+                  child: showTable()
+                ),
+              ),
+              
+            ],
           )
         );
       }
@@ -268,14 +275,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget showTable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    return Padding(
+    return Container(
       padding: EdgeInsets.only(top: 20, bottom:20),
       child: DataTable(
         columns: <DataColumn>[
           DataColumn(
             label: Text(
-              'Productos y/o \n Servicios',
+              'Nombre del \n cliente',
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
@@ -286,6 +294,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
           DataColumn(
             label: Text(
               'Fecha',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 15 * scaleFactor,
@@ -295,6 +304,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
           DataColumn(
             label: Text(
               'Precio',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 15 * scaleFactor,
@@ -302,16 +312,67 @@ class _SalesReportPageState extends State<SalesReportPage> {
             ),
           ),
         ],
-        rows: const <DataRow>[
-          /* DataRow(
-            cells: <DataCell>[
-              DataCell(Text('No se ha agregado ninguna tasa')),
-            ],
-          ), */
-        ], 
+        rows: _reportSales.length == 0?
+          const <DataRow>[]
+        :
+          List<DataRow>.generate(
+            _reportSales.length,
+            (index) => DataRow(
+              cells: [
+                DataCell(
+                  Text(_reportSales[index].nameClient),
+                  onTap: (){
+                    myProvider.selectPaid = _reportSales[index];
+                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  }
+                ),
+                DataCell(
+                  Text(showDateTable(_reportSales[index].date)),
+                  onTap: (){
+                    myProvider.selectPaid = _reportSales[index];
+                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  }
+                ),
+                DataCell(
+                  Text(showPriceTable(_reportSales[index].total)),
+                  onTap: (){
+                    myProvider.selectPaid = _reportSales[index];
+                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  }
+                ),
+              ]
+            )
+          ).toList(),
       ),  
       
     );
   }
+
+
+  verifyData(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    setState(() => _reportSales = []);
+    for (var item in myProvider.dataPaids) {
+        if(item.coin == _statusCoin)
+          setState(() => _reportSales.add(item));
+    }
+
+  }
+
+  showDateTable(date){
+    return formatterTable.format(DateTime.parse(date));
+  }
+
+  showPriceTable(total){
+    var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
+  
+    if(_statusCoin == 1)
+      lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+    
+    lowPrice.updateValue(double.parse(total));
+
+    return "${lowPrice.text}";
+  }
+
 
 }

@@ -364,7 +364,13 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  List _balance = new List();
+  List get dataBalances =>_balance;
 
+  set dataBalances(List newBalance){
+    _balance = newBalance;
+    notifyListeners();
+  }
 
   User user = User();
   List banksUser = new List(2);
@@ -986,6 +992,41 @@ class MyProvider with ChangeNotifier {
         dataPaids = await dbctpaga.getPaids();
       }
 
+    }
+  }
+
+  List _listBalances = new List();
+
+  getListBalances()async{
+    var result, response, jsonResponse;
+    _listBalances = [];
+    try
+    {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"showBalances",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer $accessTokenUser',
+          },
+          body: jsonEncode({
+            "commerce_id": dataCommercesUser[selectCommerce].id.toString(),
+          }),
+        ); 
+
+        jsonResponse = jsonDecode(response.body);
+        print(jsonResponse);
+        if (jsonResponse['statusCode'] == 201) {
+          for (var item in jsonResponse['data']) {
+            _listBalances.add(item);
+          }
+          dataBalances = _listBalances;
+        } 
+      }
+    } on SocketException catch (_) {
+      print("sin conexion");
     }
   }
 

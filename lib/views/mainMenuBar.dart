@@ -94,6 +94,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         if(code == 3 || code == 4){
           myProvider.verifyStatusDeposits();
           myProvider.getListPaids();
+          myProvider.getListBalances();
         }
         setState(()=> _statusButton = code);
       },

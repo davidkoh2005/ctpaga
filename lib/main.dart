@@ -3,6 +3,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
@@ -28,6 +29,10 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
         ),
+        supportedLocales: [
+          Locale('es','ES'),
+        ],
+        localizationsDelegates: GlobalMaterialLocalizations.delegates,
         home: MyHomePage(title: 'Ctpaga'),
       )
     );

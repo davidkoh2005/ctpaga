@@ -172,6 +172,7 @@ class _MenuPageState extends State<MenuPage> {
       if(code == 2 || code == 8){
         myProvider.verifyStatusDeposits();
         myProvider.getListPaids();
+        myProvider.getListBalances();
       }
 
       myProvider.clickButtonMenu = code;

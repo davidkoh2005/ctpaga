@@ -9,6 +9,7 @@ import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
 
@@ -23,7 +24,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
   _SalesReportPageState(this._statusMenuBar);
   final bool _statusMenuBar;
   VideoPlayerController _controller;
-
+  var controllerInitialDate = TextEditingController();
+  var controllerFinalDate = TextEditingController();
   List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
   var formatter = new DateFormat('dd/M/yyyy');
   var formatterDay = new DateFormat('EEEE');
@@ -33,10 +35,13 @@ class _SalesReportPageState extends State<SalesReportPage> {
   List _listVerification = new List();
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
   List _reportSales = new List ();
+  DateTime _initialDate = DateTime.now();
+  DateTime _finalDate = DateTime.now();
 
   @override
   void initState() {
     super.initState();
+    initializeDateFormatting();
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
@@ -53,6 +58,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     changeVideo(myProvider);
+    verifyData();
   }
 
   @override
@@ -136,7 +142,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     showDate(),
                     style: TextStyle(
                       color: colorText,
-                      fontSize: 18 * scaleFactor,
+                      fontSize: 16 * scaleFactor,
                     ),
                   ),
                 ),
@@ -144,7 +150,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               Container(
                 padding: EdgeInsets.only(bottom: 10),
                 child: Text(
-                  showSales(),
+                  showSales(myProvider),
                   style:  TextStyle(
                     fontSize: 35 * scaleFactor,
                   ),
@@ -205,6 +211,29 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 )
               ),
 
+              Padding(
+                padding: EdgeInsets.only(top:20),
+                child: Text(
+                  "O rango de fecha:",
+                  textAlign: TextAlign.center,
+                  style:  TextStyle(
+                    fontSize:  15 * scaleFactor,
+                    color: colorText
+    ),
+                ),
+              ),
+
+              Padding(
+                padding: EdgeInsets.only(top:5, bottom: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: <Widget>[
+                    showInputDate("Inicial",controllerInitialDate,1),
+                    showInputDate("Final",controllerFinalDate,2),
+                  ],
+                )
+              ),
+
               Expanded(
                 child: SingleChildScrollView(
                   child: showTable()
@@ -218,6 +247,68 @@ class _SalesReportPageState extends State<SalesReportPage> {
     );
   }
 
+  showInputDate(_title, _controller,index){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return Container(
+      width: size.width/3,
+      child: TextFormField(
+        readOnly: true,
+        decoration: InputDecoration(
+          labelText: _title,
+        ),
+        controller: _controller,
+        style: TextStyle(
+          fontSize: 15 * scaleFactor,
+        ),
+        onTap: () {
+          setState(() {
+            _statusButtonDate = 3;
+          });
+          if(index == 1)
+            _selectDateInitial(context);
+          else
+            _selectDateFinal(context);
+        }
+      )
+    );
+  }
+
+  Future<Null> _selectDateInitial(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+        context: context,
+        initialDate: _dateNow,
+        firstDate: DateTime(_dateNow.year-1,1),
+        lastDate: _dateNow,
+        helpText: "Seleccionar la Fecha Inicial:"
+      );
+    if (picked != null && picked != DateTime.now())
+      setState(() {
+        _initialDate = picked;
+        controllerInitialDate.text = formatter.format(_initialDate);
+      });
+    
+    verifyData();
+  }
+
+  Future<Null> _selectDateFinal(BuildContext context) async {
+    final DateTime picked = await showDatePicker(
+      context: context,
+        locale : const Locale("es","ES"),
+      initialDate: _dateNow,
+      firstDate: DateTime(_dateNow.year-1, 1),
+      lastDate: _dateNow,
+      helpText: "Seleccionar la Fecha Final:"
+      );
+    if (picked != null && picked != DateTime.now())
+      setState(() {
+        _finalDate = picked;
+        controllerFinalDate.text = formatter.format(_finalDate);
+      });
+    
+    verifyData();
+  }
+
   showDate(){
     switch (_statusButtonDate) {
       case 0:
@@ -226,17 +317,28 @@ class _SalesReportPageState extends State<SalesReportPage> {
       case 1:
         return "VENTAS:  FECHA ${formatter.format(_firstDay)} - ${formatter.format(_lastDay)} ";
         break;
-      default:
+      case 2:
         formatterMonth = new DateFormat('MMMM', 'es_ES');
         return "VENTAS:  MES ${formatterMonth.format(_today).toUpperCase()}";
+      default:
+        formatterMonth = new DateFormat('MMMM', 'es_ES');
+        return "VENTAS: ${controllerInitialDate.text} al ${controllerFinalDate.text}";
     }
   }
 
-  showSales(){
+  showSales(myProvider){
     var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
-  
-    if(_statusCoin == 1)
+    if(_statusCoin == 1){
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+    }
+
+    for (var item in myProvider.dataBalances) {
+      if(item['coin'] == _statusCoin){
+        lowPrice.updateValue(double.parse(item['total']));
+        break;
+      }
+    }
+      
     
     return "${lowPrice.text}";
   }
@@ -245,7 +347,16 @@ class _SalesReportPageState extends State<SalesReportPage> {
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
-      onTap: () => setState(() => _statusButtonDate = index),
+      onTap: () {
+        setState(() {
+          _statusButtonDate = index;
+          _initialDate = _dateNow;
+          _finalDate = _dateNow;
+        });
+        controllerInitialDate.clear();
+        controllerFinalDate.clear();
+        verifyData();
+      },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
@@ -277,74 +388,73 @@ class _SalesReportPageState extends State<SalesReportPage> {
   Widget showTable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    return Container(
-      padding: EdgeInsets.only(top: 20, bottom:20),
-      child: DataTable(
-        columns: <DataColumn>[
-          DataColumn(
-            label: Text(
-              'Nombre del \n cliente',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 15 * scaleFactor,
-              ),
+    return DataTable(
+      columns: <DataColumn>[
+        DataColumn(
+          label: Text(
+            'Cliente',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 12 * scaleFactor,
             ),
           ),
-          DataColumn(
-            label: Text(
-              'Fecha',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 15 * scaleFactor,
-              ),
+        ),
+        DataColumn(
+          label: Text(
+            'Fecha',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 12 * scaleFactor,
             ),
           ),
-          DataColumn(
-            label: Text(
-              'Precio',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontStyle: FontStyle.italic,
-                fontSize: 15 * scaleFactor,
-              ),
+        ),
+        DataColumn(
+          label: Text(
+            'Precio',
+            textAlign: TextAlign.center,
+            style: TextStyle(
+              fontStyle: FontStyle.italic,
+              fontSize: 12 * scaleFactor,
             ),
           ),
-        ],
-        rows: _reportSales.length == 0?
-          const <DataRow>[]
-        :
-          List<DataRow>.generate(
-            _reportSales.length,
-            (index) => DataRow(
-              cells: [
-                DataCell(
-                  Text(_reportSales[index].nameClient),
-                  onTap: (){
-                    myProvider.selectPaid = _reportSales[index];
-                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
-                  }
-                ),
-                DataCell(
-                  Text(showDateTable(_reportSales[index].date)),
-                  onTap: (){
-                    myProvider.selectPaid = _reportSales[index];
-                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
-                  }
-                ),
-                DataCell(
-                  Text(showPriceTable(_reportSales[index].total)),
-                  onTap: (){
-                    myProvider.selectPaid = _reportSales[index];
-                    Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
-                  }
-                ),
-              ]
-            )
-          ).toList(),
-      ),  
-      
+        ),
+      ],
+      rows: _reportSales.length == 0?
+        const <DataRow>[]
+      :
+        List<DataRow>.generate(
+          _reportSales.length,
+          (index) => DataRow(
+            cells: [
+              DataCell(
+                Text(_reportSales[index].nameClient),
+                onTap: (){
+                  myProvider.selectPaid = _reportSales[index];
+                  Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  _onLoading();
+                }
+              ),
+              DataCell(
+                Text(showDateTable(_reportSales[index].date)),
+                onTap: (){
+                  myProvider.selectPaid = _reportSales[index];
+                  Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  _onLoading();
+                }
+              ),
+              DataCell(
+                Text(showPriceTable(_reportSales[index].total)),
+                onTap: (){
+                  myProvider.selectPaid = _reportSales[index];
+                  Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
+                  _onLoading();
+                }
+              ),
+            ]
+          )
+        ).toList(),
     );
   }
 
@@ -353,8 +463,20 @@ class _SalesReportPageState extends State<SalesReportPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() => _reportSales = []);
     for (var item in myProvider.dataPaids) {
-        if(item.coin == _statusCoin)
+      DateTime dateItem = DateTime.parse(item.date);
+      if(_statusButtonDate == 0){
+        if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year)
           setState(() => _reportSales.add(item));
+      }else if(_statusButtonDate == 1){
+        if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem))
+          setState(() => _reportSales.add(item));
+      }else if(_statusButtonDate == 2){
+        if(item.coin == _statusCoin && dateItem.month == _dateNow.month)
+          setState(() => _reportSales.add(item));
+      }else if(_statusButtonDate == 3){
+        if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem))
+          setState(() => _reportSales.add(item));
+      }
     }
 
   }
@@ -374,5 +496,57 @@ class _SalesReportPageState extends State<SalesReportPage> {
     return "${lowPrice.text}";
   }
 
+  Future<void> _onLoading() async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Cargando ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                        TextSpan(
+                          text: "...",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        );
+      },
+    );
+  }
 
 }

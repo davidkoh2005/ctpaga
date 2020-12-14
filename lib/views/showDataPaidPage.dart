@@ -61,6 +61,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 _listSales.add(item);
               });
             }
+            Navigator.pop(context);
           } 
         }
       } on SocketException catch (_) {
@@ -107,7 +108,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
         Container(
-          padding: EdgeInsets.fromLTRB(30,0,30,10),
+          padding: EdgeInsets.fromLTRB(30,0,30,5),
           child: Center(
             child: Text(
               "CONTACTO",
@@ -170,7 +171,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         ),
 
         Container(
-          padding: EdgeInsets.fromLTRB(30,20,30,10),
+          padding: EdgeInsets.fromLTRB(30,10,30,5),
           child: Center(
             child: Text(
               "ENVÍO",
@@ -280,7 +281,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         ),
 
         Container(
-          padding: EdgeInsets.fromLTRB(30,30,30,10),
+          padding: EdgeInsets.fromLTRB(30,10,30,10),
           child: Center(
             child: Text(
               "DETALLE",
@@ -415,7 +416,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         ),
 
         Container(
-          padding: EdgeInsets.fromLTRB(30,30,30,10),
+          padding: EdgeInsets.fromLTRB(30,10,30,10),
           child: Center(
             child: Text(
               "LISTA",
@@ -442,7 +443,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               DataColumn(
                 label: Text(
-                  'Producto y/o Servicio',
+                  'Producto\ny/o Servicio',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,

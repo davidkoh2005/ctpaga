@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -21,6 +23,7 @@ class _DepositsPageState extends State<DepositsPage> {
   final _scrollController = ScrollController();
   VideoPlayerController _controller;
   List _statusButton = new List();
+  double _balance = 0.0;
 
   void initState() {
     super.initState();
@@ -89,7 +92,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                   },
                                   child: Container(
                                     alignment: Alignment.centerRight,
-                                    padding: EdgeInsets.only(top: 20, right:30),
+                                    padding: !_statusMenuBar? EdgeInsets.only(top: 0, right:30) : EdgeInsets.only(top: 30, right:30),
                                     child: _controller != null?
                                         Container(
                                             width: size.width/4,
@@ -117,56 +120,63 @@ class _DepositsPageState extends State<DepositsPage> {
                                   child: Text(
                                     showDeposits(myProvider),
                                     style:  TextStyle(
-                                      fontSize: 32 * scaleFactor,
+                                      fontSize: 34 * scaleFactor,
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: EdgeInsets.only(top: 10, bottom: 10),
-                                  child: GestureDetector(
-                                    onTap: () {},
-                                    child: Container(
-                                      width:size.width - 100,
-                                      height: size.height / 20,
-                                      decoration: BoxDecoration(
-                                        gradient: LinearGradient(
-                                          colors: [
-                                            Colors.red,
-                                            Colors.red,
-                                          ],
-                                          begin: Alignment.topLeft,
-                                          end: Alignment.bottomRight,
-                                        ),
-                                        borderRadius: BorderRadius.circular(30),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          'No podemos enviarte tu dinero',
-                                          style: TextStyle(
-                                            color: Colors.white,
-                                            fontSize: 15 * scaleFactor,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                ),
+
                                 Consumer<MyProvider>(
                                   builder: (context, myProvider, child) {
-                                    return Visibility(
-                                      visible: myProvider.listVerification.length != 4? true : false,
-                                      child: Text(
-                                        "Necesitamos que completes la información marcada en rojo debajo",
-                                        textAlign: TextAlign.center,
-                                        style:  TextStyle(
-                                          fontSize: 15 * scaleFactor,
-                                          color: colorGrey
+                                    return Column(
+                                      children : <Widget>[
+                                        Visibility(
+                                          visible: myProvider.listVerification.length != 4? true : false,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                                            child: Container(
+                                              width:size.width - 100,
+                                              height: size.height / 20,
+                                              decoration: BoxDecoration(
+                                                gradient: LinearGradient(
+                                                  colors: [
+                                                    Colors.red,
+                                                    Colors.red,
+                                                  ],
+                                                  begin: Alignment.topLeft,
+                                                  end: Alignment.bottomRight,
+                                                ),
+                                                borderRadius: BorderRadius.circular(30),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  'No podemos enviarte tu dinero',
+                                                  style: TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 15 * scaleFactor,
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ),
                                         ),
-                                      )
+
+                                        Visibility(
+                                          visible: myProvider.listVerification.length != 4? true : false,
+                                          child: Text(
+                                            "Necesitamos que completes la información marcada en rojo debajo",
+                                            textAlign: TextAlign.center,
+                                            style:  TextStyle(
+                                              fontSize: 15 * scaleFactor,
+                                              color: colorGrey
+                                            ),
+                                          )
+                                        ),
+                                        
+                                      ]
                                     );
                                   }
                                 ),
-                                  Align(
+                                Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
                                     padding: EdgeInsets.all(25),
@@ -237,6 +247,13 @@ class _DepositsPageState extends State<DepositsPage> {
     if(myProvider.selectCoinDeposits == 1)
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     
+    for (var item in myProvider.dataBalances) {
+      if(item.coin == myProvider.selectCoinDeposits){
+        lowPrice.updateValue(double.parse(item.total));
+        break;
+      }
+    }
+
     return "${lowPrice.text}";
   }
 
@@ -254,7 +271,7 @@ class _DepositsPageState extends State<DepositsPage> {
             padding: EdgeInsets.only(top:5),
             child: Container(
               width: size.width,
-              color: _statusButton.contains(index)? colorGreen : colorGrey,
+              color: _statusButton.contains(index)? colorGreen : colorGreyOpacity,
               height: 45,
               child: Container(
               ),

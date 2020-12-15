@@ -1,5 +1,6 @@
 
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/showDAtaPaidPage.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -157,47 +158,60 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 )
               ),
 
-              Padding(
-                padding: EdgeInsets.only(top: 10, bottom: 10),
-                child: GestureDetector(
-                  onTap: () {},
-                  child: Container(
-                    width:size.width - 100,
-                    height: size.height / 20,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(
-                        colors: [
-                          Colors.red,
-                          Colors.red,
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                      ),
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'No podemos enviarte tu dinero',
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 15 * scaleFactor,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              ),
-              Visibility(
-                visible: _listVerification.length != 4? true : false,
-                child: Text(
-                  "Necesitamos que completes la información que aparece en el Banco",
-                  textAlign: TextAlign.center,
-                  style:  TextStyle(
-                    fontSize:  15 * scaleFactor,
-                    color: colorText
-                  ),
-                )
-              ),
+              Consumer<MyProvider>(
+                                  builder: (context, myProvider, child) {
+                                    return Column(
+                                      children : <Widget>[
+                                        Visibility(
+                                          visible: myProvider.listVerification.length != 4? true : false,
+                                          child: Padding(
+                                            padding: EdgeInsets.only(top: 10, bottom: 10),
+                                            child: GestureDetector(
+                                              onTap: () => Navigator.push(context, SlideLeftRoute(page: DepositsPage(false))),
+                                              child: Container(
+                                                width:size.width - 100,
+                                                height: size.height / 20,
+                                                decoration: BoxDecoration(
+                                                  gradient: LinearGradient(
+                                                    colors: [
+                                                      Colors.red,
+                                                      Colors.red,
+                                                    ],
+                                                    begin: Alignment.topLeft,
+                                                    end: Alignment.bottomRight,
+                                                  ),
+                                                  borderRadius: BorderRadius.circular(30),
+                                                ),
+                                                child: Center(
+                                                  child: Text(
+                                                    'No podemos enviarte tu dinero',
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontSize: 15 * scaleFactor,
+                                                    ),
+                                                  ),
+                                                ),
+                                              )
+                                            )
+                                          ),
+                                        ),
+
+                                        Visibility(
+                                          visible: myProvider.listVerification.length != 4? true : false,
+                                          child: Text(
+                                            "Necesitamos que completes la información marcada en rojo debajo",
+                                            textAlign: TextAlign.center,
+                                            style:  TextStyle(
+                                              fontSize: 15 * scaleFactor,
+                                              color: colorGrey
+                                            ),
+                                          )
+                                        ),
+                                        
+                                      ]
+                                    );
+                                  }
+                                ),
 
               Padding(
                 padding: EdgeInsets.only(top:20),
@@ -328,18 +342,18 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   showSales(myProvider){
     var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
+    
     if(_statusCoin == 1){
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     }
 
     for (var item in myProvider.dataBalances) {
-      if(item['coin'] == _statusCoin){
-        lowPrice.updateValue(double.parse(item['total']));
+      if(item.coin == _statusCoin){
+        lowPrice.updateValue(double.parse(item.total));
         break;
       }
     }
       
-    
     return "${lowPrice.text}";
   }
 

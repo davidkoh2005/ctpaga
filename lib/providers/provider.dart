@@ -6,6 +6,7 @@ import 'package:ctpaga/models/commerce.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/service.dart';
+import 'package:ctpaga/models/balance.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/models/rate.dart';
@@ -490,22 +491,23 @@ class MyProvider with ChangeNotifier {
             dataCommercesUser = listCommerces;
 
             statusUrlCommerce = false;
-
-            if(dataCommercesUser.length != 0) 
+            if(listCommerces.length != 0){
               if (dataCommercesUser[selectCommerce].userUrl != '')
                 statusUrlCommerce = true;
+              
+              getListCategories();
+              getListProducts();
+              getListServices();
+              getListShipping();
+              getListPaids();
+            }
 
           }
 
           statusDolar = false;
           statusBs = false;
-          getListCategories();
-          getListProducts();
-          getListServices();
-          getListShipping();
           getListDiscounts();
           getListRates();
-          getListPaids();
           await Future.delayed(Duration(seconds: 3));
 
           if(loading){
@@ -995,6 +997,7 @@ class MyProvider with ChangeNotifier {
     }
   }
 
+  Balance balance = Balance();
   List _listBalances = new List();
 
   getListBalances()async{
@@ -1020,13 +1023,20 @@ class MyProvider with ChangeNotifier {
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           for (var item in jsonResponse['data']) {
-            _listBalances.add(item);
+            balance = Balance(
+              id: item['id'],
+              user_id: item['user_id'],
+              commerce_id: item['commerce_id'],
+              coin: item['coin'],
+              total: item['total'],
+            );
+            _listBalances.add(balance);
           }
           dataBalances = _listBalances;
         } 
       }
     } on SocketException catch (_) {
-      print("sin conexion");
+      dataBalances = await dbctpaga.getBalances();
     }
   }
 

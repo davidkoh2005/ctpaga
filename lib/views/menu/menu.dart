@@ -22,7 +22,7 @@ class _MenuPageState extends State<MenuPage> {
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    var size = MediaQuery.of(context).size;
     return Row(
       children: <Widget>[
         Expanded(
@@ -32,43 +32,24 @@ class _MenuPageState extends State<MenuPage> {
               padding: EdgeInsets.only(top:40),
               itemCount: listMenu.length,
               itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
+                return ListTile(
                   onTap: () => nextPage(listMenu[index]['code'], listMenu[index]['page'], index),
-                  child: Row(
-                    children: <Widget>[
-                      Padding(
-                        padding: EdgeInsets.only(left:25),
-                        child: Container(
-                          width: 60,
-                          height: 60,
-                          child: Padding(
-                            padding: EdgeInsets.only(top:15, bottom: 15, left: 10, right: 10),
-                            child: Visibility(
-                              visible: listMenu[index]['icon'] == ''? false : true,
-                              child: Image.asset(
-                                listMenu[index]['icon'],
-                                color: statusButton.contains(index)? Colors.black : Colors.white,
-                              )
-                            ),
-                          ),
-                        ),
-                      ),
-                      Expanded(
-                        child: Padding(
-                          padding: EdgeInsets.only(left:10),
-                          child: Container(
-                            child: Text(
-                              listMenu[index]['title'],
-                              style: TextStyle(
-                                fontSize: 15 * scaleFactor,
-                                color: statusButton.contains(index)? Colors.black : Colors.white,
-                                fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
-                              ),
-                            )
-                          ),
-                        ),
-                      ),
-                    ],
+                  leading: Visibility(
+                    visible: listMenu[index]['icon'] == ''? false : true,
+                    child: Image.asset(
+                      listMenu[index]['icon'],
+                      color: statusButton.contains(index)? Colors.black : Colors.white,
+                      width: size.width/11,
+                      height: size.height/11,
+                    )
+                  ),
+                  title: Text(
+                    listMenu[index]['title'],
+                    style: TextStyle(
+                      fontSize: 15 * scaleFactor,
+                      color: statusButton.contains(index)? Colors.black : Colors.white,
+                      fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                    ),
                   ),
                 );
               },
@@ -171,8 +152,10 @@ class _MenuPageState extends State<MenuPage> {
       
       if(code == 2 || code == 8){
         myProvider.verifyStatusDeposits();
-        myProvider.getListPaids();
-        myProvider.getListBalances();
+        if(myProvider.dataCommercesUser.length != 0){
+          myProvider.getListPaids();
+          myProvider.getListBalances();
+        }
       }
 
       myProvider.clickButtonMenu = code;

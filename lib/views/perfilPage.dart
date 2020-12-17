@@ -290,8 +290,8 @@ class _PerfilPageState extends State<PerfilPage> {
                   child: new CachedNetworkImage(
                     imageUrl: "http://"+url+urlProfile,
                     fit: BoxFit.cover,
-                    height: size.width / 3,
-                    width: size.width / 3,
+                    height: size.width / 3.5,
+                    width: size.width / 3.5,
                     placeholder: (context, url) {
                       return Container(
                         margin: EdgeInsets.all(15),

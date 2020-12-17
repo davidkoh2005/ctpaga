@@ -21,7 +21,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
 
   final _pageOptions = [
     ExchangeRatePage(true),
-    ShippingPage(true),
+    MainPage(),
     MainPage(),
     DepositsPage(true),
     SalesReportPage(true),
@@ -76,7 +76,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
           _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
-          _buildNavItem("Envios" ,"assets/icons/envios.png",_statusButton, 1),
+          _buildNavItem("Divisa" ,"assets/icons/divisa.png",_statusButton, 1),
           _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 2),
           _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 3),
           _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 4),
@@ -99,6 +99,10 @@ class _MainMenuBarState extends State<MainMenuBar> {
           }
 
         }
+
+        if(code == 1)
+          showDivisa();
+        
         setState(()=> _statusButton = code);
       },
       child: Container(
@@ -131,5 +135,131 @@ class _MainMenuBarState extends State<MainMenuBar> {
         )
       )
     );
+  }
+
+  Future<void> showDivisa(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return showDialog(
+      context: context,
+      barrierDismissible: true, // user must tap button!
+      builder: (BuildContext context) {
+        return Consumer<MyProvider>(
+          builder: (context, myProvider, child) {
+            return WillPopScope(
+              onWillPop: () async => true,
+              child: AlertDialog(
+                backgroundColor: Colors.white,
+                content: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Container(
+                      padding: EdgeInsets.all(5),
+                      child: Text(
+                        "Seleccionar Divisa:",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 15 * scaleFactor,
+                        )
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        myProvider.coinUsers = 1;
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: size.width/2,
+                        height: size.width/7,
+                        decoration: new BoxDecoration(
+                          color: myProvider.coinUsers == 1 ? colorGreen : colorGrey,
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: size.width/8,
+                              child: CircleAvatar(
+                                radius: 30.0,
+                                backgroundColor: Colors.white,
+                                child: Image(
+                                  image: AssetImage("assets/icons/venezuela.png"),
+                                  width: size.width/10,
+                                ),
+                              )
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  "Bs",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20 * scaleFactor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    ),
+                    SizedBox(height:10),
+                    GestureDetector(
+                      onTap: () {
+                        myProvider.coinUsers = 0;
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        width: size.width/2,
+                        height: size.width/7,
+                        decoration: new BoxDecoration(
+                          color: myProvider.coinUsers == 0 ? colorGreen : colorGrey,
+                          borderRadius: new BorderRadius.circular(5.0),
+                        ),
+                        child: Row(
+                          children: <Widget>[
+                            Container(
+                              height: size.width/8,
+                              child: CircleAvatar(
+                                radius: 30.0,
+                                backgroundColor: Colors.white,
+                                child: Image(
+                                  image: AssetImage("assets/icons/eeuu.png"),
+                                  width: size.width/10,
+                                ),
+                              )
+                            ),
+                            SizedBox(width: 10),
+                            Expanded(
+                              child: Container(
+                                child: Text(
+                                  "\$",
+                                  style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 20 * scaleFactor,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  ],
+                ),
+              )
+            );
+          }
+        );
+      }
+    ).then((val){
+        setState(()=> _statusButton = 2);
+    });
   }
 }

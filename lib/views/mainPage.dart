@@ -33,29 +33,17 @@ class _MainPageState extends State<MainPage> {
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
   }
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _statusCoin = myProvider.coinUsers;
-    changeVideo();
-  }
-
-  changeVideo(){
-    if(_statusCoin == 0){
-      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
-    }else{
-       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
-    }
-    _controller.initialize();
   }
 
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
         if(myProvider.statusButtonMenu){
@@ -73,29 +61,7 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 NavbarMain(),
-                GestureDetector(
-                  onTap: () async {
-                    myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
-                    setState(() {
-                      _controller.play();
-                      _statusCoin = _statusCoin == 0 ? 1 : 0;
-                    });
-                    await Future.delayed(Duration(milliseconds: 150));
-                    changeVideo();
-                  },
-                  child: Container(
-                    alignment: Alignment.centerRight,
-                    padding: EdgeInsets.only(top: 10, right:30),
-                    child: _controller != null?
-                        Container(
-                          width: size.width/3.5,
-                          height: size.width/3.5,
-                          child: VideoPlayer(_controller),
-                        )
-                      :
-                        Container(),
-                  )
-                ),
+                
                 Expanded(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,

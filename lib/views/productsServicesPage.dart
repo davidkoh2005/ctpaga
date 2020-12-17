@@ -144,7 +144,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
         GestureDetector(
-          
           onTap: () => setState(() {
             _selectCategories = 0;
             _statusDropdown = title;

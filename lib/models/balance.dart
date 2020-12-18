@@ -1,7 +1,6 @@
 class Balance{
   // ignore: non_constant_identifier_names
   int id, user_id, commerce_id, coin;
-  // ignore: non_constant_identifier_names
   String total;
   // ignore: non_constant_identifier_names
   Balance({this.id, this.user_id, this.commerce_id, this.total, this.coin});

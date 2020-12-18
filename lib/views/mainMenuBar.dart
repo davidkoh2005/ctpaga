@@ -92,12 +92,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
     return GestureDetector(
       onTap: () {
         if(code == 3 || code == 4){
-          myProvider.verifyStatusDeposits();
-          if(myProvider.dataCommercesUser.length != 0){
-            myProvider.getListPaids();
-            myProvider.getListBalances();
-          }
-
+          myProvider.getDataUser(false, false, context);
         }
 
         if(code == 1)

@@ -151,11 +151,7 @@ class _MenuPageState extends State<MenuPage> {
       myProvider.selectDateRate = 0;
       
       if(code == 2 || code == 8){
-        myProvider.verifyStatusDeposits();
-        if(myProvider.dataCommercesUser.length != 0){
-          myProvider.getListPaids();
-          myProvider.getListBalances();
-        }
+        myProvider.getDataUser(false, false, context);
       }
 
       myProvider.clickButtonMenu = code;

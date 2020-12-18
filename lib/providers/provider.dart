@@ -404,6 +404,8 @@ class MyProvider with ChangeNotifier {
         jsonResponse = jsonDecode(response.body);
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
+          await dbctpaga.deleteAll();
+          await Future.delayed(Duration(milliseconds: 1000));
           user = User(
             id: jsonResponse['data']['0']['id'],
             email: jsonResponse['data']['0']['email'],
@@ -463,7 +465,7 @@ class MyProvider with ChangeNotifier {
                 id: item['id'],
                 description: item['description'],
                 url: item['url'],
-                commerce_id: item['commerce_id'],
+                commerce_id: item['commerce_id'] == null? 0 : item['commerce_id'],
               );
               
               dbctpaga.createOrUpdatePicturesUser(pictureUser);
@@ -471,7 +473,7 @@ class MyProvider with ChangeNotifier {
             }
           }
 
-          dataPicturesUser = listPicturesUser; 
+          dataPicturesUser = listPicturesUser;
 
           if(jsonResponse['data']['commerces'] != null){
             for (var item in jsonResponse['data']['commerces']) {
@@ -495,11 +497,13 @@ class MyProvider with ChangeNotifier {
               if (dataCommercesUser[selectCommerce].userUrl != '')
                 statusUrlCommerce = true;
               
+              verifyStatusDeposits();
               getListCategories();
               getListProducts();
               getListServices();
               getListShipping();
               getListPaids();
+              getListBalances();
             }
 
           }
@@ -528,13 +532,15 @@ class MyProvider with ChangeNotifier {
         dataPicturesUser = await dbctpaga.getPicturesUser();
         dataCommercesUser = await dbctpaga.getCommercesUser();
         dataCategories = await dbctpaga.getCategories(selectProductsServices);
+        verifyStatusDeposits();
+        dataBalances = await dbctpaga.getBalances();
         dataProducts = await dbctpaga.getProducts();
         dataServices = await dbctpaga.getServices();
         dataShipping = await dbctpaga.getShipping();
         dataDiscount = await dbctpaga.getDiscounts();
         dataRates = await dbctpaga.getRates();
         getRatesDate();
-        dataDiscount = await dbctpaga.getPaids();
+        dataPaids = await dbctpaga.getPaids();
       }
 
       if(status){
@@ -1031,6 +1037,7 @@ class MyProvider with ChangeNotifier {
               total: item['total'],
             );
             _listBalances.add(balance);
+            dbctpaga.createOrUpdateBalance(balance);
           }
           dataBalances = _listBalances;
         } 

@@ -999,7 +999,7 @@ class _PerfilPageState extends State<PerfilPage> {
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
                 child: new TextFormField(
-                  initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route,
+                  initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].route == "null"? "" : myProvider.dataBanksUser[0].route,
                   autofocus: false,
                   textCapitalization:TextCapitalization.sentences,
                   maxLength: 9,

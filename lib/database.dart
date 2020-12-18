@@ -5,7 +5,7 @@ import 'package:ctpaga/models/shipping.dart';
 import 'package:ctpaga/models/picture.dart';
 import 'package:ctpaga/models/product.dart';
 import 'package:ctpaga/models/service.dart';
-import 'package:ctpaga/models/Balance.dart';
+import 'package:ctpaga/models/balance.dart';
 import 'package:ctpaga/models/paid.dart';
 import 'package:ctpaga/models/rate.dart';
 import 'package:ctpaga/models/bank.dart';
@@ -21,7 +21,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
-  static int versionDB = 10;
+  static int versionDB = 11;
 
   Future<Database> get db async{
     if(dbInstance == null)
@@ -59,7 +59,7 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS shipping (id INTEGER, price VARCHAR(50), coin INTEGER, description text)');
     await db.execute('CREATE TABLE IF NOT EXISTS discounts (id INTEGER, code VARCHAR(50), percentage INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS rates (id INTEGER, rate VARCHAR(50), created_at VARCHAR(50))');
-    await db.execute('CREATE TABLE IF NOT EXISTS paids (id INTEGER, user_id INTEGER, commerce_id INTEGER, codeUrl VARCHAR(10), nameClient VARCHAR(50), total text, coin INTEGER, email text, nameShipping VARCHAR(50), numberShipping VARCHAR(50), addressShipping text, detailsShipping text, selectShipping text, priceShipping text, statusShipping, totalShipping text, percentage INTEGER, nameCompanyPayments VARCHAR(10), date text)');
+    await db.execute('CREATE TABLE IF NOT EXISTS paids (id INTEGER, user_id INTEGER, commerce_id INTEGER, codeUrl VARCHAR(10), nameClient VARCHAR(50), total text, coin INTEGER, email text, nameShipping VARCHAR(50), numberShipping VARCHAR(50), addressShipping text, detailsShipping text, selectShipping text, priceShipping text, statusShipping INTEGER, totalShipping text, percentage INTEGER, nameCompanyPayments VARCHAR(10), date text)');
     await db.execute('CREATE TABLE IF NOT EXISTS balances (id INTEGER, user_id INTEGER, commerce_id INTEGER, coin INTENGER, total text)');
   }
 
@@ -81,9 +81,9 @@ class DBctpaga{
     await dbConnection.execute('DROP TABLE IF EXISTS discounts');
     await dbConnection.execute('DROP TABLE IF EXISTS rates');
     await dbConnection.execute('DROP TABLE IF EXISTS paids');
+    await dbConnection.execute('DROP TABLE IF EXISTS balances');
   
     onCreateFunc(dbConnection, versionDB);
-
   }
 
   // Get User
@@ -665,12 +665,12 @@ class DBctpaga{
     List<Map> list = await dbConnection.rawQuery('SELECT * FROM balances WHERE id = \'${balance.id}\' ');
     
     if(list.length == 0){
-      String query = 'INSERT INTO paids (id, user_id, commerce_id, total, coin) VALUES ( \'${balance.id}\', \'${balance.user_id}\',\'${balance.commerce_id}\',\'${balance.total}\',\'${balance.coin}\')';
+      String query = 'INSERT INTO balances (id, user_id, commerce_id, total, coin) VALUES ( \'${balance.id}\', \'${balance.user_id}\',\'${balance.commerce_id}\',\'${balance.total}\',\'${balance.coin}\')';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
     });
     }else{
-      String query = 'UPDATE paids SET user_id=\'${balance.user_id}\', commerce_id=\'${balance.commerce_id}\', total=\'${balance.total}\', coin=\'${balance.coin}\' WHERE id= \'${balance.id}\'';
+      String query = 'UPDATE balances SET user_id=\'${balance.user_id}\', commerce_id=\'${balance.commerce_id}\', total=\'${balance.total}\', coin=\'${balance.coin}\' WHERE id= \'${balance.id}\'';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });

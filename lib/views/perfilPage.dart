@@ -1578,7 +1578,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
           var parameters = jsonToUrl(jsonEncode({
               'coin': _statusCoin == 0? "USD" : "Bs",
-              'country': _statusCoin == 0? _countryBankingUSD : "Venezuela",
+              'country': _statusCoin == 0? _valueListCountry : "Venezuela",
               'accountName': _statusCoin == 0? _accountNameBankingUSD : _accountNameBankingBs,
               'accountNumber': _statusCoin == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
               'idCard': _idCardBankingBs,

@@ -7,10 +7,10 @@ import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:video_player/video_player.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-
+import 'dart:convert';
 
 class MainPage extends StatefulWidget {
   @override
@@ -18,7 +18,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  VideoPlayerController _controller;
+  Channel _channel;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -29,6 +29,7 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     super.initState();
     initialVariable();
+    //initialPusher();
   }
 
   @override
@@ -39,6 +40,38 @@ class _MainPageState extends State<MainPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _statusCoin = myProvider.coinUsers;
+  }
+
+  Future<void> initialPusher() async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    try {
+      PusherOptions options = PusherOptions(
+        host: '192.168.1.116',
+        port: 6001,
+        encrypted: false,
+      );
+      await Pusher.init("local",options);
+    } catch (e) {
+      print(e);
+    }
+
+    Pusher.connect(
+      onConnectionStateChange: (val){
+        print(val.currentState);
+      },
+      onError: (err) {
+        print(err.message);
+      }
+    );
+
+    _channel = await Pusher.subscribe("channel-ctpaga");
+
+    _channel.bind("event-ctpaga", (onEvent) { 
+      var notification = jsonDecode(onEvent.data);
+      if(myProvider.dataCommercesUser[myProvider.selectCommerce].id == notification['data']['commerce_id'])
+        print("alerta: ${notification['data']['total']} coin: ${notification['data']['coin']}");
+    });
+
   }
 
   @override

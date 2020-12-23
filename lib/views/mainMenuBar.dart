@@ -77,7 +77,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         children: <Widget>[
           _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
           _buildNavItem("Divisa" ,"assets/icons/divisa.png",_statusButton, 1),
-          _buildNavItem("Home" ,"assets/icons/home.png",_statusButton, 2),
+          _buildNavItem("Inicio" ,"assets/icons/home.png",_statusButton, 2),
           _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 3),
           _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 4),
         ]

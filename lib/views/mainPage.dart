@@ -6,7 +6,9 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/models/user.dart';
 import 'package:ctpaga/models/bank.dart';
 import 'package:ctpaga/env.dart';
+import 'package:ctpaga/views/salesReportPage.dart';
 
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -18,6 +20,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
+  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   Channel _channel;
   User user = User();
   List bankUser = new List(2);
@@ -28,8 +31,9 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
+    initialNotification();
     initialVariable();
-    //initialPusher();
+    initialPusher();
   }
 
   @override
@@ -45,6 +49,7 @@ class _MainPageState extends State<MainPage> {
   Future<void> initialPusher() async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     try {
+      //TODO: modificar host
       PusherOptions options = PusherOptions(
         host: '192.168.1.116',
         port: 6001,
@@ -68,8 +73,14 @@ class _MainPageState extends State<MainPage> {
 
     _channel.bind("event-ctpaga", (onEvent) { 
       var notification = jsonDecode(onEvent.data);
+      print(onEvent.data);
+
       if(myProvider.dataCommercesUser[myProvider.selectCommerce].id == notification['data']['commerce_id'])
-        print("alerta: ${notification['data']['total']} coin: ${notification['data']['coin']}");
+        if(notification['data']['coin'] == 0)
+          showNotification("Recibiste un pago de \$ ${notification['data']['total']}");
+        else
+          showNotification("Recibiste un pago de Bs ${notification['data']['total']}");
+        
     });
 
   }
@@ -94,7 +105,6 @@ class _MainPageState extends State<MainPage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
                 NavbarMain(),
-                
                 Expanded(
                   child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -102,7 +112,6 @@ class _MainPageState extends State<MainPage> {
                       buttonMain("Productos",1, ProductsServicesPage(true)), //send variable the same design
                       buttonMain("Servicios",2, ProductsServicesPage(true)), //send variable the same design
                       buttonMain("Monto",3, AmountPage()), //send variable the same design
-                      SizedBox(height:100),
                     ]
                   )
                 ),
@@ -258,6 +267,38 @@ class _MainPageState extends State<MainPage> {
 
     return true;
   }
+
+  void initialNotification() {
+    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid,
+      iOS: initializationSettingsIOS
+    );
+    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
+  }
+
+  Future selectNotification(String payload) async {
+    Navigator.push(context, SlideLeftRoute(page: SalesReportPage(false)));
+  }
+
+  void showNotification(message) async {
+    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+        'Message New id',
+        'Message New name',
+        'Message New description',
+        importance: Importance.max,
+        priority: Priority.high,
+    );
+
+    var iOS = IOSNotificationDetails();
+    final NotificationDetails platformChannelSpecifics =
+        NotificationDetails(android: androidPlatformChannelSpecifics, iOS:  iOS);
+
+    await flutterLocalNotificationsPlugin.show(
+        0, "Nuevo Pago Recibido", message, platformChannelSpecifics);
+
+}
 
 }
 

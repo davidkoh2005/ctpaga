@@ -213,13 +213,15 @@ class _PerfilPageState extends State<PerfilPage> {
                           visible: _statusDropdown == "Datos Bancarios"? true : false,
                           child: GestureDetector(
                             onTap: () async {
-                              myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
-                              setState(() {
-                                _controller.play();
-                                _statusCoin = _statusCoin == 0 ? 1 : 0;
-                              });
-                              await Future.delayed(Duration(milliseconds: 150));
-                              changeVideo();
+                              if(!_controller.value.isPlaying){
+                                myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
+                                setState(() {
+                                  _controller.play();
+                                  _statusCoin = _statusCoin == 0 ? 1 : 0;
+                                });
+                                await Future.delayed(Duration(milliseconds: 500));
+                                changeVideo();
+                              }
                             },
                             child: Container(
                               alignment: Alignment.centerLeft,

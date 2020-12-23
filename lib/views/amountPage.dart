@@ -158,85 +158,84 @@ class _AmountPageState extends State<AmountPage> {
                     ),
                   ),
 
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: <Widget>[
-                      GestureDetector(
-                        onTap: () {
-                          myProvider.selectProductsServices = 0;
-                          setState(() => _statusSalesProducts = true);
-                          nextPage(ProductsServicesPage(true));
-                        },
-                        child: Container(
-                          padding: EdgeInsets.only(left: 15, right: 15),
-                          height: size.height / 20,
-                          decoration: BoxDecoration(
-                            border: Border.all(
-                              color: colorGrey, 
-                              width: 1.0,
-                            ),
-                            gradient: LinearGradient(
-                              colors: [
-                                _statusSalesProducts? colorGreen : colorGrey,
-                                _statusSalesProducts? colorGreen : colorGrey,
-                              ],
-                              begin: Alignment.topLeft,
-                              end: Alignment.bottomRight,
-                            ),
-                            borderRadius: BorderRadius.circular(30),
-
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        myProvider.selectProductsServices = 0;
+                        setState(() => _statusSalesProducts = true);
+                        nextPage(ProductsServicesPage(true));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: size.height / 20,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colorGrey, 
+                            width: 1.0,
                           ),
-                          child: Center(
-                            child: Text(
-                              "AGREGAR VENTAS",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 15 * scaleFactor,
-                                fontWeight: FontWeight.w500,
-                              ),
+                          gradient: LinearGradient(
+                            colors: [
+                              _statusSalesProducts? colorGreen : colorGrey,
+                              _statusSalesProducts? colorGreen : colorGrey,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                          ),
+                        child: Center(
+                          child: Text(
+                            "AGREGAR VENTAS",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15 * scaleFactor,
+                              fontWeight: FontWeight.w500,
                             ),
                           ),
                         ),
                       ),
-
-                      GestureDetector(
-                    onTap: () {
-                      myProvider.selectProductsServices = 1;
-                      setState(() => _statusSalesServices = true);
-                      nextPage(ProductsServicesPage(true));
-                    },
-                    child: Container(
-                      padding: EdgeInsets.only(left: 15, right: 15),
-                      height: size.height / 20,
-                      decoration: BoxDecoration(
-                        border: Border.all(
-                          color: colorGrey, 
-                          width: 1.0,
-                        ),
-                        gradient: LinearGradient(
-                          colors: [
-                            _statusSalesServices? colorGreen : colorGrey,
-                            _statusSalesServices? colorGreen : colorGrey,
-                          ],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(30),
-
-                      ),
-                      child: Center(
-                        child: Text(
-                          "AGREGAR SERVICIOS",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15 * scaleFactor,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ),
-                    ),
+                    )
                   ),
-                    ],
+
+                  Padding(
+                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
+                    child: GestureDetector(
+                      onTap: () {
+                        myProvider.selectProductsServices = 1;
+                        setState(() => _statusSalesServices = true);
+                        nextPage(ProductsServicesPage(true));
+                      },
+                      child: Container(
+                        alignment: Alignment.center,
+                        height: size.height / 20,
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: colorGrey, 
+                            width: 1.0,
+                          ),
+                          gradient: LinearGradient(
+                            colors: [
+                              _statusSalesServices? colorGreen : colorGrey,
+                              _statusSalesServices? colorGreen : colorGrey,
+                            ],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(30),
+                          ),
+                        child: Center(
+                          child: Text(
+                            "AGREGAR SERVICIOS",
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 15 * scaleFactor,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    )
                   ),
 
 

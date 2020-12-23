@@ -140,7 +140,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     child: Align(
                       alignment: Alignment.centerLeft,
                       child: Text(
-                        "DETALLES DE ENVIOS (OPTIONAL)",
+                        "DESCRIPCIÓN DE ENVIOS (OPTIONAL)",
                         style: TextStyle(
                           color: colorText,
                           fontSize: 15 * scaleFactor,

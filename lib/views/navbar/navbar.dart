@@ -37,17 +37,30 @@ class _NavbarState extends State<Navbar> {
                 padding: EdgeInsets.only(top:20),
                 child: Row(
                   children: <Widget>[
-                      IconButton(
-                      iconSize: size.width/7,
-                      icon: Icon(
-                        Icons.keyboard_arrow_left,
-                        color: colorGreen,
-                      ),
-                      onPressed: () {
+                    GestureDetector(
+                      onTap: (){
                         myProvider.clickButtonMenu = 0;
                         Navigator.pop(context);
-                      }
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(left:15, right: 15),
+                        child: Container(
+                          width: size.width / 10,
+                          height: size.width / 10,
+                          decoration: BoxDecoration(
+                            color: colorGreen,
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Icon(
+                              Icons.close,
+                              color: Colors.white,
+                            )
+                          ),
+                        )
+                      ),
                     ),
+                    
                     Text(
                       _title,
                       style: TextStyle(

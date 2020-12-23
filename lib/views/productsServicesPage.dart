@@ -152,12 +152,12 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             alignment: Alignment.center,
             color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : colorGrey,
             width: size.width/2,
-            height: size.width/7,
+            height: size.width/9,
             child: Text(
               myProvider.selectProductsServices == 0? "Productos" : "Servicios",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20 * scaleFactor,
+                fontSize: 18 * scaleFactor,
               ),
             ),
           )
@@ -171,12 +171,12 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             alignment: Alignment.center,
             color: _statusDropdown == "Categoría"? colorGreen : colorGrey,
             width: size.width/2,
-            height: size.width/7,
+            height: size.width/9,
             child: Text(
               "Categoría",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 20 * scaleFactor,
+                fontSize: 18 * scaleFactor,
               ),
             ),
           )

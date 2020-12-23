@@ -38,6 +38,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   List _reportSales = new List ();
   DateTime _initialDate = DateTime.now();
   DateTime _finalDate = DateTime.now();
+  double _totalSales=0.0;
 
   @override
   void initState() {
@@ -89,13 +90,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  setState(() {
-                    _controller.play();
-                    _statusCoin = _statusCoin == 0 ? 1 : 0;
-                  });
-                  verifyData();
-                  await Future.delayed(Duration(milliseconds: 150));
-                  changeVideo(myProvider);
+                  if(!_controller.value.isPlaying){
+                    setState(() {
+                      _controller.play();
+                      _statusCoin = _statusCoin == 0 ? 1 : 0;
+                    });
+                    verifyData();
+                    await Future.delayed(Duration(milliseconds: 500));
+                    changeVideo(myProvider);
+                  }
                 },
                 child: Container(
                   alignment: Alignment.centerRight,
@@ -157,61 +160,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
                   ),
                 )
               ),
-
-              Consumer<MyProvider>(
-                                  builder: (context, myProvider, child) {
-                                    return Column(
-                                      children : <Widget>[
-                                        Visibility(
-                                          visible: myProvider.listVerification.length != 4? true : false,
-                                          child: Padding(
-                                            padding: EdgeInsets.only(top: 10, bottom: 10),
-                                            child: GestureDetector(
-                                              onTap: () => Navigator.push(context, SlideLeftRoute(page: DepositsPage(false))),
-                                              child: Container(
-                                                width:size.width - 100,
-                                                height: size.height / 20,
-                                                decoration: BoxDecoration(
-                                                  gradient: LinearGradient(
-                                                    colors: [
-                                                      Colors.red,
-                                                      Colors.red,
-                                                    ],
-                                                    begin: Alignment.topLeft,
-                                                    end: Alignment.bottomRight,
-                                                  ),
-                                                  borderRadius: BorderRadius.circular(30),
-                                                ),
-                                                child: Center(
-                                                  child: Text(
-                                                    'No podemos enviarte tu dinero',
-                                                    style: TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 15 * scaleFactor,
-                                                    ),
-                                                  ),
-                                                ),
-                                              )
-                                            )
-                                          ),
-                                        ),
-
-                                        Visibility(
-                                          visible: myProvider.listVerification.length != 4? true : false,
-                                          child: Text(
-                                            "Necesitamos que completes la información marcada en rojo debajo",
-                                            textAlign: TextAlign.center,
-                                            style:  TextStyle(
-                                              fontSize: 15 * scaleFactor,
-                                              color: colorGrey
-                                            ),
-                                          )
-                                        ),
-                                        
-                                      ]
-                                    );
-                                  }
-                                ),
 
               Padding(
                 padding: EdgeInsets.only(top:20),
@@ -347,12 +295,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     }
 
-    for (var item in myProvider.dataBalances) {
-      if(item.coin == _statusCoin){
-        lowPrice.updateValue(double.parse(item.total));
-        break;
-      }
-    }
+    lowPrice.updateValue(_totalSales);
       
     return "${lowPrice.text}";
   }
@@ -475,21 +418,36 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   verifyData(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    setState(() => _reportSales = []);
+    setState(() {
+      _reportSales = [];
+      _totalSales = 0.0;
+    });
     for (var item in myProvider.dataPaids) {
       DateTime dateItem = DateTime.parse(item.date);
       if(_statusButtonDate == 0){
         if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year)
-          setState(() => _reportSales.add(item));
+          setState(() {
+            _reportSales.add(item);
+            _totalSales += double.parse(item.total);
+          });
       }else if(_statusButtonDate == 1){
         if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem))
-          setState(() => _reportSales.add(item));
+          setState(() {
+            _reportSales.add(item);
+            _totalSales += double.parse(item.total);
+          });
       }else if(_statusButtonDate == 2){
         if(item.coin == _statusCoin && dateItem.month == _dateNow.month)
-          setState(() => _reportSales.add(item));
+          setState(() {
+            _reportSales.add(item);
+            _totalSales += double.parse(item.total);
+          });
       }else if(_statusButtonDate == 3){
         if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem))
-          setState(() => _reportSales.add(item));
+          setState(() {
+            _reportSales.add(item);
+            _totalSales += double.parse(item.total);
+          });
       }
     }
 

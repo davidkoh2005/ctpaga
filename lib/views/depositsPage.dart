@@ -21,7 +21,6 @@ class _DepositsPageState extends State<DepositsPage> {
   final _scrollController = ScrollController();
   VideoPlayerController _controller;
   List _statusButton = new List();
-  double _balance = 0.0;
 
   void initState() {
     super.initState();
@@ -81,12 +80,14 @@ class _DepositsPageState extends State<DepositsPage> {
                               children: <Widget> [
                                 GestureDetector(
                                   onTap: () async {
-                                    myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
-                                    setState(() {
-                                      _controller.play();
-                                    });
-                                    await Future.delayed(Duration(milliseconds: 150));
-                                    changeVideo(myProvider);
+                                    if(!_controller.value.isPlaying){
+                                      setState(() {
+                                        _controller.play();
+                                      });
+                                      myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
+                                      await Future.delayed(Duration(milliseconds: 500));
+                                      changeVideo(myProvider);
+                                    }
                                   },
                                   child: Container(
                                     alignment: Alignment.centerRight,
@@ -230,11 +231,11 @@ class _DepositsPageState extends State<DepositsPage> {
     );
   }
 
-  changeVideo(myProvider){
+  changeVideo(myProvider){    
     if(myProvider.selectCoinDeposits == 0){
       _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
     }else{
-       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
+      _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
     }
     _controller.initialize();
   }

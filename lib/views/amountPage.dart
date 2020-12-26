@@ -22,6 +22,7 @@ class _AmountPageState extends State<AmountPage> {
   var lowAmount = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   final FocusNode _priceFocus = FocusNode();
   final _controllerDescription = TextEditingController();
+  // ignore: unused_field
   String _description, _price='';
   bool _statusSalesProducts = false, _statusSalesServices = false,  _statusButtonCharge = false;
   double _total = 0.0;

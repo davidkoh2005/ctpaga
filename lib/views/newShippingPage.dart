@@ -104,7 +104,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
 
   Widget formShipping(){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    var size = MediaQuery.of(context).size;
     return new Form(
       key: _formKeyShipping,
       child: ListView (

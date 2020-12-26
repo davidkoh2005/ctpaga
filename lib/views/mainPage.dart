@@ -26,6 +26,7 @@ class _MainPageState extends State<MainPage> {
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
+  // ignore: unused_field
   int clickBotton = 0, _statusCoin = 0;
 
   @override
@@ -49,9 +50,8 @@ class _MainPageState extends State<MainPage> {
   Future<void> initialPusher() async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     try {
-      //TODO: modificar host
       PusherOptions options = PusherOptions(
-        host: '192.168.1.116',
+        host: url.replaceAll(':8000', ''),
         port: 6001,
         encrypted: false,
       );

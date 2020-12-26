@@ -1,9 +1,7 @@
-import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/perfilPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:cached_network_image/cached_network_image.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -48,13 +46,16 @@ class _NavbarMainState extends State<NavbarMain> {
           ),
         ),
 
-        Padding(
-          padding: EdgeInsets.only(top: 50, left: 30),
-          child: Container(
-            child: Image(
-              image: AssetImage("assets/logo/logo.png"),
-              width: size.width/3.5,
-            ),
+        GestureDetector(
+          onTap: () => launch("http://$url"),
+          child: Padding(
+            padding: EdgeInsets.only(top: 50, left: 30),
+            child: Container(
+              child: Image(
+                image: AssetImage("assets/logo/logo.png"),
+                width: size.width/3.5,
+              ),
+            )
           )
         ),
 

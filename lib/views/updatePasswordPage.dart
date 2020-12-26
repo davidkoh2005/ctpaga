@@ -19,7 +19,7 @@ class UpdatePasswordPage extends StatefulWidget {
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final _formKeyChangePassword = new GlobalKey<FormState>();
   bool _statusButtonSave = false, passwordVisible = true;
-  String _passwordCurrent, _password, _passwordConfirm;
+  String _passwordCurrent, _password;
 
   void initState() {
     super.initState();
@@ -190,7 +190,6 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   ),
                 ),
               validator: _validatePasswordConfirm,
-              onSaved: (String value) => _passwordConfirm = value,
               cursorColor: colorGreen,
             ),
           ),

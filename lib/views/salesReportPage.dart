@@ -1,6 +1,5 @@
 
 import 'package:ctpaga/animation/slideRoute.dart';
-import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/showDAtaPaidPage.dart';
 import 'package:ctpaga/providers/provider.dart';
@@ -33,7 +32,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   var formatterMonth = new DateFormat('MMMM');
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusCoin = 1, _statusButtonDate = 0;
-  List _listVerification = new List();
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
   List _reportSales = new List ();
   DateTime _initialDate = DateTime.now();
@@ -132,7 +130,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Widget showReport(){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
-    var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Expanded(

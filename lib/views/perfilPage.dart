@@ -56,6 +56,7 @@ class _PerfilPageState extends State<PerfilPage> {
   String _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
         _email, _name, _address, _phone,
+        // ignore: unused_field
         _valueListCountry, _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
   int _statusCoin = 1;

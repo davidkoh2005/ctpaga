@@ -14,7 +14,6 @@ import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -51,7 +50,6 @@ class _PerfilPageState extends State<PerfilPage> {
   final FocusNode _idCardBankingBsFocus = FocusNode();
   final FocusNode _accountNumberBankingBsFocus = FocusNode();
   final _controllerUser = TextEditingController();
-  VideoPlayerController _controller;
 
   String _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
@@ -68,6 +66,9 @@ class _PerfilPageState extends State<PerfilPage> {
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   var urlProfile;
+  double _positionTopFirst = 35,
+        _positionTopSecond = 0;
+
   
   void initState() {
     super.initState();
@@ -75,7 +76,6 @@ class _PerfilPageState extends State<PerfilPage> {
   }
 
   void dispose(){
-    _controller.dispose();
     super.dispose();
   }
 
@@ -89,7 +89,7 @@ class _PerfilPageState extends State<PerfilPage> {
       _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName; 
       _nameBankingBs = myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName;
     });
-    changeVideo();
+    
   }
 
 
@@ -214,29 +214,83 @@ class _PerfilPageState extends State<PerfilPage> {
                           visible: _statusDropdown == "Datos Bancarios"? true : false,
                           child: GestureDetector(
                             onTap: () async {
-                              if(!_controller.value.isPlaying){
-                                myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
-                                setState(() {
-                                  _controller.play();
-                                  _statusCoin = _statusCoin == 0 ? 1 : 0;
-                                });
-                                await Future.delayed(Duration(milliseconds: 500));
-                                changeVideo();
-                              }
+                              myProvider.coinUsers = _statusCoin == 0 ? 1 : 0;
+                              setState(() {
+                                _statusCoin = _statusCoin == 0 ? 1 : 0;
+                                _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
+                                _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
+                              });
                             },
-                            child: Container(
+                            child: Align(
                               alignment: Alignment.centerLeft,
-                              padding: EdgeInsets.only(top: 20, left:30),
-                              child: _controller != null?
-                                  Container(
-                                      width: size.width/3.5,
-                                      height: size.width/3.5,
-                                      child: VideoPlayer(_controller),
-                                    )
-                                :
-                                  Container(),
+                              child: Container(
+                                padding: EdgeInsets.only(left:20, top: 15),
+                                width: size.width / 3,
+                                height: size.width / 3.5,
+                                child: Stack(
+                                  children: [
+                                    
+                                    AnimatedPositioned(
+                                      duration: Duration(milliseconds:300),
+                                      top: _positionTopSecond,
+                                      curve: Curves.linear,
+                                      child: AnimatedPadding(
+                                        duration: Duration(milliseconds:600),
+                                        padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: size.width / 7,
+                                          height: size.width / 7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(80),
+                                            color: _positionTopSecond == 0? colorGreen : colorGrey,
+                                          ),
+                                          child: Container(
+                                            child: Text(
+                                              "Bs",
+                                              style:  TextStyle(
+                                                fontSize: 18 * scaleFactor,
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                              ),
+                                            )
+                                          ),
+                                        )
+                                      ),
+                                    ),
+                                    
+                                    AnimatedPositioned(
+                                      duration: Duration(milliseconds:300),
+                                      top: _positionTopFirst,
+                                      curve: Curves.linear,
+                                      child: AnimatedPadding(
+                                        duration: Duration(milliseconds:600),
+                                        padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                                        child: Container(
+                                          alignment: Alignment.center,
+                                          width: size.width / 7,
+                                          height: size.width / 7,
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(80),
+                                            color: _positionTopFirst == 0? colorGreen : colorGrey,
+                                          ),
+                                          child: Text(
+                                            "\$" ,
+                                            style:  TextStyle(
+                                              fontSize: 18 * scaleFactor,
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
                             )
                           ),
+
                         ),
                         Visibility(
                           visible: _statusDropdown == "Datos Bancarios"? true : false,
@@ -832,15 +886,6 @@ class _PerfilPageState extends State<PerfilPage> {
         ],
       ),
     );
-  }
-
-  changeVideo(){
-    if(_statusCoin == 0){
-      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
-    }else{
-       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
-    }
-    _controller.initialize();
   }
 
   Widget formBanking(){

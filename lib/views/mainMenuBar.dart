@@ -16,7 +16,8 @@ class MainMenuBar extends StatefulWidget {
 }
 
 class _MainMenuBarState extends State<MainMenuBar> {
-  int _statusButton = 2;
+  int _statusButton = 3,
+    _statusButtonPrevios = 3;
   bool _statusBadge = false;
 
   final _pageOptions = [
@@ -41,7 +42,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
               children: [
                 Column(
                   children: <Widget>[
-                    Expanded(child:_pageOptions[_statusButton]),
+                    Expanded(child:_pageOptions[_statusBadge? _statusButtonPrevios-1 : _statusButton-1]),
                     SizedBox(height: 60),
                   ],
                 ),
@@ -52,18 +53,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
                   child: Align(
                     alignment: Alignment.bottomLeft,
                     child: Padding(
-                      padding: EdgeInsets.only(left: 80),
+                      padding: EdgeInsets.only(left: 85),
                       child: Container(
-                        width: 80,
-                        height: size.height/4.82,
+                        width: size.width/6,
+                        height: size.height/4.85,
                         decoration: BoxDecoration(
                           border: Border.all(
-                            color: Colors.black,
+                            color: Colors.black45,
                             width: 0.5,
                           ),
-                          borderRadius: BorderRadius.only(
-                              topRight: Radius.circular(10.0),
-                              topLeft: Radius.circular(10.0)),
                           color: Colors.white,
                         ),
                         child: Column(
@@ -73,12 +71,9 @@ class _MainMenuBarState extends State<MainMenuBar> {
                               width: size.width,
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: Colors.black,
+                                  color: Colors.black45,
                                   width: 0,
                                 ),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(10.0),
-                                    topLeft: Radius.circular(10.0)),
                                 color: myProvider.coinUsers == 0? colorGreen : Colors.white,
                               ),
                               child: GestureDetector(
@@ -90,21 +85,18 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                   children: <Widget>[
                                     Container(
                                       height: size.width/8,
-                                      child: CircleAvatar(
-                                        radius: 30.0,
-                                        backgroundColor: Colors.white,
-                                        child: Image(
-                                          image: AssetImage("assets/icons/eeuu.png"),
-                                          width: size.width/10,
+                                      child: Image(
+                                        image: AssetImage("assets/icons/eeuu.png"),
+                                        width: size.width/10,
                                         ),
-                                      )
                                     ),
+
                                     Container(
                                       child: Text(
-                                        "\$",
+                                        "USD \$",
                                         style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20 * scaleFactor,
+                                          color: myProvider.coinUsers == 0? Colors.white : Colors.black,
+                                          fontSize: 18 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -127,21 +119,17 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                   children: <Widget>[
                                     Container(
                                       height: size.width/8,
-                                      child: CircleAvatar(
-                                        radius: 30.0,
-                                        backgroundColor: Colors.white,
-                                        child: Image(
-                                          image: AssetImage("assets/icons/venezuela.png"),
-                                          width: size.width/10,
-                                        ),
-                                      )
+                                      child: Image(
+                                        image: AssetImage("assets/icons/venezuela.png"),
+                                        width: size.width/10,
+                                      ),
                                     ),
                                     Container(
                                       child: Text(
-                                        "Bs",
+                                        "VE BS",
                                         style: TextStyle(
-                                          color: Colors.black,
-                                          fontSize: 20 * scaleFactor,
+                                          color: myProvider.coinUsers == 1? Colors.white : Colors.black,
+                                          fontSize: 18 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -159,6 +147,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
 
                 Positioned(
                   bottom: 0,
+                  left: 0,
                   child: _showMenu()
                 ),
 
@@ -179,12 +168,14 @@ class _MainMenuBarState extends State<MainMenuBar> {
   }
 
   Widget _showMenu(){
+    var size = MediaQuery.of(context).size;
     return Container(
+      width: size.width,
       decoration: BoxDecoration(
         border: Border(
           top: BorderSide(
             width: 0.5,
-            color: Colors.black
+            color: Colors.black45
           )
         ),
         color: Colors.white,
@@ -193,11 +184,11 @@ class _MainMenuBarState extends State<MainMenuBar> {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
-          _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,0),
-          _buildNavItem("Divisa" ,"assets/icons/divisa.png",_statusButton, 1),
-          _buildNavItem("Inicio" ,"assets/icons/home.png",_statusButton, 2),
-          _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 3),
-          _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 4),
+          _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,1),
+          _buildNavItem("Divisa" ,"assets/icons/divisa.png",_statusButton, 2),
+          _buildNavItem("Inicio" ,"assets/icons/home.png",_statusButton, 3),
+          _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 4),
+          _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 5),
         ]
       ),
     );
@@ -209,15 +200,22 @@ class _MainMenuBarState extends State<MainMenuBar> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return GestureDetector(
       onTap: () {
-        if(code == 1)
-          setState(() => _statusBadge = !_statusBadge);
+        if(code == 2)
+          setState(() {
+            _statusBadge = !_statusBadge;
+            if(_statusBadge){
+              _statusButtonPrevios = _statusButton;
+              _statusButton = code;
+            }else
+              _statusButton = _statusButtonPrevios;
+          });
         else{
           setState((){
             _statusBadge = false;
             _statusButton = code;
           });
 
-          if(code == 3 || code == 4){
+          if(code == 4 || code == 5){
             myProvider.getDataUser(false, false, context);
           }
 

@@ -6,7 +6,6 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -23,7 +22,6 @@ class SalesReportPage extends StatefulWidget {
 class _SalesReportPageState extends State<SalesReportPage> {
   _SalesReportPageState(this._statusMenuBar);
   final bool _statusMenuBar;
-  VideoPlayerController _controller;
   var controllerInitialDate = TextEditingController();
   var controllerFinalDate = TextEditingController();
   List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -37,6 +35,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
   DateTime _initialDate = DateTime.now();
   DateTime _finalDate = DateTime.now();
   double _totalSales=0.0;
+  double _positionTopFirst = 35,
+        _positionTopSecond = 0;
 
   @override
   void initState() {
@@ -46,24 +46,18 @@ class _SalesReportPageState extends State<SalesReportPage> {
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
     _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
-    initialVariable();
+    verifyData();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
     super.dispose();
-  }
-
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    changeVideo(myProvider);
-    verifyData();
   }
 
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
@@ -88,44 +82,87 @@ class _SalesReportPageState extends State<SalesReportPage> {
               ),
               GestureDetector(
                 onTap: () async {
-                  if(!_controller.value.isPlaying){
-                    setState(() {
-                      _controller.play();
-                      _statusCoin = _statusCoin == 0 ? 1 : 0;
-                    });
-                    verifyData();
-                    await Future.delayed(Duration(milliseconds: 500));
-                    changeVideo(myProvider);
-                  }
+                  setState(() {
+                     _statusCoin = _statusCoin == 0 ? 1 : 0;
+                    _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
+                    _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
+                  });
                 },
-                child: Container(
+                child: Align(
                   alignment: Alignment.centerRight,
-                  padding: !_statusMenuBar? EdgeInsets.only(top: 0, right:30) : EdgeInsets.only(top: 25, right:30),
-                  child: _controller != null?
-                      Container(
-                          width: size.width/4,
-                          height: size.width/4,
-                          child: VideoPlayer(_controller),
-                        )
-                    :
-                      Container(),
+                  child: Container(
+                    width: size.width / 3,
+                    height: size.width / 3.5,
+                    child: Stack(
+                      children: [
+                        
+                        AnimatedPositioned(
+                          duration: Duration(milliseconds:300),
+                          top: _positionTopSecond,
+                          curve: Curves.linear,
+                          child: AnimatedPadding(
+                            duration: Duration(milliseconds:600),
+                            padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: size.width / 7,
+                              height: size.width / 7,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: _positionTopSecond == 0? colorGreen : colorGrey,
+                              ),
+                              child: Container(
+                                child: Text(
+                                  "Bs",
+                                  style:  TextStyle(
+                                    fontSize: 18 * scaleFactor,
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                )
+                              ),
+                            )
+                          ),
+                        ),
+                        
+                        AnimatedPositioned(
+                          duration: Duration(milliseconds:300),
+                          top: _positionTopFirst,
+                          curve: Curves.linear,
+                          child: AnimatedPadding(
+                            duration: Duration(milliseconds:600),
+                            padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: size.width / 7,
+                              height: size.width / 7,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(80),
+                                color: _positionTopFirst == 0? colorGreen : colorGrey,
+                              ),
+                              child: Text(
+                                "\$" ,
+                                style:  TextStyle(
+                                  fontSize: 18 * scaleFactor,
+                                  color: Colors.white,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
                 )
               ),
+              
               showReport() 
             ],
           )
         ),
       )
     );
-  }
-
-  changeVideo(myProvider){
-    if(_statusCoin == 0){
-      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
-    }else{
-       _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
-    }
-    _controller.initialize();
   }
 
   Widget showReport(){

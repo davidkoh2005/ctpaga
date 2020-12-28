@@ -4,7 +4,6 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
-import 'package:video_player/video_player.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -19,8 +18,9 @@ class _DepositsPageState extends State<DepositsPage> {
   _DepositsPageState(this._statusMenuBar);
   final bool _statusMenuBar;
   final _scrollController = ScrollController();
-  VideoPlayerController _controller;
   List _statusButton = new List();
+  double _positionTopFirst = 0,
+        _positionTopSecond = 35;
 
   void initState() {
     super.initState();
@@ -28,15 +28,18 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   void dispose(){
-    _controller.dispose();
     super.dispose();
   }
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    changeVideo(myProvider);
+    if(myProvider.selectCoinDeposits == 1){
+      setState(() {
+        _positionTopFirst = 35;
+        _positionTopSecond = 0;
+      });
+    }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -78,30 +81,86 @@ class _DepositsPageState extends State<DepositsPage> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget> [
-                                GestureDetector(
-                                  onTap: () async {
-                                    if(!_controller.value.isPlaying){
-                                      setState(() {
-                                        _controller.play();
-                                      });
+                                Padding(
+                                  padding: _statusMenuBar? EdgeInsets.only(top:40) : EdgeInsets.zero ,
+                                  child: GestureDetector(
+                                    onTap: () async {
                                       myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
-                                      await Future.delayed(Duration(milliseconds: 500));
-                                      changeVideo(myProvider);
-                                    }
-                                  },
-                                  child: Container(
-                                    alignment: Alignment.centerRight,
-                                    padding: !_statusMenuBar? EdgeInsets.only(top: 0, right:30) : EdgeInsets.only(top: 30, right:30),
-                                    child: _controller != null?
-                                        Container(
-                                            width: size.width/4,
-                                            height: size.width/4,
-                                            child: VideoPlayer(_controller),
-                                          )
-                                      :
-                                        Container(),
+                                      setState(() {
+                                        _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
+                                        _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
+                                      });
+                                    },
+                                    child: Align(
+                                      alignment: Alignment.centerRight,
+                                      child: Container(
+                                        width: size.width / 3,
+                                        height: size.width / 3.5,
+                                        child: Stack(
+                                          children: [
+                                            
+                                            AnimatedPositioned(
+                                              duration: Duration(milliseconds:300),
+                                              top: _positionTopSecond,
+                                              curve: Curves.linear,
+                                              child: AnimatedPadding(
+                                                duration: Duration(milliseconds:600),
+                                                padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  width: size.width / 7,
+                                                  height: size.width / 7,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(80),
+                                                    color: myProvider.selectCoinDeposits == 1? colorGreen : colorGrey,
+                                                  ),
+                                                  child: Container(
+                                                    child: Text(
+                                                      "Bs",
+                                                      style:  TextStyle(
+                                                        fontSize: 18 * scaleFactor,
+                                                        color: Colors.white,
+                                                        fontWeight: FontWeight.bold,
+                                                      ),
+                                                    )
+                                                  ),
+                                                )
+                                              ),
+                                            ),
+                                            
+                                            AnimatedPositioned(
+                                              duration: Duration(milliseconds:300),
+                                              top: _positionTopFirst,
+                                              curve: Curves.linear,
+                                              child: AnimatedPadding(
+                                                duration: Duration(milliseconds:600),
+                                                padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                                                child: Container(
+                                                  alignment: Alignment.center,
+                                                  width: size.width / 7,
+                                                  height: size.width / 7,
+                                                  decoration: BoxDecoration(
+                                                    borderRadius: BorderRadius.circular(80),
+                                                    color: myProvider.selectCoinDeposits == 0? colorGreen : colorGrey,
+                                                  ),
+                                                  child: Text(
+                                                    "\$" ,
+                                                    style:  TextStyle(
+                                                      fontSize: 18 * scaleFactor,
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )
+                                    )
                                   )
                                 ),
+
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
@@ -229,15 +288,6 @@ class _DepositsPageState extends State<DepositsPage> {
         );
       }
     );
-  }
-
-  changeVideo(myProvider){    
-    if(myProvider.selectCoinDeposits == 0){
-      _controller = VideoPlayerController.asset("assets/videos/botonUSD.mp4");
-    }else{
-      _controller = VideoPlayerController.asset("assets/videos/botonBs.mp4");
-    }
-    _controller.initialize();
   }
 
   showDeposits(myProvider){

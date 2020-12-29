@@ -368,7 +368,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
     }else{
       myProvider.nameClient = _controllerName.text;
       myProvider.avatarClient = [];
-      myProvider.initialsClient = initialsClient(_controllerName.text);
+      myProvider.initialsClient = initialsClient(_controllerName.text).trim();
     }
 
     Navigator.push(context, SlideLeftRoute(page: VerifyDataClientPage()));

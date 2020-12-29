@@ -153,7 +153,6 @@ class _MenuPageState extends State<MenuPage> {
       if(code == 2 || code == 8){
         myProvider.getDataUser(false, false, context);
       }
-
       myProvider.clickButtonMenu = code;
       await Future.delayed(Duration(milliseconds: 150));
       Navigator.push(context, SlideLeftRoute(page: page));

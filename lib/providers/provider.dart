@@ -349,6 +349,22 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  double _totalSales;
+  double get totalSales =>_totalSales; 
+  
+  set totalSales(double newTotalSales) {
+    _totalSales = newTotalSales; 
+    notifyListeners(); 
+  }
+
+  List _reportSales  = new List();
+  List get dataReportSales =>_reportSales ;
+
+  set dataReportSales(List newReport){
+    _reportSales  = newReport;
+    notifyListeners();
+  }
+
   List _paid = new List();
   List get dataPaids =>_paid;
 
@@ -364,6 +380,7 @@ class MyProvider with ChangeNotifier {
     _selectPaid = newItem; 
     notifyListeners(); 
   }
+  
 
   List _balance = new List();
   List get dataBalances =>_balance;

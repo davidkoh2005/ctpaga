@@ -1,6 +1,7 @@
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/loadingPage.dart';
+import 'package:ctpaga/views/addEmailPage.dart';
 import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -219,6 +220,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
       setState(() =>_statusButtonRegister = true);
       await Future.delayed(Duration(milliseconds: 150));
       setState(() =>_statusButtonRegister = false);
+      Navigator.push(context, SlideLeftRoute(page: AddEmailPage()));
     }
 
   }

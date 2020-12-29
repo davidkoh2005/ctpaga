@@ -31,10 +31,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
   DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusCoin = 1, _statusButtonDate = 0;
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
-  List _reportSales = new List ();
   DateTime _initialDate = DateTime.now();
   DateTime _finalDate = DateTime.now();
-  double _totalSales=0.0;
   double _positionTopFirst = 35,
         _positionTopSecond = 0;
 
@@ -53,6 +51,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   void dispose() {
     super.dispose();
   }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -80,81 +79,84 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 visible: !_statusMenuBar,
                 child: Navbar("Transacciones", false),
               ),
-              GestureDetector(
-                onTap: () async {
-                  setState(() {
-                     _statusCoin = _statusCoin == 0 ? 1 : 0;
-                    _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
-                    _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
-                  });
-                },
-                child: Align(
-                  alignment: Alignment.centerRight,
-                  child: Container(
-                    width: size.width / 3,
-                    height: size.width / 3.5,
-                    child: Stack(
-                      children: [
-                        
-                        AnimatedPositioned(
-                          duration: Duration(milliseconds:300),
-                          top: _positionTopSecond,
-                          curve: Curves.linear,
-                          child: AnimatedPadding(
-                            duration: Duration(milliseconds:600),
-                            padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: size.width / 7,
-                              height: size.width / 7,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
-                                color: _positionTopSecond == 0? colorGreen : colorGrey,
-                              ),
+              Padding(
+                padding: _statusMenuBar? EdgeInsets.only(top:40) : EdgeInsets.zero ,
+                child: GestureDetector(
+                  onTap: () async {
+                    setState(() {
+                       _statusCoin = _statusCoin == 0 ? 1 : 0;
+                      _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
+                      _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
+                    });
+                  },
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Container(
+                      width: size.width / 3,
+                      height: size.width / 3.5,
+                      child: Stack(
+                        children: [
+                          
+                          AnimatedPositioned(
+                            duration: Duration(milliseconds:300),
+                            top: _positionTopSecond,
+                            curve: Curves.linear,
+                            child: AnimatedPadding(
+                              duration: Duration(milliseconds:600),
+                              padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
                               child: Container(
+                                alignment: Alignment.center,
+                                width: size.width / 7,
+                                height: size.width / 7,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(80),
+                                  color: _positionTopSecond == 0? colorGreen : colorGrey,
+                                ),
+                                child: Container(
+                                  child: Text(
+                                    "Bs",
+                                    style:  TextStyle(
+                                      fontSize: 18 * scaleFactor,
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  )
+                                ),
+                              )
+                            ),
+                          ),
+                          
+                          AnimatedPositioned(
+                            duration: Duration(milliseconds:300),
+                            top: _positionTopFirst,
+                            curve: Curves.linear,
+                            child: AnimatedPadding(
+                              duration: Duration(milliseconds:600),
+                              padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: size.width / 7,
+                                height: size.width / 7,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(80),
+                                  color: _positionTopFirst == 0? colorGreen : colorGrey,
+                                ),
                                 child: Text(
-                                  "Bs",
+                                  "\$" ,
                                   style:  TextStyle(
                                     fontSize: 18 * scaleFactor,
                                     color: Colors.white,
                                     fontWeight: FontWeight.bold,
                                   ),
-                                )
-                              ),
-                            )
-                          ),
-                        ),
-                        
-                        AnimatedPositioned(
-                          duration: Duration(milliseconds:300),
-                          top: _positionTopFirst,
-                          curve: Curves.linear,
-                          child: AnimatedPadding(
-                            duration: Duration(milliseconds:600),
-                            padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: size.width / 7,
-                              height: size.width / 7,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(80),
-                                color: _positionTopFirst == 0? colorGreen : colorGrey,
-                              ),
-                              child: Text(
-                                "\$" ,
-                                style:  TextStyle(
-                                  fontSize: 18 * scaleFactor,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
                                 ),
                               ),
                             ),
                           ),
-                        ),
-                      ],
-                    ),
+                        ],
+                      ),
+                    )
                   )
-                )
+                ),
               ),
               
               showReport() 
@@ -169,6 +171,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
+        verifyData();
         return Expanded(
           child: Column(
             children: <Widget>[
@@ -298,7 +301,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       );
     if (picked != null && picked != DateTime.now())
       setState(() {
-        _finalDate = picked;
+        _finalDate = DateTime(picked.year, picked.month, picked.day+1);
         controllerFinalDate.text = formatter.format(_finalDate);
       });
     
@@ -329,7 +332,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     }
 
-    lowPrice.updateValue(_totalSales);
+    lowPrice.updateValue(myProvider.totalSales);
       
     return "${lowPrice.text}";
   }
@@ -412,33 +415,33 @@ class _SalesReportPageState extends State<SalesReportPage> {
           ),
         ),
       ],
-      rows: _reportSales.length == 0?
+      rows: myProvider.dataReportSales.length == 0?
         const <DataRow>[]
       :
         List<DataRow>.generate(
-          _reportSales.length,
+          myProvider.dataReportSales.length,
           (index) => DataRow(
             cells: [
               DataCell(
-                Text(_reportSales[index].nameClient),
+                Text(myProvider.dataReportSales[index].nameClient),
                 onTap: (){
-                  myProvider.selectPaid = _reportSales[index];
+                  myProvider.selectPaid = myProvider.dataReportSales[index];
                   Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
                   _onLoading();
                 }
               ),
               DataCell(
-                Text(showDateTable(_reportSales[index].date)),
+                Text(showDateTable(myProvider.dataReportSales[index].date)),
                 onTap: (){
-                  myProvider.selectPaid = _reportSales[index];
+                  myProvider.selectPaid = myProvider.dataReportSales[index];
                   Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
                   _onLoading();
                 }
               ),
               DataCell(
-                Text(showPriceTable(_reportSales[index].total)),
+                Text(showPriceTable(myProvider.dataReportSales[index].total)),
                 onTap: (){
-                  myProvider.selectPaid = _reportSales[index];
+                  myProvider.selectPaid = myProvider.dataReportSales[index];
                   Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
                   _onLoading();
                 }
@@ -452,36 +455,30 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   verifyData(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    setState(() {
-      _reportSales = [];
-      _totalSales = 0.0;
-    });
+    myProvider.totalSales = 0;
+    myProvider.dataReportSales = [];
     for (var item in myProvider.dataPaids) {
       DateTime dateItem = DateTime.parse(item.date);
       if(_statusButtonDate == 0){
-        if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year)
-          setState(() {
-            _reportSales.add(item);
-            _totalSales += double.parse(item.total);
-          });
+        if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year){
+          myProvider.dataReportSales.add(item);
+          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
+        }
       }else if(_statusButtonDate == 1){
-        if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem))
-          setState(() {
-            _reportSales.add(item);
-            _totalSales += double.parse(item.total);
-          });
+        if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem)){
+          myProvider.dataReportSales.add(item);
+          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
+        }
       }else if(_statusButtonDate == 2){
-        if(item.coin == _statusCoin && dateItem.month == _dateNow.month)
-          setState(() {
-            _reportSales.add(item);
-            _totalSales += double.parse(item.total);
-          });
+        if(item.coin == _statusCoin && dateItem.month == _dateNow.month){
+          myProvider.dataReportSales.add(item);
+          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
+        }
       }else if(_statusButtonDate == 3){
-        if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem))
-          setState(() {
-            _reportSales.add(item);
-            _totalSales += double.parse(item.total);
-          });
+        if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem)){
+          myProvider.dataReportSales.add(item);
+          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
+        }
       }
     }
 

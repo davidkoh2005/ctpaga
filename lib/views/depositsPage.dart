@@ -45,6 +45,7 @@ class _DepositsPageState extends State<DepositsPage> {
   Widget build(BuildContext context) {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
+
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return WillPopScope(
@@ -98,62 +99,8 @@ class _DepositsPageState extends State<DepositsPage> {
                                         height: size.width / 3.5,
                                         child: Stack(
                                           children: [
-                                            
-                                            AnimatedPositioned(
-                                              duration: Duration(milliseconds:300),
-                                              top: _positionTopSecond,
-                                              curve: Curves.linear,
-                                              child: AnimatedPadding(
-                                                duration: Duration(milliseconds:600),
-                                                padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  width: size.width / 7,
-                                                  height: size.width / 7,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(80),
-                                                    color: myProvider.selectCoinDeposits == 1? colorGreen : colorGrey,
-                                                  ),
-                                                  child: Container(
-                                                    child: Text(
-                                                      "Bs",
-                                                      style:  TextStyle(
-                                                        fontSize: 18 * scaleFactor,
-                                                        color: Colors.white,
-                                                        fontWeight: FontWeight.bold,
-                                                      ),
-                                                    )
-                                                  ),
-                                                )
-                                              ),
-                                            ),
-                                            
-                                            AnimatedPositioned(
-                                              duration: Duration(milliseconds:300),
-                                              top: _positionTopFirst,
-                                              curve: Curves.linear,
-                                              child: AnimatedPadding(
-                                                duration: Duration(milliseconds:600),
-                                                padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                                                child: Container(
-                                                  alignment: Alignment.center,
-                                                  width: size.width / 7,
-                                                  height: size.width / 7,
-                                                  decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(80),
-                                                    color: myProvider.selectCoinDeposits == 0? colorGreen : colorGrey,
-                                                  ),
-                                                  child: Text(
-                                                    "\$" ,
-                                                    style:  TextStyle(
-                                                      fontSize: 18 * scaleFactor,
-                                                      color: Colors.white,
-                                                      fontWeight: FontWeight.bold,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
+                                            coinSecond(),
+                                            coinFirst(),
                                           ],
                                         ),
                                       )
@@ -287,6 +234,72 @@ class _DepositsPageState extends State<DepositsPage> {
           )
         );
       }
+    );
+  }
+
+  Widget coinSecond(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopSecond,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: myProvider.selectCoinDeposits == 1? colorGreen : colorGrey,
+          ),
+          child: Container(
+            child: Text(
+              "Bs",
+              style:  TextStyle(
+                fontSize: 18 * scaleFactor,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ),
+        )
+      ),
+    );
+  }
+
+  Widget coinFirst(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopFirst,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: myProvider.selectCoinDeposits == 0? colorGreen : colorGrey,
+          ),
+          child: Text(
+            "\$" ,
+            style:  TextStyle(
+              fontSize: 18 * scaleFactor,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 

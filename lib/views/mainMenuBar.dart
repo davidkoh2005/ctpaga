@@ -55,31 +55,37 @@ class _MainMenuBarState extends State<MainMenuBar> {
                     child: Padding(
                       padding: EdgeInsets.only(left: 85),
                       child: Container(
-                        width: size.width/6,
-                        height: size.height/4.85,
+                        width: size.width/7.30,
                         decoration: BoxDecoration(
                           border: Border.all(
                             color: Colors.black45,
                             width: 0.5,
+                          ),
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(30.0),
+                            topLeft: Radius.circular(30.0)
                           ),
                           color: Colors.white,
                         ),
                         child: Column(
                           children: [
                             Container(
-                              padding: EdgeInsets.only(top:10, bottom: 10),
+                              padding: EdgeInsets.only(top:5, bottom: 2),
                               width: size.width,
                               decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: Colors.black45,
-                                  width: 0,
+                                borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(30.0),
+                                  topLeft: Radius.circular(30.0)
                                 ),
-                                color: myProvider.coinUsers == 0? colorGreen : Colors.white,
+                                color: Colors.white,
                               ),
                               child: GestureDetector(
                                 onTap: () {
                                   myProvider.coinUsers = 0;
-                                  setState(() => _statusBadge = false);
+                                  setState(() {
+                                    _statusBadge = false;
+                                    _statusButton = _statusButtonPrevios;
+                                  });
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -87,7 +93,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                       height: size.width/8,
                                       child: Image(
                                         image: AssetImage("assets/icons/eeuu.png"),
-                                        width: size.width/10,
+                                        width: size.width/12,
                                         ),
                                     ),
 
@@ -95,8 +101,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                       child: Text(
                                         "USD \$",
                                         style: TextStyle(
-                                          color: myProvider.coinUsers == 0? Colors.white : Colors.black,
-                                          fontSize: 18 * scaleFactor,
+                                          color: Colors.black,
+                                          fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),
@@ -107,13 +113,16 @@ class _MainMenuBarState extends State<MainMenuBar> {
                             ),
                             
                             Container(
-                              color: myProvider.coinUsers == 1? colorGreen : Colors.white,
+                              color: Colors.white,
                               width: size.width,
-                              padding: EdgeInsets.only(top:10, bottom: 10),
+                              padding: EdgeInsets.only(top:2, bottom: 5),
                               child: GestureDetector(
                                 onTap: () {
                                   myProvider.coinUsers = 1;
-                                  setState(() => _statusBadge = false);
+                                  setState(() {
+                                    _statusBadge = false;
+                                    _statusButton = _statusButtonPrevios;
+                                  });
                                 },
                                 child: Column(
                                   children: <Widget>[
@@ -121,15 +130,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                       height: size.width/8,
                                       child: Image(
                                         image: AssetImage("assets/icons/venezuela.png"),
-                                        width: size.width/10,
+                                        width: size.width/12,
                                       ),
                                     ),
                                     Container(
                                       child: Text(
                                         "VE BS",
                                         style: TextStyle(
-                                          color: myProvider.coinUsers == 1? Colors.white : Colors.black,
-                                          fontSize: 18 * scaleFactor,
+                                          color: Colors.black,
+                                          fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                         ),
                                       ),

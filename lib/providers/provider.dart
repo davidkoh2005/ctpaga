@@ -1001,7 +1001,6 @@ class MyProvider with ChangeNotifier {
               selectShipping: item['selectShipping'],
               priceShipping: item['priceShipping'],
               statusShipping: item['statusShipping'],
-              totalShipping: item['totalShipping'],
               percentage: item['percentage'],
               nameCompanyPayments: item['nameCompanyPayments'],
               date: item['date'],

@@ -2,9 +2,9 @@ class Paid{
   // ignore: non_constant_identifier_names
   int id, user_id, commerce_id, coin, percentage, statusShipping;
   // ignore: non_constant_identifier_names
-  String codeUrl, nameClient,total, email, nameShipping, numberShipping, addressShipping, detailsShipping, selectShipping, priceShipping, totalShipping, nameCompanyPayments, date;
+  String codeUrl, nameClient,total, email, nameShipping, numberShipping, addressShipping, detailsShipping, selectShipping, priceShipping, nameCompanyPayments, date;
   // ignore: non_constant_identifier_names
-  Paid({this.id, this.user_id, this.commerce_id, this.codeUrl, this.nameClient, this.total, this.coin, this.email, this.nameShipping, this.numberShipping, this.addressShipping, this.detailsShipping, this.statusShipping, this.selectShipping, this.priceShipping, this.totalShipping, this.percentage, this.nameCompanyPayments, this.date});
+  Paid({this.id, this.user_id, this.commerce_id, this.codeUrl, this.nameClient, this.total, this.coin, this.email, this.nameShipping, this.numberShipping, this.addressShipping, this.detailsShipping, this.statusShipping, this.selectShipping, this.priceShipping, this.percentage, this.nameCompanyPayments, this.date});
 
   factory Paid.fromMap(dynamic data) => Paid(
     id: data['id'],
@@ -22,7 +22,6 @@ class Paid{
     selectShipping: data['selectShipping'],
     priceShipping: data['priceShipping'],
     statusShipping: data['statusShipping'],
-    totalShipping: data['totalShipping'],
     percentage: data['percentage'],
     nameCompanyPayments: data['nameCompanyPayments'],
     date: data['date'],
@@ -44,7 +43,6 @@ class Paid{
     'selectShipping': selectShipping,
     'priceShipping': priceShipping,
     'statusShipping': statusShipping,
-    'totalShipping': totalShipping,
     'percentage': percentage,
     'nameCompanyPayments': nameCompanyPayments,
     'date': date,

@@ -150,9 +150,20 @@ class _MenuPageState extends State<MenuPage> {
       myProvider.statusButtonMenu = false;
       myProvider.selectDateRate = 0;
       
-      if(code == 2 || code == 8){
-        myProvider.getDataUser(false, false, context);
+      if(code == 1){
+         myProvider.getDataUser(false, false, context);
+      }else if(myProvider.listCommerces.length != 0){
+        if(code == 2){
+          myProvider.getListBalances();
+        }
+
+        if(code == 8){
+          myProvider.totalSales = 0;
+          myProvider.dataReportSales=[];
+          myProvider.getListPaids();
+        }
       }
+      
       myProvider.clickButtonMenu = code;
       await Future.delayed(Duration(milliseconds: 150));
       Navigator.push(context, SlideLeftRoute(page: page));

@@ -222,10 +222,18 @@ class _MainMenuBarState extends State<MainMenuBar> {
           setState((){
             _statusBadge = false;
             _statusButton = code;
-          });
+          }); 
 
-          if(code == 4 || code == 5){
-            myProvider.getDataUser(false, false, context);
+          if(myProvider.listCommerces.length != 0){
+            if(code == 4){
+              myProvider.getListBalances();
+            }
+
+            if(code == 5){
+              myProvider.totalSales = 0;
+              myProvider.dataReportSales=[];
+              myProvider.getListPaids();
+            }
           }
 
         }

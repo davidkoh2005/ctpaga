@@ -354,7 +354,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: showPrecioShipping(myProvider.selectPaid.coin, myProvider.selectPaid.priceShipping),
+                  text: showTotal(myProvider.selectPaid.coin, myProvider.selectPaid.priceShipping),
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
@@ -403,7 +403,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: myProvider.selectPaid.coin == 0 ? "\$ ${myProvider.selectPaid.total}" : "Bs ${myProvider.selectPaid.total}",
+                  text: showTotal(myProvider.selectPaid.coin, myProvider.selectPaid.total),
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
@@ -488,7 +488,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
     );
   }
 
-  showPrecioShipping(coin, price){
+  showTotal(coin, price){
     var lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$', );
     
     if(coin  == 1)

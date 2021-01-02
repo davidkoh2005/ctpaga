@@ -87,10 +87,11 @@ class _DepositsPageState extends State<DepositsPage> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
+                                      await Future.delayed(Duration(milliseconds: 20));
                                       setState(() {
                                         _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
                                         _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
-                                      });
+                                      }); 
                                     },
                                     child: Align(
                                       alignment: Alignment.centerRight,
@@ -98,9 +99,14 @@ class _DepositsPageState extends State<DepositsPage> {
                                         width: size.width / 3,
                                         height: size.width / 3.5,
                                         child: Stack(
-                                          children: [
+                                          children: myProvider.selectCoinDeposits == 0 ?[
                                             coinSecond(),
                                             coinFirst(),
+                                          ]
+                                          :
+                                          [
+                                            coinFirst(),
+                                            coinSecond(),
                                           ],
                                         ),
                                       )
@@ -238,7 +244,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   Widget coinSecond(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
@@ -254,7 +259,7 @@ class _DepositsPageState extends State<DepositsPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: myProvider.selectCoinDeposits == 1? colorGreen : colorGrey,
+            color: _positionTopSecond == 0? colorGreen : colorGrey,
           ),
           child: Container(
             child: Text(
@@ -272,7 +277,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   Widget coinFirst(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
@@ -288,7 +292,7 @@ class _DepositsPageState extends State<DepositsPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: myProvider.selectCoinDeposits == 0? colorGreen : colorGrey,
+            color: _positionTopFirst == 0? colorGreen : colorGrey,
           ),
           child: Text(
             "\$" ,

@@ -56,7 +56,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
@@ -83,11 +82,12 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 padding: _statusMenuBar? EdgeInsets.only(top:40) : EdgeInsets.zero ,
                 child: GestureDetector(
                   onTap: () async {
+                    setState(() => _statusCoin = _statusCoin == 0 ? 1 : 0);
+                    await Future.delayed(Duration(milliseconds: 20));
                     setState(() {
-                       _statusCoin = _statusCoin == 0 ? 1 : 0;
                       _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
                       _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
-                    });
+                    }); 
                   },
                   child: Align(
                     alignment: Alignment.centerRight,
@@ -95,63 +95,14 @@ class _SalesReportPageState extends State<SalesReportPage> {
                       width: size.width / 3,
                       height: size.width / 3.5,
                       child: Stack(
-                        children: [
-                          
-                          AnimatedPositioned(
-                            duration: Duration(milliseconds:300),
-                            top: _positionTopSecond,
-                            curve: Curves.linear,
-                            child: AnimatedPadding(
-                              duration: Duration(milliseconds:600),
-                              padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: size.width / 7,
-                                height: size.width / 7,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80),
-                                  color: _positionTopSecond == 0? colorGreen : colorGrey,
-                                ),
-                                child: Container(
-                                  child: Text(
-                                    "Bs",
-                                    style:  TextStyle(
-                                      fontSize: 18 * scaleFactor,
-                                      color: Colors.white,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  )
-                                ),
-                              )
-                            ),
-                          ),
-                          
-                          AnimatedPositioned(
-                            duration: Duration(milliseconds:300),
-                            top: _positionTopFirst,
-                            curve: Curves.linear,
-                            child: AnimatedPadding(
-                              duration: Duration(milliseconds:600),
-                              padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
-                              child: Container(
-                                alignment: Alignment.center,
-                                width: size.width / 7,
-                                height: size.width / 7,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(80),
-                                  color: _positionTopFirst == 0? colorGreen : colorGrey,
-                                ),
-                                child: Text(
-                                  "\$" ,
-                                  style:  TextStyle(
-                                    fontSize: 18 * scaleFactor,
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
+                        children: _statusCoin == 0 ?[
+                          coinSecond(),
+                          coinFirst(),
+                        ]
+                        :
+                        [
+                          coinFirst(),
+                          coinSecond(),
                         ],
                       ),
                     )
@@ -164,6 +115,70 @@ class _SalesReportPageState extends State<SalesReportPage> {
           )
         ),
       )
+    );
+  }
+
+  Widget coinSecond(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopSecond,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: _positionTopSecond == 0? colorGreen : colorGrey,
+          ),
+          child: Container(
+            child: Text(
+              "Bs",
+              style:  TextStyle(
+                fontSize: 18 * scaleFactor,
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            )
+          ),
+        )
+      ),
+    );
+  }
+
+  Widget coinFirst(){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopFirst,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: _positionTopFirst == 0? colorGreen : colorGrey,
+          ),
+          child: Text(
+            "\$" ,
+            style:  TextStyle(
+              fontSize: 18 * scaleFactor,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
     );
   }
 
@@ -284,6 +299,10 @@ class _SalesReportPageState extends State<SalesReportPage> {
     if (picked != null && picked != DateTime.now())
       setState(() {
         _initialDate = picked;
+        
+        if (controllerFinalDate.text.length == 0)
+          controllerFinalDate.text = formatter.format(DateTime.now());
+        
         controllerInitialDate.text = formatter.format(_initialDate);
       });
     

@@ -176,7 +176,7 @@ class _MainPageState extends State<MainPage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true, 
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
@@ -275,11 +275,12 @@ class _MainPageState extends State<MainPage> {
       android: initializationSettingsAndroid,
       iOS: initializationSettingsIOS
     );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
+    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification,);
   }
 
   Future selectNotification(String payload) async {
-    Navigator.push(context, SlideLeftRoute(page: SalesReportPage(false)));
+    if(payload == "true")
+      Navigator.push(context, SlideLeftRoute(page: SalesReportPage(false)));
   }
 
   void showNotification(message) async {
@@ -296,7 +297,8 @@ class _MainPageState extends State<MainPage> {
         NotificationDetails(android: androidPlatformChannelSpecifics, iOS:  iOS);
 
     await flutterLocalNotificationsPlugin.show(
-        0, "Nuevo Pago Recibido", message, platformChannelSpecifics);
+        0, "Nuevo Pago Recibido", message, platformChannelSpecifics, payload: "true"
+      );
 
 }
 

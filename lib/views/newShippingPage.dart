@@ -437,7 +437,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,

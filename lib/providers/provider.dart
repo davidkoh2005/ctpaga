@@ -237,14 +237,6 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  bool _statusShipping;
-  bool get statusShipping =>_statusShipping; 
-  
-  set statusShipping(bool newStatus) {
-    _statusShipping = newStatus; 
-    notifyListeners(); 
-  }
-
   String _descriptionShipping;
   String get descriptionShipping =>_descriptionShipping; 
   
@@ -416,8 +408,6 @@ class MyProvider with ChangeNotifier {
           },
         ); 
 
-        print("access: $accessTokenUser"); //TODO: eliminar
-
         jsonResponse = jsonDecode(response.body);
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
@@ -429,6 +419,7 @@ class MyProvider with ChangeNotifier {
             name: jsonResponse['data']['0']['name'],
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
+            statusShipping: jsonResponse['data']['0']['statusShipping']
           );
 
           dataUser = user;

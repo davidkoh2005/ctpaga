@@ -47,7 +47,7 @@ class _LoadingPageState extends State<LoadingPage> {
             "coin": myProvider.coinUsers,
             "rate": myProvider.dataRates[0].rate,
             "nameClient": myProvider.nameClient,
-            "statusShipping": myProvider.statusShipping,
+            "statusShipping": myProvider.user.statusShipping,
             "descriptionShipping": myProvider.descriptionShipping
           }),
         ); 
@@ -111,7 +111,7 @@ class _LoadingPageState extends State<LoadingPage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,

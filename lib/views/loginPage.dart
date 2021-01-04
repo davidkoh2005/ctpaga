@@ -328,9 +328,7 @@ class _LoginPageState extends State<LoginPage> {
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
             myProvider.coinUsers = 1;
-            prefs.setBool('statusShipping', false);
             prefs.setString('descriptionShipping', "");
-            myProvider.statusShipping = false;
             myProvider.descriptionShipping = "";
             _passwordController.clear();
             myProvider.getDataUser(true, true, context);

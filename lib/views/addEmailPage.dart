@@ -241,7 +241,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
             "coin": myProvider.coinUsers,
             "rate": myProvider.dataRates[0].rate,
             "nameClient": myProvider.nameClient,
-            "statusShipping": myProvider.statusShipping,
+            "statusShipping": myProvider.user.statusShipping,
             "descriptionShipping": myProvider.descriptionShipping,
             "email": _email,
           }),
@@ -271,7 +271,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,

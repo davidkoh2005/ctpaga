@@ -8,8 +8,11 @@ import 'package:ctpaga/env.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
+import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'dart:convert';
+import 'dart:io';
 
 
 class ShippingPage extends StatefulWidget {
@@ -24,7 +27,7 @@ class _ShippingPageState extends State<ShippingPage> {
   final bool _statusMenuBar;
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
-  bool _statusButtonNew = false, _statusButtonShipping = false, _statusMsg = true;
+  bool _statusButtonNew = false, _statusMsg = true;
   String _description;
 
   @override
@@ -42,8 +45,6 @@ class _ShippingPageState extends State<ShippingPage> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() {
       myProvider.dataShipping.length == 0? _statusMsg = true :  _statusMsg = false;
-                  
-      _statusButtonShipping = myProvider.statusShipping;
       _description = myProvider.descriptionShipping;
       _controllerDescription.text = myProvider.descriptionShipping;
     });
@@ -51,43 +52,46 @@ class _ShippingPageState extends State<ShippingPage> {
 
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    return WillPopScope(
-      onWillPop: () async {
-        if(myProvider.statusButtonMenu){
-          myProvider.statusButtonMenu = false;
-          return false;
-        }else{
-          myProvider.clickButtonMenu = 0;
-          return true;
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Container(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Visibility(
-                visible: !_statusMenuBar,
-                child: Navbar("Envíos", false)
-              ),
-              statusSend(),
-              _statusButtonShipping? 
-                formShipping() 
-              :  
-              Expanded(
-                child: formMsg()
-              ),
-            ],
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return WillPopScope(
+          onWillPop: () async {
+            if(myProvider.statusButtonMenu){
+              myProvider.statusButtonMenu = false;
+              return false;
+            }else{
+              myProvider.clickButtonMenu = 0;
+              return true;
+            }
+          },
+          child: Scaffold(
+            backgroundColor: Colors.white,
+            body: Container(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Visibility(
+                    visible: !_statusMenuBar,
+                    child: Navbar("Envíos", false)
+                  ),
+                  statusSend(myProvider),
+                  myProvider.user.statusShipping? 
+                    formShipping(myProvider) 
+                  :  
+                  Expanded(
+                    child: formMsg(myProvider)
+                  ),
+                ],
+              )
+            ),
           )
-        ),
-      )
+        );
+      }
     );
   }
 
-  Widget statusSend(){
+  Widget statusSend(myProvider){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       children: <Widget>[
@@ -107,7 +111,7 @@ class _ShippingPageState extends State<ShippingPage> {
         Center(
           child: Padding(
             padding: EdgeInsets.fromLTRB(70, 30, 70, 30),
-            child: buttonStatus()
+            child: buttonStatus(myProvider),
           )
         ),
         Container(
@@ -125,138 +129,133 @@ class _ShippingPageState extends State<ShippingPage> {
     );
   }
 
-  Widget formShipping(){
+  Widget formShipping(myProvider){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
-    return Consumer<MyProvider>(
-      builder: (context, myProvider, child) {
-        myProvider.dataShipping.length == 0? _statusMsg = true :  _statusMsg = false;
-        return Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: <Widget>[
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                        "DESCRIPCIÓN DE ENVIOS (OPTIONAL)",
-                        style: TextStyle(
-                          color: colorText,
-                          fontSize: 15 * scaleFactor,
-                        ),
-                      ),
+    return Expanded(
+      child: SingleChildScrollView(
+        child: Column(
+          children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
+                child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    "DESCRIPCIÓN DE ENVIOS (OPTIONAL)",
+                    style: TextStyle(
+                      color: colorText,
+                      fontSize: 15 * scaleFactor,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                    child: new TextFormField(
-                      controller: _controllerDescription,
-                      maxLines: 1,
-                      textCapitalization:TextCapitalization.words,
-                      autofocus: false,
-                      onChanged: (value) {
-                        _description = value.trim();
-                        saveDescriptionStatus();
-                      },
-                      textInputAction: TextInputAction.next,
-                      cursorColor: colorGreen,
-                      textAlign: TextAlign.center,
-                      decoration: InputDecoration(
-                        focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: Colors.black),
-                        ),
-                      ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+                child: new TextFormField(
+                  controller: _controllerDescription,
+                  maxLines: 1,
+                  textCapitalization:TextCapitalization.words,
+                  autofocus: false,
+                  onChanged: (value) {
+                    _description = value.trim();
+                    saveDescriptionStatus();
+                  },
+                  textInputAction: TextInputAction.next,
+                  cursorColor: colorGreen,
+                  textAlign: TextAlign.center,
+                  decoration: InputDecoration(
+                    focusedBorder: UnderlineInputBorder(
+                      borderSide: BorderSide(color: Colors.black),
+                    ),
+                  ),
+                  style: TextStyle(
+                    fontSize: 15 * scaleFactor,
+                  ),
+                ),
+              ),
+
+              Visibility(
+                visible: myProvider.dataShipping.length == 0? true : false,
+                child: Container(
+                  height: size.height - 540,
+                  child: SingleChildScrollView(
+                    child: formMsg(myProvider)
+                  )
+                ),
+              ),
+
+              Visibility(
+                visible: myProvider.dataShipping.length == 0? false : true,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 60.0, left: 30, right: 30, bottom: 10),
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "TARIFAS DE ENVÍO",
                       style: TextStyle(
+                        color: colorText,
                         fontSize: 15 * scaleFactor,
                       ),
-                    ),
-                  ),
-
-                  Visibility(
-                    visible: _statusMsg,
-                    child: Container(
-                      height: size.height - 540,
-                      child: SingleChildScrollView(
-                        child: formMsg()
-                      )
-                    ),
-                  ),
-
-                  Visibility(
-                    visible: !_statusMsg,
-                    child: Padding(
-                      padding: const EdgeInsets.only(top: 60.0, left: 30, right: 30, bottom: 10),
-                      child: Align(
-                        alignment: Alignment.centerLeft,
-                        child: Text(
-                          "TARIFAS DE ENVÍO",
-                          style: TextStyle(
-                            color: colorText,
-                            fontSize: 15 * scaleFactor,
-                          ),
-                        )
-                      ),
                     )
                   ),
+                )
+              ),
 
-                  Visibility(
-                    visible: !_statusMsg,
-                    child: Container(
-                      height: size.height - 520,
-                      child:Scrollbar(
-                        controller: _scrollControllerShipping, 
-                        isAlwaysShown: true,
-                        child: ListView.separated(
-                          shrinkWrap: true,
-                          controller: _scrollControllerShipping,
-                          separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
-                          padding: EdgeInsets.fromLTRB(30, 0.0, 30, 30),
-                          itemCount: myProvider.dataShipping.length,
-                          itemBuilder:  (BuildContext ctxt, int index) {
-                            return GestureDetector(
-                              onTap: () =>Navigator.push(context, SlideLeftRoute(page: NewShippingPage(index))),
-                              child: Padding(
-                                padding: EdgeInsets.only(top: 10, bottom:10),
-                                child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: <Widget>[
-                                    Container(
-                                      child: Text(
-                                        myProvider.dataShipping[index].description,
-                                        style: TextStyle(
-                                          color: Colors.grey,
-                                          fontSize: 15 * scaleFactor,
-                                        ),
-                                      ),
+              Visibility(
+                visible: !_statusMsg,
+                child: Container(
+                  height: size.height - 520,
+                  child:Scrollbar(
+                    controller: _scrollControllerShipping, 
+                    isAlwaysShown: true,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      controller: _scrollControllerShipping,
+                      separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
+                      padding: EdgeInsets.fromLTRB(30, 0.0, 30, 30),
+                      itemCount: myProvider.dataShipping.length,
+                      itemBuilder:  (BuildContext ctxt, int index) {
+                        return GestureDetector(
+                          onTap: () =>Navigator.push(context, SlideLeftRoute(page: NewShippingPage(index))),
+                          child: Padding(
+                            padding: EdgeInsets.only(top: 10, bottom:10),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: <Widget>[
+                                Container(
+                                  child: Text(
+                                    myProvider.dataShipping[index].description,
+                                    style: TextStyle(
+                                      color: Colors.grey,
+                                      fontSize: 15 * scaleFactor,
                                     ),
-                                    Container(
-                                      child: Text(
-                                        showPrice(myProvider.dataShipping[index].price, myProvider.dataShipping[index].coin),
-                                        style: TextStyle(
-                                          color: colorText,
-                                          fontSize: 15 * scaleFactor,
-                                        ),
-                                      )
+                                  ),
+                                ),
+                                Container(
+                                  child: Text(
+                                    showPrice(myProvider.dataShipping[index].price, myProvider.dataShipping[index].coin),
+                                    style: TextStyle(
+                                      color: colorText,
+                                      fontSize: 15 * scaleFactor,
                                     ),
-                                  ],
-                                )
-                              )
-                            );
-                          }
-                        ),
-                      )    
-                    )
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: 30, top: 30),
-                    child: newShipping()
-                  ),
-                ],
-            )
-          )
-        );
-      }
+                                  )
+                                ),
+                              ],
+                            )
+                          )
+                        );
+                      }
+                    ),
+                  )    
+                )
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: 30, top: 30),
+                child: newShipping()
+              ),
+            ],
+        )
+      )
     );
   }
 
@@ -283,7 +282,7 @@ class _ShippingPageState extends State<ShippingPage> {
     return "${lowPrice.text}";
   }
 
-  Widget formMsg(){
+  Widget formMsg(myProvider){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Column(
@@ -293,7 +292,7 @@ class _ShippingPageState extends State<ShippingPage> {
         Container(
           padding: EdgeInsets.all(40),
           child: 
-          _statusButtonShipping?
+          myProvider.user.statusShipping?
             Text(
               "¡Agrega tus tarifas y cóbrale a tus clientes por el envío!",
               textAlign: TextAlign.center,
@@ -354,13 +353,12 @@ class _ShippingPageState extends State<ShippingPage> {
     );
   }
 
-  Widget buttonStatus(){
+  Widget buttonStatus(myProvider){
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
-        setState(()=> _statusButtonShipping = !_statusButtonShipping);
-        saveDescriptionStatus();
+        saveStatus();
       },
       child: Container(
         width:size.width - 100,
@@ -372,8 +370,8 @@ class _ShippingPageState extends State<ShippingPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              !_statusButtonShipping? colorGreen : colorGrey,
-              !_statusButtonShipping? colorGreen : colorGrey,
+              !myProvider.user.statusShipping? colorGreen : colorGrey,
+              !myProvider.user.statusShipping? colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -382,7 +380,7 @@ class _ShippingPageState extends State<ShippingPage> {
           ),
         child: Center(
           child: Text(
-            !_statusButtonShipping? "ACTIVAR" : "DESACTIVAR",
+            !myProvider.user.statusShipping? "ACTIVAR" : "DESACTIVAR",
             style: TextStyle(
               color: Colors.white,
               fontSize: 15 * scaleFactor,
@@ -397,19 +395,102 @@ class _ShippingPageState extends State<ShippingPage> {
   saveDescriptionStatus()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool('statusShipping', _statusButtonShipping);
     prefs.setString('descriptionShipping', _description);
-    myProvider.statusShipping = _statusButtonShipping;
     myProvider.descriptionShipping = _description;
   }
 
-  Future<void> showMessage(_titleMessage) async {
+  saveStatus()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var result, response, jsonResponse;
+    _onLoading();
+    try {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        response = await http.post(
+          urlApi+"updateUser",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: jsonEncode({
+            'statusShipping': !myProvider.user.statusShipping,
+          }),
+        ); 
+
+        jsonResponse = jsonDecode(response.body); 
+        if (jsonResponse['statusCode'] == 201) {
+          myProvider.getDataUser(false, false, context);
+          await Future.delayed(Duration(seconds: 2));
+          Navigator.pop(context);
+        } 
+      }
+    } on SocketException catch (_) {
+      Navigator.pop(context);
+      showMessage("Sin conexión a internet", false);
+    } 
+  }
+
+  Future<void> _onLoading() async {
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return WillPopScope(
+          onWillPop: () async => false,
+          child: AlertDialog(
+            backgroundColor: Colors.white,
+            content: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: CircularProgressIndicator(
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  ),
+                ),
+                Container(
+                  padding: EdgeInsets.all(5),
+                  child: RichText(
+                    text: TextSpan(
+                      children: [
+                        TextSpan(
+                          text: "Cargando ",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                        TextSpan(
+                          text: "...",
+                          style: TextStyle(
+                            color: colorGreen,
+                            fontSize: 15 * scaleFactor,
+                          )
+                        ),
+                      ]
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          )
+        );
+      },
+    );
+  }
+
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,
@@ -418,7 +499,15 @@ class _ShippingPageState extends State<ShippingPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              Padding(
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.error,
@@ -430,7 +519,6 @@ class _ShippingPageState extends State<ShippingPage> {
                 padding: EdgeInsets.all(5),
                 child: Text(
                   _titleMessage,
-                  textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
@@ -450,5 +538,7 @@ class _ShippingPageState extends State<ShippingPage> {
     setState(() => _statusButtonNew = false); //delete selected button color
     Navigator.push(context, SlideLeftRoute(page: page));
   }
+
+  
 
 }

@@ -1633,48 +1633,48 @@ class _PerfilPageState extends State<PerfilPage> {
 
   void saveDataBanking()async{
     _onLoading();
-      var result, response, jsonResponse;
-       try {
-        result = await InternetAddress.lookup('google.com');
-        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var result, response, jsonResponse;
+      try {
+      result = await InternetAddress.lookup('google.com');
+      if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+        var myProvider = Provider.of<MyProvider>(context, listen: false);
 
-          var parameters = jsonToUrl(jsonEncode({
-              'coin': _statusCoin == 0? "USD" : "Bs",
-              'country': _statusCoin == 0? _valueListCountry : "Venezuela",
-              'accountName': _statusCoin == 0? _accountNameBankingUSD : _accountNameBankingBs,
-              'accountNumber': _statusCoin == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
-              'idCard': _idCardBankingBs,
-              'route': _routeBankingUSD,
-              'swift': _swiftBankingUSD,
-              'address': _addressBankingUSD,
-              'bankName': _statusCoin == 0? _nameBankingUSD : _nameBankingBs,
-              'accountType': _statusCoin == 0? _accountTypeBankingUSD : _accountTypeBankingBs,
-            }));
+        var parameters = jsonToUrl(jsonEncode({
+            'coin': _statusCoin == 0? "USD" : "Bs",
+            'country': _statusCoin == 0? _valueListCountry : "Venezuela",
+            'accountName': _statusCoin == 0? _accountNameBankingUSD : _accountNameBankingBs,
+            'accountNumber': _statusCoin == 0? _accountNumberBankingUSD : _accountNumberBankingBs,
+            'idCard': _idCardBankingBs,
+            'route': _routeBankingUSD,
+            'swift': _swiftBankingUSD,
+            'address': _addressBankingUSD,
+            'bankName': _statusCoin == 0? _nameBankingUSD : _nameBankingBs,
+            'accountType': _statusCoin == 0? _accountTypeBankingUSD : _accountTypeBankingBs,
+          }));
 
-          response = await http.get(
-            urlApi+"updateBankUser/$parameters",
-            headers:{
-              'Content-Type': 'application/json',
-              'X-Requested-With': 'XMLHttpRequest',
-              'authorization': 'Bearer ${myProvider.accessTokenUser}',
-            },
-          ); 
+        response = await http.get(
+          urlApi+"updateBankUser/$parameters",
+          headers:{
+            'Content-Type': 'application/json',
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+        ); 
 
-          jsonResponse = jsonDecode(response.body); 
-          print(jsonResponse); 
-          if (jsonResponse['statusCode'] == 201) {
-            setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, false, context);
-            Navigator.pop(context);
-            showMessage("Guardado Correctamente", true);
-            await Future.delayed(Duration(seconds: 1));
-            Navigator.pop(context);
-          }  
-        }
-      } on SocketException catch (_) {
-        showMessage("Sin conexión a internet", false);
-      } 
+        jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse); 
+        if (jsonResponse['statusCode'] == 201) {
+          setState(() => _statusDropdown = "");
+          myProvider.getDataUser(false, false, context);
+          Navigator.pop(context);
+          showMessage("Guardado Correctamente", true);
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.pop(context);
+        }  
+      }
+    } on SocketException catch (_) {
+      showMessage("Sin conexión a internet", false);
+    } 
   }
 
   String jsonToUrl(value){
@@ -1752,7 +1752,7 @@ class _PerfilPageState extends State<PerfilPage> {
 
     return showDialog(
       context: context,
-      barrierDismissible: false, // user must tap button!
+      barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
           backgroundColor: Colors.white,

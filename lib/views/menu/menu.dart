@@ -88,12 +88,8 @@ class _MenuPageState extends State<MenuPage> {
     else if(code == 3 || code == 4){
       if(verifyDataCommerce(myProvider)){
         showMessage("Debe ingresar los datos de la empresa", false);
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.pop(context);
       }else if(myProvider.dataRates.length == 0 ){
         showMessage("Debe ingresar la tasa de cambio", false);
-        await Future.delayed(Duration(seconds: 1));
-        Navigator.pop(context);
       }else{
         if(code == 3){
           myProvider.selectProductsServices = 0;
@@ -138,7 +134,8 @@ class _MenuPageState extends State<MenuPage> {
           Navigator.pushReplacement(context, SlideLeftRoute(page: page));
         }
       } on SocketException catch (_) {
-        print("error");
+        Navigator.pop(context);
+        showMessage("Sin conexión a internet. Intentalo de nuevo!", false);
       } 
     }else if(code == 10){
       myProvider.clickButtonMenu = 0;

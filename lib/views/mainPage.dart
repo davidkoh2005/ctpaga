@@ -300,7 +300,7 @@ class _MainPageState extends State<MainPage> {
         0, "Nuevo Pago Recibido", message, platformChannelSpecifics, payload: "true"
       );
 
-}
+  }
 
 }
 

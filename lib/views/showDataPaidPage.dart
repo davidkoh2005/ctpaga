@@ -66,7 +66,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         }
       } on SocketException catch (_) {
         Navigator.pop(context);
-        showMessage("Sin conexión a internet", false);
+        showMessage("Sin conexión a internet, no se podra mostrar los Productos y/o Servicos. Intentalo de nuevo!", false);
       }
   }
 

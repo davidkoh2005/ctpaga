@@ -92,15 +92,18 @@ class _MyHomePageState extends State<MyHomePage> {
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
           },
+          body: jsonEncode({
+            'app': 'ctpaga',
+          }),
         ); 
 
         jsonResponse = jsonDecode(response.body);
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
-          if(info.version != jsonResponse['data'][0]['version']){
+          if(info.version != jsonResponse['data']['version']){
             versionApp = info.version;
-            newVersionApp = jsonResponse['data'][0]['version'];
-            urlApp = jsonResponse['data'][0]['url'];
+            newVersionApp = jsonResponse['data']['version'];
+            urlApp = jsonResponse['data']['url'];
             showAlert();
           }else{
             changePage();

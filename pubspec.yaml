@@ -55,8 +55,6 @@ flutter:
     - assets/banks/Venezuela/
     - assets/banks/Panama/
     - assets/banks/USA/
-    - assets/videos/botonUSD.mp4
-    - assets/videos/botonBs.mp4
 
 flutter_icons:
   image_path: 'assets/logo/logoctpaga.png'

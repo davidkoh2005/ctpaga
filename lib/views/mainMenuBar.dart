@@ -208,7 +208,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if(code == 2)
           setState(() {
             _statusBadge = !_statusBadge;
@@ -223,6 +223,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
             _statusBadge = false;
             _statusButton = code;
           }); 
+
+          await Future.delayed(Duration(milliseconds: 150));
 
           if(myProvider.listCommerces.length != 0){
             if(code == 4){
@@ -239,6 +241,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         }
       },
       child: Container(
+        color: Colors.white,
         padding: EdgeInsets.only(top:10),
         width: size.width / 5.1,
         child: Column(

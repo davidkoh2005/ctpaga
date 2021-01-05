@@ -76,7 +76,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     child: Navbar("Envíos", false)
                   ),
                   statusSend(myProvider),
-                  myProvider.user.statusShipping? 
+                  myProvider.dataUser.statusShipping? 
                     formShipping(myProvider) 
                   :  
                   Expanded(
@@ -292,7 +292,7 @@ class _ShippingPageState extends State<ShippingPage> {
         Container(
           padding: EdgeInsets.all(40),
           child: 
-          myProvider.user.statusShipping?
+          myProvider.dataUser.statusShipping?
             Text(
               "¡Agrega tus tarifas y cóbrale a tus clientes por el envío!",
               textAlign: TextAlign.center,
@@ -370,8 +370,8 @@ class _ShippingPageState extends State<ShippingPage> {
           ),
           gradient: LinearGradient(
             colors: [
-              !myProvider.user.statusShipping? colorGreen : colorGrey,
-              !myProvider.user.statusShipping? colorGreen : colorGrey,
+              !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
+              !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
@@ -380,7 +380,7 @@ class _ShippingPageState extends State<ShippingPage> {
           ),
         child: Center(
           child: Text(
-            !myProvider.user.statusShipping? "ACTIVAR" : "DESACTIVAR",
+            !myProvider.dataUser.statusShipping? "ACTIVAR" : "DESACTIVAR",
             style: TextStyle(
               color: Colors.white,
               fontSize: 15 * scaleFactor,
@@ -414,7 +414,7 @@ class _ShippingPageState extends State<ShippingPage> {
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
           },
           body: jsonEncode({
-            'statusShipping': !myProvider.user.statusShipping,
+            'statusShipping': !myProvider.dataUser.statusShipping,
           }),
         ); 
 

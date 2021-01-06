@@ -7,13 +7,13 @@ import 'package:ctpaga/views/shippingPage.dart';
 import 'package:ctpaga/views/depositsPage.dart';
 import 'package:ctpaga/views/discountPage.dart';
 import 'package:ctpaga/views/selfiePage.dart';
-import 'package:ctpaga/views/perfilPage.dart';
+import 'package:ctpaga/views/profilePage.dart';
 import 'package:ctpaga/views/loginPage.dart';
 
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "192.168.1.106:8000";
+String url = "192.168.1.115:8000";
 
 //TODO: Url Api (AWS)
 //String url = "54.196.181.42";
@@ -34,7 +34,7 @@ List listMenu = [
     "title": "Perfil",
     "icon": "assets/icons/perfilMenu.png",
     "code": 1,
-    "page": PerfilPage(),
+    "page": ProfilePage(),
   },
   {
     "title": "Banco",
@@ -109,7 +109,7 @@ List listMenuDeposits = [
     "title": "Cuenta Bancaria",
     "icon": "assets/icons/depositos.png",
     "code": 0,
-    "page": PerfilPage(),
+    "page": ProfilePage(),
   },
   {
     "title": "Agregar selfie",

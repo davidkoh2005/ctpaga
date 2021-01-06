@@ -21,12 +21,12 @@ import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class PerfilPage extends StatefulWidget {
+class ProfilePage extends StatefulWidget {
   @override
-  _PerfilPageState createState() => _PerfilPageState();
+  _ProfilePageState createState() => _ProfilePageState();
 }
 
-class _PerfilPageState extends State<PerfilPage> {
+class _ProfilePageState extends State<ProfilePage> {
   final _scrollController = ScrollController();
   final _formKeyCompany = new GlobalKey<FormState>();
   final _formKeyUser = new GlobalKey<FormState>();

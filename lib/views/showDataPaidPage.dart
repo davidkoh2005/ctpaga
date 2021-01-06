@@ -104,22 +104,39 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
   Widget showDataPaid(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        Container(
-          padding: EdgeInsets.fromLTRB(30,0,30,5),
-          child: Center(
-            child: Text(
-              "CONTACTO",
-              style: TextStyle(
-                fontSize: 15 * scaleFactor,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+        Padding(
+          padding: EdgeInsets.fromLTRB(40, 0, 40, 20),
+          child: Container(
+            alignment: Alignment.center,
+            height: size.height / 20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colorGreen,
+                  colorGreen
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
+            borderRadius: BorderRadius.circular(30),
             ),
+            child: Center(
+              child: Text(
+                "CONTACTO",
+                style: TextStyle(
+                  fontSize: 15 * scaleFactor,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
           )
         ),
+
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
@@ -170,19 +187,35 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           ),
         ),
 
-        Container(
-          padding: EdgeInsets.fromLTRB(30,10,30,5),
-          child: Center(
-            child: Text(
-              "ENVÍO",
-              style: TextStyle(
-                fontSize: 15 * scaleFactor,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+        Padding(
+          padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
+          child: Container(
+            alignment: Alignment.center,
+            height: size.height / 20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colorGreen,
+                  colorGreen
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
+            borderRadius: BorderRadius.circular(30),
             ),
+            child: Center(
+              child: Text(
+                "DETALLE DE ENVÍO",
+                style: TextStyle(
+                  fontSize: 15 * scaleFactor,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
           )
         ),
+
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
@@ -280,17 +313,32 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           ),
         ),
 
-        Container(
-          padding: EdgeInsets.fromLTRB(30,10,30,10),
-          child: Center(
-            child: Text(
-              "DETALLE",
-              style: TextStyle(
-                fontSize: 15 * scaleFactor,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+        Padding(
+          padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
+          child: Container(
+            alignment: Alignment.center,
+            height: size.height / 20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colorGreen,
+                  colorGreen
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
+            borderRadius: BorderRadius.circular(30),
             ),
+            child: Center(
+              child: Text(
+                "ENVIO SELECCIONADO",
+                style: TextStyle(
+                  fontSize: 15 * scaleFactor,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
           )
         ),
         Container(
@@ -415,17 +463,32 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           ),
         ),
 
-        Container(
-          padding: EdgeInsets.fromLTRB(30,10,30,10),
-          child: Center(
-            child: Text(
-              "LISTA",
-              style: TextStyle(
-                fontSize: 15 * scaleFactor,
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
+        Padding(
+          padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
+          child: Container(
+            alignment: Alignment.center,
+            height: size.height / 20,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [
+                  colorGreen,
+                  colorGreen
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
               ),
+            borderRadius: BorderRadius.circular(30),
             ),
+            child: Center(
+              child: Text(
+                "PRODUCTOS Y/O SERVICIOS",
+                style: TextStyle(
+                  fontSize: 15 * scaleFactor,
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            )
           )
         ),
         Expanded(
@@ -443,7 +506,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               DataColumn(
                 label: Text(
-                  'Producto\ny/o Servicio',
+                  'Nombre',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,

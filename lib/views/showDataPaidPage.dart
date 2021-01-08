@@ -114,15 +114,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorGreen,
-                  colorGreen
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            borderRadius: BorderRadius.circular(30),
+              color: colorGreen,
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
               child: Text(
@@ -193,15 +186,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorGreen,
-                  colorGreen
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            borderRadius: BorderRadius.circular(30),
+              color: colorGreen,
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
               child: Text(
@@ -319,15 +305,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorGreen,
-                  colorGreen
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            borderRadius: BorderRadius.circular(30),
+              color: colorGreen,
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
               child: Text(
@@ -469,15 +448,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  colorGreen,
-                  colorGreen
-                ],
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-              ),
-            borderRadius: BorderRadius.circular(30),
+              color: colorGreen,
+              borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
               child: Text(

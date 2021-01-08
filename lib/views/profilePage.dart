@@ -660,8 +660,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         keyboardType: TextInputType.text,
                         maxLength: 20,
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
-                          BlacklistingTextInputFormatter(RegExp("[/\\ ]")),
+                          FilteringTextInputFormatter.allow(RegExp("[a-z 0-9]")),
+                          FilteringTextInputFormatter.deny(RegExp("[/\\\\ \s\b|\b\s]")),
                         ],
                         decoration: InputDecoration(
                           labelText: 'Usuario',
@@ -824,8 +824,8 @@ class _ProfilePageState extends State<ProfilePage> {
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
               ], 
               decoration: InputDecoration(
                 labelText: 'Nombre y Apellido',
@@ -960,8 +960,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                  BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                  FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
                 ], 
                 decoration: InputDecoration(
                   labelText: 'Nombre de la Cuenta',
@@ -1186,8 +1186,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 inputFormatters: [
-                  WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                  BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                  FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
                 ], 
                 decoration: InputDecoration(
                   labelText: 'Nombre de la cuenta',
@@ -1239,8 +1239,8 @@ class _ProfilePageState extends State<ProfilePage> {
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 maxLength: 20,
-                inputFormatters: [  
-                  WhitelistingTextInputFormatter.digitsOnly,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
                 ],
                 decoration: InputDecoration(
                   labelText: 'Número de Cuenta',
@@ -1466,14 +1466,7 @@ class _ProfilePageState extends State<ProfilePage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                colorGreen,
-                colorGreen
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: colorGreen,
             borderRadius: BorderRadius.circular(30),
             ),
           child: Center(

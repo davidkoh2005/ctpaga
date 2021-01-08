@@ -184,16 +184,9 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGrey : colorGreen,
-              _statusButton? colorGrey : colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGrey : colorGreen,
           borderRadius: BorderRadius.circular(30),
-          ),
+        ),
         child: Center(
           child: Text(
             "CONTINUAR",

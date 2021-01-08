@@ -121,14 +121,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGreen : Colors.transparent,
-              _statusButton? colorGreen : Colors.transparent,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGreen : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
 
         ),

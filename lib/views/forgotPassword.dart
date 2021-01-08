@@ -98,14 +98,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
             color: colorGreen, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              colorGreen,
-              colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: colorGreen,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(

@@ -138,14 +138,7 @@ class _MainPageState extends State<MainPage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [
-                clickBotton == _index? colorGreen : colorGrey,
-                clickBotton == _index? colorGreen : colorGrey,
-              ],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
+            color: clickBotton == _index? colorGreen : colorGrey,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(

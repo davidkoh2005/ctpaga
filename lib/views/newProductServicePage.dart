@@ -216,8 +216,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         maxLength: 50,
                         textCapitalization:TextCapitalization.words,
                         inputFormatters: [
-                          WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                          BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                          FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
                         ], 
                         autofocus: false,
                         focusNode: _nameFocus,
@@ -267,7 +267,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         controller: lowPrice,
                         maxLines: 1,
                         inputFormatters: [  
-                          WhitelistingTextInputFormatter.digitsOnly,
+                          FilteringTextInputFormatter.digitsOnly,
                         ],
                         keyboardType: TextInputType.number,
                         autofocus: false,
@@ -464,7 +464,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           controller: _controllerStock,
                           maxLines: 1,
                           inputFormatters: [  
-                            WhitelistingTextInputFormatter.digitsOnly,
+                            FilteringTextInputFormatter.digitsOnly,
                           ],
                           keyboardType: TextInputType.number,
                           autofocus: false,
@@ -801,14 +801,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              showColorButton(myProvider),
-              showColorButton(myProvider),
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: showColorButton(myProvider),
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -839,14 +832,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonDelete? colorGrey : Colors.red,
-              _statusButtonDelete? colorGrey : Colors.red,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonDelete? colorGrey : Colors.red,
           borderRadius: BorderRadius.circular(30),
 
         ),

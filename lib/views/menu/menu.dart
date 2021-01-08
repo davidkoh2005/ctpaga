@@ -160,7 +160,7 @@ class _MenuPageState extends State<MenuPage> {
           myProvider.getListPaids();
         }
       }
-      
+      myProvider.statusUrlCommerce = false;
       myProvider.clickButtonMenu = code;
       await Future.delayed(Duration(milliseconds: 150));
       Navigator.push(context, SlideLeftRoute(page: page));

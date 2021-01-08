@@ -163,14 +163,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             color: colorGreen, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonNetworks == index? colorGreen : Colors.white,
-              _statusButtonNetworks == index? colorGreen : Colors.white,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonNetworks == index? colorGreen : Colors.white,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Row(
@@ -211,14 +204,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonReady? colorGrey : colorGreen,
-              _statusButtonReady? colorGrey : colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonReady? colorGrey : colorGreen,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

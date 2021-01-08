@@ -174,7 +174,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               readOnly: _switchFree,
               maxLines: 1,
               inputFormatters: [  
-                WhitelistingTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.digitsOnly,
               ],
               keyboardType: TextInputType.number,
               autofocus: false,
@@ -257,14 +257,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _dataShipping.length ==2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _dataShipping.length ==2? _statusButtonSave? colorGrey : colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _dataShipping.length ==2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -294,14 +287,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonDelete? colorGrey : Colors.red,
-              _statusButtonDelete? colorGrey : Colors.red,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonDelete? colorGrey : Colors.red,
           borderRadius: BorderRadius.circular(30),
 
         ),

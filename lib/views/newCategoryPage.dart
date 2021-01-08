@@ -73,8 +73,8 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               maxLines: 1,
               textCapitalization:TextCapitalization.words,
               inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
               ], 
               autofocus: false,
               maxLength: 50,
@@ -113,14 +113,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorGreen,
-              !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorGreen,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

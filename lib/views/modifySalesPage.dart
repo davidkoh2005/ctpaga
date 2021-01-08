@@ -141,14 +141,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _quantity.length != 0? _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _quantity.length != 0? _statusButtonSave? colorGrey : colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _quantity.length != 0? _statusButtonSave? colorGrey : colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -178,14 +171,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonDelete? colorGrey : Colors.red,
-              _statusButtonDelete? colorGrey : Colors.red,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonDelete? colorGrey : Colors.red,
           borderRadius: BorderRadius.circular(30),
 
         ),

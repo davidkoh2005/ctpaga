@@ -329,14 +329,7 @@ class _ShippingPageState extends State<ShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonNew? colorGreen : colorGrey,
-              _statusButtonNew? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonNew? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -368,14 +361,7 @@ class _ShippingPageState extends State<ShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
-              !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

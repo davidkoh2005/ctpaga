@@ -70,8 +70,8 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressFocus),
               textCapitalization:TextCapitalization.words,
               inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
               ], 
               decoration: InputDecoration(
                 icon: Icon(Icons.person, color: colorGreen),
@@ -283,14 +283,7 @@ class _RegisterPageState extends State<RegisterPage> {
             color: colorGreen, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              colorGreen,
-              colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: colorGreen,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(

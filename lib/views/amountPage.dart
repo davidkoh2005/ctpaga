@@ -128,8 +128,8 @@ class _AmountPageState extends State<AmountPage> {
                       maxLines: 1,
                       textCapitalization:TextCapitalization.words,
                       inputFormatters: [
-                        WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                        BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+                        FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+                        FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
                       ], 
                       autofocus: false,
                       onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
@@ -175,14 +175,7 @@ class _AmountPageState extends State<AmountPage> {
                             color: colorGrey, 
                             width: 1.0,
                           ),
-                          gradient: LinearGradient(
-                            colors: [
-                              _statusSalesProducts? colorGreen : colorGrey,
-                              _statusSalesProducts? colorGreen : colorGrey,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          color:_statusSalesProducts? colorGreen : colorGrey,
                           borderRadius: BorderRadius.circular(30),
                           ),
                         child: Center(
@@ -215,14 +208,7 @@ class _AmountPageState extends State<AmountPage> {
                             color: colorGrey, 
                             width: 1.0,
                           ),
-                          gradient: LinearGradient(
-                            colors: [
-                              _statusSalesServices? colorGreen : colorGrey,
-                              _statusSalesServices? colorGreen : colorGrey,
-                            ],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          ),
+                          color: _statusSalesServices? colorGreen : colorGrey,
                           borderRadius: BorderRadius.circular(30),
                           ),
                         child: Center(
@@ -381,14 +367,7 @@ class _AmountPageState extends State<AmountPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
-              myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),

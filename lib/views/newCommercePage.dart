@@ -22,20 +22,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
   bool _statusButtonSave = false, _statusName = false, _statusUser = false;
   String _name, _userUrl;
 
-  void initState() {
-    super.initState();
-    initialVariable();
-  }
-
-  void dispose(){
-    super.dispose();
-  }
-
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.statusUrlCommerce = false;
-  }
-
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
@@ -140,8 +126,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
               controller: _controllerUser,
               maxLength: 20,
               inputFormatters: [
-                WhitelistingTextInputFormatter(RegExp("[a-z 0-9]")),
-                BlacklistingTextInputFormatter(RegExp("[/\\\\ \s\b|\b\s]")),
+                FilteringTextInputFormatter.allow(RegExp("[a-z 0-9]")),
+                FilteringTextInputFormatter.deny(RegExp("[/\\\\ \s\b|\b\s]")),
               ],
               cursorColor: colorGreen,
               decoration: InputDecoration(
@@ -198,14 +184,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusName && _statusUser?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusName && _statusUser? _statusButtonSave? colorGrey : colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusName && _statusUser?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

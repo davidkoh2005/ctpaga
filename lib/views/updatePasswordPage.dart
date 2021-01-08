@@ -211,16 +211,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-               _statusButtonSave? colorGrey : colorGreen,
-              _statusButtonSave? colorGrey : colorGreen,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonSave? colorGrey : colorGreen,
           borderRadius: BorderRadius.circular(30),
-          ),
+        ),
         child: Center(
           child: Text(
             "GUARDAR",

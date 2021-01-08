@@ -373,14 +373,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonDate == index? colorGreen : colorGrey,
-              _statusButtonDate == index? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonDate == index? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),

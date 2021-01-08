@@ -191,14 +191,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-               _statusButtonSend? colorGreen : colorGrey,
-              _statusButtonSend? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonSend? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

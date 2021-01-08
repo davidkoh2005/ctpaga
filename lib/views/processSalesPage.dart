@@ -123,14 +123,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGreen : colorGrey,
-              _statusButton? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -160,14 +153,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonRegister? colorGreen : colorGrey,
-              _statusButtonRegister? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonRegister? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

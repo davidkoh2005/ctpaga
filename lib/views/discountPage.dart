@@ -159,14 +159,7 @@ class _DiscountPageState extends State<DiscountPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGreen : Colors.white,
-              _statusButton? colorGreen : Colors.white,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGreen : Colors.white,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

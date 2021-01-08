@@ -71,7 +71,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               controller: lowPrice,
               maxLines: 1,
               inputFormatters: [  
-                WhitelistingTextInputFormatter.digitsOnly,
+                FilteringTextInputFormatter.digitsOnly,
               ],
               keyboardType: TextInputType.number,
               autofocus: false,
@@ -124,14 +124,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusRate?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
-              _statusRate? _statusButtonSave? colorGrey : colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusRate?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

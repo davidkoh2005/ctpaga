@@ -399,14 +399,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGreen : Colors.transparent,
-              _statusButton? colorGreen : Colors.transparent,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGreen : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -446,14 +439,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: colorGrey, 
                   width: 1.0,
                 ),
-                gradient: LinearGradient(
-                  colors: [
-                    myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
-                    myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
-                  ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
+                color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
                 borderRadius: BorderRadius.circular(30),
                 ),
               child: Center(

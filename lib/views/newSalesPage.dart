@@ -105,8 +105,8 @@ class _NewSalesPageState extends State<NewSalesPage> {
             maxLines: 1,
             textCapitalization:TextCapitalization.words,
             inputFormatters: [
-              WhitelistingTextInputFormatter(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-              BlacklistingTextInputFormatter(RegExp("[/\\\\]")),
+              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
+              FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
             ], 
             autofocus: false,
             maxLength: 50,
@@ -161,14 +161,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButtonName? colorGreen : colorGrey,
-              _statusButtonName? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButtonName? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -201,14 +194,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          gradient: LinearGradient(
-            colors: [
-              _statusButton? colorGreen : colorGrey,
-              _statusButton? colorGreen : colorGrey,
-            ],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
+          color: _statusButton? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

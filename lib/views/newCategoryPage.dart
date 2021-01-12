@@ -72,10 +72,6 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             child: new TextFormField(
               maxLines: 1,
               textCapitalization:TextCapitalization.words,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-              ], 
               autofocus: false,
               maxLength: 50,
               validator: _validateName,

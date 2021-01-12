@@ -215,10 +215,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         maxLines: 1,
                         maxLength: 50,
                         textCapitalization:TextCapitalization.words,
-                        inputFormatters: [
-                          FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                          FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-                        ], 
                         autofocus: false,
                         focusNode: _nameFocus,
                         onEditingComplete: () =>FocusScope.of(context).requestFocus(_priceFocus),

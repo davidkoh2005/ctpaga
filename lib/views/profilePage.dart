@@ -823,10 +823,6 @@ class _ProfilePageState extends State<ProfilePage> {
               initialValue: myProvider.dataUser == null ? '' : myProvider.dataUser.name,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-              ], 
               decoration: InputDecoration(
                 labelText: 'Nombre y Apellido',
                 labelStyle: TextStyle(
@@ -959,10 +955,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 initialValue: myProvider.dataBanksUser[0] == null? '' : myProvider.dataBanksUser[0].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                  FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-                ], 
                 decoration: InputDecoration(
                   labelText: 'Nombre de la Cuenta',
                   labelStyle: TextStyle(
@@ -1185,10 +1177,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
-                inputFormatters: [
-                  FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                  FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-                ], 
                 decoration: InputDecoration(
                   labelText: 'Nombre de la cuenta',
                   labelStyle: TextStyle(

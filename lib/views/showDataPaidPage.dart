@@ -373,7 +373,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           alignment: Alignment.centerLeft,
           child: RichText(
             text: TextSpan(
-              text: 'Envío Seleccionado: ',
+              text: 'Descripción: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
@@ -397,7 +397,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           alignment: Alignment.centerLeft,
           child: RichText(
             text: TextSpan(
-              text: 'Envío Seleccionado precio: ',
+              text: 'Precio: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
@@ -466,6 +466,32 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           ),
         ),
 
+        
+        Container(
+          padding: EdgeInsets.fromLTRB(30,0,30,5),
+          alignment: Alignment.center,
+          child: RichText(
+            text: TextSpan(
+              text: 'Status del Pago: ',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 15 * scaleFactor,
+                color: Colors.black,
+              ),
+              children: <TextSpan>[
+                TextSpan(
+                  text: _listSales.length ==0? "SIN PAGAR" : _listSales[0]['statusSale'] == 0? "SIN PAGAR" : "PAGADO",
+                  style: TextStyle(
+                    fontSize: 15 * scaleFactor,
+                    color: _listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
+                    fontWeight: FontWeight.normal,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
         Padding(
           padding: EdgeInsets.fromLTRB(40, 20, 40, 20),
           child: Container(
@@ -488,64 +514,62 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           )
         ),
 
-        Expanded(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
-            child: DataTable(
-              columns: <DataColumn>[
-                DataColumn(
-                  label: Text(
-                    'Cantidad',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15 * scaleFactor,
-                    ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(20, 0, 20, 20),
+          child: DataTable(
+            columns: <DataColumn>[
+              DataColumn(
+                label: Text(
+                  'Cantidad',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 15 * scaleFactor,
                   ),
                 ),
-                DataColumn(
-                  label: Text(
-                    'Nombre',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15 * scaleFactor,
-                    ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Nombre',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 15 * scaleFactor,
                   ),
                 ),
-                DataColumn(
-                  label: Text(
-                    'Precio',
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 15 * scaleFactor,
-                    ),
+              ),
+              DataColumn(
+                label: Text(
+                  'Precio',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontStyle: FontStyle.italic,
+                    fontSize: 15 * scaleFactor,
                   ),
                 ),
-              ],
-              rows: _listSales.length == 0?
-                const <DataRow>[]
-              :
-                List<DataRow>.generate(
-                  _listSales.length,
-                  (index) => DataRow(
-                    cells: [
-                      DataCell(
-                        Text(_listSales[index]['quantity'].toString()),
-                      ),
-                      DataCell(
-                        Text(_listSales[index]['name']),
-                      ),
-                      DataCell(
-                        Text(showPrice(_listSales[index]['price'], _listSales[index]['coinClient'], _listSales[index]['coin'], _listSales[index]['rate']),),
-                      ),
-                    ]
-                  )
-                ).toList(),
-            )
+              ),
+            ],
+            rows: _listSales.length == 0?
+              const <DataRow>[]
+            :
+              List<DataRow>.generate(
+                _listSales.length,
+                (index) => DataRow(
+                  cells: [
+                    DataCell(
+                      Text(_listSales[index]['quantity'].toString()),
+                    ),
+                    DataCell(
+                      Text(_listSales[index]['name']),
+                    ),
+                    DataCell(
+                      Text(showPrice(_listSales[index]['price'], _listSales[index]['coinClient'], _listSales[index]['coin'], _listSales[index]['rate']),),
+                    ),
+                  ]
+                )
+              ).toList(),
           )
-        ),
+        )
 
       ],
     );

@@ -104,10 +104,6 @@ class _NewSalesPageState extends State<NewSalesPage> {
             controller: _controllerName,
             maxLines: 1,
             textCapitalization:TextCapitalization.words,
-            inputFormatters: [
-              FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-              FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-            ], 
             autofocus: false,
             maxLength: 50,
             validator: _validateName,

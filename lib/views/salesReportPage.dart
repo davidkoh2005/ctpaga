@@ -292,7 +292,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: _dateNow,
-        firstDate: DateTime(_dateNow.year-1,1),
+        firstDate: DateTime(_dateNow.year,_dateNow.month-2,1),
         lastDate: _dateNow,
         helpText: "Seleccionar la Fecha Inicial:"
       );
@@ -314,7 +314,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       context: context,
         locale : const Locale("es","ES"),
       initialDate: _dateNow,
-      firstDate: DateTime(_dateNow.year-1, 1),
+      firstDate: DateTime(_dateNow.year,_dateNow.month-2,1),
       lastDate: _dateNow,
       helpText: "Seleccionar la Fecha Final:"
       );

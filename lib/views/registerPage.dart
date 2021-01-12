@@ -68,11 +68,7 @@ class _RegisterPageState extends State<RegisterPage> {
               autofocus: false,
               focusNode: _nameFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressFocus),
-              textCapitalization:TextCapitalization.words,
-              inputFormatters: [
-                FilteringTextInputFormatter.allow(RegExp("[a-zA-Z\ áéíóúÁÉÍÓÚñÑ\s]")),
-                FilteringTextInputFormatter.allow(RegExp("[/\\\\]")),
-              ], 
+              textCapitalization:TextCapitalization.words, 
               decoration: InputDecoration(
                 icon: Icon(Icons.person, color: colorGreen),
                 labelText: 'Nombre y Apellido',

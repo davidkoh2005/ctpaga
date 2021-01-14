@@ -56,6 +56,20 @@ flutter:
     - assets/banks/Panama/
     - assets/banks/USA/
 
+  fonts:
+    - family: MontserratBold     
+      fonts:
+        - asset: assets/Fonts/Montserrat-Black.ttf
+    - family: MontserratExtraBold     
+      fonts:
+        - asset: assets/Fonts/Montserrat-SemiBold.ttf
+    - family: MontserratExtraBold     
+      fonts:
+        - asset: assets/Fonts/Montserrat-ExtraBold.ttf
+    - family: MontserratExtraBold     
+      fonts:
+        - asset: assets/Fonts/Montserrat-Italic.ttf
+
 flutter_icons:
   image_path: 'assets/logo/logoctpaga.png'
   android: true

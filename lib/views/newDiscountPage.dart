@@ -102,6 +102,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -139,6 +140,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               ),
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -152,6 +154,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -183,8 +186,9 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               decoration: InputDecoration(
                 hintText: "50",
                 hintStyle: TextStyle(
-                fontSize: 25 * scaleFactor,
-                color: colorGrey,
+                  fontSize: 25 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
+                  color: colorGrey,
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color:  Colors.black),
@@ -192,6 +196,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               ),
               style: TextStyle(
                 fontSize: 25 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -223,6 +228,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -254,6 +260,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               color: _statusButtonDelete? colorGreen : Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -406,6 +413,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -449,6 +457,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -456,6 +465,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

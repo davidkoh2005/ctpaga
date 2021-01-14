@@ -94,6 +94,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                                 myProvider.dataPurchase[index]['quantity'].toString(),
                                 style: TextStyle(
                                   fontSize: 15 * scaleFactor,
+                                  fontFamily: 'MontserratExtraBold',
                                 ),
                               )
                             ),
@@ -106,6 +107,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                               myProvider.dataPurchase[index]['data'].name.length != 0? myProvider.dataPurchase[index]['data'].name :  "Sin descripción",
                               style: TextStyle(
                                 fontSize: 15 * scaleFactor,
+                                fontFamily: 'MontserratExtraBold',
                               ),
                             ),
                           ),
@@ -117,6 +119,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                               showPrice(myProvider.dataPurchase[index]['data'].price, myProvider.dataPurchase[index]['data'].coin),
                               style: TextStyle(
                                 fontSize: 15 * scaleFactor,
+                                fontFamily: 'MontserratExtraBold',
                               ),
                             ),
                           ),

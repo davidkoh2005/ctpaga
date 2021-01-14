@@ -34,28 +34,16 @@ class _NavbarSalesState extends State<NavbarSales> {
                 padding: EdgeInsets.only(top:20),
                 child: Row(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: (){
+                    IconButton(
+                      iconSize: size.width/7,
+                      icon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: colorGreen,
+                      ),
+                      onPressed: (){
                         myProvider.clickButtonMenu = 0;
                         Navigator.pop(context);
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(left:15, right: 15),
-                        child: Container(
-                          width: size.width / 10,
-                          height: size.width / 10,
-                          decoration: BoxDecoration(
-                            color: colorGreen,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                            )
-                          ),
-                        )
-                      ),
                     ),
                 
                     Text(
@@ -64,6 +52,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                         color: Colors.black,
                         fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.bold,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     ),
                   ],
@@ -77,7 +66,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                   icon: Icon(
                     Icons.remove_shopping_cart,
                     color: Colors.red
-                    ),
+                  ),
                   onPressed: () => showAlert(),
                 ),
               ),

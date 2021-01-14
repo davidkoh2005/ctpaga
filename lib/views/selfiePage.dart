@@ -88,6 +88,7 @@ class _SelfiePageState extends State<SelfiePage> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15 * scaleFactor,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     ),
                   ),
@@ -124,7 +125,8 @@ class _SelfiePageState extends State<SelfiePage> {
                 textAlign: TextAlign.center,
                 style:  TextStyle(
                   fontSize: 15 * scaleFactor,
-                  color: colorText
+                  color: colorText,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -153,6 +155,7 @@ class _SelfiePageState extends State<SelfiePage> {
                         style:  TextStyle(
                           fontSize: 15 * scaleFactor,
                           color: Colors.white,
+                          fontFamily: 'MontserratExtraBold',
                         ),
                       )
                     ),
@@ -261,6 +264,7 @@ class _SelfiePageState extends State<SelfiePage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -303,6 +307,7 @@ class _SelfiePageState extends State<SelfiePage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -310,6 +315,7 @@ class _SelfiePageState extends State<SelfiePage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

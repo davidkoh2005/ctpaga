@@ -138,7 +138,7 @@ class _MainPageState extends State<MainPage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            color: clickBotton == _index? colorGreen : colorGrey,
+            color: clickBotton == _index? colorGreen : colorGreyOp,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
@@ -148,6 +148,7 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.white,
                 fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -202,6 +203,7 @@ class _MainPageState extends State<MainPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),

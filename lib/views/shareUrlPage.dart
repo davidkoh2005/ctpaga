@@ -85,6 +85,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -97,6 +98,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             textAlign: TextAlign.center,
             style:  TextStyle(
               fontSize: 30 * scaleFactor,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -108,6 +110,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             style: TextStyle(
               fontSize: 18 * scaleFactor,
               color: colorText,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -122,6 +125,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
                 color: colorGreen,
                 fontSize: 18 * scaleFactor,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'MontserratExtraBold',
               ),
           ),
           )
@@ -134,6 +138,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             style: TextStyle(
               fontSize: 18 * scaleFactor,
               color: colorText,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -143,6 +148,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             style: TextStyle(
               fontSize: 18 * scaleFactor,
               color: colorText,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -183,6 +189,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
                 color: _statusButtonNetworks == index? Colors.white : colorGreen,
                 fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ],
@@ -214,6 +221,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),

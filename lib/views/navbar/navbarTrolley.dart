@@ -37,28 +37,16 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                 padding: EdgeInsets.only(top:10),
                 child: Row(
                   children: <Widget>[
-                    GestureDetector(
-                      onTap: (){
+                    IconButton(
+                      iconSize: size.width/7,
+                      icon: Icon(
+                        Icons.keyboard_arrow_left,
+                        color: colorGreen,
+                      ),
+                      onPressed: (){
                         myProvider.clickButtonMenu = 0;
                         Navigator.pop(context);
                       },
-                      child: Padding(
-                        padding: EdgeInsets.only(left:15, right: 15),
-                        child: Container(
-                          width: size.width / 10,
-                          height: size.width / 10,
-                          decoration: BoxDecoration(
-                            color: colorGreen,
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Icon(
-                              Icons.close,
-                              color: Colors.white,
-                            )
-                          ),
-                        )
-                      ),
                     ),
 
                     Text(
@@ -66,7 +54,8 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20 * scaleFactor,
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w900,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     ),
                   ],
@@ -109,6 +98,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                                       color: Colors.white,
                                       fontSize: 15 * scaleFactor,
                                       fontWeight: FontWeight.bold,
+                                      fontFamily: 'MontserratExtraBold',
                                     )
                                   ),
                                 )
@@ -129,7 +119,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                   icon: Icon(
                     Icons.menu,
                     color: Colors.black,
-                    ),
+                  ),
                   onPressed: () {
                     myProvider.statusButtonMenu = true;
                   }

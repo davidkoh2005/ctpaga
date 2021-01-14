@@ -88,7 +88,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña Actual',
                   labelStyle: TextStyle(
-                    color: colorGreen
+                    color: colorGreen,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -127,7 +128,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña Nueva',
                   labelStyle: TextStyle(
-                    color: colorGreen
+                    color: colorGreen,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -154,6 +156,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               onSaved: (String value) => _password = value,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontFamily: 'MontserratExtraBold',
+              ),
             ),
           ),
           Padding(
@@ -166,7 +171,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Confirmar Contraseña',
                   labelStyle: TextStyle(
-                    color: colorGreen
+                    color: colorGreen,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -191,6 +197,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                 ),
               validator: _validatePasswordConfirm,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontFamily: 'MontserratExtraBold',
+              ),
             ),
           ),
         ],
@@ -221,6 +230,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -310,6 +320,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -353,6 +364,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -360,6 +372,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

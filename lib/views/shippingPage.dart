@@ -104,25 +104,32 @@ class _ShippingPageState extends State<ShippingPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
+                fontFamily: 'MontserratExtraBold',
               )
             )
           )
         ),
-        Center(
-          child: Padding(
-            padding: EdgeInsets.fromLTRB(70, 30, 70, 30),
-            child: buttonStatus(myProvider),
-          )
-        ),
-        Container(
-          padding: EdgeInsets.only(left: 40, right: 40),
-          child: Text(
-            "Activa pedir información y cobrar por envíos a tus clientes",
-            textAlign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 15 * scaleFactor,
-              color: colorText,
+        Visibility(
+          visible: myProvider.dataUser.statusShipping,
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(70, 30, 70, 30),
+              child: buttonStatus(myProvider),
             )
+          ),
+        ),
+        Visibility(
+          visible: myProvider.dataUser.statusShipping,
+          child: Container(
+            padding: EdgeInsets.only(left: 40, right: 40),
+            child: Text(
+              "Desactiva pedir información y cobro por envíos a tus clientes",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 15 * scaleFactor,
+                color: colorText,
+              )
+            ),
           ),
         ),
       ],
@@ -145,6 +152,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 15 * scaleFactor,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                 ),
@@ -170,6 +178,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   ),
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -177,7 +186,7 @@ class _ShippingPageState extends State<ShippingPage> {
               Visibility(
                 visible: myProvider.dataShipping.length == 0? true : false,
                 child: Container(
-                  height: size.height - 540,
+                  height: size.height - 460,
                   child: SingleChildScrollView(
                     child: formMsg(myProvider)
                   )
@@ -195,6 +204,7 @@ class _ShippingPageState extends State<ShippingPage> {
                       style: TextStyle(
                         color: colorText,
                         fontSize: 15 * scaleFactor,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     )
                   ),
@@ -228,6 +238,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 15 * scaleFactor,
+                                      fontFamily: 'MontserratExtraBold',
                                     ),
                                   ),
                                 ),
@@ -237,6 +248,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                     style: TextStyle(
                                       color: colorText,
                                       fontSize: 15 * scaleFactor,
+                                      fontFamily: 'MontserratExtraBold',
                                     ),
                                   )
                                 ),
@@ -288,7 +300,16 @@ class _ShippingPageState extends State<ShippingPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Icon(Icons.local_shipping, color: colorGreen,size: size.width / 5),
+        Image.asset("assets/icons/delivery.png", width: size.width / 1.5, height: size.width / 1.5),
+        Visibility(
+          visible: !myProvider.dataUser.statusShipping,
+          child: Center(
+            child: Padding(
+              padding: EdgeInsets.fromLTRB(70, 30, 70, 30),
+              child: buttonStatus(myProvider),
+            )
+          ),
+        ),
         Container(
           padding: EdgeInsets.all(40),
           child: 
@@ -299,19 +320,20 @@ class _ShippingPageState extends State<ShippingPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
+                fontFamily: 'MontserratExtraBold',
               )
             )
           :
             Text(
-              "¡Activa envíos para pedirle a tu cliente su dirección y cobrarle el envío!",
+              "Activa pedir información y cobrar por envios a tus clientes",
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
+                fontFamily: 'MontserratExtraBold',
               )
             ),
         ),
-        Image.asset("assets/icons/delivery.png", width: size.width / 2, height: size.width / 2)
       ],
     );
   }
@@ -339,6 +361,7 @@ class _ShippingPageState extends State<ShippingPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -371,6 +394,7 @@ class _ShippingPageState extends State<ShippingPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -449,6 +473,7 @@ class _ShippingPageState extends State<ShippingPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -456,6 +481,7 @@ class _ShippingPageState extends State<ShippingPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]
@@ -508,6 +534,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),

@@ -20,6 +20,22 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
   bool _statusButton = false;
 
   @override
+  void initState() {
+    super.initState();
+    initialVariable();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.statusShipping = myProvider.user.statusShipping;
+  }
+
+  @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
 
@@ -72,6 +88,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -87,6 +104,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 textAlign: TextAlign.center,
                 style:  TextStyle(
                   fontSize: 30 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -97,6 +115,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: 15 * scaleFactor,
                   color: colorText,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -110,6 +129,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               style: TextStyle(
                 fontSize: 25 * scaleFactor,
                 color: colorText,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -129,6 +149,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15 * scaleFactor,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                   backgroundColor: colorGreen,
@@ -146,6 +167,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: size.width / 17,
                   color: colorText,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -156,7 +178,33 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: 15 * scaleFactor,
                   color: colorText,
+                  fontFamily: 'MontserratExtraBold',
                 ),
+              ),
+            ),
+
+            Padding(
+              padding: EdgeInsets.only(top:80),
+              child: Column(
+                children: [
+                  Text(
+                    "Mostrar Envio",
+                    style: TextStyle(
+                      fontSize: 15 * scaleFactor,
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MontserratExtraBold',
+                    ),
+                  ),
+                  Switch(
+                    value: myProvider.statusShipping,
+                    onChanged: (value) {
+                      myProvider.statusShipping = value;
+                    },
+                    activeTrackColor: colorGrey,
+                    activeColor: colorGreen
+                  ),
+                ],
               ),
             ),
           ],
@@ -194,6 +242,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),

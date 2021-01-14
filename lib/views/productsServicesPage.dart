@@ -8,6 +8,7 @@ import 'package:ctpaga/views/newSalesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -158,6 +159,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           )
@@ -177,6 +179,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               style: TextStyle(
                 color: Colors.white,
                 fontSize: 18 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           )
@@ -198,6 +201,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   Widget listProductsServices(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
     if(myProvider.selectProductsServices == 0){
       return Scrollbar(
         controller: _scrollControllerProductsServices, 
@@ -209,6 +213,21 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           itemCount: myProvider.dataProducts.length,
           itemBuilder:  (BuildContext ctxt, int index) {
             return ListTile(
+              leading: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: "http://"+url+myProvider.dataProducts[index].url,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return Container(
+                      margin: EdgeInsets.all(15),
+                      child:CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                      ),
+                    );
+                  },
+                  errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 9,),
+                ),
+              ),
               onTap: () async {
                 if(_statusCharge){
                   addProductsServices(myProvider.dataProducts[index]);
@@ -233,6 +252,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratBold',
                 ),
               ),
               subtitle: Text(
@@ -241,6 +261,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
               trailing: Text(
@@ -249,6 +270,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             );
@@ -289,6 +311,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexService.contains(index)? colorGreen : colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
               trailing: Text(
@@ -297,6 +320,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexService.contains(index)? colorGreen : colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             );
@@ -366,6 +390,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 style: TextStyle(
                   color: _selectCategories== index+1? colorGreen : Colors.grey,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
               Visibility(
@@ -410,6 +435,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               color: _statusButton? Colors.white : colorGreen,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -449,6 +475,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: Colors.white,
                     fontSize: 15 * scaleFactor,
                     fontWeight: FontWeight.w500,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -526,12 +553,28 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     nextPage(NewProductServicePage());
                   }
                 },
+                leading: ClipOval(
+                  child: CachedNetworkImage(
+                    imageUrl: "http://"+url+_listProductsServicesCategories[index].url,
+                    fit: BoxFit.cover,
+                    placeholder: (context, url) {
+                      return Container(
+                        margin: EdgeInsets.all(15),
+                        child:CircularProgressIndicator(
+                          valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                        ),
+                      );
+                    },
+                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 9,),
+                  ),
+                ),
                 title: Text(
                   _listProductsServicesCategories[index].name,
                   style: TextStyle(
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                    fontFamily: 'MontserratBold',
                   ),
                 ),
                 subtitle: Text(
@@ -540,6 +583,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
                 trailing: Text(
@@ -548,6 +592,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ); 

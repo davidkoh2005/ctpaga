@@ -92,6 +92,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 18 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
                 children: <TextSpan>[
                   TextSpan(
@@ -100,6 +101,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                       color: colorGreen,
                       fontSize: 18 * scaleFactor,
                       fontWeight: FontWeight.bold,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                   TextSpan(
@@ -107,6 +109,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 18 * scaleFactor,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                 ],
@@ -122,6 +125,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -144,6 +148,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -193,7 +198,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
           ),
           color: _statusButtonSend? colorGreen : colorGrey,
           borderRadius: BorderRadius.circular(30),
-          ),
+        ),
         child: Center(
           child: Text(
             "REGISTRAR PAGO",
@@ -201,6 +206,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -234,7 +240,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
             "coin": myProvider.coinUsers,
             "rate": myProvider.dataRates[0].rate,
             "nameClient": myProvider.nameClient,
-            "statusShipping": myProvider.user.statusShipping,
+            "statusShipping": false,
             "descriptionShipping": myProvider.descriptionShipping,
             "email": _email,
           }),
@@ -296,6 +302,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -339,6 +346,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -346,6 +354,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

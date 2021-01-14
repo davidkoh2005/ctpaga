@@ -18,6 +18,7 @@ class _DepositsPageState extends State<DepositsPage> {
   _DepositsPageState(this._statusMenuBar);
   final bool _statusMenuBar;
   final _scrollController = ScrollController();
+  bool _statusInfoPayment = false;
   List _statusButton = new List();
   double _positionTopFirst = 0,
         _positionTopSecond = 35;
@@ -87,7 +88,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                   child: GestureDetector(
                                     onTap: () async {
                                       myProvider.selectCoinDeposits = myProvider.selectCoinDeposits == 0 ? 1 : 0;
-                                      await Future.delayed(Duration(milliseconds: 20));
+                                      await Future.delayed(Duration(milliseconds: 200));
                                       setState(() {
                                         _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
                                         _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
@@ -132,6 +133,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     showDeposits(myProvider),
                                     style:  TextStyle(
                                       fontSize: 34 * scaleFactor,
+                                      fontFamily: 'MontserratExtraBold',
                                     ),
                                   ),
                                 ),
@@ -157,6 +159,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15 * scaleFactor,
+                                                    fontFamily: 'MontserratExtraBold',
                                                   ),
                                                 ),
                                               ),
@@ -171,7 +174,8 @@ class _DepositsPageState extends State<DepositsPage> {
                                             textAlign: TextAlign.center,
                                             style:  TextStyle(
                                               fontSize: 15 * scaleFactor,
-                                              color: colorGrey
+                                              color: colorGrey,
+                                              fontFamily: 'MontserratExtraBold',
                                             ),
                                           )
                                         ),
@@ -188,7 +192,8 @@ class _DepositsPageState extends State<DepositsPage> {
                                       "INFORMACIÓN DEL DEPÓSITO",
                                       style:  TextStyle(
                                         fontSize: 15 * scaleFactor,
-                                        color: colorGrey
+                                        color: colorGrey,
+                                        fontFamily: 'MontserratExtraBold',
                                       ),
                                     ),
                                   ),
@@ -196,30 +201,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                 dropdownList(0, 'Bank', myProvider),
                                 dropdownList(1, 'Selfie', myProvider),
                                 dropdownList(2, 'Identification', myProvider),
-                                dropdownList(3, 'RIF', myProvider),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                                  child: Text(
-                                    "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
-                                    textAlign: TextAlign.center,
-                                    style:  TextStyle(
-                                      fontSize: 15 * scaleFactor,
-                                      color: colorGrey
-                                    ),
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.fromLTRB(30, 20, 30, 0),
-                                  child: Text(
-                                    "El depósito te llegara dos dias habiles despues",
-                                    textAlign: TextAlign.center,
-                                    style:  TextStyle(
-                                      fontSize: 15 * scaleFactor,
-                                      color: colorGrey
-                                    ),
-                                  ),
-                                ),
-                                
+                                dropdownList(3, 'RIF', myProvider),               
                               ],
                             )
                           )
@@ -227,6 +209,92 @@ class _DepositsPageState extends State<DepositsPage> {
                       ),
                     ],
                   )
+                ),
+                
+                AnimatedPositioned(
+                  duration: Duration(milliseconds:300),
+                  bottom: _statusInfoPayment? 0 : -130,
+                  child: Container(
+                    width: size.width,
+                    height: size.height /3.8, 
+                    alignment: Alignment.bottomCenter,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(15),
+                        topRight: Radius.circular(15)
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.grey.withOpacity(0.8),
+                          spreadRadius: 15,
+                          blurRadius: 20,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      children: [
+                        GestureDetector(
+                          onTap: (){
+                            setState(() => _statusInfoPayment = !_statusInfoPayment);
+                          },
+                          child: Container(
+                            width: size.width,
+                            alignment: Alignment.bottomCenter,
+                            child: Container(
+                              width: size.width / 10,
+                              height: size.width / 10,
+                              child: Center(
+                                child:Image.asset(
+                                  _statusInfoPayment? "assets/icons/arrows_down.png" : "assets/icons/arrows_up.png",
+                                  width: size.width / 15,
+                                  height: size.width / 15,
+                                  color: colorGreyLogo
+                                ) 
+                              ),
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 20, bottom:20),
+                          child: Text(
+                            "¿Cuándo llegara mi dinero?",
+                            style: TextStyle(
+                              fontSize: 15 * scaleFactor,
+                              color: Colors.black,
+                              fontFamily: 'MontserratExtraBold',
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
+                          child: Text(
+                            "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
+                            textAlign: TextAlign.center,
+                            style:  TextStyle(
+                              fontSize: 15 * scaleFactor,
+                              color: colorGrey,
+                              fontFamily: 'MontserratExtraBold',
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.fromLTRB(30, 20, 30, 10),
+                          child: Text(
+                            "El depósito te llegara dos dias habiles despues",
+                            textAlign: TextAlign.center,
+                            style:  TextStyle(
+                              fontSize: 15 * scaleFactor,
+                              color: colorGrey,
+                              fontFamily: 'MontserratExtraBold',
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
@@ -261,6 +329,7 @@ class _DepositsPageState extends State<DepositsPage> {
                 fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'MontserratExtraBold',
               ),
             )
           ),
@@ -293,6 +362,7 @@ class _DepositsPageState extends State<DepositsPage> {
               fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -365,6 +435,7 @@ class _DepositsPageState extends State<DepositsPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: _statusButton.contains(index)? Colors.white : Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),

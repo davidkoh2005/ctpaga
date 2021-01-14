@@ -90,6 +90,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15 * scaleFactor,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     ),
                   ),
@@ -130,7 +131,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   textAlign: TextAlign.center,
                   style:  TextStyle(
                     fontSize: 15 * scaleFactor,
-                    color: colorText
+                    color: colorText,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               )
@@ -141,7 +143,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   textAlign: TextAlign.center,
                   style:  TextStyle(
                     fontSize: 15 * scaleFactor,
-                    color: colorText
+                    color: colorText,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -179,6 +182,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           style:  TextStyle(
                             fontSize: 15 * scaleFactor,
                             color: Colors.white,
+                            fontFamily: 'MontserratExtraBold',
                           ),
                         )
                       ),
@@ -193,6 +197,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           style:  TextStyle(
                             fontSize: 15 * scaleFactor,
                             color: Colors.white,
+                            fontFamily: 'MontserratExtraBold',
                           ),
                         )
                       ),
@@ -300,6 +305,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -342,6 +348,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -349,6 +356,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

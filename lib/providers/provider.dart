@@ -382,6 +382,14 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  bool _statusShipping;
+  bool get statusShipping =>_statusShipping; 
+  
+  set statusShipping(bool newStatus) {
+    _statusShipping = newStatus; 
+    notifyListeners(); 
+  }
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -1054,6 +1062,36 @@ class MyProvider with ChangeNotifier {
     }
   }
 
+  verifyDataTransactions(_statusButtonDate, _statusCoin, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate){
+    totalSales = 0;
+    dataReportSales = [];
+    for (var item in dataPaids) {
+      DateTime dateItem = DateTime.parse(item.date);
+      if(_statusButtonDate == 0){
+        if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year){
+          dataReportSales.add(item);
+          totalSales = totalSales + double.parse(item.total);
+        }
+      }else if(_statusButtonDate == 1){
+        if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem)){
+          dataReportSales.add(item);
+          totalSales = totalSales + double.parse(item.total);
+        }
+      }else if(_statusButtonDate == 2){
+        if(item.coin == _statusCoin && dateItem.month == _dateNow.month){
+          dataReportSales.add(item);
+          totalSales = totalSales + double.parse(item.total);
+        }
+      }else if(_statusButtonDate == 3){
+        if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem)){
+          dataReportSales.add(item);
+          totalSales = totalSales + double.parse(item.total);
+        }
+      }
+    }
+
+  }
+
 
   removeSession(BuildContext context, status)async{
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -1072,6 +1110,7 @@ class MyProvider with ChangeNotifier {
     dataProductsServicesCategories = [];
     dbctpaga.deleteAll();
     dataPurchase = [];
+    dataShipping = [];
 
     if(status)
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));

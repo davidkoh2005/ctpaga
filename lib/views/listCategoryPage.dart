@@ -92,6 +92,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                               myProvider.dataCategories[index].name,
                               style: TextStyle(
                                 fontSize: 15 * scaleFactor,
+                                fontFamily: 'MontserratExtraBold',
                               ),
                             ),
                           ),
@@ -132,6 +133,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
               color: _statusButton? Colors.white : colorGreen,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),

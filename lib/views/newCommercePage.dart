@@ -80,6 +80,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -103,6 +104,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -116,6 +118,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -138,11 +141,13 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 prefixStyle: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
               onChanged: (value)=> value.trim().length >3? setState(() => _statusUser = true ) : setState(() => _statusUser = false ),
               onSaved: (value) => _userUrl = value.trim(),
@@ -160,6 +165,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                     "Usuario ingresado ya existe",
                     style: TextStyle(
                       color:Colors.red,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                 ),
@@ -194,6 +200,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -317,6 +324,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -360,6 +368,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -367,6 +376,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

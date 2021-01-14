@@ -63,6 +63,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -88,6 +89,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -119,6 +121,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -219,6 +222,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -262,6 +266,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -269,6 +274,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

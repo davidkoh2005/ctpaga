@@ -117,6 +117,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -150,6 +151,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               ),
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -163,6 +165,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -195,6 +198,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               style: TextStyle(
                 fontSize: 30 * scaleFactor,
                 color: colorGrey,
+                fontFamily: 'MontserratExtraBold',
               ),
               decoration: InputDecoration(
                 enabledBorder: InputBorder.none,
@@ -233,6 +237,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 20 * scaleFactor,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                 ],
@@ -267,6 +272,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -298,6 +304,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               color: _statusButtonDelete? colorGreen : Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -455,6 +462,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -498,6 +506,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -505,6 +514,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

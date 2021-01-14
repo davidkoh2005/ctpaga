@@ -127,8 +127,18 @@ class _MyHomePageState extends State<MyHomePage> {
         return WillPopScope(
           onWillPop: () async =>false,
           child: AlertDialog(
-            title: Text("Nueva versión"),
-            content: Text("Versión Actual es $versionApp y la nueva versión es $newVersionApp "),
+            title: Text(
+              "Nueva versión",
+              style: TextStyle(
+                fontFamily: 'MontserratExtraBold',
+              ),
+            ),
+            content: Text(
+              "Versión Actual es $versionApp y la nueva versión es $newVersionApp ",
+              style: TextStyle(
+                fontFamily: 'MontserratExtraBold',
+              ),
+            ),
             actions: <Widget>[
               FlatButton(
                 child: Text('Update'),

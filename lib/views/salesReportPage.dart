@@ -44,7 +44,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
     _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
-    verifyData();
   }
 
   @override
@@ -83,11 +82,12 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 child: GestureDetector(
                   onTap: () async {
                     setState(() => _statusCoin = _statusCoin == 0 ? 1 : 0);
-                    await Future.delayed(Duration(milliseconds: 20));
+                    await Future.delayed(Duration(milliseconds: 200));
                     setState(() {
                       _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
                       _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
                     }); 
+                    myProvider.verifyDataTransactions(_statusButtonDate, _statusCoin, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
                   },
                   child: Align(
                     alignment: Alignment.centerRight,
@@ -186,7 +186,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
-        verifyData();
         return Expanded(
           child: Column(
             children: <Widget>[
@@ -289,6 +288,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Future<Null> _selectDateInitial(BuildContext context) async {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     final DateTime picked = await showDatePicker(
         context: context,
         initialDate: _dateNow,
@@ -306,10 +306,11 @@ class _SalesReportPageState extends State<SalesReportPage> {
         controllerInitialDate.text = formatter.format(_initialDate);
       });
     
-    verifyData();
+    myProvider.verifyDataTransactions(_statusButtonDate, _statusCoin, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
   }
 
   Future<Null> _selectDateFinal(BuildContext context) async {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     final DateTime picked = await showDatePicker(
       context: context,
         locale : const Locale("es","ES"),
@@ -324,7 +325,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
         controllerFinalDate.text = formatter.format(_finalDate);
       });
     
-    verifyData();
+    myProvider.verifyDataTransactions(_statusButtonDate, _statusCoin, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
   }
 
   showDate(){
@@ -358,6 +359,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Widget showButtonDate(index){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: () {
@@ -368,7 +370,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
         });
         controllerInitialDate.clear();
         controllerFinalDate.clear();
-        verifyData();
+        myProvider.verifyDataTransactions(_statusButtonDate, _statusCoin, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
       },
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
@@ -462,38 +464,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
           )
         ).toList(),
     );
-  }
-
-
-  verifyData(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.totalSales = 0;
-    myProvider.dataReportSales = [];
-    for (var item in myProvider.dataPaids) {
-      DateTime dateItem = DateTime.parse(item.date);
-      if(_statusButtonDate == 0){
-        if(item.coin == _statusCoin && dateItem.day == _dateNow.day && dateItem.month == _dateNow.month && dateItem.year == _dateNow.year){
-          myProvider.dataReportSales.add(item);
-          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
-        }
-      }else if(_statusButtonDate == 1){
-        if(item.coin == _statusCoin && _firstDay.isBefore(dateItem) && _lastDay.isAfter(dateItem)){
-          myProvider.dataReportSales.add(item);
-          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
-        }
-      }else if(_statusButtonDate == 2){
-        if(item.coin == _statusCoin && dateItem.month == _dateNow.month){
-          myProvider.dataReportSales.add(item);
-          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
-        }
-      }else if(_statusButtonDate == 3){
-        if(item.coin == _statusCoin && _initialDate.isBefore(dateItem) && _finalDate.isAfter(dateItem)){
-          myProvider.dataReportSales.add(item);
-          myProvider.totalSales = myProvider.totalSales + double.parse(item.total);
-        }
-      }
-    }
-
   }
 
   showDateTable(date){

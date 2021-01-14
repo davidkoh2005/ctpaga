@@ -24,6 +24,7 @@ class _AmountPageState extends State<AmountPage> {
   final _controllerDescription = TextEditingController();
   // ignore: unused_field
   String _description, _price='';
+  // ignore: unused_field
   bool _statusSalesProducts = false, _statusSalesServices = false,  _statusButtonCharge = false;
   double _total = 0.0;
 
@@ -115,9 +116,10 @@ class _AmountPageState extends State<AmountPage> {
                     child: Text(
                       "${lowAmount.text}",
                       style: TextStyle(
-                      color: colorText,
-                      fontSize: 35 * scaleFactor,
-                      fontWeight: FontWeight.w800,
+                        color: colorText,
+                        fontSize: 35 * scaleFactor,
+                        fontWeight: FontWeight.w800,
+                        fontFamily: 'MontserratExtraBold',
                       ),
                     ),
                   ),
@@ -147,6 +149,7 @@ class _AmountPageState extends State<AmountPage> {
                         hintStyle: TextStyle(
                           color: colorGrey,
                           fontSize: 15 * scaleFactor,
+                          fontFamily: 'MontserratExtraBold',
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -159,71 +162,7 @@ class _AmountPageState extends State<AmountPage> {
                     ),
                   ),
 
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        myProvider.selectProductsServices = 0;
-                        setState(() => _statusSalesProducts = true);
-                        nextPage(ProductsServicesPage(true));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: size.height / 20,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colorGrey, 
-                            width: 1.0,
-                          ),
-                          color:_statusSalesProducts? colorGreen : colorGrey,
-                          borderRadius: BorderRadius.circular(30),
-                          ),
-                        child: Center(
-                          child: Text(
-                            "AGREGAR VENTAS",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15 * scaleFactor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ),
-
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(25, 10, 25, 10),
-                    child: GestureDetector(
-                      onTap: () {
-                        myProvider.selectProductsServices = 1;
-                        setState(() => _statusSalesServices = true);
-                        nextPage(ProductsServicesPage(true));
-                      },
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: size.height / 20,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: colorGrey, 
-                            width: 1.0,
-                          ),
-                          color: _statusSalesServices? colorGreen : colorGrey,
-                          borderRadius: BorderRadius.circular(30),
-                          ),
-                        child: Center(
-                          child: Text(
-                            "AGREGAR SERVICIOS",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 15 * scaleFactor,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                        ),
-                      ),
-                    )
-                  ),
+                  showOptiones(myProvider),
 
 
                   Padding(
@@ -244,6 +183,74 @@ class _AmountPageState extends State<AmountPage> {
       }
     );
     
+  }
+
+  showOptiones(myProvider){
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    var size = MediaQuery.of(context).size;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: <Widget>[
+        GestureDetector(
+          onTap: () {
+            myProvider.selectProductsServices = 0;
+            setState(() => _statusSalesProducts = true);
+            nextPage(ProductsServicesPage(true));
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: size.width/2,
+            height: size.width/9,
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide( 
+                  color: Colors.white,
+                  width: 1.0,
+                ),
+              ),
+              color: colorGrey,
+            ),
+            child: Text(
+              "AGREGAR VENTAS",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
+              ),
+            ),
+          )
+        ),
+        GestureDetector(
+          onTap: (){
+            myProvider.selectProductsServices = 1;
+            setState(() => _statusSalesServices = true);
+            nextPage(ProductsServicesPage(true));
+          },
+          child: Container(
+            alignment: Alignment.center,
+            width: size.width/2,
+            height: size.width/9,
+            decoration: BoxDecoration(
+              border: Border(
+                left: BorderSide( 
+                  color: Colors.white,
+                  width: 1.0,
+                ),
+              ),
+              color: colorGrey,
+            ),
+            child: Text(
+              "AGREGAR SERVICIOS",
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 18 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
+              ),
+            ),
+          )
+        ),
+      ],
+    );
   }
 
   showTotal(){
@@ -378,6 +385,7 @@ class _AmountPageState extends State<AmountPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),

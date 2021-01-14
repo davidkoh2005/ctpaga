@@ -8,6 +8,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 
 class MainMenuBar extends StatefulWidget {
@@ -104,6 +105,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                           color: Colors.black,
                                           fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
+                                          fontFamily: 'MontserratExtraBold',
                                         ),
                                       ),
                                     ),
@@ -115,7 +117,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                             Container(
                               color: Colors.white,
                               width: size.width,
-                              padding: EdgeInsets.only(top:2, bottom: 5),
+                              padding: EdgeInsets.only(top:2, bottom: 10),
                               child: GestureDetector(
                                 onTap: () {
                                   myProvider.coinUsers = 1;
@@ -140,6 +142,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                           color: Colors.black,
                                           fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
+                                          fontFamily: 'MontserratExtraBold',
                                         ),
                                       ),
                                     ),
@@ -209,6 +212,28 @@ class _MainMenuBarState extends State<MainMenuBar> {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return GestureDetector(
       onTap: () async {
+        if(code != 2 && myProvider.listCommerces.length != 0){
+          if(code == 4){
+            myProvider.getListBalances();
+          }
+
+          if(code == 5){
+            myProvider.totalSales = 0;
+            myProvider.dataReportSales=[];
+            myProvider.getListPaids();
+            List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            DateTime _dateNow = DateTime.now();
+            DateTime _initialDate = DateTime.now();
+            DateTime _finalDate = DateTime.now();
+            var formatterDay = new DateFormat('EEEE');
+            int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
+            var _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
+            var _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+            myProvider.verifyDataTransactions(0, 0, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
+          }
+        }
+        await Future.delayed(Duration(milliseconds: 150));
+
         if(code == 2)
           setState(() {
             _statusBadge = !_statusBadge;
@@ -223,21 +248,6 @@ class _MainMenuBarState extends State<MainMenuBar> {
             _statusBadge = false;
             _statusButton = code;
           }); 
-
-          await Future.delayed(Duration(milliseconds: 150));
-
-          if(myProvider.listCommerces.length != 0){
-            if(code == 4){
-              myProvider.getListBalances();
-            }
-
-            if(code == 5){
-              myProvider.totalSales = 0;
-              myProvider.dataReportSales=[];
-              myProvider.getListPaids();
-            }
-          }
-
         }
       },
       child: Container(
@@ -252,7 +262,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                   _icon,
                   width: size.width / 15,
                   height: size.width / 15,
-                  color: _status == code? colorGreen : Colors.black,
+                  color: _status == code? colorGreen : colorGreyLogo,
                 )
               )
             ),
@@ -263,7 +273,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 10 * scaleFactor,
-                  fontWeight: _status == code? FontWeight.bold: FontWeight.normal
+                  fontWeight: FontWeight.w500,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             )

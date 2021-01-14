@@ -124,6 +124,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             )
@@ -140,6 +141,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -148,6 +150,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -165,6 +168,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -173,6 +177,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -189,6 +194,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -197,6 +203,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -220,6 +227,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             )
@@ -236,6 +244,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -244,6 +253,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -260,6 +270,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -268,6 +279,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -284,6 +296,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -292,6 +305,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -308,6 +322,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -316,6 +331,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -339,6 +355,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             )
@@ -349,19 +366,21 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           alignment: Alignment.centerLeft,
           child: RichText(
             text: TextSpan(
-              text: 'Status: ',
+              text: 'Estado: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: myProvider.selectPaid.statusShipping == 0? "NO ENTREGADO" : "ENTREGADO",
+                  text: showStatus(myProvider.selectPaid.statusShipping),
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -378,6 +397,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -386,6 +406,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -402,6 +423,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -410,6 +432,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -426,6 +449,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -434,6 +458,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -451,6 +476,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -459,6 +485,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -472,11 +499,12 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           alignment: Alignment.center,
           child: RichText(
             text: TextSpan(
-              text: 'Status del Pago: ',
+              text: 'Estado del Pago: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
+                fontFamily: 'MontserratExtraBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -485,6 +513,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: _listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
                     fontWeight: FontWeight.normal,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ],
@@ -508,6 +537,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             )
@@ -525,6 +555,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -535,6 +566,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -545,6 +577,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -573,6 +606,19 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
 
       ],
     );
+  }
+
+  showStatus(status){
+    switch(status) { 
+      case 0: { return "NO RETIRADO PRODUCTOS"; } 
+      break; 
+     
+      case 1: { return "PRODUCTOS RETIRADO"; } 
+      break; 
+     
+      case 2: { return "PRODUCTOS ENTREGADO"; } 
+      break;     
+    } 
   }
 
   showTotal(coin, price){
@@ -643,6 +689,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),

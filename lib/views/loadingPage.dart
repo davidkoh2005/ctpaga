@@ -47,7 +47,7 @@ class _LoadingPageState extends State<LoadingPage> {
             "coin": myProvider.coinUsers,
             "rate": myProvider.dataRates[0].rate,
             "nameClient": myProvider.nameClient,
-            "statusShipping": myProvider.user.statusShipping,
+            "statusShipping": myProvider.statusShipping,
             "descriptionShipping": myProvider.descriptionShipping
           }),
         ); 
@@ -90,6 +90,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
                     color: colorText,
+                    fontFamily: 'MontserratExtraBold',
                   ),
                 ),
               ),
@@ -143,6 +144,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),

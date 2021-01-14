@@ -70,6 +70,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
               ),
             ),
           ),
@@ -82,6 +83,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             textAlign: TextAlign.center,
             style:  TextStyle(
               fontSize: 30 * scaleFactor,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -93,6 +95,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             style: TextStyle(
               fontSize: 15 * scaleFactor,
               color: colorText,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -133,6 +136,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -163,6 +167,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),

@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -49,6 +50,7 @@ class _MenuPageState extends State<MenuPage> {
                       fontSize: 15 * scaleFactor,
                       color: statusButton.contains(index)? Colors.black : Colors.white,
                       fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
+                      fontFamily: 'MontserratExtraBold',
                     ),
                   ),
                 );
@@ -158,6 +160,15 @@ class _MenuPageState extends State<MenuPage> {
           myProvider.totalSales = 0;
           myProvider.dataReportSales=[];
           myProvider.getListPaids();
+          List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+            DateTime _dateNow = DateTime.now();
+            DateTime _initialDate = DateTime.now();
+            DateTime _finalDate = DateTime.now();
+            var formatterDay = new DateFormat('EEEE');
+            int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
+            var _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
+            var _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+            myProvider.verifyDataTransactions(0, 0, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
         }
       }
       myProvider.statusUrlCommerce = false;
@@ -214,6 +225,7 @@ class _MenuPageState extends State<MenuPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: size.width / 20,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -250,8 +262,7 @@ class _MenuPageState extends State<MenuPage> {
 
 
   Future<void> _onLoading() async {
-    var size = MediaQuery.of(context).size;
-
+    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -280,14 +291,16 @@ class _MenuPageState extends State<MenuPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: size.width / 20,
+                            fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

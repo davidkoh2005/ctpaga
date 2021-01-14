@@ -61,6 +61,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
+                  fontFamily: 'MontserratExtraBold',
                 ),
               ),
             ),
@@ -91,6 +92,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 30 * scaleFactor,
+                fontFamily: 'MontserratExtraBold',
                 color: colorGrey,
               ),
               decoration: InputDecoration(
@@ -134,6 +136,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratExtraBold',
             ),
           ),
         ),
@@ -227,6 +230,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
+                    fontFamily: 'MontserratExtraBold',
                   )
                 ),
               ),
@@ -270,6 +274,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                         TextSpan(
@@ -277,6 +282,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratExtraBold',
                           )
                         ),
                       ]

@@ -3,6 +3,7 @@ import 'package:ctpaga/views/profilePage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
@@ -17,6 +18,7 @@ class NavbarMain extends StatefulWidget {
 
 class _NavbarMainState extends State<NavbarMain> {
   _NavbarMainState();
+  var urlProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -32,24 +34,20 @@ class _NavbarMainState extends State<NavbarMain> {
             mainAxisAlignment: MainAxisAlignment.end,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
-              Consumer<MyProvider>(
-                builder: (context, myProvider, child) {
-                  return Padding(
-                    padding: EdgeInsets.only(top: 20, right: 15),
-                    child: GestureDetector(
-                      onTap: () async {
-                        myProvider.clickButtonMenu = 1;
-                        await Future.delayed(Duration(milliseconds: 150));
-                        Navigator.push(context, SlideLeftRoute(page: ProfilePage()));
-                      },
-                      child: Container(
-                        width: size.width/8,
-                        height: size.width/8,
-                        child: showImagen(),
-                      )
-                    ),
-                  );
-                }
+              Padding(
+                padding: EdgeInsets.only(top: 20, right: 15),
+                child: GestureDetector(
+                  onTap: () async {
+                    myProvider.clickButtonMenu = 1;
+                    await Future.delayed(Duration(milliseconds: 150));
+                    Navigator.push(context, SlideLeftRoute(page: ProfilePage()));
+                  },
+                  child: Container(
+                    width: size.width/8,
+                    height: size.width/8,
+                    child: showImagen(),
+                  )
+                ),
               ),
                 
                   
@@ -91,20 +89,24 @@ class _NavbarMainState extends State<NavbarMain> {
   showImagen(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-    var urlProfile;
 
     if(myProvider.dataPicturesUser != null){
       for (var item in myProvider.dataPicturesUser) {
+
         if(item != null && item.description == 'Profile' && item.commerce_id == myProvider.dataCommercesUser[myProvider.selectCommerce].id){
+          if(urlProfile != null)
+            if(urlProfile.indexOf('/storage/Users/')<0)
+              DefaultCacheManager().emptyCache();
           urlProfile = item.url;
           break;
         }
       }
 
       //removeCache();
-
       if (urlProfile != null)
       {
+        print("print entro");
+        print("print $urlProfile");
         return ClipOval(
           child: new CachedNetworkImage(
             imageUrl: "http://"+url+urlProfile,

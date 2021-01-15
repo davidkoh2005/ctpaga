@@ -50,7 +50,7 @@ class _MenuPageState extends State<MenuPage> {
                       fontSize: 15 * scaleFactor,
                       color: statusButton.contains(index)? Colors.black : Colors.white,
                       fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                 );
@@ -225,7 +225,7 @@ class _MenuPageState extends State<MenuPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: size.width / 20,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),
@@ -292,7 +292,7 @@ class _MenuPageState extends State<MenuPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -300,7 +300,7 @@ class _MenuPageState extends State<MenuPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

@@ -88,7 +88,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -104,7 +104,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 textAlign: TextAlign.center,
                 style:  TextStyle(
                   fontSize: 30 * scaleFactor,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -115,7 +115,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: 15 * scaleFactor,
                   color: colorText,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -129,7 +129,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               style: TextStyle(
                 fontSize: 25 * scaleFactor,
                 color: colorText,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -149,7 +149,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 15 * scaleFactor,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                   backgroundColor: colorGreen,
@@ -167,7 +167,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: size.width / 17,
                   color: colorText,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -178,7 +178,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 style: TextStyle(
                   fontSize: 15 * scaleFactor,
                   color: colorText,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -193,7 +193,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                       fontSize: 15 * scaleFactor,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                   Switch(
@@ -242,7 +242,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),

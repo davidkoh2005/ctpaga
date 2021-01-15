@@ -204,7 +204,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -240,7 +240,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         ),
                         style: TextStyle(
                           fontSize: 18 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       ),
                     ),
@@ -255,7 +255,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -288,7 +288,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         style: TextStyle(
                           fontSize: 30 * scaleFactor,
                           color: colorGrey,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                         decoration: InputDecoration(
                           enabledBorder: InputBorder.none,
@@ -310,7 +310,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -333,7 +333,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         ),
                         style: TextStyle(
                           fontSize: 18 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       ),
                     ),
@@ -347,7 +347,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -374,7 +374,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             ),
                             style: TextStyle(
                               fontSize: 18 * scaleFactor,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                           ),
                         );
@@ -390,7 +390,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -408,7 +408,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                 style: TextStyle(
                                   color: colorText,
                                   fontSize: 15 * scaleFactor,
-                                  fontFamily: 'MontserratExtraBold',
+                                  fontFamily: 'MontserratSemiBold',
                                 ),
                               ),
                               Container(
@@ -418,7 +418,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   style: TextStyle(
                                     color: colorText,
                                     fontSize: 15 * scaleFactor,
-                                    fontFamily: 'MontserratExtraBold',
+                                    fontFamily: 'MontserratSemiBold',
                                   ),
                                 )
                               ),
@@ -458,7 +458,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             style: TextStyle(
                               color: colorText,
                               fontSize: 18 * scaleFactor,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                           ),
                         ),
@@ -482,14 +482,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             fontSize: 30 * scaleFactor,
                             color: colorGrey,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                           decoration: InputDecoration(
                             hintText: "0",
                             hintStyle: TextStyle(
                               fontSize: 30 * scaleFactor,
                               color: colorGrey,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                             enabledBorder: InputBorder.none,
                             focusedBorder: UnderlineInputBorder(
@@ -511,7 +511,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               style: TextStyle(
                                 color: colorText,
                                 fontSize: 15 * scaleFactor,
-                                fontFamily: 'MontserratExtraBold',
+                                fontFamily: 'MontserratSemiBold',
                               ),
                             ),
                           ],
@@ -536,7 +536,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorText,
                             fontSize: 18 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -555,7 +555,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   style: TextStyle(
                                     color: colorText,
                                     fontSize: 16 * scaleFactor,
-                                    fontFamily: 'MontserratExtraBold',
+                                    fontFamily: 'MontserratSemiBold',
                                   ),
                                 )
                               ),
@@ -566,7 +566,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   style: TextStyle(
                                     color: colorText,
                                     fontSize: 13 * scaleFactor,
-                                    fontFamily: 'MontserratExtraBold',
+                                    fontFamily: 'MontserratSemiBold',
                                   ),
                                 ),
                               ),
@@ -604,7 +604,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             style: TextStyle(
                               color: colorText,
                               fontSize: 18 * scaleFactor,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                           ),
                         ),
@@ -631,7 +631,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                           style: TextStyle(
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           ),
                         ),
                       ),
@@ -740,7 +740,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     "Galeria",
                     style: TextStyle(
                       fontSize: 15 * scaleFactor,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.gallery),       
@@ -751,7 +751,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     "Camara",
                     style: TextStyle(
                       fontSize: 15 * scaleFactor,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                   onTap: () => _getImage(context, ImageSource.camera),          
@@ -827,7 +827,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               color: _statusButton? colorGreen : Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -859,7 +859,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               color: _statusButtonDelete? colorGreen : Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -1143,7 +1143,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),
@@ -1186,7 +1186,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -1194,7 +1194,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

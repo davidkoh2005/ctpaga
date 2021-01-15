@@ -92,7 +92,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 18 * scaleFactor,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
                 children: <TextSpan>[
                   TextSpan(
@@ -101,7 +101,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                       color: colorGreen,
                       fontSize: 18 * scaleFactor,
                       fontWeight: FontWeight.bold,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                   TextSpan(
@@ -109,7 +109,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 18 * scaleFactor,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                 ],
@@ -125,7 +125,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 style: TextStyle(
                   color: colorText,
                   fontSize: 15 * scaleFactor,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -148,7 +148,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -206,7 +206,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -302,7 +302,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),
@@ -346,7 +346,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -354,7 +354,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

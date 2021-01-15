@@ -55,7 +55,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                         color: Colors.black,
                         fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.w900,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     ),
                   ],
@@ -98,7 +98,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                                       color: Colors.white,
                                       fontSize: 15 * scaleFactor,
                                       fontWeight: FontWeight.bold,
-                                      fontFamily: 'MontserratExtraBold',
+                                      fontFamily: 'MontserratSemiBold',
                                     )
                                   ),
                                 )

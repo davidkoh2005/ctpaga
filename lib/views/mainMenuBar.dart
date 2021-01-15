@@ -105,7 +105,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                           color: Colors.black,
                                           fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'MontserratExtraBold',
+                                          fontFamily: 'MontserratSemiBold',
                                         ),
                                       ),
                                     ),
@@ -142,7 +142,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                           color: Colors.black,
                                           fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
-                                          fontFamily: 'MontserratExtraBold',
+                                          fontFamily: 'MontserratSemiBold',
                                         ),
                                       ),
                                     ),
@@ -273,8 +273,8 @@ class _MainMenuBarState extends State<MainMenuBar> {
                 style: TextStyle(
                   color: Colors.black,
                   fontSize: 10 * scaleFactor,
-                  fontWeight: FontWeight.w500,
-                  fontFamily: 'MontserratExtraBold',
+                  fontWeight: FontWeight.bold,
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             )

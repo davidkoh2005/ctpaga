@@ -52,7 +52,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                         color: Colors.black,
                         fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.bold,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     ),
                   ],

@@ -109,7 +109,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                         style: TextStyle(
                           color: colorText,
                           fontSize: 18 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       ),
                     ),
@@ -121,7 +121,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
                       textAlign: TextAlign.center,
                       style:  TextStyle(
                         fontSize: 35 * scaleFactor,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     )
                   ),
@@ -189,7 +189,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -206,13 +206,13 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
           DataColumn(
             label: Text(
               'TASA',
-              style: TextStyle(fontFamily: 'MontserratExtraBold', fontSize: 15 * scaleFactor),
+              style: TextStyle(fontFamily: 'MontserratSemiBold', fontSize: 15 * scaleFactor),
             ),
           ),
           DataColumn(
             label: Text(
               'FECHA',
-              style: TextStyle(fontFamily: 'MontserratExtraBold', fontSize: 15 * scaleFactor),
+              style: TextStyle(fontFamily: 'MontserratSemiBold', fontSize: 15 * scaleFactor),
             ),
           ),
         ],
@@ -324,7 +324,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
               color: _statusButton? Colors.white : colorGreen,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),

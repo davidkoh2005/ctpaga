@@ -119,7 +119,7 @@ class _AmountPageState extends State<AmountPage> {
                         color: colorText,
                         fontSize: 35 * scaleFactor,
                         fontWeight: FontWeight.w800,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     ),
                   ),
@@ -149,7 +149,7 @@ class _AmountPageState extends State<AmountPage> {
                         hintStyle: TextStyle(
                           color: colorGrey,
                           fontSize: 15 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -203,19 +203,23 @@ class _AmountPageState extends State<AmountPage> {
             height: size.width/9,
             decoration: BoxDecoration(
               border: Border(
+                top: BorderSide( 
+                  color: colorGreyOp,
+                  width: 2.0,
+                ),
                 right: BorderSide( 
                   color: Colors.white,
                   width: 1.0,
                 ),
               ),
-              color: colorGrey,
+              color: _statusSalesProducts? Colors.white : colorGrey,
             ),
             child: Text(
               "AGREGAR VENTAS",
               style: TextStyle(
-                color: Colors.white,
+                color: _statusSalesProducts? colorGreen : Colors.black,
                 fontSize: 18 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           )
@@ -232,19 +236,23 @@ class _AmountPageState extends State<AmountPage> {
             height: size.width/9,
             decoration: BoxDecoration(
               border: Border(
+                top: BorderSide( 
+                  color: colorGreyOp,
+                  width: 2.0,
+                ),
                 left: BorderSide( 
                   color: Colors.white,
                   width: 1.0,
                 ),
               ),
-              color: colorGrey,
+              color: _statusSalesServices? Colors.white : colorGrey,
             ),
             child: Text(
               "AGREGAR SERVICIOS",
               style: TextStyle(
-                color: Colors.white,
+                color: _statusSalesServices? colorGreen : Colors.black,
                 fontSize: 18 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           )
@@ -385,7 +393,7 @@ class _AmountPageState extends State<AmountPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),

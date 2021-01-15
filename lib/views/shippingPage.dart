@@ -104,7 +104,7 @@ class _ShippingPageState extends State<ShippingPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               )
             )
           )
@@ -152,7 +152,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 15 * scaleFactor,
-                      fontFamily: 'MontserratExtraBold',
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                 ),
@@ -178,7 +178,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   ),
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -204,7 +204,7 @@ class _ShippingPageState extends State<ShippingPage> {
                       style: TextStyle(
                         color: colorText,
                         fontSize: 15 * scaleFactor,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     )
                   ),
@@ -238,7 +238,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                     style: TextStyle(
                                       color: Colors.grey,
                                       fontSize: 15 * scaleFactor,
-                                      fontFamily: 'MontserratExtraBold',
+                                      fontFamily: 'MontserratSemiBold',
                                     ),
                                   ),
                                 ),
@@ -248,7 +248,7 @@ class _ShippingPageState extends State<ShippingPage> {
                                     style: TextStyle(
                                       color: colorText,
                                       fontSize: 15 * scaleFactor,
-                                      fontFamily: 'MontserratExtraBold',
+                                      fontFamily: 'MontserratSemiBold',
                                     ),
                                   )
                                 ),
@@ -320,7 +320,7 @@ class _ShippingPageState extends State<ShippingPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               )
             )
           :
@@ -330,7 +330,7 @@ class _ShippingPageState extends State<ShippingPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: colorText,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               )
             ),
         ),
@@ -361,7 +361,7 @@ class _ShippingPageState extends State<ShippingPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -394,7 +394,7 @@ class _ShippingPageState extends State<ShippingPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -473,7 +473,7 @@ class _ShippingPageState extends State<ShippingPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -481,7 +481,7 @@ class _ShippingPageState extends State<ShippingPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]
@@ -534,7 +534,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),

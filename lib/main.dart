@@ -130,13 +130,13 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text(
               "Nueva versión",
               style: TextStyle(
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
             content: Text(
               "Versión Actual es $versionApp y la nueva versión es $newVersionApp ",
               style: TextStyle(
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
             actions: <Widget>[

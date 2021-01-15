@@ -133,7 +133,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                     showDeposits(myProvider),
                                     style:  TextStyle(
                                       fontSize: 34 * scaleFactor,
-                                      fontFamily: 'MontserratExtraBold',
+                                      fontFamily: 'MontserratSemiBold',
                                     ),
                                   ),
                                 ),
@@ -159,7 +159,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                                   style: TextStyle(
                                                     color: Colors.white,
                                                     fontSize: 15 * scaleFactor,
-                                                    fontFamily: 'MontserratExtraBold',
+                                                    fontFamily: 'MontserratSemiBold',
                                                   ),
                                                 ),
                                               ),
@@ -175,7 +175,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                             style:  TextStyle(
                                               fontSize: 15 * scaleFactor,
                                               color: colorGrey,
-                                              fontFamily: 'MontserratExtraBold',
+                                              fontFamily: 'MontserratSemiBold',
                                             ),
                                           )
                                         ),
@@ -193,7 +193,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                       style:  TextStyle(
                                         fontSize: 15 * scaleFactor,
                                         color: colorGrey,
-                                        fontFamily: 'MontserratExtraBold',
+                                        fontFamily: 'MontserratSemiBold',
                                       ),
                                     ),
                                   ),
@@ -263,7 +263,7 @@ class _DepositsPageState extends State<DepositsPage> {
                             style: TextStyle(
                               fontSize: 15 * scaleFactor,
                               color: Colors.black,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -276,7 +276,7 @@ class _DepositsPageState extends State<DepositsPage> {
                             style:  TextStyle(
                               fontSize: 15 * scaleFactor,
                               color: colorGrey,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                           ),
                         ),
@@ -288,7 +288,7 @@ class _DepositsPageState extends State<DepositsPage> {
                             style:  TextStyle(
                               fontSize: 15 * scaleFactor,
                               color: colorGrey,
-                              fontFamily: 'MontserratExtraBold',
+                              fontFamily: 'MontserratSemiBold',
                             ),
                           ),
                         ),
@@ -329,7 +329,7 @@ class _DepositsPageState extends State<DepositsPage> {
                 fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             )
           ),
@@ -362,7 +362,7 @@ class _DepositsPageState extends State<DepositsPage> {
               fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -435,7 +435,7 @@ class _DepositsPageState extends State<DepositsPage> {
               style: TextStyle(
                 fontSize: 15 * scaleFactor,
                 color: _statusButton.contains(index)? Colors.white : Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),

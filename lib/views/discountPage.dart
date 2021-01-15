@@ -90,7 +90,7 @@ class _DiscountPageState extends State<DiscountPage> {
             style: TextStyle(
               fontSize: 15 * scaleFactor,
               color: colorText,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             )
           )
         ),
@@ -125,7 +125,7 @@ class _DiscountPageState extends State<DiscountPage> {
                         style: TextStyle(
                           color: Colors.grey,
                           fontSize: 15 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       ),
                     ),
@@ -135,7 +135,7 @@ class _DiscountPageState extends State<DiscountPage> {
                         style: TextStyle(
                           color: colorText,
                           fontSize: 15 * scaleFactor,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       )
                     ),
@@ -172,7 +172,7 @@ class _DiscountPageState extends State<DiscountPage> {
               color: _statusButton? Colors.white : colorGreen,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),

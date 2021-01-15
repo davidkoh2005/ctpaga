@@ -88,7 +88,7 @@ class _SelfiePageState extends State<SelfiePage> {
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 15 * scaleFactor,
-                        fontFamily: 'MontserratExtraBold',
+                        fontFamily: 'MontserratSemiBold',
                       ),
                     ),
                   ),
@@ -126,7 +126,7 @@ class _SelfiePageState extends State<SelfiePage> {
                 style:  TextStyle(
                   fontSize: 15 * scaleFactor,
                   color: colorText,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             ),
@@ -155,7 +155,7 @@ class _SelfiePageState extends State<SelfiePage> {
                         style:  TextStyle(
                           fontSize: 15 * scaleFactor,
                           color: Colors.white,
-                          fontFamily: 'MontserratExtraBold',
+                          fontFamily: 'MontserratSemiBold',
                         ),
                       )
                     ),
@@ -264,7 +264,7 @@ class _SelfiePageState extends State<SelfiePage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),
@@ -307,7 +307,7 @@ class _SelfiePageState extends State<SelfiePage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -315,7 +315,7 @@ class _SelfiePageState extends State<SelfiePage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

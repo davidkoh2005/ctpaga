@@ -148,7 +148,7 @@ class _MainPageState extends State<MainPage> {
                 color: Colors.white,
                 fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.bold,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -203,7 +203,7 @@ class _MainPageState extends State<MainPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),

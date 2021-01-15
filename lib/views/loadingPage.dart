@@ -90,7 +90,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   style: TextStyle(
                     fontSize: 15 * scaleFactor,
                     color: colorText,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -144,7 +144,7 @@ class _LoadingPageState extends State<LoadingPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),

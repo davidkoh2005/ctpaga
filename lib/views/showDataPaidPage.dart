@@ -124,7 +124,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             )
@@ -141,7 +141,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -150,7 +150,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -168,7 +168,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -177,7 +177,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -194,7 +194,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -203,7 +203,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -227,7 +227,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             )
@@ -244,7 +244,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -253,7 +253,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -270,7 +270,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -279,7 +279,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -296,7 +296,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -305,7 +305,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -322,7 +322,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -331,7 +331,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -355,7 +355,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             )
@@ -371,7 +371,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -380,7 +380,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -397,7 +397,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -406,7 +406,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -423,7 +423,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -432,7 +432,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -449,7 +449,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -458,7 +458,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -476,7 +476,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -485,7 +485,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -504,7 +504,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 fontWeight: FontWeight.bold,
                 fontSize: 15 * scaleFactor,
                 color: Colors.black,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
               children: <TextSpan>[
                 TextSpan(
@@ -513,7 +513,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                     fontSize: 15 * scaleFactor,
                     color: _listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
                     fontWeight: FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ],
@@ -537,7 +537,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             )
@@ -555,7 +555,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -566,7 +566,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -577,7 +577,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -689,7 +689,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   style: TextStyle(
                     color: Colors.black,
                     fontSize: 15 * scaleFactor,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   )
                 ),
               ),

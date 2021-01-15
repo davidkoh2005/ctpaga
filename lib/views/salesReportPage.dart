@@ -143,6 +143,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
+                fontFamily: 'MontserratSemiBold',
               ),
             )
           ),
@@ -175,6 +176,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -198,6 +200,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                     style: TextStyle(
                       color: colorText,
                       fontSize: 16 * scaleFactor,
+                      fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                 ),
@@ -208,6 +211,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                   showSales(myProvider),
                   style:  TextStyle(
                     fontSize: 35 * scaleFactor,
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 )
               ),
@@ -231,8 +235,9 @@ class _SalesReportPageState extends State<SalesReportPage> {
                   textAlign: TextAlign.center,
                   style:  TextStyle(
                     fontSize:  15 * scaleFactor,
-                    color: colorText
-    ),
+                    color: colorText,
+                    fontFamily: 'MontserratSemiBold',
+                  ),
                 ),
               ),
 
@@ -273,6 +278,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
         controller: _controller,
         style: TextStyle(
           fontSize: 15 * scaleFactor,
+          fontFamily: 'MontserratSemiBold',
         ),
         onTap: () {
           setState(() {
@@ -386,6 +392,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -405,6 +412,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
             style: TextStyle(
               fontStyle: FontStyle.italic,
               fontSize: 12 * scaleFactor,
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -415,6 +423,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
             style: TextStyle(
               fontStyle: FontStyle.italic,
               fontSize: 12 * scaleFactor,
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -423,8 +432,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
             'Precio',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontStyle: FontStyle.italic,
               fontSize: 12 * scaleFactor,
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -513,6 +522,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -520,6 +530,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

@@ -57,18 +57,37 @@ flutter:
     - assets/banks/USA/
 
   fonts:
+    - family: MontserratMedium   
+      fonts:
+        - asset: assets/Fonts/Montserrat-Medium.ttf
+
     - family: MontserratBold     
       fonts:
+        - asset: assets/Fonts/Montserrat-Bold.ttf
+
+    - family: MontserratBlack     
+      fonts:
         - asset: assets/Fonts/Montserrat-Black.ttf
-    - family: MontserratExtraBold     
+
+    - family: MontserratSemiBold     
       fonts:
         - asset: assets/Fonts/Montserrat-SemiBold.ttf
-    - family: MontserratExtraBold     
+
+    - family: MontserratExtraBold    
       fonts:
         - asset: assets/Fonts/Montserrat-ExtraBold.ttf
-    - family: MontserratExtraBold     
+
+    - family: MontserratItalic     
       fonts:
         - asset: assets/Fonts/Montserrat-Italic.ttf
+
+    - family: MontserratLight     
+      fonts:
+        - asset: assets/Fonts/Montserrat-Light.ttf
+
+    - family: MontserratExtraLight     
+      fonts:
+        - asset: assets/Fonts/Montserrat-ExtraLight.ttf
 
 flutter_icons:
   image_path: 'assets/logo/logoctpaga.png'

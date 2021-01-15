@@ -94,7 +94,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
               style: TextStyle(
                 color: colorText,
                 fontSize: 15 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -121,7 +121,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             style: TextStyle(
               color: colorText,
               fontSize: 15 * scaleFactor,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -133,7 +133,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             style: TextStyle(
               color: colorText,
               fontSize: 18 * scaleFactor,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -170,7 +170,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -204,7 +204,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -320,7 +320,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -328,7 +328,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

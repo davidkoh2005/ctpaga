@@ -74,7 +74,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelText: 'Nombre y Apellido',
                 labelStyle: TextStyle(
                   color: colorGreen,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -99,7 +99,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelText: 'Dirección',
                 labelStyle: TextStyle(
                   color: colorGreen,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -124,7 +124,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelText: 'Teléfono',
                 labelStyle: TextStyle(
                   color: colorGreen,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -148,7 +148,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelText: 'Email',
                   labelStyle: TextStyle(
                     color: colorGreen,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.mail,
@@ -177,7 +177,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelText: 'Contraseña',
                   labelStyle: TextStyle(
                     color: colorGreen,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -218,7 +218,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelText: 'Confirmar Contraseña',
                   labelStyle: TextStyle(
                     color: colorGreen,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -259,7 +259,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   _messageError == null? '' : _messageError,
                   style: TextStyle(
                     color: Colors.red,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -303,7 +303,7 @@ class _RegisterPageState extends State<RegisterPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -413,7 +413,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -421,7 +421,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

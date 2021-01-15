@@ -151,15 +151,23 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           }),
           child: Container(
             alignment: Alignment.center,
-            color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : colorGrey,
             width: size.width/2,
             height: size.width/9,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide( //                    <--- top side
+                  color: colorGreyOp,
+                  width: 2.0,
+                ),
+              ),
+              color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? Colors.white: colorGreyOp, 
+            ),
             child: Text(
               myProvider.selectProductsServices == 0? "Productos" : "Servicios",
               style: TextStyle(
-                color: Colors.white,
+                color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : Colors.black,
                 fontSize: 18 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           )
@@ -171,15 +179,23 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           }),
           child: Container(
             alignment: Alignment.center,
-            color: _statusDropdown == "Categoría"? colorGreen : colorGrey,
             width: size.width/2,
             height: size.width/9,
+            decoration: BoxDecoration(
+              border: Border(
+                top: BorderSide( 
+                  color: colorGreyOp,
+                  width: 2.0,
+                ),
+              ),
+              color: _statusDropdown == "Categoría"? Colors.white : colorGreyOp, 
+            ),
             child: Text(
               "Categoría",
               style: TextStyle(
-                color: Colors.white,
+                color: _statusDropdown == "Categoría"? colorGreen : Colors.black,
                 fontSize: 18 * scaleFactor,
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           )
@@ -225,7 +241,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                       ),
                     );
                   },
-                  errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 9,),
+                  errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 7,),
                 ),
               ),
               onTap: () async {
@@ -251,7 +267,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 style: TextStyle(
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
-                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontWeight: FontWeight.w700,
                   fontFamily: 'MontserratBold',
                 ),
               ),
@@ -261,7 +277,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratMedium',
                 ),
               ),
               trailing: Text(
@@ -270,7 +286,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             );
@@ -311,7 +327,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexService.contains(index)? colorGreen : colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
               trailing: Text(
@@ -320,7 +336,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: _indexService.contains(index)? colorGreen : colorText,
                   fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
             );
@@ -390,7 +406,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 style: TextStyle(
                   color: _selectCategories== index+1? colorGreen : Colors.grey,
                   fontSize: 15 * scaleFactor,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               ),
               Visibility(
@@ -435,7 +451,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               color: _statusButton? Colors.white : colorGreen,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -475,7 +491,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: Colors.white,
                     fontSize: 15 * scaleFactor,
                     fontWeight: FontWeight.w500,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -565,7 +581,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                         ),
                       );
                     },
-                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 9,),
+                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 7,),
                   ),
                 ),
                 title: Text(
@@ -574,7 +590,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
                 subtitle: Text(
@@ -583,7 +599,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
                 trailing: Text(
@@ -592,7 +608,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     color: _indexProduct.contains(index)? colorGreen :  colorText,
                     fontSize: 15 * scaleFactor,
                     fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ); 

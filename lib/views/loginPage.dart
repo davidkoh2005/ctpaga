@@ -76,7 +76,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelText: "Email",
                 labelStyle: TextStyle(
                   color: colorGreen,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
                 icon: new Icon(
                   Icons.mail,
@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
               style: TextStyle(
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -108,7 +108,7 @@ class _LoginPageState extends State<LoginPage> {
                   labelText: "Contraseña",
                   labelStyle: TextStyle(
                     color: colorGreen,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -140,7 +140,7 @@ class _LoginPageState extends State<LoginPage> {
               },
               cursorColor: colorGreen,
               style: TextStyle(
-                fontFamily: 'MontserratExtraBold',
+                fontFamily: 'MontserratSemiBold',
               ),
             ),
           ),
@@ -153,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                   _messageError == null? '' : _messageError,
                   style: TextStyle(
                     color: Colors.red,
-                    fontFamily: 'MontserratExtraBold',
+                    fontFamily: 'MontserratSemiBold',
                   ),
                 ),
               ),
@@ -173,7 +173,7 @@ class _LoginPageState extends State<LoginPage> {
                 "Olvidé mi contraseña?",
                 style: TextStyle(
                   color: colorGreen,
-                  fontFamily: 'MontserratExtraBold',
+                  fontFamily: 'MontserratSemiBold',
                 ),
               )
             )
@@ -216,7 +216,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -260,7 +260,7 @@ class _LoginPageState extends State<LoginPage> {
               color: Colors.white,
               fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratExtraBold',
+              fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
@@ -389,7 +389,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                         TextSpan(
@@ -397,7 +397,7 @@ class _LoginPageState extends State<LoginPage> {
                           style: TextStyle(
                             color: colorGreen,
                             fontSize: 15 * scaleFactor,
-                            fontFamily: 'MontserratExtraBold',
+                            fontFamily: 'MontserratSemiBold',
                           )
                         ),
                       ]

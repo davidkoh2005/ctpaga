@@ -427,7 +427,7 @@ class MyProvider with ChangeNotifier {
             name: jsonResponse['data']['0']['name'],
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
-            statusShipping: jsonResponse['data']['0']['statusShipping']
+            statusShipping: jsonResponse['data']['0']['statusShipping']== 0? false : true,
           );
 
           dataUser = user;

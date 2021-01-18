@@ -610,7 +610,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
 
   showStatus(status){
     switch(status) { 
-      case 0: { return "NO RETIRADO PRODUCTOS"; } 
+      case 0: { return "PRODUCTOS NO RETIRADO"; } 
       break; 
      
       case 1: { return "PRODUCTOS RETIRADO"; } 

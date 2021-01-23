@@ -4,6 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -46,7 +47,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   }
 
   Widget formRate(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyRate,
       child: ListView (
@@ -56,13 +56,14 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
             padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "TASA",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -91,7 +92,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30 * scaleFactor,
+                fontSize: 20,
                 fontFamily: 'MontserratSemiBold',
                 color: colorGrey,
               ),
@@ -114,7 +115,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   }
 
   Widget buttonSave(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => _statusRate?saveRate(): null,
@@ -130,14 +130,15 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "GUARDAR TASA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -193,7 +194,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
 
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -225,13 +225,14 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -243,8 +244,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -273,7 +273,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -281,7 +280,6 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

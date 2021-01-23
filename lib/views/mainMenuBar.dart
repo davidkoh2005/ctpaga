@@ -6,6 +6,7 @@ import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,7 +32,6 @@ class _MainMenuBarState extends State<MainMenuBar> {
   
   @override
   Widget build(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -99,14 +99,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                     ),
 
                                     Container(
-                                      child: Text(
+                                      child: AutoSizeText(
                                         "USD \$",
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'MontserratSemiBold',
                                         ),
+                                        maxFontSize: 9,
+                                        minFontSize: 9,
                                       ),
                                     ),
                                   ],
@@ -136,14 +137,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
                                       ),
                                     ),
                                     Container(
-                                      child: Text(
+                                      child: AutoSizeText(
                                         "VE BS",
                                         style: TextStyle(
                                           color: Colors.black,
-                                          fontSize: 10 * scaleFactor,
                                           fontWeight: FontWeight.bold,
                                           fontFamily: 'MontserratSemiBold',
                                         ),
+                                        minFontSize: 9,
+                                        maxFontSize: 9,
                                       ),
                                     ),
                                   ],
@@ -208,7 +210,6 @@ class _MainMenuBarState extends State<MainMenuBar> {
 
   Widget _buildNavItem(String _title, String _icon, int _status, int code){
     var size = MediaQuery.of(context).size;
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     return GestureDetector(
       onTap: () async {
@@ -229,7 +230,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
             int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
             var _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
             var _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
-            myProvider.verifyDataTransactions(0, 0, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
+            myProvider.verifyDataTransactions(0, 1, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
           }
         }
         await Future.delayed(Duration(milliseconds: 150));
@@ -268,14 +269,15 @@ class _MainMenuBarState extends State<MainMenuBar> {
             ),
             Container(
               padding: EdgeInsets.only(top:5, bottom: 5),
-              child: Text(
+              child: AutoSizeText(
                 _title,
                 style: TextStyle(
                   color: Colors.black,
-                  fontSize: 10 * scaleFactor,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 9,
+                maxFontSize: 9,
               ),
             )
           ]

@@ -5,6 +5,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -92,6 +93,7 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize: 14,
               ),
             ),
           ),
@@ -109,6 +111,7 @@ class _LoginPageState extends State<LoginPage> {
                   labelStyle: TextStyle(
                     color: colorGreen,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -149,12 +152,14 @@ class _LoginPageState extends State<LoginPage> {
             child: Center(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(0.0, 15.0, 0.0, 15.0),
-                child: Text(
+                child: AutoSizeText(
                   _messageError == null? '' : _messageError,
                   style: TextStyle(
                     color: Colors.red,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ),
@@ -169,12 +174,14 @@ class _LoginPageState extends State<LoginPage> {
                 });
                 Navigator.push(context, SlideLeftRoute(page: ForgotPassword()));
               },
-              child: Text(
+              child: AutoSizeText(
                 "Olvidé mi contraseña?",
                 style: TextStyle(
                   color: colorGreen,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               )
             )
           ),
@@ -184,7 +191,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget buttonLogin(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -210,14 +216,15 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             'Ingresar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -225,7 +232,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Widget buttonRegister(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -254,14 +260,15 @@ class _LoginPageState extends State<LoginPage> {
           ],
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             'Regístrate',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -358,7 +365,6 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -388,7 +394,6 @@ class _LoginPageState extends State<LoginPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -396,7 +401,6 @@ class _LoginPageState extends State<LoginPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

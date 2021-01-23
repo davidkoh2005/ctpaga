@@ -1,6 +1,7 @@
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,6 @@ class _NavbarState extends State<Navbar> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Stack(
@@ -49,14 +49,15 @@ class _NavbarState extends State<Navbar> {
                       },
                     ),
                     
-                    Text(
+                    AutoSizeText(
                       _title,
                       style: TextStyle(
                         color: Colors.black,
-                        fontSize: 20 * scaleFactor,
                         fontWeight: FontWeight.bold,
                         fontFamily: 'MontserratSemiBold',
                       ),
+                      minFontSize: 17,
+                      maxFontSize: 17,
                     ),
                   ],
                 ),

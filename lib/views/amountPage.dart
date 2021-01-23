@@ -9,6 +9,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,6 +28,7 @@ class _AmountPageState extends State<AmountPage> {
   // ignore: unused_field
   bool _statusSalesProducts = false, _statusSalesServices = false,  _statusButtonCharge = false;
   double _total = 0.0;
+  var myGroup = AutoSizeGroup();
 
   @override
   void initState() {
@@ -96,7 +98,6 @@ class _AmountPageState extends State<AmountPage> {
   }
 
   Widget formQuantity(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -113,14 +114,15 @@ class _AmountPageState extends State<AmountPage> {
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 0.0),
-                    child: Text(
+                    child: AutoSizeText(
                       "${lowAmount.text}",
                       style: TextStyle(
                         color: colorText,
-                        fontSize: 35 * scaleFactor,
                         fontWeight: FontWeight.w800,
                         fontFamily: 'MontserratSemiBold',
                       ),
+                      maxFontSize: 28,
+                      minFontSize: 28,
                     ),
                   ),
                   Padding(
@@ -148,8 +150,8 @@ class _AmountPageState extends State<AmountPage> {
                         hintText: "AGREGAR DESCRIPCIÓN",
                         hintStyle: TextStyle(
                           color: colorGrey,
-                          fontSize: 15 * scaleFactor,
                           fontFamily: 'MontserratSemiBold',
+                          fontSize: 14,
                         ),
                         focusedBorder: UnderlineInputBorder(
                           borderSide: BorderSide(color: Colors.transparent),
@@ -157,7 +159,7 @@ class _AmountPageState extends State<AmountPage> {
                       ),
                       style: TextStyle(
                         color: colorText,
-                        fontSize: 15 * scaleFactor,
+                        fontSize: 14,
                       ),
                     ),
                   ),
@@ -186,7 +188,6 @@ class _AmountPageState extends State<AmountPage> {
   }
 
   showOptiones(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,13 +215,15 @@ class _AmountPageState extends State<AmountPage> {
               ),
               color: _statusSalesProducts? Colors.white : colorGrey,
             ),
-            child: Text(
+            child: AutoSizeText(
               "AGREGAR VENTAS",
               style: TextStyle(
                 color: _statusSalesProducts? colorGreen : Colors.black,
-                fontSize: 18 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              group: myGroup,
+              minFontSize: 12,
+              maxFontSize: 12,
             ),
           )
         ),
@@ -247,13 +250,15 @@ class _AmountPageState extends State<AmountPage> {
               ),
               color: _statusSalesServices? Colors.white : colorGrey,
             ),
-            child: Text(
+            child: AutoSizeText(
               "AGREGAR SERVICIOS",
               style: TextStyle(
                 color: _statusSalesServices? colorGreen : Colors.black,
-                fontSize: 18 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              group: myGroup,
+              minFontSize: 12,
+              maxFontSize: 12,
             ),
           )
         ),
@@ -367,7 +372,6 @@ class _AmountPageState extends State<AmountPage> {
 
 
   Widget buttonCharge(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -387,14 +391,15 @@ class _AmountPageState extends State<AmountPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),

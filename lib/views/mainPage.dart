@@ -10,6 +10,7 @@ import 'package:ctpaga/views/salesReportPage.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
@@ -125,7 +126,6 @@ class _MainPageState extends State<MainPage> {
   
 
   Widget buttonMain(_title, _index, _page){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -142,14 +142,15 @@ class _MainPageState extends State<MainPage> {
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
-            child: Text(
+            child: AutoSizeText(
               _title,
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
         ),
@@ -165,7 +166,6 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -197,14 +197,15 @@ class _MainPageState extends State<MainPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],

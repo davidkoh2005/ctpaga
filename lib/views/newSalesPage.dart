@@ -4,11 +4,11 @@ import 'package:ctpaga/views/contacts_dialog.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/providers/provider.dart';
-
 import 'package:ctpaga/env.dart';
 
 import 'package:contacts_service/contacts_service.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -81,7 +81,6 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   formNewSales(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
@@ -89,13 +88,14 @@ class _NewSalesPageState extends State<NewSalesPage> {
           padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
+            child: AutoSizeText(
               "CLIENTE",
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 14,
+              maxFontSize: 14,
             ),
           ),
         ),
@@ -120,21 +120,22 @@ class _NewSalesPageState extends State<NewSalesPage> {
             ),
             style: TextStyle(
               color: colorText,
-              fontSize: 15 * scaleFactor,
+              fontSize: 15,
               fontFamily: 'MontserratSemiBold',
             ),
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(80, 20, 80, 40),
-          child: Text(
+          child: AutoSizeText(
             "Escribe el nombre de tu cliente o búscalo en tus contactos",
             textAlign: TextAlign.center,
             style: TextStyle(
               color: colorText,
-              fontSize: 18 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 16,
+            maxFontSize: 16,
           ),
         ),
         buttonSearch(),
@@ -143,10 +144,10 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Widget buttonSearch(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () async {
+        FocusScope.of(context).requestFocus(new FocusNode());
         setState(() => _statusButtonName = true);
         await Future.delayed(Duration(milliseconds: 150));
         setState(() => _statusButtonName = false);
@@ -164,14 +165,15 @@ class _NewSalesPageState extends State<NewSalesPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "BUSCAR CLIENTE",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),
@@ -179,10 +181,10 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Widget buttonContinue(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
+        FocusScope.of(context).requestFocus(new FocusNode());
         if(_statusButton)
           nextPage();
       },
@@ -198,14 +200,15 @@ class _NewSalesPageState extends State<NewSalesPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "CONTINUAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),
@@ -275,12 +278,12 @@ class _NewSalesPageState extends State<NewSalesPage> {
       showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-              title: Text('Error de permisos'),
-              content: Text('Habilite el acceso a los contactos'
+              title: AutoSizeText('Error de permisos'),
+              content: AutoSizeText('Habilite el acceso a los contactos'
                   'permiso en la configuración del sistema'),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: Text('OK'),
+                  child: AutoSizeText('OK'),
                   onPressed: () => Navigator.of(context).pop(),
                 )
               ],
@@ -289,8 +292,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -319,7 +321,6 @@ class _NewSalesPageState extends State<NewSalesPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -327,7 +328,6 @@ class _NewSalesPageState extends State<NewSalesPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -359,7 +359,8 @@ class _NewSalesPageState extends State<NewSalesPage> {
       myProvider.avatarClient = [];
       myProvider.initialsClient = initialsClient(_controllerName.text).trim();
     }
-
+    myProvider.statusShipping = myProvider.user.statusShipping;
+    await Future.delayed(Duration(milliseconds: 150));
     Navigator.push(context, SlideLeftRoute(page: VerifyDataClientPage()));
   }
 

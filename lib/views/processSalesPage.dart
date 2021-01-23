@@ -7,6 +7,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -56,8 +57,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   formProcessSales(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -65,38 +65,41 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "COBRO DE",
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 14,
+              maxFontSize: 14,
             ),
           ),
         ),
 
         Container(
-          padding: EdgeInsets.only(top:30),
-          child: Text(
+          padding: EdgeInsets.only(top:20),
+          child: AutoSizeText(
             showTotal(),
             textAlign: TextAlign.center,
             style:  TextStyle(
-              fontSize: 30 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 20,
+            maxFontSize: 20,
           ),
         ),
 
         Container(
           padding: EdgeInsets.only(top:30, bottom: 30),
-          child: Text(
+          child: AutoSizeText(
             "Escoge como deseas cobrar:",
             style: TextStyle(
-              fontSize: 15 * scaleFactor,
               color: colorText,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
 
@@ -114,7 +117,6 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   Widget buttonLink(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(0),
@@ -130,14 +132,15 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "Enviar enlace de pago",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),
@@ -145,7 +148,6 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
   }
 
   Widget buttonRegister(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(1),
@@ -161,14 +163,15 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "Registrar pago",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),

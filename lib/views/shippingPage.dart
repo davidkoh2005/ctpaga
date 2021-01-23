@@ -7,6 +7,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -27,7 +28,7 @@ class _ShippingPageState extends State<ShippingPage> {
   final bool _statusMenuBar;
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
-  bool _statusButtonNew = false, _statusMsg = true;
+  bool _statusButtonNew = false;
   String _description;
 
   @override
@@ -44,7 +45,6 @@ class _ShippingPageState extends State<ShippingPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     setState(() {
-      myProvider.dataShipping.length == 0? _statusMsg = true :  _statusMsg = false;
       _description = myProvider.descriptionShipping;
       _controllerDescription.text = myProvider.descriptionShipping;
     });
@@ -92,20 +92,20 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget statusSend(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Column(
       children: <Widget>[
         Padding(
           padding: _statusMenuBar? EdgeInsets.only(left: 30, right: 30, top:50) : EdgeInsets.only(left: 30, right: 30),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
+            child: AutoSizeText(
               "Envío de Productos",
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
                 color: colorText,
                 fontFamily: 'MontserratSemiBold',
-              )
+              ),
+              maxFontSize: 14,
+              minFontSize: 14,
             )
           )
         ),
@@ -122,13 +122,14 @@ class _ShippingPageState extends State<ShippingPage> {
           visible: myProvider.dataUser.statusShipping,
           child: Container(
             padding: EdgeInsets.only(left: 40, right: 40),
-            child: Text(
+            child: AutoSizeText(
               "Desactiva pedir información y cobro por envíos a tus clientes",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
                 color: colorText,
-              )
+              ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
         ),
@@ -137,136 +138,134 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget formShipping(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Expanded(
-      child: SingleChildScrollView(
-        child: Column(
-          children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "DESCRIPCIÓN DE ENVIOS (OPTIONAL)",
-                    style: TextStyle(
-                      color: colorText,
-                      fontSize: 15 * scaleFactor,
-                      fontFamily: 'MontserratSemiBold',
-                    ),
-                  ),
+      child: Column(
+        children: <Widget>[
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 0.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: AutoSizeText(
+                "DESCRIPCIÓN DE ENVIOS (OPTIONAL)",
+                style: TextStyle(
+                  color: colorText,
+                  fontFamily: 'MontserratSemiBold',
+                ),
+                maxFontSize: 14,
+                minFontSize: 14,
+              ),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+            child: new TextFormField(
+              controller: _controllerDescription,
+              maxLines: 1,
+              textCapitalization:TextCapitalization.words,
+              autofocus: false,
+              onChanged: (value) {
+                _description = value.trim();
+                saveDescriptionStatus();
+              },
+              textInputAction: TextInputAction.next,
+              cursorColor: colorGreen,
+              textAlign: TextAlign.center,
+              decoration: InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.black),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-                child: new TextFormField(
-                  controller: _controllerDescription,
-                  maxLines: 1,
-                  textCapitalization:TextCapitalization.words,
-                  autofocus: false,
-                  onChanged: (value) {
-                    _description = value.trim();
-                    saveDescriptionStatus();
-                  },
-                  textInputAction: TextInputAction.next,
-                  cursorColor: colorGreen,
-                  textAlign: TextAlign.center,
-                  decoration: InputDecoration(
-                    focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.black),
-                    ),
-                  ),
+              style: TextStyle(
+                fontSize: 15,
+                fontFamily: 'MontserratSemiBold',
+              ),
+            ),
+          ),
+
+          Visibility(
+            visible: myProvider.dataShipping.length == 0? true : false,
+            child: Container(
+              height: size.height - 460,
+              child: SingleChildScrollView(
+                child: formMsg(myProvider)
+              )
+            ),
+          ),
+
+          Visibility(
+            visible: myProvider.dataShipping.length == 0? false : true,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 60.0, left: 30, right: 30, bottom: 10),
+              child: Align(
+                alignment: Alignment.centerLeft,
+                child: AutoSizeText(
+                  "TARIFAS DE ENVÍO",
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
+                    color: colorText,
                     fontFamily: 'MontserratSemiBold',
                   ),
-                ),
-              ),
-
-              Visibility(
-                visible: myProvider.dataShipping.length == 0? true : false,
-                child: Container(
-                  height: size.height - 460,
-                  child: SingleChildScrollView(
-                    child: formMsg(myProvider)
-                  )
-                ),
-              ),
-
-              Visibility(
-                visible: myProvider.dataShipping.length == 0? false : true,
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 60.0, left: 30, right: 30, bottom: 10),
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      "TARIFAS DE ENVÍO",
-                      style: TextStyle(
-                        color: colorText,
-                        fontSize: 15 * scaleFactor,
-                        fontFamily: 'MontserratSemiBold',
-                      ),
-                    )
-                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 )
               ),
+            )
+          ),
 
-              Visibility(
-                visible: !_statusMsg,
-                child: Container(
-                  height: size.height - 520,
-                  child:Scrollbar(
-                    controller: _scrollControllerShipping, 
-                    isAlwaysShown: true,
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      controller: _scrollControllerShipping,
-                      separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
-                      padding: EdgeInsets.fromLTRB(30, 0.0, 30, 30),
-                      itemCount: myProvider.dataShipping.length,
-                      itemBuilder:  (BuildContext ctxt, int index) {
-                        return GestureDetector(
-                          onTap: () =>Navigator.push(context, SlideLeftRoute(page: NewShippingPage(index))),
-                          child: Padding(
-                            padding: EdgeInsets.only(top: 10, bottom:10),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: <Widget>[
-                                Container(
-                                  child: Text(
-                                    myProvider.dataShipping[index].description,
-                                    style: TextStyle(
-                                      color: Colors.grey,
-                                      fontSize: 15 * scaleFactor,
-                                      fontFamily: 'MontserratSemiBold',
-                                    ),
-                                  ),
+          Visibility(
+            visible: myProvider.dataUser.statusShipping,
+            child: Expanded(
+              child:Scrollbar(
+                controller: _scrollControllerShipping, 
+                isAlwaysShown: true,
+                child: ListView.separated(
+                  shrinkWrap: true,
+                  scrollDirection: Axis.vertical, 
+                  controller: _scrollControllerShipping,
+                  separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
+                  padding: EdgeInsets.fromLTRB(30, 0.0, 30, 30),
+                  itemCount: myProvider.dataShipping.length,
+                  itemBuilder:  (BuildContext ctxt, int index) {
+                    return GestureDetector(
+                      onTap: () =>Navigator.push(context, SlideLeftRoute(page: NewShippingPage(index))),
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom:10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: <Widget>[
+                            Container(
+                              child: AutoSizeText(
+                                myProvider.dataShipping[index].description,
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                  fontFamily: 'MontserratSemiBold',
                                 ),
-                                Container(
-                                  child: Text(
-                                    showPrice(myProvider.dataShipping[index].price, myProvider.dataShipping[index].coin),
-                                    style: TextStyle(
-                                      color: colorText,
-                                      fontSize: 15 * scaleFactor,
-                                      fontFamily: 'MontserratSemiBold',
-                                    ),
-                                  )
+                                
+                              ),
+                            ),
+                            Container(
+                              child: AutoSizeText(
+                                showPrice(myProvider.dataShipping[index].price, myProvider.dataShipping[index].coin),
+                                style: TextStyle(
+                                  color: colorText,
+                                  fontFamily: 'MontserratSemiBold',
                                 ),
-                              ],
-                            )
-                          )
-                        );
-                      }
-                    ),
-                  )    
-                )
-              ),
-              Padding(
-                padding: EdgeInsets.only(bottom: 30, top: 30),
-                child: newShipping()
-              ),
-            ],
-        )
+                              )
+                            ),
+                          ],
+                        )
+                      )
+                    );
+                  }
+                ),
+              )    
+            )
+          ),
+          Padding(
+            padding: EdgeInsets.only(bottom: 30, top: 30),
+            child: newShipping()
+          ),
+        ],
       )
     );
   }
@@ -295,7 +294,6 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget formMsg(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -314,24 +312,26 @@ class _ShippingPageState extends State<ShippingPage> {
           padding: EdgeInsets.all(40),
           child: 
           myProvider.dataUser.statusShipping?
-            Text(
+            AutoSizeText(
               "¡Agrega tus tarifas y cóbrale a tus clientes por el envío!",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
                 color: colorText,
                 fontFamily: 'MontserratSemiBold',
-              )
+              ),
+              maxFontSize: 14,
+              minFontSize: 14,
             )
           :
-            Text(
+            AutoSizeText(
               "Activa pedir información y cobrar por envios a tus clientes",
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
                 color: colorText,
                 fontFamily: 'MontserratSemiBold',
-              )
+              ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
         ),
       ],
@@ -339,7 +339,6 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget newShipping(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(NewShippingPage(null)),
@@ -355,14 +354,15 @@ class _ShippingPageState extends State<ShippingPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "CREAR TARIFA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -370,7 +370,6 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Widget buttonStatus(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -388,14 +387,15 @@ class _ShippingPageState extends State<ShippingPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             !myProvider.dataUser.statusShipping? "ACTIVAR" : "DESACTIVAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -442,8 +442,7 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -472,7 +471,6 @@ class _ShippingPageState extends State<ShippingPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -480,7 +478,6 @@ class _ShippingPageState extends State<ShippingPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -497,7 +494,6 @@ class _ShippingPageState extends State<ShippingPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -529,13 +525,14 @@ class _ShippingPageState extends State<ShippingPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],

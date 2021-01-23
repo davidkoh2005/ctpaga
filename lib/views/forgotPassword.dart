@@ -1,5 +1,6 @@
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -86,7 +87,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Widget buttonSend(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -112,14 +112,15 @@ class _ForgotPasswordState extends State<ForgotPassword> {
           ],
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             'Enviar',
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -162,8 +163,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -192,7 +192,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -200,7 +199,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -217,7 +215,6 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -249,13 +246,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],

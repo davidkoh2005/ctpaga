@@ -3,6 +3,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -65,7 +66,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
   }
 
   Widget formCommerce(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyCommerce,
       child: Column(
@@ -75,13 +75,14 @@ class _NewCommercePageState extends State<NewCommercePage> {
             padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "NOMBRE DEL NEGOCIO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -103,7 +104,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               ),
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
+                fontSize: 14,
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
@@ -113,13 +114,14 @@ class _NewCommercePageState extends State<NewCommercePage> {
             padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "USUARIO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -140,13 +142,13 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 prefixText: url+"/",
                 prefixStyle: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
+                  fontSize: 14,
                   fontFamily: 'MontserratSemiBold',
                 ),
               ),
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
+                fontSize: 14,
                 fontFamily: 'MontserratSemiBold',
               ),
               onChanged: (value)=> value.trim().length >3? setState(() => _statusUser = true ) : setState(() => _statusUser = false ),
@@ -161,7 +163,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.00, bottom: 30.0),
-                  child: new Text(
+                  child: new AutoSizeText(
                     "Usuario ingresado ya existe",
                     style: TextStyle(
                       color:Colors.red,
@@ -178,7 +180,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
   }
 
   Widget buttonSave(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => _statusName && _statusUser? saveName(): null,
@@ -194,14 +195,15 @@ class _NewCommercePageState extends State<NewCommercePage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "GUARDAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -287,7 +289,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
   }
   
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -319,13 +320,14 @@ class _NewCommercePageState extends State<NewCommercePage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -337,7 +339,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -367,7 +368,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -375,7 +375,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

@@ -4,7 +4,7 @@ import 'package:ctpaga/views/newDiscountPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -70,7 +70,6 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget showMsg(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
@@ -84,14 +83,15 @@ class _DiscountPageState extends State<DiscountPage> {
         ),
         Container(
           padding: EdgeInsets.all(40),
-          child: Text(
+          child: AutoSizeText(
             "¡Agrega códigos de descuento para tu tienda en línea!",
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 15 * scaleFactor,
               color: colorText,
               fontFamily: 'MontserratSemiBold',
-            )
+            ),
+            maxFontSize: 14,
+            minFontSize: 14,
           )
         ),
         SizedBox(height:20),
@@ -100,7 +100,7 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget showList(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    
     return Container(
       child:Scrollbar(
         controller: _scrollControllerList, 
@@ -120,23 +120,25 @@ class _DiscountPageState extends State<DiscountPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: <Widget>[
                     Container(
-                      child: Text(
+                      child: AutoSizeText(
                         myProvider.dataDiscount[index].code,
                         style: TextStyle(
                           color: Colors.grey,
-                          fontSize: 15 * scaleFactor,
                           fontFamily: 'MontserratSemiBold',
                         ),
+                        maxFontSize: 14,
+                        minFontSize: 14,
                       ),
                     ),
                     Container(
-                      child: Text(
+                      child: AutoSizeText(
                         "${myProvider.dataDiscount[index].percentage} %",
                         style: TextStyle(
                           color: colorText,
-                          fontSize: 15 * scaleFactor,
                           fontFamily: 'MontserratSemiBold',
                         ),
+                        maxFontSize: 14,
+                        minFontSize: 14,
                       )
                     ),
                   ],
@@ -150,8 +152,8 @@ class _DiscountPageState extends State<DiscountPage> {
   }
 
   Widget buttonNew(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
+    
     return GestureDetector(
       onTap: () => nextPage(NewDiscountPage(null)),
       child: Container(
@@ -166,14 +168,15 @@ class _DiscountPageState extends State<DiscountPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "CREAR DESCUENTO",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),

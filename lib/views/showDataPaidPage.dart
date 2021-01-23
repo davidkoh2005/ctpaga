@@ -4,6 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -103,7 +104,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
 
   Widget showDataPaid(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return ListView(
       padding: EdgeInsets.only(bottom: 20),
@@ -118,14 +118,15 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 "CONTACTO",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             )
           )
@@ -134,12 +135,11 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Nombre: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -147,7 +147,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.nameClient,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -155,18 +154,19 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Correo: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -174,7 +174,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.email,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -182,17 +181,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Código de compra: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -200,7 +200,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.codeUrl,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -208,6 +207,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
@@ -221,14 +222,15 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 "DETALLE DE ENVÍO",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             )
           )
@@ -237,12 +239,11 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Nombre: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -250,7 +251,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.nameShipping,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -258,17 +258,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Teléfono: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -276,7 +277,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.numberShipping,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -284,17 +284,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Dirección: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -302,7 +303,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.addressShipping,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -310,17 +310,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Detalle: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -328,7 +329,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.detailsShipping,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -336,6 +336,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
@@ -349,14 +351,15 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 "ENVIO SELECCIONADO",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             )
           )
@@ -364,12 +367,11 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Estado: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -377,7 +379,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: showStatus(myProvider.selectPaid.statusShipping),
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -385,17 +386,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Descripción: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -403,7 +405,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: myProvider.selectPaid.selectShipping,
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -411,17 +412,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerLeft,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Precio: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -429,7 +431,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: showTotal(myProvider.selectPaid.coin, myProvider.selectPaid.priceShipping),
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -437,17 +438,18 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerRight,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Descuento: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -455,7 +457,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: "${myProvider.selectPaid.percentage} %",
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -463,18 +464,19 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.centerRight,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Total: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -482,7 +484,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: showTotal(myProvider.selectPaid.coin, myProvider.selectPaid.total),
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: Colors.black,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -490,6 +491,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
@@ -497,12 +500,11 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
         Container(
           padding: EdgeInsets.fromLTRB(30,0,30,5),
           alignment: Alignment.center,
-          child: RichText(
-            text: TextSpan(
+          child: AutoSizeText.rich(
+            TextSpan(
               text: 'Estado del Pago: ',
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 15 * scaleFactor,
                 color: Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -510,7 +512,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 TextSpan(
                   text: _listSales.length ==0? "SIN PAGAR" : _listSales[0]['statusSale'] == 0? "SIN PAGAR" : "PAGADO",
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: _listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
@@ -518,6 +519,8 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 ),
               ],
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
 
@@ -531,14 +534,15 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
-              child: Text(
+              child: AutoSizeText(
                 "PRODUCTOS Y/O SERVICIOS",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             )
           )
@@ -554,7 +558,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
                   ),
                 ),
@@ -565,7 +568,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
                   ),
                 ),
@@ -576,7 +578,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     fontStyle: FontStyle.italic,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
                   ),
                 ),
@@ -652,7 +653,6 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -684,13 +684,14 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],

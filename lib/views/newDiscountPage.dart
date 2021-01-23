@@ -4,6 +4,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -88,7 +89,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget formDiscount(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyDiscount,
       child: ListView (
@@ -97,13 +97,14 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "CÓDIGO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -139,7 +140,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
+                fontSize: 14,
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
@@ -149,13 +150,14 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "DESCUENTO (%)",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -186,7 +188,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               decoration: InputDecoration(
                 hintText: "50",
                 hintStyle: TextStyle(
-                  fontSize: 25 * scaleFactor,
+                  fontSize: 20,
                   fontFamily: 'MontserratSemiBold',
                   color: colorGrey,
                 ),
@@ -195,7 +197,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: 25 * scaleFactor,
+                fontSize: 20,
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
@@ -206,7 +208,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget buttonSave(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveDiscount(),
@@ -222,14 +223,15 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             index == null? "CREAR DESCUENTO" : "GUARDAR DESCUENTO",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -237,7 +239,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Widget buttonDelete(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteDiscounts(),
@@ -254,14 +255,15 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "ELIMINAR DESCUENTO",
             style: TextStyle(
-              color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: 15 * scaleFactor,
+              color: Colors.white,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -376,7 +378,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -408,13 +409,14 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -426,8 +428,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -456,7 +457,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -464,7 +464,6 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

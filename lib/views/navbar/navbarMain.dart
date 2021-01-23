@@ -105,8 +105,6 @@ class _NavbarMainState extends State<NavbarMain> {
       //removeCache();
       if (urlProfile != null)
       {
-        print("print entro");
-        print("print $urlProfile");
         return ClipOval(
           child: new CachedNetworkImage(
             imageUrl: "http://"+url+urlProfile,

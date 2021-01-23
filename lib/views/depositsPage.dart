@@ -4,6 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -44,7 +45,6 @@ class _DepositsPageState extends State<DepositsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Consumer<MyProvider>(
@@ -118,23 +118,25 @@ class _DepositsPageState extends State<DepositsPage> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: EdgeInsets.all(25),
-                                    child: Text(
+                                    padding: EdgeInsets.only(top:10, left: 25, bottom: 25),
+                                    child: AutoSizeText(
                                       "PROXIMO DEPÓSITO",
                                       style:  TextStyle(
-                                        fontSize: 15 * scaleFactor,
                                         color: colorGrey
                                       ),
+                                      maxFontSize: 14,
+                                      minFontSize: 14,
                                     ),
                                   ),
                                 ),
                                 Container(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     showDeposits(myProvider),
                                     style:  TextStyle(
-                                      fontSize: 34 * scaleFactor,
                                       fontFamily: 'MontserratSemiBold',
                                     ),
+                                    maxFontSize: 28,
+                                    minFontSize: 28,
                                   ),
                                 ),
 
@@ -154,13 +156,14 @@ class _DepositsPageState extends State<DepositsPage> {
                                                 borderRadius: BorderRadius.circular(30),
                                               ),
                                               child: Center(
-                                                child: Text(
+                                                child: AutoSizeText(
                                                   'No podemos enviarte tu dinero',
                                                   style: TextStyle(
                                                     color: Colors.white,
-                                                    fontSize: 15 * scaleFactor,
                                                     fontFamily: 'MontserratSemiBold',
                                                   ),
+                                                  maxFontSize: 14,
+                                                  minFontSize: 14,
                                                 ),
                                               ),
                                             )
@@ -169,14 +172,15 @@ class _DepositsPageState extends State<DepositsPage> {
 
                                         Visibility(
                                           visible: myProvider.listVerification.length != 4? true : false,
-                                          child: Text(
+                                          child: AutoSizeText(
                                             "Necesitamos que completes la información marcada en rojo debajo",
                                             textAlign: TextAlign.center,
                                             style:  TextStyle(
-                                              fontSize: 15 * scaleFactor,
                                               color: colorGrey,
                                               fontFamily: 'MontserratSemiBold',
                                             ),
+                                            maxFontSize: 14,
+                                            minFontSize: 14,
                                           )
                                         ),
                                         
@@ -188,13 +192,14 @@ class _DepositsPageState extends State<DepositsPage> {
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
                                     padding: EdgeInsets.all(25),
-                                    child: Text(
+                                    child: AutoSizeText(
                                       "INFORMACIÓN DEL DEPÓSITO",
                                       style:  TextStyle(
-                                        fontSize: 15 * scaleFactor,
                                         color: colorGrey,
                                         fontFamily: 'MontserratSemiBold',
                                       ),
+                                      maxFontSize: 14,
+                                      minFontSize: 14,
                                     ),
                                   ),
                                 ),
@@ -213,10 +218,10 @@ class _DepositsPageState extends State<DepositsPage> {
                 
                 AnimatedPositioned(
                   duration: Duration(milliseconds:300),
-                  bottom: _statusInfoPayment? 0 : -130,
+                  bottom: _statusInfoPayment? 0 : -140,
                   child: Container(
                     width: size.width,
-                    height: size.height /3.8, 
+                    height: size.height /3.7, 
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -240,6 +245,7 @@ class _DepositsPageState extends State<DepositsPage> {
                             setState(() => _statusInfoPayment = !_statusInfoPayment);
                           },
                           child: Container(
+                            color: Colors.white,
                             width: size.width,
                             alignment: Alignment.bottomCenter,
                             child: Container(
@@ -257,39 +263,42 @@ class _DepositsPageState extends State<DepositsPage> {
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.only(top: 20, bottom:20),
-                          child: Text(
+                          padding: EdgeInsets.only(top: 5, bottom:20),
+                          child: AutoSizeText(
                             "¿Cuándo llegara mi dinero?",
                             style: TextStyle(
-                              fontSize: 15 * scaleFactor,
                               color: Colors.black,
                               fontFamily: 'MontserratSemiBold',
                               fontWeight: FontWeight.bold,
                             ),
+                            maxFontSize: 14,
+                            minFontSize: 14,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(30, 20, 30, 5),
-                          child: Text(
+                          padding: EdgeInsets.fromLTRB(30, 10, 30, 5),
+                          child: AutoSizeText(
                             "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
                             textAlign: TextAlign.center,
                             style:  TextStyle(
-                              fontSize: 15 * scaleFactor,
                               color: colorGrey,
                               fontFamily: 'MontserratSemiBold',
                             ),
+                            maxFontSize: 14,
+                            minFontSize: 14,
                           ),
                         ),
                         Padding(
-                          padding: EdgeInsets.fromLTRB(30, 20, 30, 10),
-                          child: Text(
+                          padding: EdgeInsets.fromLTRB(30, 10, 30, 15),
+                          child: AutoSizeText(
                             "El depósito te llegara dos dias habiles despues",
                             textAlign: TextAlign.center,
                             style:  TextStyle(
-                              fontSize: 15 * scaleFactor,
                               color: colorGrey,
                               fontFamily: 'MontserratSemiBold',
                             ),
+                            maxFontSize: 14,
+                            minFontSize: 14,
                           ),
                         ),
                       ],
@@ -305,7 +314,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   Widget coinSecond(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -323,14 +331,15 @@ class _DepositsPageState extends State<DepositsPage> {
             color: _positionTopSecond == 0? colorGreen : colorGrey,
           ),
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "Bs",
               style:  TextStyle(
-                fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 18,
+              minFontSize: 18,
             )
           ),
         )
@@ -339,7 +348,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   Widget coinFirst(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -356,14 +364,15 @@ class _DepositsPageState extends State<DepositsPage> {
             borderRadius: BorderRadius.circular(80),
             color: _positionTopFirst == 0? colorGreen : colorGrey,
           ),
-          child: Text(
+          child: AutoSizeText(
             "\$" ,
             style:  TextStyle(
-              fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 18,
+            minFontSize: 18,
           ),
         ),
       ),
@@ -387,7 +396,6 @@ class _DepositsPageState extends State<DepositsPage> {
   }
 
   dropdownList(index, title, myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -430,13 +438,14 @@ class _DepositsPageState extends State<DepositsPage> {
 
           Padding(
             padding: EdgeInsets.only(left:100, top: 20),
-            child: Text(
+            child: AutoSizeText(
               listMenuDeposits[index]['title'],
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
                 color: _statusButton.contains(index)? Colors.white : Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
 

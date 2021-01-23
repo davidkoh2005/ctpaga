@@ -5,6 +5,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -103,7 +104,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget formShipping(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return new Form(
       key: _formKeyShipping,
       child: ListView (
@@ -112,13 +112,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
             padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "DESCRIPCIÓN",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
             ),
           ),
@@ -150,7 +151,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 ),
               ),
               style: TextStyle(
-                fontSize: 15 * scaleFactor,
+                fontSize: 15,
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
@@ -160,13 +161,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
             padding: const EdgeInsets.fromLTRB(30.0, 40.0, 30.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "PRECIO",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
             ),
           ),
@@ -196,7 +198,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               cursorColor: colorGreen,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 30 * scaleFactor,
+                fontSize: 20,
                 color: colorGrey,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -232,13 +234,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
                     activeTrackColor: colorGrey,
                     activeColor: colorGreen
                   ),
-                  Text(
+                  AutoSizeText(
                     "Envíos gratis",
                     style: TextStyle(
                       color: colorText,
-                      fontSize: 20 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    minFontSize: 16,
+                    maxFontSize: 16,
                   ),
                 ],
               )
@@ -250,7 +253,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget buttonSave(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => saveShipping(),
@@ -266,14 +268,15 @@ class _NewShippingPageState extends State<NewShippingPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             index == null? "CREAR TARIFA" : "GUARDAR TARIFA",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),
@@ -281,7 +284,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Widget buttonDelete(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteShipping(),
@@ -298,14 +300,15 @@ class _NewShippingPageState extends State<NewShippingPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "ELIMINAR TARIFA",
             style: TextStyle(
-              color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: 15 * scaleFactor,
+              color: Colors.white,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),
@@ -425,7 +428,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -457,13 +459,14 @@ class _NewShippingPageState extends State<NewShippingPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  minFontSize: 14,
+                  maxFontSize: 14,
                 ),
               ),
             ],
@@ -475,8 +478,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -505,7 +507,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -513,7 +514,6 @@ class _NewShippingPageState extends State<NewShippingPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

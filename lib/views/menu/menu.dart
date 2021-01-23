@@ -3,6 +3,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +23,6 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Row(
       children: <Widget>[
@@ -30,7 +30,6 @@ class _MenuPageState extends State<MenuPage> {
           child: Container(
             color: colorGreen.withOpacity(0.8),
             child: ListView.builder(
-              padding: EdgeInsets.only(top:40),
               itemCount: listMenu.length,
               itemBuilder: (BuildContext context, int index) {
                 return ListTile(
@@ -40,18 +39,19 @@ class _MenuPageState extends State<MenuPage> {
                     child: Image.asset(
                       listMenu[index]['icon'],
                       color: statusButton.contains(index)? Colors.black : Colors.white,
-                      width: size.width/11,
-                      height: size.height/11,
+                      width: size.height/20,
+                      height: size.height/20,
                     )
                   ),
-                  title: Text(
+                  title: AutoSizeText(
                     listMenu[index]['title'],
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       color: statusButton.contains(index)? Colors.black : Colors.white,
                       fontWeight: listMenu[index]['title'] == "Cerrar sesión"? FontWeight.bold : statusButton.contains(index)? FontWeight.bold : FontWeight.normal,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    maxFontSize: 14,
+                    minFontSize: 14,
                   ),
                 );
               },
@@ -168,7 +168,7 @@ class _MenuPageState extends State<MenuPage> {
             int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
             var _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
             var _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
-            myProvider.verifyDataTransactions(0, 0, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
+            myProvider.verifyDataTransactions(0, 1, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
         }
       }
       myProvider.statusUrlCommerce = false;
@@ -262,7 +262,6 @@ class _MenuPageState extends State<MenuPage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -291,7 +290,6 @@ class _MenuPageState extends State<MenuPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -299,7 +297,6 @@ class _MenuPageState extends State<MenuPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

@@ -8,6 +8,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http/http.dart' as http;
@@ -177,7 +178,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
   Widget formProduct(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Expanded(
@@ -199,13 +199,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Nombre",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -239,7 +240,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: 18 * scaleFactor,
+                          fontSize: 18,
                           fontFamily: 'MontserratSemiBold',
                         ),
                       ),
@@ -250,13 +251,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Precio",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -286,7 +288,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         cursorColor: colorGreen,
                         textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 30 * scaleFactor,
+                          fontSize: 20,
                           color: colorGrey,
                           fontFamily: 'MontserratSemiBold',
                         ),
@@ -305,13 +307,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Descrición (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -332,7 +335,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                         ),
                         style: TextStyle(
-                          fontSize: 18 * scaleFactor,
+                          fontSize: 18,
                           fontFamily: 'MontserratSemiBold',
                         ),
                       ),
@@ -342,13 +345,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Categorías (optional)",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -373,7 +377,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               ),
                             ),
                             style: TextStyle(
-                              fontSize: 18 * scaleFactor,
+                              fontSize: 18,
                               fontFamily: 'MontserratSemiBold',
                             ),
                           ),
@@ -385,13 +389,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -403,23 +408,25 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
-                              Text(
+                              AutoSizeText(
                                 "Publicar",
                                 style: TextStyle(
                                   color: colorText,
-                                  fontSize: 15 * scaleFactor,
                                   fontFamily: 'MontserratSemiBold',
                                 ),
+                                maxFontSize: 15,
+                                minFontSize: 15,
                               ),
                               Container(
                                 width: size.width - 140,
-                                child: Text(
+                                child: AutoSizeText(
                                   "Mostrar en el catálogo de ${myProvider.selectProductsServices == 0? 'productos' : 'servicios'}",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: 15 * scaleFactor,
                                     fontFamily: 'MontserratSemiBold',
                                   ),
+                                  maxFontSize: 13,
+                                  minFontSize: 13,
                                 )
                               ),
                             ],
@@ -453,13 +460,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             "Cantidad disponible",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: 18 * scaleFactor,
                               fontFamily: 'MontserratSemiBold',
                             ),
+                            maxFontSize: 17,
+                            minFontSize: 17,
                           ),
                         ),
                       )
@@ -480,14 +488,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           cursorColor: colorGreen,
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            fontSize: 30 * scaleFactor,
+                            fontSize: 25,
                             color: colorGrey,
                             fontFamily: 'MontserratSemiBold',
                           ),
                           decoration: InputDecoration(
                             hintText: "0",
                             hintStyle: TextStyle(
-                              fontSize: 30 * scaleFactor,
+                              fontSize: 25,
                               color: colorGrey,
                               fontFamily: 'MontserratSemiBold',
                             ),
@@ -506,13 +514,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.start,
                           children: <Widget>[
-                            Text(
+                            AutoSizeText(
                               "Llevar inventario del ${myProvider.selectProductsServices == 0? 'producto' : 'servico'}",
                               style: TextStyle(
                                 color: colorText,
-                                fontSize: 15 * scaleFactor,
                                 fontFamily: 'MontserratSemiBold',
                               ),
+                              maxFontSize: 14,
+                              minFontSize: 14,
                             ),
                           ],
                         ),
@@ -531,13 +540,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                       padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
-                        child: Text(
+                        child: AutoSizeText(
                           "Correo post-compra",
                           style: TextStyle(
                             color: colorText,
-                            fontSize: 18 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 17,
+                          minFontSize: 17,
                         ),
                       ),
                     ),
@@ -550,24 +560,26 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: <Widget>[
                               Container(
-                                child: Text(
+                                child: AutoSizeText(
                                   "Enviar automaticamente",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: 16 * scaleFactor,
                                     fontFamily: 'MontserratSemiBold',
                                   ),
+                                  maxFontSize: 15,
+                                  minFontSize: 15,
                                 )
                               ),
                               Container(
                                 width: size.width - 140,
-                                child: Text(
+                                child: AutoSizeText(
                                   "Enviar correo personalizado automaticamente luego de la compra",
                                   style: TextStyle(
                                     color: colorText,
-                                    fontSize: 13 * scaleFactor,
                                     fontFamily: 'MontserratSemiBold',
                                   ),
+                                  maxFontSize: 12,
+                                  minFontSize: 12,
                                 ),
                               ),
                             ],
@@ -599,13 +611,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(
+                          child: AutoSizeText(
                             "Contenido del correo",
                             style: TextStyle(
                               color: colorText,
-                              fontSize: 18 * scaleFactor,
                               fontFamily: 'MontserratSemiBold',
                             ),
+                            maxFontSize: 17,
+                            minFontSize: 17,
                           ),
                         ),
                       ),
@@ -630,7 +643,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             ),
                           ),
                           style: TextStyle(
-                            fontSize: 15 * scaleFactor,
+                            fontSize: 14,
                             fontFamily: 'MontserratSemiBold',
                           ),
                         ),
@@ -718,8 +731,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -736,23 +748,25 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               children: <Widget>[
                 new ListTile(
                   leading: new Icon(Icons.crop_original, color:Colors.black, size: 30.0),
-                  title: new Text(
+                  title: new AutoSizeText(
                     "Galeria",
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    minFontSize: 14,
+                    maxFontSize: 14,
                   ),
                   onTap: () => _getImage(context, ImageSource.gallery),       
                 ),
                 new ListTile(
                   leading: new Icon(Icons.camera, color:Colors.black, size: 30.0),
-                  title: new Text(
+                  title: new AutoSizeText(
                     "Camara",
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    minFontSize: 14,
+                    maxFontSize: 14,
                   ),
                   onTap: () => _getImage(context, ImageSource.camera),          
                 ),
@@ -800,7 +814,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
   Widget buttonNewProductService(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -821,14 +834,15 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             myProvider.selectProductsServices == 0? myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? colorGreen : Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -836,7 +850,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Widget buttonDeleteProductService(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => deleteProductService(),
@@ -853,14 +866,15 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "ELIMINAR PRODUCTO",
             style: TextStyle(
-              color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: 15 * scaleFactor,
+              color:  Colors.white,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -1106,7 +1120,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1138,13 +1151,14 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -1155,8 +1169,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -1185,7 +1198,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -1193,7 +1205,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

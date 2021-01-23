@@ -5,6 +5,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -69,7 +70,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
 
   Widget formEmail(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return new Form(
       key: _formKeyPaid,
@@ -85,13 +85,11 @@ class _AddEmailPageState extends State<AddEmailPage> {
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
-            child: RichText(
-              textAlign: TextAlign.center,
-              text: TextSpan(
+            child: AutoSizeText.rich(
+              TextSpan(
                 text: "¡Se Registrará un pago de ",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 18 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
                 children: <TextSpan>[
@@ -99,7 +97,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
                     text: "${showTotal()}",
                     style: TextStyle(
                       color: colorGreen,
-                      fontSize: 18 * scaleFactor,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'MontserratSemiBold',
                     ),
@@ -108,25 +105,28 @@ class _AddEmailPageState extends State<AddEmailPage> {
                     text: " del cliente ${myProvider.nameClient} !",
                     style: TextStyle(
                       color: colorText,
-                      fontSize: 18 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
                   ),
                 ],
               ),
+              textAlign: TextAlign.center,
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
           Padding(
             padding: const EdgeInsets.fromLTRB(15.0, 60.0, 15.0, 0.0),
             child: Align(
               alignment: Alignment.centerLeft,
-              child: Text(
+              child: AutoSizeText(
                 "INGRESE EL EMAIL DEL CLIENTE",
                 style: TextStyle(
                   color: colorText,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -147,7 +147,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
               ),
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
+                fontSize: 14,
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
@@ -184,7 +184,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
   } 
 
   Widget buttonSend(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => sendEmail(),
@@ -200,14 +199,15 @@ class _AddEmailPageState extends State<AddEmailPage> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "REGISTRAR PAGO",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -265,7 +265,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
   }
   
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -297,13 +296,14 @@ class _AddEmailPageState extends State<AddEmailPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -315,7 +315,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
 
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
 
     return showDialog(
       context: context,
@@ -345,7 +344,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -353,7 +351,6 @@ class _AddEmailPageState extends State<AddEmailPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

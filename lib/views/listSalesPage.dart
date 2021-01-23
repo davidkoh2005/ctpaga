@@ -6,6 +6,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -47,7 +48,6 @@ class _ListSalesPageState extends State<ListSalesPage> {
   }
 
   Widget showList(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Container(
       height: myProvider.dataPurchase.length < 8? (myProvider.dataPurchase.length*(size.height-120)/7) : size.height-230,
@@ -90,12 +90,13 @@ class _ListSalesPageState extends State<ListSalesPage> {
                               shape: BoxShape.circle,
                             ),
                             child: Center(
-                              child: Text(
+                              child: AutoSizeText(
                                 myProvider.dataPurchase[index]['quantity'].toString(),
                                 style: TextStyle(
-                                  fontSize: 15 * scaleFactor,
                                   fontFamily: 'MontserratSemiBold',
                                 ),
+                                maxFontSize: 14,
+                                minFontSize: 14,
                               )
                             ),
                           )
@@ -103,24 +104,26 @@ class _ListSalesPageState extends State<ListSalesPage> {
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.only(left: 20),
-                            child: Text(
+                            child: AutoSizeText(
                               myProvider.dataPurchase[index]['data'].name.length != 0? myProvider.dataPurchase[index]['data'].name :  "Sin descripción",
                               style: TextStyle(
-                                fontSize: 15 * scaleFactor,
                                 fontFamily: 'MontserratSemiBold',
                               ),
+                              maxFontSize: 14,
+                              minFontSize: 14,
                             ),
                           ),
                         ),
                         Expanded(
                           child: Container(
                             padding: EdgeInsets.only(right: 20),
-                            child: Text(
+                            child: AutoSizeText(
                               showPrice(myProvider.dataPurchase[index]['data'].price, myProvider.dataPurchase[index]['data'].coin),
                               style: TextStyle(
-                                fontSize: 15 * scaleFactor,
                                 fontFamily: 'MontserratSemiBold',
                               ),
+                              maxFontSize: 14,
+                              minFontSize: 14,
                             ),
                           ),
                         ),
@@ -182,7 +185,6 @@ class _ListSalesPageState extends State<ListSalesPage> {
   }
 
   Widget buttonCharge(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () {
@@ -204,14 +206,15 @@ class _ListSalesPageState extends State<ListSalesPage> {
           ),
         child: Center(
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
               ),
-            )
+              maxFontSize: 14,
+              minFontSize: 14,
+            ),
           ),
         ),
       ),

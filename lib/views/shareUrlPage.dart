@@ -5,6 +5,7 @@ import 'package:ctpaga/env.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -71,8 +72,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
 
   showData(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
- 
+    
     return Column(
       mainAxisAlignment: MainAxisAlignment.end,
       crossAxisAlignment: CrossAxisAlignment.center,
@@ -80,76 +80,82 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
         Padding(
           padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "COBRO DE",
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
         ),
 
         Container(
           padding: EdgeInsets.only(top:20),
-          child: Text(
+          child: AutoSizeText(
             showTotal(),
             textAlign: TextAlign.center,
             style:  TextStyle(
-              fontSize: 30 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 25,
+            minFontSize: 25,
           ),
         ),
 
         Container(
           padding: EdgeInsets.only(top:40, bottom: 5),
-          child: Text(
+          child: AutoSizeText(
             "${myProvider.nameClient} puede pagar en:",
             style: TextStyle(
-              fontSize: 18 * scaleFactor,
               color: colorText,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 17,
+            minFontSize: 17,
           ),
         ),
 
         Padding(
           padding: EdgeInsets.only(top: 5),
           child: GestureDetector(
-            onTap: () => launch("ctpaga.compralotodo.com"),
-            child: Text(
-              "ctpaga.compralotodo.com",
+            onTap: () => launch("http://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}"),
+            child: AutoSizeText(
+              "http://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}",
               style: TextStyle(
                 color: colorGreen,
-                fontSize: 18 * scaleFactor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'MontserratSemiBold',
               ),
-          ),
+              maxFontSize: 17,
+              minFontSize: 17,
+            ),
           )
         ),
 
         Container(
           padding: EdgeInsets.only(top:40, bottom: 5),
-          child: Text(
+          child: AutoSizeText(
             "Escoge como enviar",
             style: TextStyle(
-              fontSize: 18 * scaleFactor,
               color: colorText,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 17,
+            minFontSize: 17,
           ),
         ),
         Container(
-          child: Text(
+          child: AutoSizeText(
             "tu cobro:",
             style: TextStyle(
-              fontSize: 18 * scaleFactor,
               color: colorText,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 17,
+            minFontSize: 17,
           ),
         ),
       ],
@@ -157,7 +163,6 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
   }
 
   Widget buttonNetworks(_title, index){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(index),
@@ -183,14 +188,15 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               color: _statusButtonNetworks == index? Colors.white : colorGreen,
             ),
             SizedBox(width: 15,),
-            Text(
+            AutoSizeText(
               _title,
               style: TextStyle(
                 color: _statusButtonNetworks == index? Colors.white : colorGreen,
-                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ],
         ),
@@ -199,7 +205,6 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
   }
 
   Widget buttonReady(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(0),
@@ -215,14 +220,15 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "LISTO",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -265,13 +271,13 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
       await Future.delayed(Duration(milliseconds: 150));
       setState(() =>_statusButtonNetworks = 0);
 
-      sharedText(index);
+      sharedAutoSizeText(index);
 
     }
 
   }
 
-  void sharedText(index) async{
+  void sharedAutoSizeText(index) async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var nameCompany = myProvider.dataCommercesUser[myProvider.selectCommerce].name;
     var userCompany = myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;

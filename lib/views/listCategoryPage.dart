@@ -4,6 +4,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -41,7 +42,6 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
   }
 
   Widget showList(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -82,18 +82,19 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                           width: size.width / 5,
                           child: Visibility(
                             visible: myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id.toString())? true : false,
-                            child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 6,)
+                            child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 8,)
                           )
                         ),
                         Expanded(
                           child: Container(
-                            padding: EdgeInsets.only(left: 20),
-                            child: Text(
+                            padding: EdgeInsets.only(left: 10),
+                            child: AutoSizeText(
                               myProvider.dataCategories[index].name,
                               style: TextStyle(
-                                fontSize: 15 * scaleFactor,
                                 fontFamily: 'MontserratSemiBold',
                               ),
+                              maxFontSize: 14,
+                              minFontSize: 14,
                             ),
                           ),
                         ),
@@ -110,7 +111,6 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
   }
 
   Widget buttonNew(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () => nextPage(),
@@ -127,14 +127,15 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "CREAR CATEGORÍA",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),

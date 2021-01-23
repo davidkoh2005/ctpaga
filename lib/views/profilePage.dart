@@ -12,6 +12,7 @@ import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
@@ -96,7 +97,6 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return WillPopScope(
       onWillPop: () async {
@@ -132,13 +132,15 @@ class _ProfilePageState extends State<ProfilePage> {
                               return Container(
                                 padding: EdgeInsets.only(top:5, bottom: 5),
                                 child: Center(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     myProvider.dataCommercesUser.length == 0? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name == ''? 'NOMBRE DE LA EMPRESA' : myProvider.dataCommercesUser[myProvider.selectCommerce].name,
                                     style: TextStyle(
-                                      fontSize: 15 * scaleFactor,
                                       color: colorText,
                                       fontFamily: 'MontserratSemiBold',
+                                      fontSize:14
                                     ),
+                                    maxFontSize: 14,
+                                    minFontSize: 14,
                                   ),
                                 ),
                               );
@@ -176,19 +178,22 @@ class _ProfilePageState extends State<ProfilePage> {
                                   },
                                   style: TextStyle(
                                     fontFamily: 'MontserratSemiBold',
+                                    fontSize:14
                                   ),
                                   items: myProvider.dataCommercesUser.map((commerce) {
                                       return DropdownMenuItem<Commerce>(
                                         value: commerce,
                                         child: Container(
-                                          child: Text(
+                                          child: AutoSizeText(
                                             commerce.name,
                                             style: TextStyle(
-                                              fontSize: 20 * scaleFactor,
                                               color: colorText,
                                               fontFamily: 'MontserratSemiBold',
+                                              fontSize:14
                                             ),
-                                          )
+                                            maxFontSize: 18,
+                                            minFontSize: 18,
+                                          ),
                                         ),
                                       );
                                   }).toList(),
@@ -275,7 +280,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget coinSecond(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -293,14 +297,16 @@ class _ProfilePageState extends State<ProfilePage> {
             color: _positionTopSecond == 0? colorGreen : colorGrey,
           ),
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "Bs",
               style:  TextStyle(
-                fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
+              maxFontSize: 18,
+              minFontSize: 18,
             )
           ),
         )
@@ -309,7 +315,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget coinFirst(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -326,14 +331,16 @@ class _ProfilePageState extends State<ProfilePage> {
             borderRadius: BorderRadius.circular(80),
             color: _positionTopFirst == 0? colorGreen : colorGrey,
           ),
-          child: Text(
+          child: AutoSizeText(
             "\$" ,
             style:  TextStyle(
-              fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontFamily: 'MontserratSemiBold',
+              fontSize:14
             ),
+            maxFontSize: 18,
+            minFontSize: 18,
           ),
         ),
       ),
@@ -402,8 +409,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> _showSelectionDialog(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showModalBottomSheet(
       context: context,
       shape: RoundedRectangleBorder(
@@ -420,23 +426,27 @@ class _ProfilePageState extends State<ProfilePage> {
               children: <Widget>[
                 new ListTile(
                   leading: new Icon(Icons.crop_original, color:Colors.black, size: 30.0),
-                  title: new Text(
+                  title: new AutoSizeText(
                     "Galeria",
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
+                      fontSize:14
                     ),
+                    maxFontSize: 14,
+                    minFontSize: 14,
                   ),
                   onTap: () => _getImage(context, ImageSource.gallery),       
                 ),
                 new ListTile(
                   leading: new Icon(Icons.camera, color:Colors.black, size: 30.0),
-                  title: new Text(
+                  title: new AutoSizeText(
                     "Camara",
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
+                      fontSize:14
                     ),
+                    maxFontSize: 14,
+                    minFontSize: 14,
                   ),
                   onTap: () => _getImage(context, ImageSource.camera),          
                 ),
@@ -512,7 +522,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget dropdownList(_title){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: 	EdgeInsets.only(top: 5, bottom: 5),
@@ -532,12 +541,14 @@ class _ProfilePageState extends State<ProfilePage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
-              Text(
+              AutoSizeText(
                 _title,
                 style: TextStyle(
-                  fontSize: 20 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
               Icon(
                 _statusDropdown == _title? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
@@ -570,6 +581,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -581,6 +593,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               )
             ),
           ),
@@ -596,6 +609,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -609,6 +623,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14,
               ),
             ),
           ),
@@ -624,6 +639,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -637,6 +653,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               )
             ),
           ),
@@ -653,6 +670,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -666,6 +684,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
             ),
           ),
@@ -694,6 +713,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           labelStyle: TextStyle(
                             color: colorText,
                             fontFamily: 'MontserratSemiBold',
+                            fontSize:14
                           ),
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: colorGreen),
@@ -702,6 +722,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           prefixStyle: TextStyle(
                             color: colorText,
                             fontFamily: 'MontserratSemiBold',
+                            fontSize:14
                           ),
                         ),
                         validator: _validateUrl,
@@ -713,6 +734,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         cursorColor: colorGreen,
                         style: TextStyle(
                           fontFamily: 'MontserratSemiBold',
+                          fontSize:14
                         ),
                       ),
                     ),
@@ -720,11 +742,12 @@ class _ProfilePageState extends State<ProfilePage> {
                       visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
                       child: Padding(
                         padding: const EdgeInsets.only(top: 10.00),
-                        child: new Text(
+                        child: new AutoSizeText(
                           "Usuario ingresado ya existe",
                           style: TextStyle(
                             color:Colors.red,
                             fontFamily: 'MontserratSemiBold',
+                            fontSize:14
                           ),
                         ),
                       ),
@@ -782,7 +805,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget formUser(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     
     return new Form(
       key: _formKeyUser,
@@ -803,6 +825,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -818,6 +841,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
             ),
           ),
@@ -827,14 +851,16 @@ class _ProfilePageState extends State<ProfilePage> {
             child: FlatButton(
           
               onPressed: () => nextPage(),
-              child: Text(
+              child: AutoSizeText(
                 "Cambiar contraseña",
                 style: TextStyle(
                   color: Colors.black87,
-                  fontSize: 15 * scaleFactor,
                   decoration: TextDecoration.underline,
                   fontFamily: 'MontserratSemiBold',
-                )
+                  fontSize:14
+                ),
+                maxFontSize: 14,
+                minFontSize: 14,
               ),
             ),
           ),
@@ -866,6 +892,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -879,6 +906,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
             ),
           ),
@@ -894,6 +922,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -907,6 +936,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
             ),
           ),
@@ -923,6 +953,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 labelStyle: TextStyle(
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -939,6 +970,7 @@ class _ProfilePageState extends State<ProfilePage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
             ),
           ),
@@ -951,7 +983,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget formBanking(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     var _listCountry = ['Panamá','USA'];
     if(_statusCoin == 0){
@@ -964,11 +995,12 @@ class _ProfilePageState extends State<ProfilePage> {
           children: <Widget>[
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-              child: Text(
+              child: AutoSizeText(
                 "Pais",
                 style: TextStyle(
                   color:colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -977,6 +1009,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: DropdownButton<String>(
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 value: _valueListCountry,
                 isExpanded: true,
@@ -985,7 +1018,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 items: _listCountry.map((String value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new Text(value),
+                    child: new AutoSizeText(value),
                   );
                 }).toList(),
                 onChanged: (String value) {                  
@@ -1014,6 +1047,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1027,6 +1061,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 )
               ),
             ),
@@ -1042,6 +1077,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1053,17 +1089,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-              child: Text(
+              child: AutoSizeText(
                 "Nombre del banco",
                 style: TextStyle(
                   color:colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -1079,11 +1117,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: 15 * scaleFactor),
-                          Expanded(child: Text(
+                          SizedBox(width: 20),
+                          Expanded(child: AutoSizeText(
                             result['title'],
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
+                              fontSize:14
                             ),
                           ),),
                         ],
@@ -1100,11 +1139,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: 15 * scaleFactor),
-                          Expanded(child: Text(
+                          SizedBox(width: 20),
+                          Expanded(child: AutoSizeText(
                             result['title'],
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
+                              fontSize:14
                             ),
                           ),),
                         ],
@@ -1136,6 +1176,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     labelStyle: TextStyle(
                       color: colorText,
                       fontFamily: 'MontserratSemiBold',
+                      fontSize:14
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGreen),
@@ -1149,6 +1190,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   cursorColor: colorGreen,
                   style: TextStyle(
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                 ),
               )
@@ -1169,6 +1211,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     labelStyle: TextStyle(
                       color: colorText,
                       fontFamily: 'MontserratSemiBold',
+                      fontSize:14
                     ),
                     focusedBorder: UnderlineInputBorder(
                       borderSide: BorderSide(color: colorGreen),
@@ -1182,6 +1225,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   cursorColor: colorGreen,
                   style: TextStyle(
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                 )
             ),
@@ -1198,6 +1242,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1211,6 +1256,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -1227,6 +1273,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1243,6 +1290,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 )
               ),
             ),
@@ -1271,6 +1319,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1284,6 +1333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -1300,6 +1350,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1313,6 +1364,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -1332,6 +1384,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1343,17 +1396,19 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
-              child: Text(
+              child: AutoSizeText(
                 "Nombre del banco",
                 style: TextStyle(
                   color:colorText,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
               ),
             ),
@@ -1369,11 +1424,12 @@ class _ProfilePageState extends State<ProfilePage> {
                           ClipOval(
                             child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
                           ),
-                          SizedBox(width: 15 * scaleFactor),
-                          Expanded(child: Text(
+                          SizedBox(width: 20),
+                          Expanded(child: AutoSizeText(
                             result['title'],
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
+                              fontSize:14
                             ),
                           ),),
                         ],
@@ -1386,6 +1442,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 searchHint: "Nombre del Banco",
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 ),
                 keyboardType: TextInputType.text,
                 onChanged: (String newItem) {
@@ -1408,6 +1465,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
                     borderSide: BorderSide(color: colorGreen),
@@ -1423,6 +1481,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 cursorColor: colorGreen,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
+                  fontSize:14
                 )
               ),
             ),
@@ -1534,7 +1593,6 @@ class _ProfilePageState extends State<ProfilePage> {
   String capitalize(String s) => s[0].toUpperCase() + s.substring(1);
 
   Widget buttonSave(button){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Padding(
       padding: EdgeInsets.only(left:30, right:30, bottom:30),
@@ -1572,14 +1630,16 @@ class _ProfilePageState extends State<ProfilePage> {
             borderRadius: BorderRadius.circular(30),
             ),
           child: Center(
-            child: Text(
+            child: AutoSizeText(
               "GUARDAR",
               style: TextStyle(
                 color: Colors.white,
-                fontSize: 15 * scaleFactor,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14
               ),
+              maxFontSize: 14,
+              minFontSize: 14,
             ),
           ),
         ),
@@ -1790,8 +1850,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -1820,16 +1879,16 @@ class _ProfilePageState extends State<ProfilePage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
+                            fontSize:14
                           )
                         ),
                         TextSpan(
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
+                            fontSize:14
                           )
                         ),
                       ]
@@ -1845,7 +1904,6 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -1877,13 +1935,15 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                    fontSize:14
+                  ),
+                  maxFontSize: 18,
+                  minFontSize: 18,
                 ),
               ),
             ],

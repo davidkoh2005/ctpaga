@@ -6,6 +6,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -93,7 +94,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget showReport(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Expanded(
@@ -101,28 +102,30 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             child: Column(
               children: <Widget>[
                   Padding(
-                    padding: _statusMenuBar? const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0) : const EdgeInsets.fromLTRB(30.0, 60.0, 30.0, 30.0),
+                    padding: _statusMenuBar? const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0) : const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
                     child: Align(
                       alignment: Alignment.centerLeft,
-                      child: Text(
+                      child: AutoSizeText(
                         showDate(myProvider),
                         style: TextStyle(
                           color: colorText,
-                          fontSize: 18 * scaleFactor,
                           fontFamily: 'MontserratSemiBold',
                         ),
+                        maxFontSize: 14,
+                        minFontSize: 14,
                       ),
                     ),
                   ),
                   Container(
                     padding: EdgeInsets.only(bottom: 30),
-                    child: Text(
+                    child: AutoSizeText(
                       updatePrice(myProvider),
                       textAlign: TextAlign.center,
                       style:  TextStyle(
-                        fontSize: 35 * scaleFactor,
                         fontFamily: 'MontserratSemiBold',
                       ),
+                      maxFontSize: 20,
+                      minFontSize: 20,
                     )
                   ),
 
@@ -171,7 +174,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
 
   Widget showButtonDate(index, myProvider){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    
     return GestureDetector(
       onTap: () {
         myProvider.selectDateRate = index;
@@ -183,14 +186,15 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -198,7 +202,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget showTable(myProvider){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
+    
     return Padding(
       padding: EdgeInsets.all(20),
       child: DataTable(
@@ -206,13 +210,13 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
           DataColumn(
             label: Text(
               'TASA',
-              style: TextStyle(fontFamily: 'MontserratSemiBold', fontSize: 15 * scaleFactor),
+              style: TextStyle(fontFamily: 'MontserratSemiBold'),
             ),
           ),
           DataColumn(
             label: Text(
               'FECHA',
-              style: TextStyle(fontFamily: 'MontserratSemiBold', fontSize: 15 * scaleFactor),
+              style: TextStyle(fontFamily: 'MontserratSemiBold'),
             ),
           ),
         ],
@@ -302,7 +306,6 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   }
 
   Widget buttonNew(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () => nextPage(),
@@ -318,14 +321,15 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "NUEVA TASA",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),

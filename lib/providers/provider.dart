@@ -420,7 +420,7 @@ class MyProvider with ChangeNotifier {
         print(jsonResponse);
         if (jsonResponse['statusCode'] == 201) {
           await dbctpaga.deleteAll();
-          await Future.delayed(Duration(milliseconds: 1000));
+          await Future.delayed(Duration(milliseconds: 1500));
           user = User(
             id: jsonResponse['data']['0']['id'],
             email: jsonResponse['data']['0']['email'],

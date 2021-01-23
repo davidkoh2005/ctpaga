@@ -3,6 +3,7 @@ import 'package:ctpaga/views/listSalesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -21,7 +22,6 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
   @override
   Widget build(BuildContext context) {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Stack(
@@ -49,14 +49,15 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                       },
                     ),
 
-                    Text(
+                    AutoSizeText(
                       _title,
                       style: TextStyle(
-                        color: Colors.black,
-                        fontSize: 20 * scaleFactor,
-                        fontWeight: FontWeight.w900,
-                        fontFamily: 'MontserratSemiBold',
+                        color: colorTitleMain,
+                        fontWeight: FontWeight.bold,
+                        fontFamily: 'MontserratBold',
                       ),
+                      minFontSize: 17,
+                      maxFontSize: 17,
                     ),
                   ],
                 ),
@@ -92,14 +93,15 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                                   shape: BoxShape.circle,
                                   ),
                                 child: Center(
-                                  child: Text(
+                                  child: AutoSizeText(
                                     showCount(myProvider),
                                     style: TextStyle(
                                       color: Colors.white,
-                                      fontSize: 15 * scaleFactor,
                                       fontWeight: FontWeight.bold,
                                       fontFamily: 'MontserratSemiBold',
-                                    )
+                                    ),
+                                    minFontSize: 14,
+                                    maxFontSize: 14,
                                   ),
                                 )
                               )

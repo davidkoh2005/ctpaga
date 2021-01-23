@@ -2,6 +2,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -51,7 +52,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Scaffold(
@@ -85,13 +85,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Center(
-                    child: Text(
+                    child: AutoSizeText(
                       "Tomar Foto",
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 15 * scaleFactor,
                         fontFamily: 'MontserratSemiBold',
                       ),
+                      maxFontSize: 14,
+                      minFontSize: 14,
                     ),
                   ),
                 ),
@@ -104,7 +105,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Widget showInstructionsOrCamera(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     if(!clickCamera){
@@ -126,26 +126,28 @@ class _DocumentsPageState extends State<DocumentsPage> {
 
             _title == "Identification"? Padding(
                 padding: EdgeInsets.all(30),
-                child: Text(
+                child: AutoSizeText(
                   "Necesitamos una foto de tu identificacíon para comparar con tu selfie y cumplir con regulaciones finacieras.",
                   textAlign: TextAlign.center,
                   style:  TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               )
             : Padding(
                 padding: EdgeInsets.all(30),
-                child: Text(
+                child: AutoSizeText(
                   "Necesitamos una foto de tu RIF para verificar que no sea una empresa falsa.",
                   textAlign: TextAlign.center,
                   style:  TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
 
@@ -176,14 +178,15 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       alignment: Alignment.topCenter,
                       child: Padding(
                         padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
-                        child: Text(
+                        child: AutoSizeText(
                           "Coloca tu identificacíon dentro del cuadro blanco y toma foto",
                           textAlign: TextAlign.center,
                           style:  TextStyle(
-                            fontSize: 15 * scaleFactor,
                             color: Colors.white,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 14,
+                          minFontSize: 14,
                         )
                       ),
                     ) 
@@ -191,14 +194,15 @@ class _DocumentsPageState extends State<DocumentsPage> {
                       alignment: Alignment.topCenter,
                       child: Padding(
                         padding: EdgeInsets.only(top:50, left:30, right: 30, bottom: 30),
-                        child: Text(
+                        child: AutoSizeText(
                           "Coloca tu registro jurídico dentro del cuadro blanco y toma foto",
                           textAlign: TextAlign.center,
                           style:  TextStyle(
-                            fontSize: 15 * scaleFactor,
                             color: Colors.white,
                             fontFamily: 'MontserratSemiBold',
                           ),
+                          maxFontSize: 14,
+                          minFontSize: 14,
                         )
                       ),
                     ),
@@ -276,7 +280,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Future<void> showMessage(_titleMessage,) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -300,13 +303,14 @@ class _DocumentsPageState extends State<DocumentsPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -317,8 +321,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -347,7 +350,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -355,7 +357,6 @@ class _DocumentsPageState extends State<DocumentsPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

@@ -6,6 +6,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -119,7 +120,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget coinSecond(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -137,14 +137,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
             color: _positionTopSecond == 0? colorGreen : colorGrey,
           ),
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "Bs",
               style:  TextStyle(
-                fontSize: 18 * scaleFactor,
                 color: Colors.white,
                 fontWeight: FontWeight.bold,
                 fontFamily: 'MontserratSemiBold',
               ),
+              maxFontSize: 18,
+              minFontSize: 18,
             )
           ),
         )
@@ -153,7 +154,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget coinFirst(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return AnimatedPositioned(
       duration: Duration(milliseconds:300),
@@ -170,14 +170,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
             borderRadius: BorderRadius.circular(80),
             color: _positionTopFirst == 0? colorGreen : colorGrey,
           ),
-          child: Text(
+          child: AutoSizeText(
             "\$" ,
             style:  TextStyle(
-              fontSize: 18 * scaleFactor,
               color: Colors.white,
               fontWeight: FontWeight.bold,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 18,
+            minFontSize: 18,
           ),
         ),
       ),
@@ -185,7 +186,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Widget showReport(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
         return Expanded(
@@ -195,24 +195,26 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 padding: const EdgeInsets.fromLTRB(30.0, 30.0, 30.0, 30.0),
                 child: Align(
                   alignment: Alignment.centerLeft,
-                  child: Text(
+                  child: AutoSizeText(
                     showDate(),
                     style: TextStyle(
                       color: colorText,
-                      fontSize: 16 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    maxFontSize: 15,
+                    minFontSize: 15,
                   ),
                 ),
               ),
               Container(
                 padding: EdgeInsets.only(bottom: 10),
-                child: Text(
+                child: AutoSizeText(
                   showSales(myProvider),
                   style:  TextStyle(
-                    fontSize: 35 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 30,
+                  minFontSize: 30,
                 )
               ),
 
@@ -230,14 +232,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
               Padding(
                 padding: EdgeInsets.only(top:20),
-                child: Text(
+                child: AutoSizeText(
                   "O rango de fecha:",
                   textAlign: TextAlign.center,
                   style:  TextStyle(
-                    fontSize:  15 * scaleFactor,
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
 
@@ -266,7 +269,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   showInputDate(_title, _controller,index){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Container(
       width: size.width/3,
@@ -277,7 +279,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
         ),
         controller: _controller,
         style: TextStyle(
-          fontSize: 15 * scaleFactor,
+          fontSize: 15,
           fontFamily: 'MontserratSemiBold',
         ),
         onTap: () {
@@ -366,7 +368,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
   Widget showButtonDate(index){
     List<String> buttonDate = <String>["Hoy", "Esta semana", "Este mes"];
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return GestureDetector(
       onTap: () {
         setState(() {
@@ -386,14 +387,15 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             buttonDate[index],
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -402,7 +404,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Widget showTable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return DataTable(
       columns: <DataColumn>[
         DataColumn(
@@ -411,7 +412,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontStyle: FontStyle.italic,
-              fontSize: 12 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
           ),
@@ -422,7 +422,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
             textAlign: TextAlign.center,
             style: TextStyle(
               fontStyle: FontStyle.italic,
-              fontSize: 12 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
           ),
@@ -432,7 +431,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
             'Precio',
             textAlign: TextAlign.center,
             style: TextStyle(
-              fontSize: 12 * scaleFactor,
               fontFamily: 'MontserratSemiBold',
             ),
           ),
@@ -446,7 +444,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
           (index) => DataRow(
             cells: [
               DataCell(
-                Text(myProvider.dataReportSales[index].nameClient),
+                Text(myProvider.dataReportSales[index].nameClient,
+                style: TextStyle(),),
                 onTap: (){
                   myProvider.selectPaid = myProvider.dataReportSales[index];
                   Navigator.push(context, SlideLeftRoute(page: ShowDataPaidPage()));
@@ -491,8 +490,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   }
 
   Future<void> _onLoading() async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
-
+    
     return showDialog(
       context: context,
       barrierDismissible: false, // user must tap button!
@@ -521,7 +519,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
                           text: "Cargando ",
                           style: TextStyle(
                             color: Colors.black,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -529,7 +526,6 @@ class _SalesReportPageState extends State<SalesReportPage> {
                           text: "...",
                           style: TextStyle(
                             color: colorGreen,
-                            fontSize: 15 * scaleFactor,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

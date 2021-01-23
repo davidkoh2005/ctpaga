@@ -29,6 +29,7 @@ Color colorGreyOp = Color.fromRGBO(182,182,182,0.6);
 Color colorGreyOpacity = Color.fromRGBO(230,230,230,1);
 Color colorGreyLogo = Color.fromRGBO(69, 69, 94, 1);
 Color colorText = Colors.grey;
+Color colorTitleMain = Color.fromRGBO(88, 88, 88, 1);
 
 String phoneCtpaga = "584141295359";
 String messageHelp = "Hola! Necesito ayuda con ";

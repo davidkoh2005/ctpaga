@@ -6,6 +6,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -22,17 +23,11 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
   @override
   void initState() {
     super.initState();
-    initialVariable();
   }
 
   @override
   void dispose() {
     super.dispose();
-  }
-
-  initialVariable(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    myProvider.statusShipping = myProvider.user.statusShipping;
   }
 
   @override
@@ -73,7 +68,6 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
 
   formDataSales(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return Column(
@@ -83,13 +77,14 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
           padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
           child: Align(
             alignment: Alignment.centerLeft,
-            child: Text(
+            child: AutoSizeText(
               "COBRAR",
               style: TextStyle(
                 color: colorText,
-                fontSize: 15 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 14,
+              maxFontSize: 14,
             ),
           ),
         ),
@@ -98,25 +93,27 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top:30),
-              child: Text(
+              padding: EdgeInsets.only(top:20),
+              child: AutoSizeText(
                 showTotal(),
                 textAlign: TextAlign.center,
                 style:  TextStyle(
-                  fontSize: 30 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 25,
+                maxFontSize: 25,
               ),
             ),
             Container(
-              padding: EdgeInsets.only(top:5),
-              child: Text(
+              padding: EdgeInsets.only(top:10, bottom: 10),
+              child: AutoSizeText(
                 "por $_totalProducts ${_totalProducts >1?'artículos':'artículo'}",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
             ),
           ],
@@ -124,13 +121,14 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
 
         Center(
           child: Container(
-            child: Text(
+            child: AutoSizeText(
               "A",
               style: TextStyle(
-                fontSize: 25 * scaleFactor,
                 color: colorText,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 20,
+              maxFontSize: 20,
             ),
           ),
         ),
@@ -139,18 +137,19 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
             Container(
-              padding: EdgeInsets.only(top:30),
+              padding: EdgeInsets.only(top:20),
               child: myProvider.avatarClient.length ==0? 
                 CircleAvatar(
                   minRadius: size.width / 10,
                   maxRadius: size.width / 10,
-                  child: Text(
+                  child: AutoSizeText(
                     myProvider.initialsClient,
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 15 * scaleFactor,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    minFontSize: 20,
+                    maxFontSize: 20,
                   ),
                   backgroundColor: colorGreen,
                 )
@@ -162,7 +161,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             ),
             Container(
               padding: EdgeInsets.only(top:10),
-              child: Text(
+              child: AutoSizeText(
                 myProvider.nameClient,
                 style: TextStyle(
                   fontSize: size.width / 17,
@@ -173,28 +172,30 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             ),
             Container(
               padding: EdgeInsets.only(top:10),
-              child: Text(
+              child: AutoSizeText(
                 "Nuevo cliente",
                 style: TextStyle(
-                  fontSize: 15 * scaleFactor,
                   color: colorText,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
             ),
 
             Padding(
-              padding: EdgeInsets.only(top:80),
+              padding: EdgeInsets.only(top:80, bottom: 40),
               child: Column(
                 children: [
-                  Text(
+                  AutoSizeText(
                     "Mostrar Envio",
                     style: TextStyle(
-                      fontSize: 15 * scaleFactor,
                       color: Colors.black,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'MontserratSemiBold',
                     ),
+                    minFontSize: 14,
+                    maxFontSize: 14,
                   ),
                   Switch(
                     value: myProvider.statusShipping,
@@ -212,7 +213,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
         
         
         Padding(
-          padding: EdgeInsets.only(top: 60, bottom: 60),
+          padding: EdgeInsets.only(top: 0, bottom: 50),
           child: buttonContinue()
         ),
       ],
@@ -220,7 +221,6 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
   }
 
   Widget buttonContinue(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return GestureDetector(
       onTap: () => nextPage(),
@@ -236,14 +236,15 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "CONTINUAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            minFontSize: 14,
+            maxFontSize: 14,
           ),
         ),
       ),

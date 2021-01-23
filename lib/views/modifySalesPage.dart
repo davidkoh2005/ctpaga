@@ -3,6 +3,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:numeric_keyboard/numeric_keyboard.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -56,7 +57,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.fromLTRB(20, 20, 20, 100),
+            padding: EdgeInsets.fromLTRB(20, 20, 20, 60),
             child: Column(
               children: <Widget>[
                 buttonDelete(),
@@ -71,7 +72,6 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
   }
 
   Widget formQuantity(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -83,14 +83,15 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
                 children: <Widget>[
                   Container(
                     padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 30.0),
-                    child: Text(
+                    child: AutoSizeText(
                       _quantity.length == 0? "0" : _quantity,
                       style: TextStyle(
                         color: colorText,
-                        fontSize: 35 * scaleFactor,
                         fontWeight: FontWeight.w800,
                         fontFamily: 'MontserratSemiBold',
                       ),
+                      maxFontSize: 28,
+                      minFontSize: 28,
                     ),
                   ),
                   numPad(),
@@ -147,14 +148,15 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "GUARDAR",
             style: TextStyle(
               color: Colors.white,
-              fontSize: size.width / 20,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -178,14 +180,15 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             "ELIMINAR",
             style: TextStyle(
-              color: _statusButtonDelete? colorGreen : Colors.white,
-              fontSize: size.width / 20,
+              color: Colors.white,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),

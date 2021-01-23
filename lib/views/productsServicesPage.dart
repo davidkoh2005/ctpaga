@@ -10,6 +10,7 @@ import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 
@@ -31,6 +32,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   double _total=0.0;
   bool _statusButton = false, _statusButtonCharge = false;
   List  _indexProduct = new List(), _indexService = new List(), _listProductsServicesCategories = new List();
+  var myGroup = AutoSizeGroup();
+  var myGroupSubTitle = AutoSizeGroup();
 
   @override
   void initState() {
@@ -74,37 +77,23 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             body: Stack(
               children: <Widget>[
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
                     myProvider.selectProductsServices == 0? _statusCharge? NavbarTrolley("Productos") : Navbar("Productos", true) : _statusCharge? NavbarTrolley("Servicios") : Navbar("Servicios", true),
                     Expanded(
                       child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           myProvider.selectProductsServices == 0?  showOptiones(myProvider, "Productos") : showOptiones(myProvider, "Servicios"),
 
                           Visibility(
                             visible: _statusProductsServices(myProvider),
-                            child: 
-                              myProvider.selectProductsServices == 0? Container(
-                                height: myProvider.dataProducts.length <5? size.height / (4.2-((myProvider.dataProducts.length-1)*0.6)) : size.height / 1.8,
-                                child: listProductsServices(),
-                              )
-                            : Container(
-                              height: myProvider.dataServices.length <3? size.height / (4.2-((myProvider.dataServices.length-1)*0.6)) : size.height / 1.8,
-                              child: listProductsServices(),
-                            ),
+                            child: listProductsServices()
                           ),
 
                           Visibility(
                             visible: _statusDropdown == "Categoría"? myProvider.dataCategories.length  > 0? true : false : false,
-                            child: Container(
-                              height: myProvider.dataCategories.length <3 ? size.height / 3 : size.height / 1.8,
-                              child: listCategory()
-                            ),
+                            child: listCategory()
                           ),
+
                           Padding(
                             padding: EdgeInsets.only(top:15),
                             child: buttonCreateProductService()
@@ -139,7 +128,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   showOptiones(myProvider, title){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -162,13 +150,14 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               ),
               color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? Colors.white: colorGreyOp, 
             ),
-            child: Text(
+            child: AutoSizeText(
               myProvider.selectProductsServices == 0? "Productos" : "Servicios",
               style: TextStyle(
                 color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : Colors.black,
-                fontSize: 18 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 17,
+              maxFontSize: 17,
             ),
           )
         ),
@@ -190,13 +179,14 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               ),
               color: _statusDropdown == "Categoría"? Colors.white : colorGreyOp, 
             ),
-            child: Text(
+            child: AutoSizeText(
               "Categoría",
               style: TextStyle(
                 color: _statusDropdown == "Categoría"? colorGreen : Colors.black,
-                fontSize: 18 * scaleFactor,
                 fontFamily: 'MontserratSemiBold',
               ),
+              minFontSize: 17,
+              maxFontSize: 17,
             ),
           )
         ),
@@ -216,16 +206,17 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget listProductsServices(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     if(myProvider.selectProductsServices == 0){
       return Scrollbar(
         controller: _scrollControllerProductsServices, 
         isAlwaysShown: true,
         child: ListView.separated(
+          shrinkWrap: true, 
+          scrollDirection: Axis.vertical, 
           controller: _scrollControllerProductsServices,
           separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.grey,),
-          padding: EdgeInsets.fromLTRB(20, 20, 20, 10),
+          padding: EdgeInsets.fromLTRB(10, 10, 10, 10),
           itemCount: myProvider.dataProducts.length,
           itemBuilder:  (BuildContext ctxt, int index) {
             return ListTile(
@@ -233,6 +224,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 child: CachedNetworkImage(
                   imageUrl: "http://"+url+myProvider.dataProducts[index].url,
                   fit: BoxFit.cover,
+                  width: size.width / 8,
+                  height: size.width / 8,
                   placeholder: (context, url) {
                     return Container(
                       margin: EdgeInsets.all(15),
@@ -262,32 +255,35 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   nextPage(NewProductServicePage());
                 }
               },
-              title: Text(
+              title: AutoSizeText(
                 myProvider.dataProducts[index].name,
                 style: TextStyle(
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
-                  fontSize: 15 * scaleFactor,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'MontserratBold',
                 ),
+                minFontSize: 12,
+                maxFontSize: 12,
               ),
-              subtitle: Text(
+              subtitle: AutoSizeText(
                 "${myProvider.dataProducts[index].stock} disponibles",
                 style: TextStyle(
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
-                  fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratMedium',
                 ),
+                minFontSize: 10,
+                maxFontSize: 10,
               ),
-              trailing: Text(
+              trailing: AutoSizeText(
                 showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
                 style: TextStyle(
                   color: _indexProduct.contains(index)? colorGreen :  colorText,
-                  fontSize: 15 * scaleFactor,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 13,
+                maxFontSize: 13,
               ),
             );
           }
@@ -298,6 +294,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
         controller: _scrollControllerProductsServices, 
         isAlwaysShown: true,
         child: ListView.separated(
+          shrinkWrap: true, 
+          scrollDirection: Axis.vertical, 
           controller: _scrollControllerProductsServices,
           separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
           padding: EdgeInsets.fromLTRB(60, 20, 60, 10),
@@ -321,23 +319,25 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   nextPage(NewProductServicePage());
                 }
               },
-              title: Text(
+              title: AutoSizeText(
                 myProvider.dataServices[index].name,
                 style: TextStyle(
                   color: _indexService.contains(index)? colorGreen : colorText,
-                  fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
-              trailing: Text(
+              trailing: AutoSizeText(
                 showPrice(myProvider.dataServices[index].price, myProvider.dataServices[index].coin),
                 style: TextStyle(
                   color: _indexService.contains(index)? colorGreen : colorText,
-                  fontSize: 15 * scaleFactor,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
             );
           }
@@ -381,8 +381,9 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget listCategory(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     return  ListView.separated(
+      shrinkWrap: true, 
+      scrollDirection: Axis.vertical, 
       separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.transparent,),
       padding: EdgeInsets.fromLTRB(45, 20, 30, 10),
       itemCount: myProvider.dataCategories.length,
@@ -398,16 +399,16 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             }
           },
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget> [
-              Text(
+              AutoSizeText(
                 myProvider.dataCategories[index].name,
                 style: TextStyle(
                   color: _selectCategories== index+1? colorGreen : Colors.grey,
-                  fontSize: 15 * scaleFactor,
                   fontFamily: 'MontserratSemiBold',
                 ),
+                minFontSize: 14,
+                maxFontSize: 14,
               ),
               Visibility(
                 visible: _selectCategories-1 == index? true : false,
@@ -422,7 +423,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   Widget buttonCreateProductService(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return  GestureDetector(
       onTap: () {
@@ -445,14 +445,15 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
         ),
         child: Center(
-          child: Text(
+          child: AutoSizeText(
             _statusDropdown == "Categoría"? "CREAR CATEGORÍA" : myProvider.selectProductsServices == 0? "CREAR PRODUCTO" : "CREAR SERVICIO",
             style: TextStyle(
               color: _statusButton? Colors.white : colorGreen,
-              fontSize: 15 * scaleFactor,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
+            maxFontSize: 14,
+            minFontSize: 14,
           ),
         ),
       ),
@@ -460,7 +461,6 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   }
 
   Widget buttonCharge(){
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
@@ -485,14 +485,15 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                 borderRadius: BorderRadius.circular(30),
                 ),
               child: Center(
-                child: Text(
+                child: AutoSizeText(
                   myProvider.dataPurchase.length == 0? "COBRAR" : "COBRAR ${showTotal()}",
                   style: TextStyle(
                     color: Colors.white,
-                    fontSize: 15 * scaleFactor,
                     fontWeight: FontWeight.w500,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ),
@@ -531,89 +532,90 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   showProductCategories(idCategories){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
     if(_listProductsServicesCategories.length>0)
-      return Container(
-        height: _listProductsServicesCategories.length <3? size.height / (7.5-((_listProductsServicesCategories.length-1)*3)) : size.height / 4.5,
-        child: Scrollbar(
-          controller: _scrollControllerCategories, 
-          isAlwaysShown: true,
-          child: ListView.separated(
-            controller: _scrollControllerCategories,
-            separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
-            padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
-            itemCount: _listProductsServicesCategories.length,
-            itemBuilder:  (BuildContext ctxt, int index) {
-              return ListTile(
-                onTap: () async {
-                  if(_statusCharge && myProvider.selectProductsServices == 0){
-                    addProductsServices(_listProductsServicesCategories[index]);
-                    setState(() =>_indexProduct.add(index));
-                    await Future.delayed(Duration(milliseconds: 150));
-                    setState(() =>_indexProduct.remove(index));
-                  }else if(_statusCharge && myProvider.selectProductsServices == 1){
-                    addProductsServices(_listProductsServicesCategories[index]);
-                    setState(() =>_indexService.add(index));
-                    await Future.delayed(Duration(milliseconds: 150));
-                    setState(() =>_indexService.remove(index));
+      return Scrollbar(
+        controller: _scrollControllerCategories, 
+        isAlwaysShown: true,
+        child: ListView.separated(
+          shrinkWrap: true, 
+          scrollDirection: Axis.vertical, 
+          controller: _scrollControllerCategories,
+          separatorBuilder: (BuildContext context, int index) => const Divider(color: Colors.black,),
+          padding: EdgeInsets.fromLTRB(0, 0, 10, 10),
+          itemCount: _listProductsServicesCategories.length,
+          itemBuilder:  (BuildContext ctxt, int index) {
+            return ListTile(
+              onTap: () async {
+                if(_statusCharge && myProvider.selectProductsServices == 0){
+                  addProductsServices(_listProductsServicesCategories[index]);
+                  setState(() =>_indexProduct.add(index));
+                  await Future.delayed(Duration(milliseconds: 150));
+                  setState(() =>_indexProduct.remove(index));
+                }else if(_statusCharge && myProvider.selectProductsServices == 1){
+                  addProductsServices(_listProductsServicesCategories[index]);
+                  setState(() =>_indexService.add(index));
+                  await Future.delayed(Duration(milliseconds: 150));
+                  setState(() =>_indexService.remove(index));
+                }else{
+                  myProvider.dataCategoriesSelect = _listProductsServicesCategories[index].categories.split(",");
+                  if(myProvider.selectProductsServices == 0){
+                    myProvider.dataSelectProduct = _listProductsServicesCategories[index];
+                    myProvider.dataSelectService = null;
                   }else{
-                    myProvider.dataCategoriesSelect = _listProductsServicesCategories[index].categories.split(",");
-                    if(myProvider.selectProductsServices == 0){
-                      myProvider.dataSelectProduct = _listProductsServicesCategories[index];
-                      myProvider.dataSelectService = null;
-                    }else{
-                      myProvider.dataSelectService = _listProductsServicesCategories[index];
-                      myProvider.dataSelectProduct = null;
-                    }
-                    nextPage(NewProductServicePage());
+                    myProvider.dataSelectService = _listProductsServicesCategories[index];
+                    myProvider.dataSelectProduct = null;
                   }
-                },
-                leading: ClipOval(
-                  child: CachedNetworkImage(
-                    imageUrl: "http://"+url+_listProductsServicesCategories[index].url,
-                    fit: BoxFit.cover,
-                    placeholder: (context, url) {
-                      return Container(
-                        margin: EdgeInsets.all(15),
-                        child:CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
-                        ),
-                      );
-                    },
-                    errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 7,),
-                  ),
+                  nextPage(NewProductServicePage());
+                }
+              },
+              leading: ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: "http://"+url+_listProductsServicesCategories[index].url,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) {
+                    return Container(
+                      margin: EdgeInsets.all(15),
+                      child:CircularProgressIndicator(
+                        valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                      ),
+                    );
+                  },
+                  errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red, size: size.width / 7,),
                 ),
-                title: Text(
-                  _listProductsServicesCategories[index].name,
-                  style: TextStyle(
-                    color: _indexProduct.contains(index)? colorGreen :  colorText,
-                    fontSize: 15 * scaleFactor,
-                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratSemiBold',
-                  ),
+              ),
+              title: AutoSizeText(
+                _listProductsServicesCategories[index].name,
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratSemiBold',
                 ),
-                subtitle: Text(
-                  myProvider.selectProductsServices == 0? "${_listProductsServicesCategories[index].stock} disponibles" : "",
-                  style: TextStyle(
-                    color: _indexProduct.contains(index)? colorGreen :  colorText,
-                    fontSize: 15 * scaleFactor,
-                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratSemiBold',
-                  ),
+                minFontSize: 14,
+                maxFontSize: 14,
+              ),
+              subtitle: AutoSizeText(
+                myProvider.selectProductsServices == 0? "${_listProductsServicesCategories[index].stock} disponibles" : "",
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratSemiBold',
                 ),
-                trailing: Text(
-                  showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
-                  style: TextStyle(
-                    color: _indexProduct.contains(index)? colorGreen :  colorText,
-                    fontSize: 15 * scaleFactor,
-                    fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
-                    fontFamily: 'MontserratSemiBold',
-                  ),
+                minFontSize: 10,
+                maxFontSize: 10,
+              ),
+              trailing: AutoSizeText(
+                showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
+                style: TextStyle(
+                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
+                  fontFamily: 'MontserratSemiBold',
                 ),
-              ); 
-            }
-          )
+                minFontSize: 14,
+                maxFontSize: 14,
+              ),
+            ); 
+          }
         )
       );
     else

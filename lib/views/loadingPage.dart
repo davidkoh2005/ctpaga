@@ -3,6 +3,7 @@ import 'package:ctpaga/views/shareUrlPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -67,7 +68,6 @@ class _LoadingPageState extends State<LoadingPage> {
 
   @override
   Widget build(BuildContext context) {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return WillPopScope(
@@ -85,13 +85,14 @@ class _LoadingPageState extends State<LoadingPage> {
               ),
               Container(
                 padding: EdgeInsets.only(top:10),
-                child: Text(
+                child: AutoSizeText(
                   "Cobrando...",
                   style: TextStyle(
-                    fontSize: 15 * scaleFactor,
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
                   ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],
@@ -107,7 +108,6 @@ class _LoadingPageState extends State<LoadingPage> {
   }
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
-    var scaleFactor = MediaQuery.of(context).textScaleFactor;
     var size = MediaQuery.of(context).size;
 
     return showDialog(
@@ -139,13 +139,14 @@ class _LoadingPageState extends State<LoadingPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
+                child: AutoSizeText(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
-                    fontSize: 15 * scaleFactor,
                     fontFamily: 'MontserratSemiBold',
-                  )
+                  ),
+                  maxFontSize: 14,
+                  minFontSize: 14,
                 ),
               ),
             ],

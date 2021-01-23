@@ -837,7 +837,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           child: AutoSizeText(
             myProvider.selectProductsServices == 0? myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
-              color: _statusButton? colorGreen : Colors.white,
+              color: Colors.white,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),

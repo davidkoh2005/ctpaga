@@ -13,6 +13,7 @@ import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'dart:convert';
 
 class MainPage extends StatefulWidget {
@@ -77,7 +78,7 @@ class _MainPageState extends State<MainPage> {
       print(onEvent.data);
 
       if(myProvider.dataCommercesUser[myProvider.selectCommerce].id == notification['data']['commerce_id'])
-        if(notification['data']['coin'] == 0)
+        if(notification['data']['coin'] == "0")
           showNotification("Recibiste un pago de \$ ${notification['data']['total']}");
         else
           showNotification("Recibiste un pago de Bs ${notification['data']['total']}");
@@ -273,8 +274,22 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future selectNotification(String payload) async {
-    if(payload == "true")
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    if(payload == "true"){
+      myProvider.totalSales = 0;
+      myProvider.dataReportSales=[];
+      myProvider.getListPaids();
+      List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+      DateTime _dateNow = DateTime.now();
+      DateTime _initialDate = DateTime.now();
+      DateTime _finalDate = DateTime.now();
+      var formatterDay = new DateFormat('EEEE');
+      int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
+      var _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
+      var _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+      myProvider.verifyDataTransactions(0, 1, _dateNow, _firstDay, _lastDay, _initialDate, _finalDate);
       Navigator.push(context, SlideLeftRoute(page: SalesReportPage(false)));
+    }
   }
 
   void showNotification(message) async {

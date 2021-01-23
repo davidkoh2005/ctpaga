@@ -18,78 +18,78 @@ class NavbarMain extends StatefulWidget {
 
 class _NavbarMainState extends State<NavbarMain> {
   _NavbarMainState();
-  var urlProfile;
 
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
-
-    return Stack(
-      children: <Widget>[
-        Container(
-          width: size.width,
-          height: size.height/7,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.only(top: 20, right: 15),
-                child: GestureDetector(
-                  onTap: () async {
-                    myProvider.clickButtonMenu = 1;
-                    await Future.delayed(Duration(milliseconds: 150));
-                    Navigator.push(context, SlideLeftRoute(page: ProfilePage()));
-                  },
-                  child: Container(
-                    width: size.width/8,
-                    height: size.width/8,
-                    child: showImagen(),
-                  )
-                ),
-              ),
-                
-                  
-              Padding(
-                padding: EdgeInsets.only(top:20, right:20),
-                child: IconButton(
-                  iconSize: size.width / 10,
-                  icon: Icon(
-                    Icons.menu,
-                    color: Colors.black,
+    return Consumer<MyProvider>(
+      builder: (context, myProvider, child) {
+        return Stack(
+          children: <Widget>[
+            Container(
+              width: size.width,
+              height: size.height/7,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.only(top: 20, right: 15),
+                    child: GestureDetector(
+                      onTap: () async {
+                        myProvider.clickButtonMenu = 1;
+                        await Future.delayed(Duration(milliseconds: 150));
+                        Navigator.push(context, SlideLeftRoute(page: ProfilePage()));
+                      },
+                      child: Container(
+                        width: size.width/8,
+                        height: size.width/8,
+                        child: showImagen(myProvider),
+                      )
                     ),
-                  onPressed: () {
-                    myProvider.statusButtonMenu = true;
-                  }
+                  ),
+                    
+                      
+                  Padding(
+                    padding: EdgeInsets.only(top:20, right:20),
+                    child: IconButton(
+                      iconSize: size.width / 10,
+                      icon: Icon(
+                        Icons.menu,
+                        color: Colors.black,
+                        ),
+                      onPressed: () {
+                        myProvider.statusButtonMenu = true;
+                      }
+                    )
+                  )
+                ]
+              ),
+            ),
+
+            GestureDetector(
+              onTap: () => launch("http://$url"),
+              child: Padding(
+                padding: EdgeInsets.only(top: 50, left: 30),
+                child: Container(
+                  child: Image(
+                    image: AssetImage("assets/logo/logo.png"),
+                    width: size.width/3.5,
+                  ),
                 )
               )
-            ]
-          ),
-        ),
+            ),
 
-        GestureDetector(
-          onTap: () => launch("http://$url"),
-          child: Padding(
-            padding: EdgeInsets.only(top: 50, left: 30),
-            child: Container(
-              child: Image(
-                image: AssetImage("assets/logo/logo.png"),
-                width: size.width/3.5,
-              ),
-            )
-          )
-        ),
-
-      ],
+          ],
+        );
+      }
     );
 
   }
 
-  showImagen(){
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
+  showImagen(myProvider){
     var size = MediaQuery.of(context).size;
-
+    var urlProfile; 
     if(myProvider.dataPicturesUser != null){
       for (var item in myProvider.dataPicturesUser) {
 

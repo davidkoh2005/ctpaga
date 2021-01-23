@@ -670,7 +670,7 @@ class MyProvider with ChangeNotifier {
               coin : item['coin'],
               description : item['description'],
               categories : item['categories'],
-              publish : item['publish'],
+              publish : item['publish'] == 1? true : false,
               stock : item['stock'],
               postPurchase : item['postPurchase'] == null? '' : item['postPurchase'],
             );

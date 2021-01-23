@@ -174,6 +174,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                   labelStyle: TextStyle(
                     color: colorGreen,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize:14,
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -200,6 +201,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize:14,
               ),
             ),
           ),
@@ -315,14 +317,12 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: AutoSizeText(
+                child: Text(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'MontserratSemiBold',
                   ),
-                  maxFontSize: 14,
-                  minFontSize: 14,
                 ),
               ),
             ],

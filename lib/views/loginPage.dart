@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
                 labelStyle: TextStyle(
                   color: colorGreen,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize: 14,
                 ),
                 icon: new Icon(
                   Icons.mail,
@@ -144,6 +145,7 @@ class _LoginPageState extends State<LoginPage> {
               cursorColor: colorGreen,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize: 14,
               ),
             ),
           ),

@@ -326,7 +326,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
       
       if(_switchFree)
         _price = "FREE";
-
+  
       try
       {
         _onLoading();
@@ -459,14 +459,12 @@ class _NewShippingPageState extends State<NewShippingPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: AutoSizeText(
+                child: Text(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'MontserratSemiBold',
                   ),
-                  minFontSize: 14,
-                  maxFontSize: 14,
                 ),
               ),
             ],

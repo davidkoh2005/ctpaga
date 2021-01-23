@@ -1935,15 +1935,13 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: AutoSizeText(
+                child: Text(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'MontserratSemiBold',
                     fontSize:14
                   ),
-                  maxFontSize: 18,
-                  minFontSize: 18,
                 ),
               ),
             ],

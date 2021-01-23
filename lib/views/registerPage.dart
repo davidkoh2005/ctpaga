@@ -76,6 +76,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelStyle: TextStyle(
                   color: colorGreen,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize: 14,
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -85,6 +86,9 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: _validateName,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
           Padding(
@@ -101,6 +105,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelStyle: TextStyle(
                   color: colorGreen,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize: 14
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -110,6 +115,9 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: _validateAddress,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
           Padding(
@@ -126,6 +134,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 labelStyle: TextStyle(
                   color: colorGreen,
                   fontFamily: 'MontserratSemiBold',
+                  fontSize: 14,
                 ),
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color: colorGreen),
@@ -135,6 +144,9 @@ class _RegisterPageState extends State<RegisterPage> {
               validator: _validatePhone,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
           Padding(
@@ -150,6 +162,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelStyle: TextStyle(
                     color: colorGreen,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.mail,
@@ -163,6 +176,9 @@ class _RegisterPageState extends State<RegisterPage> {
               onSaved: (String value) => _email = value.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
           Padding(
@@ -179,6 +195,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   labelStyle: TextStyle(
                     color: colorGreen,
                     fontFamily: 'MontserratSemiBold',
+                    fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.lock,
@@ -205,6 +222,9 @@ class _RegisterPageState extends State<RegisterPage> {
               onSaved: (String value) => _password = value,
               textInputAction: TextInputAction.next,
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
           Padding(
@@ -251,6 +271,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 _clickButtonRegister(); //process that will be carried out when you press the register button
               },
               cursorColor: colorGreen,
+              style: TextStyle(
+                fontSize: 14,
+              ),
             ),
           ),
 

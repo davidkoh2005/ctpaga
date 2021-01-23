@@ -64,6 +64,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               },
               decoration: new InputDecoration(
                   hintText: "Email",
+                  helperStyle: TextStyle(
+                    fontSize: 14,
+                  ),
                   icon: new Icon(
                     Icons.mail,
                     color: colorGreen,
@@ -78,6 +81,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               },
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
+                fontSize: 14,
               ),
             ),
           ),
@@ -246,14 +250,12 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: AutoSizeText(
+                child: Text(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'MontserratSemiBold',
                   ),
-                  maxFontSize: 14,
-                  minFontSize: 14,
                 ),
               ),
             ],

@@ -296,14 +296,12 @@ class _AddEmailPageState extends State<AddEmailPage> {
               ),
               Container(
                 padding: EdgeInsets.all(5),
-                child: AutoSizeText(
+                child: Text(
                   _titleMessage,
                   style: TextStyle(
                     color: Colors.black,
                     fontFamily: 'MontserratSemiBold',
                   ),
-                  maxFontSize: 14,
-                  minFontSize: 14,
                 ),
               ),
             ],

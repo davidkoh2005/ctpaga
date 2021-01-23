@@ -278,12 +278,12 @@ class _NewSalesPageState extends State<NewSalesPage> {
       showDialog(
         context: context,
         builder: (BuildContext context) => CupertinoAlertDialog(
-              title: AutoSizeText('Error de permisos'),
-              content: AutoSizeText('Habilite el acceso a los contactos'
+              title: Text('Error de permisos'),
+              content: Text('Habilite el acceso a los contactos'
                   'permiso en la configuración del sistema'),
               actions: <Widget>[
                 CupertinoDialogAction(
-                  child: AutoSizeText('OK'),
+                  child: Text('OK'),
                   onPressed: () => Navigator.of(context).pop(),
                 )
               ],

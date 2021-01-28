@@ -131,7 +131,7 @@ List listMenuDeposits = [
   },
    {
     "title": "Agregar registro jurídico",
-    "icon": "assets/icons/tarjeta-de-identificacion.png",
+    "icon": "assets/icons/document.png",
     "code": 0,
     "page": DocumentsPage("RIF"),
   },

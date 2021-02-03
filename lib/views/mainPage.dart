@@ -21,7 +21,7 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage> {
+class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   Channel _channel;
   User user = User();
@@ -37,11 +37,18 @@ class _MainPageState extends State<MainPage> {
     initialNotification();
     initialVariable();
     initialPusher();
+    WidgetsBinding.instance.addObserver(this);
   }
 
   @override
   void dispose() {
     super.dispose();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    print("print $state");
+    initialPusher();
   }
 
   initialVariable(){

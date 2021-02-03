@@ -57,7 +57,7 @@ class _MainPageState extends State<MainPage> {
         port: 6001,
         encrypted: false,
       );
-      await Pusher.init("local",options);
+      await Pusher.init("ctpaga20210201",options);
     } catch (e) {
       print(e);
     }

@@ -121,9 +121,9 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
         Padding(
           padding: EdgeInsets.only(top: 5),
           child: GestureDetector(
-            onTap: () => launch("http://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}"),
+            onTap: () => launch("https://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}"),
             child: AutoSizeText(
-              "http://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}",
+              "https://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}",
               style: TextStyle(
                 color: colorGreen,
                 fontWeight: FontWeight.w500,
@@ -283,7 +283,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
     var userCompany = myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
     var codeUrl = myProvider.codeUrl;
 
-    var link = "http://$url/$userCompany/$codeUrl";
+    var link = "https://$url/$userCompany/$codeUrl";
     var msg = "💰 Total: ${lowPurchase.text} mas entrega \nCompleta tu pedido a $nameCompany aquí: $link";
 
     if (index ==1){

@@ -43,10 +43,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance.addObserver(this);
+    WidgetsBinding.instance.removeObserver(this);
   }
 
   void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
     print("print $state");
     initialPusher();
   }

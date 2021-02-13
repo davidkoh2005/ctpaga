@@ -1009,7 +1009,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: DropdownButton<String>(
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
-                  fontSize:14
+                  color: Colors.black,
                 ),
                 value: _valueListCountry,
                 isExpanded: true,
@@ -1018,7 +1018,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 items: _listCountry.map((String value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new AutoSizeText(value),
+                    child: new Text(value),
                   );
                 }).toList(),
                 onChanged: (String value) {                  
@@ -1109,6 +1109,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
               child: SearchableDropdown.single(
+                displayClearIcon: false,
                 items: _statusCountry? listBankUSA.map((result) {
                     return (DropdownMenuItem(
                       child: Row(
@@ -1130,7 +1131,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       value: result['title']
                     )
                   );
-                  }).toList()
+                }).toList()
                 : listBankPanama.map((result) {
                     return (DropdownMenuItem(
                       child: Row(
@@ -1152,7 +1153,8 @@ class _ProfilePageState extends State<ProfilePage> {
                       value: result['title']
                     )
                   );
-                  }).toList(),
+                }).toList(),
+                closeButton: "Cerrar",
                 hint: _nameBankingUSD,
                 searchHint: "Nombre del Banco",
                 keyboardType: TextInputType.text,
@@ -1346,7 +1348,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 keyboardType: TextInputType.text,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
-                  labelText: 'Cedula (V-123456789)',
+                  labelText: 'RIF o Cedula (J-123456789)',
                   labelStyle: TextStyle(
                     color: colorText,
                     fontFamily: 'MontserratSemiBold',
@@ -1416,6 +1418,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
               child: SearchableDropdown.single(
+                displayClearIcon: false,
                 items: listBankBs.map((result) {
                   return (DropdownMenuItem(
                       child: Row(
@@ -1434,12 +1437,13 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),),
                         ],
                       ),
-                      value: result['title']
+                      value: result['title'],
                     )
                   );
                 }).toList(),
                 hint: _nameBankingBs,
                 searchHint: "Nombre del Banco",
+                closeButton: "Cerrar",
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14

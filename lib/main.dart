@@ -73,6 +73,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 image: AssetImage("assets/logo/logo.png"),
                 width: size.width/2,
               ),
+              Image.asset(
+                "assets/icons/loadingTransparent.gif",
+                width: size.width/6,
+              ),
             ]
           ),
         ),

@@ -31,8 +31,8 @@ Color colorGreyLogo = Color.fromRGBO(69, 69, 94, 1);
 Color colorText = Colors.grey;
 Color colorTitleMain = Color.fromRGBO(88, 88, 88, 1);
 
-String phoneCtpaga = "584141295359";
-String messageHelp = "Hola! Necesito ayuda con ";
+String phoneCtpaga = "584144664206";
+String messageHelp = "Hola Ctpaga! Necesito ayuda con ";
 String recommend = "¡Chequea *Ctpaga* , un app que te deja vender en línea y por redes sociales rápido y fácil! +🛍%EF%B8%8F+📲 \n\n Bájatela aquí: \n iOS: https://www.google.com \n Android: https://play.google.com/";
 
 List listMenu = [

@@ -198,9 +198,12 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                     maxFontSize: 14,
                   ),
                   Switch(
-                    value: myProvider.statusShipping,
+                    value: myProvider.dataShipping.length == 0? false : myProvider.statusShipping,
                     onChanged: (value) {
-                      myProvider.statusShipping = value;
+                      if(myProvider.dataShipping.length != 0)
+                        myProvider.statusShipping = value;
+                      else
+                        showMessage("No puede mostrar envio porque no tiene tarifa de envio", false);
                     },
                     activeTrackColor: colorGrey,
                     activeColor: colorGreen
@@ -286,6 +289,53 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
     setState(() =>_statusButton = false);
 
     Navigator.push(context, SlideLeftRoute(page: ProcessSalesPage()));
+  }
+
+  Future<void> showMessage(_titleMessage, _statusCorrectly) async {
+    var size = MediaQuery.of(context).size;
+
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              _statusCorrectly? Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.check_circle,
+                  color: colorGreen,
+                  size: size.width / 8,
+                )
+              )
+              : Padding(
+                padding: EdgeInsets.all(5),
+                child: Icon(
+                  Icons.error,
+                  color: Colors.red,
+                  size: size.width / 8,
+                )
+              ),
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  _titleMessage,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'MontserratSemiBold',
+                  ),
+                ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
   }
 
 }

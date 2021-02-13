@@ -186,7 +186,7 @@ class _ShippingPageState extends State<ShippingPage> {
           Visibility(
             visible: myProvider.dataShipping.length == 0? true : false,
             child: Container(
-              height: size.height - 460,
+              height: size.height - 480,
               child: SingleChildScrollView(
                 child: formMsg(myProvider)
               )

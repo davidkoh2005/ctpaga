@@ -59,6 +59,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   Future<void> initialPusher() async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    
     try {
       PusherOptions options = PusherOptions(
         host: url.replaceAll(':8000', ''),

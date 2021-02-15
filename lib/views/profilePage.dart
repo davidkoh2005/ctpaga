@@ -58,7 +58,9 @@ class _ProfilePageState extends State<ProfilePage> {
         // ignore: unused_field
         _valueListCountry, _countryBankingUSD, _accountNameBankingUSD, _accountNumberBankingUSD, _routeBankingUSD, _swiftBankingUSD, _addressBankingUSD, _nameBankingUSD, _accountTypeBankingUSD,
         _accountNameBankingBs, _idCardBankingBs, _accountNumberBankingBs,_nameBankingBs, _accountTypeBankingBs;
-  int _statusCoin = 1;
+  String _selectDocument = 'J' , _selectDocumentCompany = 'J';
+  List _listDocument = ["R","J","G","C","V","E", "P"], _listDocumentCompany = ["R","J","G","C","V","E", "P"];
+  int _statusCoin = 1 , _positionDocument = 1 , _positionDocumentCompany = 1;
   // ignore: unused_field
   File _image;
   bool _statusCountry = true, _statusClickUSD = false, _statusClickBs = false;
@@ -89,6 +91,12 @@ class _ProfilePageState extends State<ProfilePage> {
       _statusCountry = myProvider.dataBanksUser[0] == null? true: myProvider.dataBanksUser[0].country == 'USA'? true : false;
       _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName; 
       _nameBankingBs = myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName;
+
+      _positionDocumentCompany = myProvider.dataCommercesUser.length == 0? 1 : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.length == 0? 1 : _listDocumentCompany.indexOf(myProvider.dataCommercesUser[myProvider.selectCommerce].rif.substring(0,1));
+      _selectDocumentCompany = _listDocumentCompany[_positionDocumentCompany];
+      
+      _positionDocument = myProvider.dataBanksUser[1] == null? 1 : _listDocument.indexOf(myProvider.dataBanksUser[1].idCard.substring(0,1));
+      _selectDocument = _listDocument[_positionDocument];
     });
     
   }
@@ -563,6 +571,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget formCompany(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    var size = MediaQuery.of(context).size;
     return new Form(
       key: _formKeyCompany,
       child: new ListView(
@@ -571,30 +580,81 @@ class _ProfilePageState extends State<ProfilePage> {
         shrinkWrap: true,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
-            child: new TextFormField(
-              initialValue: myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].rif,
-              autofocus: false,
-              textCapitalization:TextCapitalization.sentences,
-              decoration: InputDecoration(
-                labelText: 'RIF (J-123456789)',
-                labelStyle: TextStyle(
-                  color: colorText,
+              padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: AutoSizeText(
+                "Rif",
+                style: TextStyle(
+                  color:colorText,
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
                 ),
-                focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
-                ),
               ),
-              onSaved: (String value) => _rifCompany = value,
-              validator: _validateRif,
-              textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
-              style: TextStyle(
-                fontFamily: 'MontserratSemiBold',
-                fontSize:14
-              )
+            ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+            child: Row(
+              children : [
+                new PopupMenuButton(
+                  child: Container(
+                    width: size.width / 3.7,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Text(
+                          _selectDocumentCompany,
+                          style: TextStyle(
+                            fontFamily: 'MontserratSemiBold',
+                            fontSize:14
+                          ),
+                        ),
+                        Icon(Icons.arrow_drop_down_sharp, color: colorGreen,),
+                      ],
+                    )
+                  ),
+                  onSelected: (value) => setState(() => _selectDocumentCompany = value),
+                  itemBuilder: (BuildContext bc) {
+                    return _listDocumentCompany.map((document) =>
+                      PopupMenuItem(
+                        child: CheckedPopupMenuItem(
+                          checked: _selectDocumentCompany == document,
+                          value: document,
+                          child: new Text(document),
+                        ),
+                      ),
+                    ).toList();
+                  }
+                ),
+                Container(
+                  padding: EdgeInsets.only(left:10),
+                  width: size.width - 175,
+                  child: new TextFormField(
+                    initialValue:  myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.substring(2),
+                    autofocus: false,
+                    keyboardType: TextInputType.text,
+                    textCapitalization:TextCapitalization.sentences,
+                    decoration: InputDecoration(
+                      labelText: '123456789',
+                      labelStyle: TextStyle(
+                        color: colorText,
+                        fontFamily: 'MontserratSemiBold',
+                        fontSize:14
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: colorGreen),
+                      ),
+                    ),
+                    onSaved: (String value) => _rifCompany = _selectDocumentCompany+"-"+value,
+                    validator: _validateRif,
+                    textInputAction: TextInputAction.next,
+                    cursorColor: colorGreen,
+                    style: TextStyle(
+                      fontFamily: 'MontserratSemiBold',
+                      fontSize:14
+                    ),
+                  )
+                ),
+              ],
             ),
           ),
 
@@ -1160,7 +1220,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 keyboardType: TextInputType.text,
                 onChanged: (value)=> setState(()=>_nameBankingUSD = value),
                 isExpanded: true,
-                validator: (value) => value == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
+                validator: (value) => _nameBankingUSD == null && _statusClickUSD? "Ingrese el nombre del banco correctamente": null,
               ),
             ),
 
@@ -1302,7 +1362,6 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
       );
     }else{
-
       return new Form(
         key: _formKeyBankingBs,
         child: new ListView(
@@ -1341,33 +1400,84 @@ class _ProfilePageState extends State<ProfilePage> {
             ),
 
             Padding(
-              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
-              child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard,
-                autofocus: false,
-                keyboardType: TextInputType.text,
-                textCapitalization:TextCapitalization.sentences,
-                decoration: InputDecoration(
-                  labelText: 'RIF o Cedula (J-123456789)',
-                  labelStyle: TextStyle(
-                    color: colorText,
-                    fontFamily: 'MontserratSemiBold',
-                    fontSize:14
-                  ),
-                  focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
-                  ),
-                ),
-                onSaved: (String value) => _idCardBankingBs = value,
-                validator: _validateIdCard,
-                focusNode: _idCardBankingBsFocus,
-                textInputAction: TextInputAction.next,
-                onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
-                cursorColor: colorGreen,
+              padding: const EdgeInsets.fromLTRB(30.0, 20.0, 30.0, 0.0),
+              child: AutoSizeText(
+                "Rif o Cedula",
                 style: TextStyle(
+                  color:colorText,
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
                 ),
+              ),
+            ),
+
+            Padding(
+              padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
+              child: Row(
+                children : [
+                  new PopupMenuButton(
+                    child: Container(
+                      width: size.width / 3.7,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Text(
+                            _selectDocument,
+                            style: TextStyle(
+                              fontFamily: 'MontserratSemiBold',
+                              fontSize:14
+                            ),
+                          ),
+                          Icon(Icons.arrow_drop_down_sharp, color: colorGreen,),
+                        ],
+                      )
+                    ),
+                    onSelected: (value) => setState(() => _selectDocument = value),
+                    itemBuilder: (BuildContext bc) {
+                      return _listDocument.map((document) =>
+                        PopupMenuItem(
+                          child: CheckedPopupMenuItem(
+                            checked: _selectDocument == document,
+                            value: document,
+                            child: new Text(document),
+                          ),
+                        ),
+                      ).toList();
+                    }
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(left:10),
+                    width: size.width - 175,
+                    child: new TextFormField(
+                      initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard.substring(2),
+                      autofocus: false,
+                      keyboardType: TextInputType.text,
+                      textCapitalization:TextCapitalization.sentences,
+                      decoration: InputDecoration(
+                        labelText: '123456789',
+                        labelStyle: TextStyle(
+                          color: colorText,
+                          fontFamily: 'MontserratSemiBold',
+                          fontSize:14
+                        ),
+                        focusedBorder: UnderlineInputBorder(
+                          borderSide: BorderSide(color: colorGreen),
+                        ),
+                      ),
+                      onSaved: (String value) => _idCardBankingBs = _selectDocument+"-"+value,
+                      validator: _validateIdCard,
+                      focusNode: _idCardBankingBsFocus,
+                      textInputAction: TextInputAction.next,
+                      onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
+                      cursorColor: colorGreen,
+                      style: TextStyle(
+                        fontFamily: 'MontserratSemiBold',
+                        fontSize:14
+                      ),
+                    )
+                  ),
+                ],
               ),
             ),
 
@@ -1445,6 +1555,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 searchHint: "Nombre del Banco",
                 closeButton: "Cerrar",
                 style: TextStyle(
+                  color: Colors.black,
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
                 ),
@@ -1453,7 +1564,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   setState((){_nameBankingBs = newItem;});
                 },
                 isExpanded: true,
-                validator: (value) => value == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,
+                validator: (value) => _nameBankingBs == null && _statusClickBs? "Ingrese el nombre del banco correctamente": null,
               ),
             ),
 
@@ -1498,6 +1609,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   
   String _validateRif(value){
+    value = _selectDocumentCompany+"-"+value;
     // This is just a regular expression for RIF
     String p = r'^[c|e|g|j|p|v|C|E|G|J|P|V][-][0-9]+';
     RegExp regExp = new RegExp(p);
@@ -1582,6 +1694,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
   
   String _validateIdCard(value){
+    value = _selectDocument+"-"+value;
+
     // This is just a regular expression for RIF
     String p = r'^[c|e|g|j|p|v|C|E|G|J|P|V][-][0-9]+';
     RegExp regExp = new RegExp(p);

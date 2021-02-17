@@ -1003,6 +1003,7 @@ class MyProvider with ChangeNotifier {
               percentage: item['percentage'],
               nameCompanyPayments: item['nameCompanyPayments'],
               date: item['date'],
+              statusPayment: item['statusPayment'],
             );
             _listPaids.add(paids);
             dbctpaga.createOrUpdatePaid(paids);

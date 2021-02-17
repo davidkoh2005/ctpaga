@@ -496,9 +496,9 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
           ),
         ),
 
-        
+
         Container(
-          padding: EdgeInsets.fromLTRB(30,0,30,5),
+          padding: EdgeInsets.fromLTRB(30,15,30,5),
           alignment: Alignment.center,
           child: AutoSizeText.rich(
             TextSpan(
@@ -510,9 +510,9 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
               ),
               children: <TextSpan>[
                 TextSpan(
-                  text: _listSales.length ==0? "SIN PAGAR" : _listSales[0]['statusSale'] == 0? "SIN PAGAR" : "PAGADO",
+                  text: myProvider.selectPaid.statusPayment==1? "PAGO EN VERIFICACIÓN" : _listSales.length ==0? "SIN PAGAR" : _listSales[0]['statusSale'] == 0? "SIN PAGAR" : "PAGADO",
                   style: TextStyle(
-                    color: _listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
+                    color: myProvider.selectPaid.statusPayment==1? Colors.red :_listSales.length ==0? Colors.red : _listSales[0]['statusSale'] == 0? Colors.red : Colors.green,
                     fontWeight: FontWeight.normal,
                     fontFamily: 'MontserratSemiBold',
                   ),

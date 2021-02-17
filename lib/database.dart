@@ -21,7 +21,7 @@ import 'dart:async';
 class DBctpaga{
 
   static Database dbInstance;
-  static int versionDB = 14;
+  static int versionDB = 15;
 
   Future<Database> get db async{
     if(dbInstance == null)
@@ -59,7 +59,7 @@ class DBctpaga{
     await db.execute('CREATE TABLE IF NOT EXISTS shipping (id INTEGER, price VARCHAR(50), coin INTEGER, description text)');
     await db.execute('CREATE TABLE IF NOT EXISTS discounts (id INTEGER, code VARCHAR(50), percentage INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS rates (id INTEGER, rate VARCHAR(50), created_at VARCHAR(50))');
-    await db.execute('CREATE TABLE IF NOT EXISTS paids (id INTEGER, user_id INTEGER, commerce_id INTEGER, codeUrl VARCHAR(10), nameClient VARCHAR(50), total text, coin INTEGER, email text, nameShipping VARCHAR(50), numberShipping VARCHAR(50), addressShipping text, detailsShipping text, selectShipping text, priceShipping text, statusShipping INTEGER, percentage INTEGER, nameCompanyPayments VARCHAR(10), date text)');
+    await db.execute('CREATE TABLE IF NOT EXISTS paids (id INTEGER, user_id INTEGER, commerce_id INTEGER, codeUrl VARCHAR(10), nameClient VARCHAR(50), total text, coin INTEGER, email text, nameShipping VARCHAR(50), numberShipping VARCHAR(50), addressShipping text, detailsShipping text, selectShipping text, priceShipping text, statusShipping INTEGER, percentage INTEGER, nameCompanyPayments VARCHAR(10), date text, statusPayment INTEGER)');
     await db.execute('CREATE TABLE IF NOT EXISTS balances (id INTEGER, user_id INTEGER, commerce_id INTEGER, coin INTENGER, total text)');
   }
 
@@ -604,6 +604,7 @@ class DBctpaga{
         percentage: list[i]['percentage'],
         nameCompanyPayments: list[i]['nameCompanyPayments'],
         date: list[i]['date'],
+        statusPayment: list[i]['statusPayment'],
       );
 
       listPaids.add(paid);
@@ -620,12 +621,12 @@ class DBctpaga{
     List<Map> list = await dbConnection.rawQuery('SELECT * FROM paids WHERE id = \'${paid.id}\' ');
     
     if(list.length == 0){
-      String query = 'INSERT INTO paids (id, user_id, commerce_id, codeUrl, nameClient, total, coin, email, nameShipping, numberShipping, addressShipping, detailsShipping, selectShipping, priceShipping, statusShipping, percentage, nameCompanyPayments, date) VALUES ( \'${paid.id}\', \'${paid.user_id}\',\'${paid.commerce_id}\',\'${paid.codeUrl}\',\'${paid.nameClient}\',\'${paid.total}\',\'${paid.coin}\',\'${paid.email}\',\'${paid.nameShipping}\',\'${paid.numberShipping}\',\'${paid.addressShipping}\',\'${paid.detailsShipping}\',\'${paid.selectShipping}\',\'${paid.priceShipping}\',\'${paid.statusShipping}\',\'${paid.percentage}\',\'${paid.nameCompanyPayments}\',\'${paid.date}\')';
+      String query = 'INSERT INTO paids (id, user_id, commerce_id, codeUrl, nameClient, total, coin, email, nameShipping, numberShipping, addressShipping, detailsShipping, selectShipping, priceShipping, statusShipping, percentage, nameCompanyPayments, date, statusPayment) VALUES ( \'${paid.id}\', \'${paid.user_id}\',\'${paid.commerce_id}\',\'${paid.codeUrl}\',\'${paid.nameClient}\',\'${paid.total}\',\'${paid.coin}\',\'${paid.email}\',\'${paid.nameShipping}\',\'${paid.numberShipping}\',\'${paid.addressShipping}\',\'${paid.detailsShipping}\',\'${paid.selectShipping}\',\'${paid.priceShipping}\',\'${paid.statusShipping}\',\'${paid.percentage}\',\'${paid.nameCompanyPayments}\',\'${paid.date}\',\'${paid.statusPayment}\')';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
     });
     }else{
-      String query = 'UPDATE paids SET user_id=\'${paid.user_id}\', commerce_id=\'${paid.commerce_id}\', codeUrl=\'${paid.codeUrl}\', nameClient=\'${paid.nameClient}\', total=\'${paid.total}\', coin=\'${paid.coin}\', email=\'${paid.email}\', nameShipping=\'${paid.nameShipping}\', numberShipping=\'${paid.numberShipping}\', addressShipping=\'${paid.addressShipping}\', detailsShipping=\'${paid.detailsShipping}\', selectShipping=\'${paid.selectShipping}\', priceShipping=\'${paid.priceShipping}\', statusShipping=\'${paid.statusShipping}\', percentage=\'${paid.percentage}\', nameCompanyPayments=\'${paid.nameCompanyPayments}\', date=\'${paid.date}\' WHERE id= \'${paid.id}\'';
+      String query = 'UPDATE paids SET user_id=\'${paid.user_id}\', commerce_id=\'${paid.commerce_id}\', codeUrl=\'${paid.codeUrl}\', nameClient=\'${paid.nameClient}\', total=\'${paid.total}\', coin=\'${paid.coin}\', email=\'${paid.email}\', nameShipping=\'${paid.nameShipping}\', numberShipping=\'${paid.numberShipping}\', addressShipping=\'${paid.addressShipping}\', detailsShipping=\'${paid.detailsShipping}\', selectShipping=\'${paid.selectShipping}\', priceShipping=\'${paid.priceShipping}\', statusShipping=\'${paid.statusShipping}\', percentage=\'${paid.percentage}\', nameCompanyPayments=\'${paid.nameCompanyPayments}\', date=\'${paid.date}\', statusPayment=\'${paid.statusPayment}\' WHERE id= \'${paid.id}\'';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });

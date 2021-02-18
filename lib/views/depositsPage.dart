@@ -278,7 +278,7 @@ class _DepositsPageState extends State<DepositsPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(30, 10, 30, 5),
                           child: AutoSizeText(
-                            "Depositaremos tus ventas el DIA a la HORA en tu cuenta bancaria.",
+                            "Depositaremos tus ventas TODOS LOS DIAS a tu cuenta bancaria.",
                             textAlign: TextAlign.center,
                             style:  TextStyle(
                               color: colorGrey,
@@ -291,7 +291,7 @@ class _DepositsPageState extends State<DepositsPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(30, 10, 30, 15),
                           child: AutoSizeText(
-                            "El depósito te llegara dos dias habiles despues",
+                            "El depósito a cuenta bancaria venezolana te llegara a las 01:00 PM, en el caso de cuenta bancaria internacional dos dias habiles después.",
                             textAlign: TextAlign.center,
                             style:  TextStyle(
                               color: colorGrey,

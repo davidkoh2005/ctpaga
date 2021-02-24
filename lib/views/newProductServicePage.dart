@@ -44,6 +44,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       _statusButtonDelete = false;
   List _dataProductsService = new List();
   File _image;
+  double _positionTopFirst = 0,
+        _positionTopSecond = 35;
 
   @override
   void initState() {
@@ -92,6 +94,13 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         _dataProductsService.add("Picture");
         _dataProductsService.add("Name");
         _dataProductsService.add("Price");
+      });
+    }
+
+    if(myProvider.coinUsers == 1){
+      setState(() {
+        _positionTopFirst = 35;
+        _positionTopSecond = 0;
       });
     }
       
@@ -176,6 +185,72 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     );
   }
 
+  Widget coinSecond(){
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopSecond,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopSecond == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: _positionTopSecond == 0? colorGreen : colorGrey,
+          ),
+          child: Container(
+            child: AutoSizeText(
+              "Bs",
+              style:  TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'MontserratSemiBold',
+              ),
+              maxFontSize: 18,
+              minFontSize: 18,
+            )
+          ),
+        )
+      ),
+    );
+  }
+
+  Widget coinFirst(){
+    var size = MediaQuery.of(context).size;
+    return AnimatedPositioned(
+      duration: Duration(milliseconds:300),
+      top: _positionTopFirst,
+      curve: Curves.linear,
+      child: AnimatedPadding(
+        duration: Duration(milliseconds:600),
+        padding: _positionTopFirst == 0? EdgeInsets.only(left:5) : EdgeInsets.only(left:40),
+        child: Container(
+          alignment: Alignment.center,
+          width: size.width / 7,
+          height: size.width / 7,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(80),
+            color: _positionTopFirst == 0? colorGreen : colorGrey,
+          ),
+          child: AutoSizeText(
+            "\$" ,
+            style:  TextStyle(
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+              fontFamily: 'MontserratSemiBold',
+            ),
+            maxFontSize: 18,
+            minFontSize: 18,
+          ),
+        ),
+      ),
+    );
+  }
+
   Widget formProduct(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var size = MediaQuery.of(context).size;
@@ -248,7 +323,49 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
 
                     Padding(
-                      padding: const EdgeInsets.fromLTRB(15.0, 40.0, 15.0, 0.0),
+                      padding: EdgeInsets.only(top:40),
+                      child: GestureDetector(
+                        onTap: () async {
+                          myProvider.coinUsers = myProvider.coinUsers == 0 ? 1 : 0;
+                          await Future.delayed(Duration(milliseconds: 200));
+                          setState(() {
+                            _positionTopFirst == 0? _positionTopFirst = 35 : _positionTopFirst = 0; 
+                            _positionTopSecond == 0? _positionTopSecond = 35 : _positionTopSecond = 0; 
+                          });
+                          if(myProvider.coinUsers == 0)
+                            lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
+                          else
+                            lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
+
+                          if(myProvider.dataSelectProduct != null)
+                            updatePrice(myProvider.dataSelectProduct.price, myProvider.dataSelectProduct.coin);
+                          else if(myProvider.dataSelectService != null)
+                            updatePrice(myProvider.dataSelectService.price, myProvider.dataSelectService.coin);
+                        },
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Container(
+                            width: size.width / 3,
+                            height: size.width / 3.5,
+                            child: Stack(
+                              children: myProvider.coinUsers == 0 ?[
+                                coinSecond(),
+                                coinFirst(),
+                              ]
+                              :
+                              [
+                                coinFirst(),
+                                coinSecond(),
+                              ],
+                            ),
+                          )
+                        )
+                      )
+                    ),
+
+
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(15.0, 10.0, 15.0, 0.0),
                       child: Align(
                         alignment: Alignment.centerLeft,
                         child: AutoSizeText(

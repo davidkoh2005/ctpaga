@@ -11,10 +11,12 @@ import 'package:ctpaga/views/salesReportPage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
+import 'dart:io';
 
 class MainPage extends StatefulWidget {
   @override
@@ -30,6 +32,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   Bank bankUserBs = Bank();
   // ignore: unused_field
   int clickBotton = 0, _statusCoin = 0;
+  DateTime currentBackPressTime;
 
   @override
   void initState() {
@@ -96,17 +99,26 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   }
 
+  // ignore: missing_return
+  Future<bool> _onBackPressed(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    if(myProvider.statusButtonMenu){
+      myProvider.statusButtonMenu = false;
+    }else{
+      DateTime now = DateTime.now();
+      if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+        currentBackPressTime = now;
+        Fluttertoast.showToast(msg: "Presiona dos veces para salir de la aplicación");
+        return Future.value(false);
+      }
+      exit(0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
     return WillPopScope(
-      onWillPop: () async {
-        if(myProvider.statusButtonMenu){
-          myProvider.statusButtonMenu = false;
-        }
-        
-        return false;
-      },
+      onWillPop: _onBackPressed,
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(

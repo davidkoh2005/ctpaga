@@ -334,7 +334,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
-            myProvider.coinUsers = 1;
+            myProvider.coinUsers = 0;
             prefs.setString('descriptionShipping', "");
             myProvider.descriptionShipping = "";
             _passwordController.clear();

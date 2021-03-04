@@ -379,7 +379,7 @@ class _RegisterPageState extends State<RegisterPage> {
             myProvider.accessTokenUser = jsonResponse['access_token'];
             prefs.setInt('selectCommerce', 0);
             myProvider.selectCommerce = 0;
-            myProvider.coinUsers = 1;
+            myProvider.coinUsers = 0;
             prefs.setString('descriptionShipping', "");
             myProvider.descriptionShipping = "";
             myProvider.getDataUser(true, true, context);

@@ -163,7 +163,7 @@ class _MyHomePageState extends State<MyHomePage> {
     // timeout and then shows login and registration or main page
     await Future.delayed(Duration(seconds: 2));
     if(prefs.containsKey('access_token')){
-      myProvider.coinUsers = 1;
+      myProvider.coinUsers = 0;
       myProvider.accessTokenUser = prefs.getString('access_token');
       myProvider.selectCommerce = prefs.getInt('selectCommerce');
       myProvider.descriptionShipping = prefs.getString('descriptionShipping');

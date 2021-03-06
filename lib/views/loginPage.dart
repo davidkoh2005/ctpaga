@@ -343,6 +343,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.statusButtonMenu = false;
             myProvider.clickButtonMenu = 0;
             myProvider.dataShipping = [];
+            myProvider.getTokenFCM = null;
           } else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {

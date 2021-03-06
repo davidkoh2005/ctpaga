@@ -1,9 +1,9 @@
 class User{
   int id;
-  String email, name, address, phone;
+  String email, name, address, phone, tokenFCM;
   bool statusShipping;
 
-  User({this.id, this.email, this.name, this.address, this.phone, this.statusShipping});
+  User({this.id, this.email, this.name, this.address, this.phone, this.statusShipping, this.tokenFCM});
 
   factory User.fromMap(dynamic data) => User(
     id: data['id'],
@@ -12,6 +12,7 @@ class User{
     address: data['address'],
     phone: data['phone'],
     statusShipping: data['statusShipping'],
+    tokenFCM: data['tokenFCM'],
   );
 
   Map<String, dynamic> toJson()=> {
@@ -21,6 +22,7 @@ class User{
     'address': address,
     'phone': phone,
     'statusShipping': statusShipping,
+    'tokenFCM': tokenFCM,
   };
 
 }

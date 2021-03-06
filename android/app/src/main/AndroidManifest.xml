@@ -41,6 +41,10 @@
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            <intent-filter>
+                <action android:name="FLUTTER_NOTIFICATION_CLICK" />
+                <action android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
         </activity>
         <activity
           android:name="com.yalantis.ucrop.UCropActivity"
@@ -52,11 +56,5 @@
             android:name="flutterEmbedding"
             android:value="2" />
         
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
-            </intent-filter>
-        </receiver>
-        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" />
     </application>
 </manifest>

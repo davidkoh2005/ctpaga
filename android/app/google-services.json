@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "460310292890",
+    "project_id": "testctpaga",
+    "storage_bucket": "testctpaga.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460310292890:android:772a1f708d54459a2bb223",
+        "android_client_info": {
+          "package_name": "ctpaga.ctpaga"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460310292890-vvbhvac1t04pkcfjipc05tm8jvi921kh.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY0oIcuLKrVSloADHEMbE52iJAPp255D4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460310292890-vvbhvac1t04pkcfjipc05tm8jvi921kh.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

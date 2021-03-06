@@ -390,6 +390,15 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  String _tokenFCM;
+  String get getTokenFCM =>_tokenFCM; 
+  
+  set getTokenFCM(String newValue) {
+    _tokenFCM = newValue; 
+    notifyListeners(); 
+  }
+
+
   User user = User();
   List banksUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -428,6 +437,7 @@ class MyProvider with ChangeNotifier {
             address: jsonResponse['data']['0']['address'],
             phone: jsonResponse['data']['0']['phone'],
             statusShipping: jsonResponse['data']['0']['statusShipping']== 0? false : true,
+            tokenFCM: jsonResponse['data']['0']['token_fcm'],
           );
 
           dataUser = user;
@@ -436,6 +446,9 @@ class MyProvider with ChangeNotifier {
             dbctpaga.addNewUser(user);
           else
             dbctpaga.updateUser(user); 
+
+          if(user.tokenFCM == null && getTokenFCM != user.tokenFCM)
+            updateToken(getTokenFCM, context);
 
 
           if(jsonResponse['data']['banks'] != null){
@@ -1050,7 +1063,7 @@ class MyProvider with ChangeNotifier {
               user_id: item['user_id'],
               commerce_id: item['commerce_id'],
               coin: item['coin'],
-              total: item['total'],
+              total: item['total'].toString(),
             );
             _listBalances.add(balance);
             dbctpaga.createOrUpdateBalance(balance);
@@ -1091,6 +1104,37 @@ class MyProvider with ChangeNotifier {
       }
     }
 
+  }
+
+  updateToken(token, context)async{
+    var result, response, jsonResponse;
+       try {
+        result = await InternetAddress.lookup('google.com');
+        if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+
+          response = await http.post(
+            urlApi+"updateUser",
+            headers:{
+              'Content-Type': 'application/json',
+              'X-Requested-With': 'XMLHttpRequest',
+              'authorization': 'Bearer $accessTokenUser',
+            },
+            body: jsonEncode({
+              'token_fcm': token,
+            }),
+          ); 
+
+          jsonResponse = jsonDecode(response.body); 
+
+          print(jsonResponse);
+
+          if (jsonResponse['statusCode'] == 201) {
+            getDataUser(false, false, context);
+          } 
+        }
+      } on SocketException catch (_) {
+        print("Sin conexión a internet");
+      }
   }
 
 

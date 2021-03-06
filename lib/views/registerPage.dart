@@ -387,7 +387,7 @@ class _RegisterPageState extends State<RegisterPage> {
             myProvider.statusButtonMenu = false;
             myProvider.clickButtonMenu = 0;
             myProvider.dataShipping = [];
-
+            myProvider.getTokenFCM = null;
           } else if(jsonResponse['errors'] != null){
 
             setState(() {

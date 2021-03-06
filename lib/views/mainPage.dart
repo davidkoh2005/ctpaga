@@ -9,7 +9,8 @@ import 'package:ctpaga/env.dart';
 import 'package:ctpaga/views/salesReportPage.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:pusher_websocket_flutter/pusher.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
@@ -25,7 +26,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  Channel _channel;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -39,64 +40,47 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     super.initState();
     initialNotification();
     initialVariable();
-    initialPusher();
-    WidgetsBinding.instance.addObserver(this);
+    registerNotification();
   }
 
   @override
   void dispose() {
     super.dispose();
-    WidgetsBinding.instance.removeObserver(this);
   }
 
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    super.didChangeAppLifecycleState(state);
-    print("print $state");
-    initialPusher();
+  void registerNotification() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    _firebaseMessaging.requestNotificationPermissions();
+
+    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+      print('onMessage: $message');
+      showNotification(message['notification']['title'],message['notification']['body']);
+      return;
+    }, onResume: (Map<String, dynamic> message) {
+      print('onResume: $message');
+      showNotification(message['notification']['title'],message['notification']['body']);
+      return;
+    }, onLaunch: (Map<String, dynamic> message) {
+      print('onLaunch: $message');
+      showNotification(message['notification']['title'],message['notification']['body']);
+      return;
+    });
+
+    _firebaseMessaging.getToken().then((token) {
+      print("token: $token");
+      prefs.setString('tokenFCM', token);
+      myProvider.getTokenFCM = token;
+      if(token != myProvider.dataUser.tokenFCM)
+        myProvider.updateToken(token, context);
+    }).catchError((err) {
+      Fluttertoast.showToast(msg: err.message.toString());
+    });
   }
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _statusCoin = myProvider.coinUsers;
-  }
-
-  Future<void> initialPusher() async{
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    
-    try {
-      PusherOptions options = PusherOptions(
-        host: url.replaceAll(':8000', ''),
-        port: 6001,
-        encrypted: false,
-      );
-      await Pusher.init("ctpaga20210201",options);
-    } catch (e) {
-      print(e);
-    }
-
-    Pusher.connect(
-      onConnectionStateChange: (val){
-        print(val.currentState);
-      },
-      onError: (err) {
-        print(err.message);
-      }
-    );
-
-    _channel = await Pusher.subscribe("channel-ctpaga");
-
-    _channel.bind("event-ctpaga", (onEvent) { 
-      var notification = jsonDecode(onEvent.data);
-      print(onEvent.data);
-
-      if(myProvider.dataCommercesUser[myProvider.selectCommerce].id == notification['data']['commerce_id'])
-        if(notification['data']['coin'] == "0")
-          showNotification("Recibiste un pago de \$ ${notification['data']['total']}");
-        else
-          showNotification("Recibiste un pago de Bs ${notification['data']['total']}");
-        
-    });
-
   }
 
   // ignore: missing_return
@@ -287,9 +271,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   void initialNotification() {
     var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
     var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid,
-      iOS: initializationSettingsIOS
+    var initializationSettings = InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification,);
   }
@@ -313,21 +295,23 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     }
   }
 
-  void showNotification(message) async {
-    var androidPlatformChannelSpecifics = AndroidNotificationDetails(
+  void showNotification(title, message) async {
+
+    var android = AndroidNotificationDetails(
         'Message New id',
         'Message New name',
         'Message New description',
-        importance: Importance.max,
-        priority: Priority.high,
+        priority: Priority.High,
+        importance: Importance.Max,
     );
 
     var iOS = IOSNotificationDetails();
-    final NotificationDetails platformChannelSpecifics =
-        NotificationDetails(android: androidPlatformChannelSpecifics, iOS:  iOS);
+
+    var platformChannelSpecifics = NotificationDetails(
+    android, iOS);
 
     await flutterLocalNotificationsPlugin.show(
-        0, "Nuevo Pago Recibido", message, platformChannelSpecifics, payload: "true"
+        0, title, message, platformChannelSpecifics, payload: "true"
       );
 
   }

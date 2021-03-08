@@ -9,6 +9,7 @@ import 'package:ctpaga/env.dart';
 import 'package:ctpaga/views/salesReportPage.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -16,8 +17,10 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'dart:convert';
 import 'dart:io';
+
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+    FlutterLocalNotificationsPlugin();
 
 class MainPage extends StatefulWidget {
   @override
@@ -270,7 +273,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   void initialNotification() {
     var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = new IOSInitializationSettings();
+    var initializationSettingsIOS = IOSInitializationSettings(
+      requestAlertPermission: true,
+      requestBadgePermission: true,
+      requestSoundPermission: true,
+      onDidReceiveLocalNotification:
+          (int id, String title, String body, String payload) async {});
     var initializationSettings = InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS
     );
     flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification,);
@@ -305,7 +313,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
         importance: Importance.Max,
     );
 
-    var iOS = IOSNotificationDetails();
+
+    var iOS = IOSNotificationDetails(presentSound: false);
 
     var platformChannelSpecifics = NotificationDetails(
     android, iOS);
@@ -313,6 +322,8 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     await flutterLocalNotificationsPlugin.show(
         0, title, message, platformChannelSpecifics, payload: "true"
       );
+
+    FlutterRingtonePlayer.playNotification();
 
   }
 

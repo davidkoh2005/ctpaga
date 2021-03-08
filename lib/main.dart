@@ -171,7 +171,7 @@ class _MyHomePageState extends State<MyHomePage> {
       myProvider.dataPurchase = [];
       myProvider.statusButtonMenu = false;
       myProvider.clickButtonMenu = 0;
-      myProvider.getTokenFCM = prefs.getString('tokenFCM');
+      myProvider.getTokenFCM = prefs.containsKey('tokenFCM')? prefs.getString('tokenFCM') : null;
     }else{
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }

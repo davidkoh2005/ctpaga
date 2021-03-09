@@ -360,7 +360,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       lowPrice = new MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     }
 
-    lowPrice.updateValue(myProvider.totalSales);
+    lowPrice.updateValue(myProvider.totalSales != null ? myProvider.totalSales : 0);
       
     return "${lowPrice.text}";
   }

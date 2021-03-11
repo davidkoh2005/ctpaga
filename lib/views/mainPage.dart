@@ -74,7 +74,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       print("token: $token");
       prefs.setString('tokenFCM', token);
       myProvider.getTokenFCM = token;
-      if(token != myProvider.dataUser.tokenFCM)
+      if(token != myProvider.dataUser.tokenFCM || myProvider.getTokenFCM != token)
         myProvider.updateToken(token, context);
     }).catchError((err) {
       Fluttertoast.showToast(msg: err.message.toString());

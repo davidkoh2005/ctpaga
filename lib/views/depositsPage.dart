@@ -291,7 +291,7 @@ class _DepositsPageState extends State<DepositsPage> {
                         Padding(
                           padding: EdgeInsets.fromLTRB(30, 10, 30, 15),
                           child: AutoSizeText(
-                            "El depósito a cuenta bancaria venezolana te llegara a las 01:00 PM, en el caso de cuenta bancaria internacional dos dias habiles después.",
+                            "El depósito a Bancos Nacionales, estarán disponibles a las 01:00 PM, en caso de ser Bancos en Panamá o USA, se harán efectivos a más tardar en 48 horas.",
                             textAlign: TextAlign.center,
                             style:  TextStyle(
                               color: colorGrey,

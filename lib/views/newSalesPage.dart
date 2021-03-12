@@ -31,11 +31,17 @@ class _NewSalesPageState extends State<NewSalesPage> {
   @override
   void initState() {
     super.initState();
+    initialVariable();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  initialVariable(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.getDataUser(false, false, context);
   }
 
   @override

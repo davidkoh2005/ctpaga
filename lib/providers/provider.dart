@@ -438,117 +438,123 @@ class MyProvider with ChangeNotifier {
             phone: jsonResponse['data']['0']['phone'],
             statusShipping: jsonResponse['data']['0']['statusShipping']== 0? false : true,
             tokenFCM: jsonResponse['data']['0']['token_fcm'],
+            status: jsonResponse['data']['0']['status'],
           );
 
           dataUser = user;
 
-          if(await dbctpaga.existUser() == 0)
-            dbctpaga.addNewUser(user);
-          else
-            dbctpaga.updateUser(user); 
+          if(dataUser.status >0)
+            removeSession(context, true);
+          else{
+            
+            if(await dbctpaga.existUser() == 0)
+              dbctpaga.addNewUser(user);
+            else
+              dbctpaga.updateUser(user); 
 
-          if(user.tokenFCM == null && getTokenFCM != user.tokenFCM)
-            updateToken(getTokenFCM, context);
+            if(user.tokenFCM == null && getTokenFCM != user.tokenFCM)
+              updateToken(getTokenFCM, context);
 
 
-          if(jsonResponse['data']['banks'] != null){
+            if(jsonResponse['data']['banks'] != null){
 
-            for (var item in jsonResponse['data']['banks']) {
-              if(item['coin'] == 'USD'){
-                bankUserUSD = Bank(
-                  coin: item['coin'],
-                  country: item['country'],
-                  accountName: item['accountName'],
-                  accountNumber: item['accountNumber'],
-                  route: item['route'],
-                  swift: item['swift'],
-                  address: item['address'],
-                  bankName: item['bankName'],
-                  accountType: item['accountType'],
-                ); 
+              for (var item in jsonResponse['data']['banks']) {
+                if(item['coin'] == 'USD'){
+                  bankUserUSD = Bank(
+                    coin: item['coin'],
+                    country: item['country'],
+                    accountName: item['accountName'],
+                    accountNumber: item['accountNumber'],
+                    route: item['route'],
+                    swift: item['swift'],
+                    address: item['address'],
+                    bankName: item['bankName'],
+                    accountType: item['accountType'],
+                  ); 
 
-                dbctpaga.createOrUpdateBankUser(bankUserUSD);
-                banksUser[0] = bankUserUSD;
+                  dbctpaga.createOrUpdateBankUser(bankUserUSD);
+                  banksUser[0] = bankUserUSD;
 
-              }else{
-                bankUserBs = Bank(
-                  coin: item['coin'],
-                  accountName: item['accountName'],
-                  accountNumber: item['accountNumber'],
-                  idCard: item['idCard'],
-                  bankName: item['bankName'],
-                  accountType: item['accountType'],
-                ); 
+                }else{
+                  bankUserBs = Bank(
+                    coin: item['coin'],
+                    accountName: item['accountName'],
+                    accountNumber: item['accountNumber'],
+                    idCard: item['idCard'],
+                    bankName: item['bankName'],
+                    accountType: item['accountType'],
+                  ); 
 
-                dbctpaga.createOrUpdateBankUser(bankUserBs);
-                banksUser[1] = bankUserBs;
+                  dbctpaga.createOrUpdateBankUser(bankUserBs);
+                  banksUser[1] = bankUserBs;
+                }
               }
             }
-          }
-          
-          dataBanksUser = banksUser;
+            
+            dataBanksUser = banksUser;
 
-          if(jsonResponse['data']['pictures'] != null){
-            for (var item in jsonResponse['data']['pictures']) {
-              pictureUser = Picture(
-                id: item['id'],
-                description: item['description'],
-                url: item['url'],
-                commerce_id: item['commerce_id'] == null? 0 : item['commerce_id'],
-              );
-              
-              dbctpaga.createOrUpdatePicturesUser(pictureUser);
-              listPicturesUser.add(pictureUser);
-            }
-          }
-
-          dataPicturesUser = listPicturesUser;
-
-          if(jsonResponse['data']['commerces'] != null){
-            for (var item in jsonResponse['data']['commerces']) {
-                Commerce commercesUser = Commerce(
+            if(jsonResponse['data']['pictures'] != null){
+              for (var item in jsonResponse['data']['pictures']) {
+                pictureUser = Picture(
                   id: item['id'],
-                  rif: item['rif'] == null? '' : item['rif'],
-                  name: item['name'] == null? '' : item['name'],
-                  address: item['address'] == null? '' : item['address'],
-                  phone: item['phone'] == null? '' : item['phone'],
-                  userUrl: item['userUrl'] == null? '' : item['userUrl'],
-                ); 
-
-                dbctpaga.createOrUpdateCommercesUser(commercesUser);
-                listCommerces.add(commercesUser);
+                  description: item['description'],
+                  url: item['url'],
+                  commerce_id: item['commerce_id'] == null? 0 : item['commerce_id'],
+                );
+                
+                dbctpaga.createOrUpdatePicturesUser(pictureUser);
+                listPicturesUser.add(pictureUser);
+              }
             }
 
-            dataCommercesUser = listCommerces;
+            dataPicturesUser = listPicturesUser;
 
-            statusUrlCommerce = false;
-            if(listCommerces.length != 0){
-              if (dataCommercesUser[selectCommerce].userUrl != '')
-                statusUrlCommerce = true;
-              
-              verifyStatusDeposits();
-              getListCategories();
-              getListProducts();
-              getListServices();
-              getListShipping();
-              getListPaids();
-              getListBalances();
+            if(jsonResponse['data']['commerces'] != null){
+              for (var item in jsonResponse['data']['commerces']) {
+                  Commerce commercesUser = Commerce(
+                    id: item['id'],
+                    rif: item['rif'] == null? '' : item['rif'],
+                    name: item['name'] == null? '' : item['name'],
+                    address: item['address'] == null? '' : item['address'],
+                    phone: item['phone'] == null? '' : item['phone'],
+                    userUrl: item['userUrl'] == null? '' : item['userUrl'],
+                  ); 
+
+                  dbctpaga.createOrUpdateCommercesUser(commercesUser);
+                  listCommerces.add(commercesUser);
+              }
+
+              dataCommercesUser = listCommerces;
+
+              statusUrlCommerce = false;
+              if(listCommerces.length != 0){
+                if (dataCommercesUser[selectCommerce].userUrl != '')
+                  statusUrlCommerce = true;
+                
+                verifyStatusDeposits();
+                getListCategories();
+                getListProducts();
+                getListServices();
+                getListShipping();
+                getListPaids();
+                getListBalances();
+              }
+
             }
 
-          }
+            statusDolar = false;
+            statusBs = false;
+            getListDiscounts();
+            getListRates();
+            await Future.delayed(Duration(seconds: 3));
 
-          statusDolar = false;
-          statusBs = false;
-          getListDiscounts();
-          getListRates();
-          await Future.delayed(Duration(seconds: 3));
+            if(loading){
+              Navigator.pop(context);
+            }
 
-          if(loading){
-            Navigator.pop(context);
-          }
-
-          if(status){
-            Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
+            if(status){
+              Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
+            }
           }
         }else{
           removeSession(context, true);

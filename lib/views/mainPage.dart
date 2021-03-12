@@ -12,11 +12,13 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
 import 'dart:io';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
@@ -30,6 +32,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
   final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  Channel _channel;
   User user = User();
   List bankUser = new List(2);
   Bank bankUserUSD = Bank();
@@ -44,6 +47,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     initialNotification();
     initialVariable();
     registerNotification();
+    initialPusher();
   }
 
   @override
@@ -100,6 +104,43 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       }
       exit(0);
     }
+  }
+
+  Future<void> initialPusher() async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+
+    try {
+      PusherOptions options = PusherOptions(
+        host: url.replaceAll(':8000', ''),
+        port: 6001,
+        encrypted: false,
+      );
+      await Pusher.init("ctpaga20210201",options);
+    } catch (e) {
+      print(e);
+    }
+
+    Pusher.connect(
+      onConnectionStateChange: (val){
+        print(val.currentState);
+      },
+      onError: (err) {
+        print(err.message);
+      }
+    );
+
+    _channel = await Pusher.subscribe("channel-ctpaga");
+
+    _channel.bind("event-ctpaga", (onEvent) { 
+      var notification = jsonDecode(onEvent.data);
+      print(onEvent.data);
+
+      if(myProvider.dataUser.id == int.parse(notification['data'])){
+        myProvider.getDataUser(false, false, context);
+      }
+
+    });
+
   }
 
   @override

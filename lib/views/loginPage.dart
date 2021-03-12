@@ -344,7 +344,14 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.clickButtonMenu = 0;
             myProvider.dataShipping = [];
             myProvider.getTokenFCM = null;
-          } else if(jsonResponse['message'] == 'Unauthorized'){
+          } else if(jsonResponse['statusCode'] == 400){
+            setState(() {
+              _passwordController.clear();
+              _statusError = true;
+              _messageError = jsonResponse['message'];
+            });
+            Navigator.pop(context);
+          }else if(jsonResponse['message'] == 'Unauthorized'){
 
             setState(() {
               _passwordController.clear();

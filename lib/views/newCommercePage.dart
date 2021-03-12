@@ -20,7 +20,7 @@ class NewCommercePage extends StatefulWidget {
 class _NewCommercePageState extends State<NewCommercePage> {
   final _formKeyCommerce = new GlobalKey<FormState>();
   final _controllerUser = TextEditingController();
-  bool _statusButtonSave = false, _statusName = false, _statusUser = false;
+  bool _statusButtonSave = false, _statusName = false, _statusUser = false, _statusUrl=false;
   String _name, _userUrl;
 
   @override
@@ -151,7 +151,14 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 fontSize: 14,
                 fontFamily: 'MontserratSemiBold',
               ),
-              onChanged: (value)=> value.trim().length >3? setState(() => _statusUser = true ) : setState(() => _statusUser = false ),
+              onChanged: (value)=> value.trim().length >3? 
+              setState(() { 
+                _statusUser = true;
+                _statusUrl = false;
+              }) : setState(() {
+                 _statusUser = false;
+                 _statusUrl = false;
+              }),
               onSaved: (value) => _userUrl = value.trim(),
               validator: (value) => value.trim().length <=3? "Ingrese un usuario correctamente": null,
             ),
@@ -160,7 +167,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
           Consumer<MyProvider>(
             builder: (context, myProvider, child) {
               return Visibility(
-                visible: _controllerUser.text.length!=0? !myProvider.statusUrlCommerce : false,
+                visible: _controllerUser.text.length!=0? _statusUrl && !myProvider.statusUrlCommerce : false,
                 child: Padding(
                   padding: const EdgeInsets.only(top: 10.00, bottom: 30.0),
                   child: new AutoSizeText(
@@ -230,6 +237,9 @@ class _NewCommercePageState extends State<NewCommercePage> {
 
         var jsonResponse = jsonDecode(response.body); 
         print(jsonResponse);
+        setState(() {
+          _statusUrl = true;
+        });
         if (jsonResponse['statusCode'] == 201) {
           myProvider.statusUrlCommerce = true;
           return true;

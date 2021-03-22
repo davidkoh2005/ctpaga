@@ -115,7 +115,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             maxLength: 50,
             validator: _validateName,
             onSaved: (value) => _nameContacts = value.trim(),
-            onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
+            onChanged: (value) => value.trim().length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
             textInputAction: TextInputAction.next,
             cursorColor: colorGreen,
             textAlign: TextAlign.center,
@@ -363,7 +363,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
     }else{
       myProvider.nameClient = _controllerName.text;
       myProvider.avatarClient = [];
-      myProvider.initialsClient = initialsClient(_controllerName.text).trim();
+      myProvider.initialsClient = initialsClient(_controllerName.text.trim());
     }
     myProvider.statusShipping = myProvider.user.statusShipping;
     await Future.delayed(Duration(milliseconds: 150));

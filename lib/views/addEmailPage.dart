@@ -252,6 +252,8 @@ class _AddEmailPageState extends State<AddEmailPage> {
             Navigator.pop(context);
             showMessage("Se registro el pago correctamente", true);
             await Future.delayed(Duration(seconds: 1));
+            myProvider.dataPurchase = [];
+            myProvider.statusRemoveShopping = true;
             Navigator.pop(context);
             Navigator.push(context, SlideLeftRoute(page: MainPage()));
           } 

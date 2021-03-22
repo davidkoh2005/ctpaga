@@ -261,10 +261,14 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
   }  
 
   nextPage(index)async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     if(index == 0){
+
       setState(() =>_statusButtonReady = true);
       await Future.delayed(Duration(milliseconds: 150));
       setState(() =>_statusButtonReady = false);
+      myProvider.dataPurchase = [];
+      myProvider.statusRemoveShopping = true;
       Navigator.pushReplacement(context, SlideLeftRoute(page: MainMenuBar()));
     }else{
       setState(() =>_statusButtonNetworks = index);

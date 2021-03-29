@@ -366,7 +366,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           if(myProvider.dataPicturesUser != null){
             if(urlProfile != null)
-              if(urlProfile.indexOf('/storage/Users/')<0)
+              if(urlProfile.indexOf('/storage/Users/')<0){
                 DefaultCacheManager().emptyCache();
                 urlProfile = null;
               }
@@ -480,6 +480,7 @@ class _ProfilePageState extends State<ProfilePage> {
         compressQuality: 100,
         maxWidth: 700,
         maxHeight: 700,
+        cropStyle: CropStyle.circle,
         compressFormat: ImageCompressFormat.jpg,
         androidUiSettings: AndroidUiSettings(
           toolbarTitle: "Editar Foto",

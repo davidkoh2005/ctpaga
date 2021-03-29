@@ -145,7 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: <Widget>[
               FlatButton(
-                child: Text('Update'),
+                child: Text('Actualizar'),
                 onPressed: () {
                   launch(urlApp);
                 },

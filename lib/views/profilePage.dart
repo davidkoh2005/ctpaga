@@ -363,7 +363,6 @@ class _ProfilePageState extends State<ProfilePage> {
           //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
           //DefaultCacheManager().emptyCache();
 
-
           if(myProvider.dataPicturesUser != null){
             if(urlProfile != null)
               if(urlProfile.indexOf('/storage/Users/')<0){
@@ -402,17 +401,17 @@ class _ProfilePageState extends State<ProfilePage> {
               );
             }
           } 
-          return GestureDetector(
-            onTap: () => _showSelectionDialog(context),
-            child: ClipOval(
-              child: Image(
-                image: AssetImage("assets/icons/addPhoto.png"),
-                width: size.width / 3,
-                height: size.width / 3,
-              ),
-            ),
-          );
         }
+        return GestureDetector(
+          onTap: () => _showSelectionDialog(context),
+          child: ClipOval(
+            child: Image(
+              image: AssetImage("assets/icons/addPhoto.png"),
+              width: size.width / 3,
+              height: size.width / 3,
+            ),
+          ),
+        );
       }
     );
   }

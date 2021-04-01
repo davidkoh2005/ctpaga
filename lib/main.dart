@@ -5,11 +5,18 @@ import 'package:ctpaga/env.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'package:auto_size_text/auto_size_text.dart';
+import 'package:install_plugin/install_plugin.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
+import 'package:ext_storage/ext_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
+import 'package:dio/dio.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -49,7 +56,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  String versionApp = "", newVersionApp = "" , urlApp;
+  String versionApp = "", newVersionApp = "" , urlApp, statusApp = "Cargando...", statusProgress = "0%";
   void initState() {
     super.initState();
     //changePage();
@@ -72,6 +79,36 @@ class _MyHomePageState extends State<MyHomePage> {
               Image(
                 image: AssetImage("assets/logo/logo.png"),
                 width: size.width/2,
+              ),
+              Container(
+                padding: EdgeInsets.only(top:5, bottom: 5),
+                child: AutoSizeText(
+                  statusApp,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontFamily: 'MontserratSemiBold',
+                  ),
+                  maxFontSize: 24,
+                  minFontSize: 24,
+                ),
+              ),
+              Visibility(
+                visible: statusApp == 'Descargando...'? true : false,
+                child: Container(
+                  padding: EdgeInsets.only(top:5, bottom: 5),
+                  child: AutoSizeText(
+                    statusProgress,
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'MontserratSemiBold',
+                    ),
+                    maxFontSize: 24,
+                    minFontSize: 24,
+                  ),
+                )
               ),
               Image.asset(
                 "assets/icons/loadingTransparent.gif",
@@ -145,9 +182,17 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             actions: <Widget>[
               FlatButton(
+                child: Text('Abrir'),
+                onPressed: () {
+                  Navigator.pop(context);
+                  launch(urlApp);
+                },
+              ),
+              FlatButton(
                 child: Text('Actualizar'),
                 onPressed: () {
-                  launch(urlApp);
+                  Navigator.pop(context);
+                  updateApk();
                 },
               ),
             ],
@@ -155,6 +200,87 @@ class _MyHomePageState extends State<MyHomePage> {
         );
       },
     );
+  }
+
+  updateApk()async{
+    setState(() {
+      statusApp = "Cargando...";
+    });
+    var dir;
+    if (Platform.isAndroid) {
+      dir = await ExtStorage.getExternalStoragePublicDirectory(
+            ExtStorage.DIRECTORY_DOWNLOADS);
+    }else{
+      dir = (await getApplicationDocumentsDirectory()).path;
+    }
+
+
+    PermissionStatus permissionStatus = await _getStoragePermission();
+    if (permissionStatus == PermissionStatus.granted) {
+      setState(() {
+        statusApp = "Solicitando permiso del almacenamiento";
+      });
+
+      await deleteFile(File(dir+'/ctpaga.apk'));
+
+      final savePath = path.join(dir, 'ctpaga.apk');
+      final Dio _dio = Dio();
+
+      try{
+        setState(() {
+          statusApp = "Descargando...";
+        });
+        await _dio.download(
+          'http://www.ctpaga.app/apk/ctpaga.apk',
+          savePath,
+          onReceiveProgress: (received, total) {
+            if (total != -1) {
+              setState(() {
+                statusProgress = (received / total * 100).toStringAsFixed(0) + "%";
+              });
+            }
+          }
+        );
+
+      }catch (ex) {
+        print(ex.toString());
+        updateApk();
+      } 
+
+      setState(() {
+        statusApp = "Instalando...";
+      });
+      await InstallPlugin.installApk(
+        savePath,
+        'ctpaga.ctpaga',
+      ); 
+
+    } else {
+      updateApk();
+    }
+  }
+
+  Future<void> deleteFile(File file) async {
+    try {
+      if (await file.exists()) {
+        await file.delete();
+      }
+    } catch (e) {
+      updateApk();
+    }
+  }
+
+  Future<PermissionStatus> _getStoragePermission() async {
+    final PermissionStatus permission = await Permission.storage.status;
+    if (permission != PermissionStatus.granted &&
+        permission != PermissionStatus.denied) {
+      final Map<Permission, PermissionStatus> permissionStatus =
+          await [Permission.storage].request();
+      return permissionStatus[Permission.storage] ??
+          PermissionStatus.undetermined;
+    } else {
+      return permission;
+    }
   }
 
   changePage() async{

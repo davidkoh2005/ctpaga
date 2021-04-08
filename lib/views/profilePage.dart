@@ -173,15 +173,19 @@ class _ProfilePageState extends State<ProfilePage> {
                                           break;
                                         }
                                       }
+                                      DefaultCacheManager().emptyCache();
 
                                       SharedPreferences prefs = await SharedPreferences.getInstance();
                                       myProvider.selectCommerce = count;
                                       prefs.setInt('selectCommerce', count);
                                       _onLoading();
-                                      myProvider.getDataUser(false, true, context);
+                                      await myProvider.getDataUser(false, true, context);
                                       _controllerUser.clear();
                                       _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
-                                      setState(() => _statusDropdown = '');
+                                      setState(() {
+                                        urlProfile = null;
+                                        _statusDropdown = '';
+                                      });
                                     }
                                   },
                                   style: TextStyle(
@@ -518,7 +522,7 @@ class _ProfilePageState extends State<ProfilePage> {
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() =>_image = cropped);
-            myProvider.getDataUser(false, true, context);
+            await myProvider.getDataUser(false, true, context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
             Navigator.pop(context);
@@ -1800,7 +1804,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, false, context);
+            await myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1842,7 +1846,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, false, context);
+            await myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
           } 
         }
@@ -1879,7 +1883,7 @@ class _ProfilePageState extends State<ProfilePage> {
           jsonResponse = jsonDecode(response.body); 
           if (jsonResponse['statusCode'] == 201) {
             setState(() => _statusDropdown = "");
-            myProvider.getDataUser(false, false, context);
+            await myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1940,7 +1944,7 @@ class _ProfilePageState extends State<ProfilePage> {
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
           setState(() => _statusDropdown = "");
-          myProvider.getDataUser(false, false, context);
+          await myProvider.getDataUser(false, false, context);
           Navigator.pop(context);
           showMessage("Guardado Correctamente", true);
           await Future.delayed(Duration(seconds: 1));

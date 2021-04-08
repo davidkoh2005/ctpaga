@@ -160,7 +160,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListCategories();
+            await myProvider.getListCategories();
             var category = Categories(
               id: jsonResponse['data']['id'],
               name: jsonResponse['data']['name'],

@@ -267,7 +267,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
       print(jsonResponse); 
       if (jsonResponse['statusCode'] == 201) {
         myProvider.listVerification.add(_title);
-        myProvider.getDataUser(false, false, context);
+        await myProvider.getDataUser(false, false, context);
         Navigator.pop(context);
         Navigator.pop(context);
       }

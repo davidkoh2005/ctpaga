@@ -270,8 +270,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
+            await myProvider.getDataUser(false, true, context);
             Navigator.pop(context);
-            myProvider.getDataUser(false, true, context);
           }else{
             Navigator.pop(context);
             showMessage(jsonResponse['message'], false);

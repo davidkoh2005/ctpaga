@@ -254,9 +254,11 @@ class _NewCommercePageState extends State<NewCommercePage> {
   }
 
   saveName()async{
+    _onLoading();
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.statusUrlCommerce = false;
     var response, result;
-    verifyUrl(_controllerUser.text);
+    await verifyUrl(_controllerUser.text);
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
@@ -264,7 +266,6 @@ class _NewCommercePageState extends State<NewCommercePage> {
       _formKeyCommerce.currentState.save();
       try
       {
-        _onLoading();
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
@@ -282,7 +283,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getDataUser(false, false, context);
+            await myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -295,6 +296,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
         showMessage("Sin conexión a internet", false);
       }
       
+    }else{
+      Navigator.pop(context);
     }
   }
   

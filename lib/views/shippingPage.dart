@@ -430,7 +430,7 @@ class _ShippingPageState extends State<ShippingPage> {
 
         jsonResponse = jsonDecode(response.body); 
         if (jsonResponse['statusCode'] == 201) {
-          myProvider.getDataUser(false, false, context);
+          await myProvider.getDataUser(false, false, context);
           await Future.delayed(Duration(seconds: 2));
           Navigator.pop(context);
         } 

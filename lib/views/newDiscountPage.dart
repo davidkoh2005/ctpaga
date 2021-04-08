@@ -315,7 +315,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListDiscounts();
+            await myProvider.getListDiscounts();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));

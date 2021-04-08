@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "460310292890",
-    "project_id": "testctpaga",
-    "storage_bucket": "testctpaga.appspot.com"
+    "project_number": "138990743563",
+    "project_id": "ctpaga",
+    "storage_bucket": "ctpaga.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:460310292890:android:772a1f708d54459a2bb223",
+        "mobilesdk_app_id": "1:138990743563:android:ab71b7c1206aae7b04570e",
         "android_client_info": {
           "package_name": "ctpaga.ctpaga"
         }
       },
       "oauth_client": [
         {
-          "client_id": "460310292890-vvbhvac1t04pkcfjipc05tm8jvi921kh.apps.googleusercontent.com",
+          "client_id": "138990743563-52b3h461s2f0k39344goffsp0ou8reoa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDY0oIcuLKrVSloADHEMbE52iJAPp255D4"
+          "current_key": "AIzaSyAXv8hYIfL0p_5mjYB6hlZABeagKSlPr2U"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "460310292890-vvbhvac1t04pkcfjipc05tm8jvi921kh.apps.googleusercontent.com",
+              "client_id": "138990743563-52b3h461s2f0k39344goffsp0ou8reoa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

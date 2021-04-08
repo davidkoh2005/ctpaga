@@ -366,7 +366,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListShipping();
+            await myProvider.getListShipping();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -413,7 +413,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
         if (jsonResponse['statusCode'] == 201) {
           var dbctpaga = DBctpaga();
           dbctpaga.deleteShipping(myProvider.dataShipping[index].id);
-          myProvider.getListShipping();
+          await myProvider.getListShipping();
           Navigator.pop(context);
           showMessage("Eliminado Correctamente", true);
           await Future.delayed(Duration(seconds: 1));

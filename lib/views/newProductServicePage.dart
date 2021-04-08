@@ -1073,8 +1073,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListProducts();
-            myProvider.getListServices();
+            await myProvider.getListProducts();
+            await myProvider.getListServices();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1152,7 +1152,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse); 
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getListProducts();
+            await myProvider.getListProducts();
             Navigator.pop(context);
             showMessage("Guardado Correctamente", true);
             await Future.delayed(Duration(seconds: 1));
@@ -1216,11 +1216,11 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             var dbctpaga = DBctpaga();
             if(myProvider.selectProductsServices == 0){
               dbctpaga.deleteProduct(myProvider.dataSelectProduct.id);
-              myProvider.getListProducts();
+              await myProvider.getListProducts();
             }
             else{
               dbctpaga.deleteService(myProvider.dataSelectService.id);
-              myProvider.getListServices();
+              await myProvider.getListServices();
             }
             
             Navigator.pop(context);

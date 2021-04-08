@@ -224,7 +224,7 @@ class _SelfiePageState extends State<SelfiePage> {
       print(jsonResponse); 
       if (jsonResponse['statusCode'] == 201) {
         myProvider.listVerification.add("Selfie");       
-        myProvider.getDataUser(false, false, context);
+        await myProvider.getDataUser(false, false, context);
         Navigator.pop(context);
         Navigator.pop(context);
       }

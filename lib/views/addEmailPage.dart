@@ -248,7 +248,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
           var jsonResponse = jsonDecode(response.body); 
           print(jsonResponse);
           if (jsonResponse['statusCode'] == 201) {
-            myProvider.getDataUser(false, false, context);
+            await myProvider.getDataUser(false, false, context);
             Navigator.pop(context);
             showMessage("Se registro el pago correctamente", true);
             await Future.delayed(Duration(seconds: 1));

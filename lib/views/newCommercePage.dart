@@ -132,7 +132,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               maxLength: 20,
               inputFormatters: [
                 FilteringTextInputFormatter.allow(RegExp("[a-z 0-9]")),
-                FilteringTextInputFormatter.deny(RegExp("[/\\\\ \s\b|\b\s]")),
+                FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s")),
               ],
               cursorColor: colorGreen,
               decoration: InputDecoration(

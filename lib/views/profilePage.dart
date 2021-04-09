@@ -92,10 +92,10 @@ class _ProfilePageState extends State<ProfilePage> {
       _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName; 
       _nameBankingBs = myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName;
 
-      _positionDocumentCompany = myProvider.dataCommercesUser.length == 0? 1 : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.length == 0? 1 : _listDocumentCompany.indexOf(myProvider.dataCommercesUser[myProvider.selectCommerce].rif.substring(0,1));
+      _positionDocumentCompany = myProvider.dataCommercesUser.length == 0? 1 : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.length == 0? 1 : _listDocumentCompany.indexOf(myProvider.dataCommercesUser[myProvider.selectCommerce].rif.substring(0,1).toUpperCase());
       _selectDocumentCompany = _listDocumentCompany[_positionDocumentCompany];
       
-      _positionDocument = myProvider.dataBanksUser[1] == null? 1 : _listDocument.indexOf(myProvider.dataBanksUser[1].idCard.substring(0,1));
+      _positionDocument = myProvider.dataBanksUser[1] == null? 1 : _listDocument.indexOf(myProvider.dataBanksUser[1].idCard.substring(0,1).toUpperCase());
       _selectDocument = _listDocument[_positionDocument];
     });
     
@@ -197,7 +197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                         value: commerce,
                                         child: Container(
                                           child: AutoSizeText(
-                                            commerce.name,
+                                            commerce.name == ''? 'NOMBRE DE LA EMPRESA' : commerce.name,
                                             style: TextStyle(
                                               color: colorText,
                                               fontFamily: 'MontserratSemiBold',
@@ -771,7 +771,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         maxLength: 20,
                         inputFormatters: [
                           FilteringTextInputFormatter.allow(RegExp("[a-z 0-9]")),
-                          FilteringTextInputFormatter.deny(RegExp("[/\\\\ \s\b|\b\s]")),
+                          FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s")),
                         ],
                         decoration: InputDecoration(
                           labelText: 'Usuario',
@@ -1772,7 +1772,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void buttonClickSaveCompany()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    verifyUrl(_controllerUser.text);
+    await verifyUrl(_controllerUser.text);
     if (_formKeyCompany.currentState.validate() && myProvider.statusUrlCommerce) {
       _formKeyCompany.currentState.save();
       _onLoading();

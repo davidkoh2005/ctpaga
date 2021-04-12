@@ -149,9 +149,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   ),
                 )
               ),
-              Image.asset(
-                "assets/icons/loadingTransparent.gif",
-                width: size.width/6,
+              CircularProgressIndicator(
+                valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
               ),
             ]
           ),

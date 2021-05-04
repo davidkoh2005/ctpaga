@@ -10,11 +10,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:install_plugin/install_plugin.dart';
-import 'package:in_app_update/in_app_update.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:ext_storage/ext_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
@@ -64,20 +62,13 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   String versionApp = "", newVersionApp = "" , urlApp, statusApp = "Cargando...", statusProgress = "0%", savePath;
   int progressDownloader = 0, statusObserver = 0;
   bool statusInstall = false;
-  AppUpdateInfo _updateInfo;
 
   void initState() {
     super.initState();
-    checkForUpdate();
     WidgetsBinding.instance.addObserver(this);
     initialNotification();
     //changePage();
-    _updateInfo?.updateAvailable == true ?? 
-      InAppUpdate.performImmediateUpdate().catchError((e) {
-        Fluttertoast.showToast(msg: e.toString());
-        checkVersion();
-      });
-
+    checkVersion();
   }
 
   @override
@@ -109,18 +100,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     if (payload != null) {
       debugPrint('notification payload: $payload');
     }
-  }
-
-
-  // Platform messages are asynchronous, so we initialize in an async method.
-  Future<void> checkForUpdate() async {
-    InAppUpdate.checkForUpdate().then((info) {
-      setState(() {
-        _updateInfo = info;
-      });
-    }).catchError((e) {
-        checkVersion();
-    });
   }
 
   @override

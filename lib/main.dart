@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider( 
       create: (_) => MyProvider(),
       child: MaterialApp(
-        title: 'CTpaga',
+        title: 'Ctpaga',
         theme: ThemeData(
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           Locale('es','ES'),
         ],
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        home: MyHomePage(title: 'CTpaga'),
+        home: MyHomePage(title: 'Ctpaga'),
       )
     );
   }
@@ -257,7 +257,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     android, iOS);
 
     await flutterLocalNotificationsPlugin.show(
-        0, 'CTpaga', "Descarga Completado", platformChannelSpecifics, payload: "complete"
+        0, 'Ctpaga', "Descarga Completado", platformChannelSpecifics, payload: "complete"
       );
 
     FlutterRingtonePlayer.playNotification();
@@ -281,7 +281,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOS);
         await flutterLocalNotificationsPlugin.show(
             0,
-            'CTpaga',
+            'Ctpaga',
             'Descargando...',
             platformChannelSpecifics,
             payload: 'progress x');

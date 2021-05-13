@@ -1,9 +1,9 @@
 name: ctpaga
-description: ctpaga.
+description: Ctpaga.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.40+2
+version: 1.0.41+4
 
 environment:
   sdk: ">=2.7.0 <3.0.0"

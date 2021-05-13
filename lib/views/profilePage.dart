@@ -51,6 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final FocusNode _idCardBankingBsFocus = FocusNode();
   final FocusNode _accountNumberBankingBsFocus = FocusNode();
   final _controllerUser = TextEditingController();
+  final _passwordController = TextEditingController();
 
   String _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
@@ -266,7 +267,54 @@ class _ProfilePageState extends State<ProfilePage> {
                         Visibility(
                           visible: _statusDropdown == "Datos Bancarios"? true : false,
                           child: formBanking(),
-                        ), 
+                        ),
+                        Consumer<MyProvider>(
+                          builder: (context, myProvider, child) {
+                            if(myProvider.dataCommercesUser.length > 1)
+                              return Padding(
+                              padding: EdgeInsets.fromLTRB(5, 45, 5, 45),
+                              child: GestureDetector(
+                                onTap: () {
+                                  _passwordController.clear();
+                                  requestPassword(1); 
+                                },
+                                child: Container(
+                                  width:size.width - 100,
+                                  height: size.height / 14,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Colors.red, 
+                                      width: 1.0,
+                                    ),
+                                    color: Colors.red,
+                                    borderRadius: BorderRadius.circular(30),
+                                    boxShadow: [
+                                      BoxShadow(
+                                        color: Colors.black12,
+                                        offset: Offset(5, 5),
+                                        blurRadius: 10,
+                                      )
+                                    ],
+                                  ),
+                                  child: Center(
+                                    child: AutoSizeText(
+                                      'Eliminar Comercio',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w500,
+                                        fontFamily: 'MontserratSemiBold',
+                                      ),
+                                      maxFontSize: 14,
+                                      minFontSize: 14,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                            else
+                              return Container();
+                          }
+                        ),
                       ]
                     ),
                   ),
@@ -901,7 +949,8 @@ class _ProfilePageState extends State<ProfilePage> {
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (term){
                 FocusScope.of(context).requestFocus(new FocusNode());
-                buttonClickSaveUser();
+                requestPassword(0); 
+                //buttonClickSaveUser();
               },
               cursorColor: colorGreen,
               style: TextStyle(
@@ -1726,7 +1775,8 @@ class _ProfilePageState extends State<ProfilePage> {
               verifyUrl(_controllerUser.text).then((_)=> buttonClickSaveCompany());
               break;
             case "User":
-              buttonClickSaveUser();
+              requestPassword(0); 
+              //buttonClickSaveUser();
               break;
             case "Contact":
               buttonClickSaveContact();
@@ -2025,6 +2075,175 @@ class _ProfilePageState extends State<ProfilePage> {
       },
     );
   }
+
+  Future<void> requestPassword(status) async {
+    return showDialog(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          backgroundColor: Colors.white,
+          content: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                padding: EdgeInsets.all(5),
+                child: Text(
+                  "Ingrese la Contraseña",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontFamily: 'MontserratSemiBold',
+                    fontSize:14
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(0.0, 20.0, 0.0, 0.0),
+                child: new TextFormField(
+                  controller: _passwordController,
+                  maxLines: 1,
+                  autofocus: false,
+                  keyboardType: TextInputType.text,
+                  obscureText: true,
+                  decoration: new InputDecoration(
+                      labelText: "Contraseña",
+                      labelStyle: TextStyle(
+                        color: colorGreen,
+                        fontFamily: 'MontserratSemiBold',
+                        fontSize: 14,
+                      ),
+                      icon: new Icon(
+                        Icons.lock,
+                        color: colorGreen
+                      ),
+                      focusedBorder: UnderlineInputBorder(
+                        borderSide: BorderSide(color: colorGreen),
+                      ),
+                    ),
+                  validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
+                  textInputAction: TextInputAction.done,
+                  onFieldSubmitted: (term){
+                    Navigator.of(context).pop();
+                    FocusScope.of(context).requestFocus(new FocusNode()); 
+                    if(status == 0)
+                      processUpdateEmail();
+                    else
+                      processDeleteCommerce();                   
+                  },
+                  cursorColor: colorGreen,
+                  style: TextStyle(
+                    fontFamily: 'MontserratSemiBold',
+                    fontSize: 14,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Enviar'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                if(status == 0)
+                  processUpdateEmail();
+                else
+                  processDeleteCommerce(); 
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  processUpdateEmail()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    if (_formKeyUser.currentState.validate()) {
+      _formKeyUser.currentState.save();
+      _onLoading();
+      try
+      {
+        var response = await http.post(
+          urlApi+"updateEmailUser",
+          headers:{
+            'X-Requested-With': 'XMLHttpRequest',
+            'authorization': 'Bearer ${myProvider.accessTokenUser}',
+          },
+          body: {
+            "email": myProvider.dataUser.email,
+            "password": _passwordController.text,
+            "newEmail": _email,
+          }
+        );
+
+        var jsonResponse = jsonDecode(response.body); 
+        print(jsonResponse); 
+        _passwordController.clear();
+        if (jsonResponse['statusCode'] == 201) {
+          await myProvider.getDataUser(false, true, context);
+          showMessage("Guardado Correctamente", true);
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.pop(context);
+        }else{
+          Navigator.pop(context);
+          showMessage("Contraseña Incorrecta", false);
+          await Future.delayed(Duration(seconds: 1));
+          Navigator.pop(context);
+        }
+      }on SocketException catch (_) {
+        _passwordController.clear();
+        Navigator.pop(context);
+        showMessage("Intentalo de nuevo mas tardes", false);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }
+    }
+  }
+
+  processDeleteCommerce()async{
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    _onLoading();
+    try
+    {
+      var response = await http.post(
+        urlApi+"deleteCommerceUser",
+        headers:{
+          'X-Requested-With': 'XMLHttpRequest',
+          'authorization': 'Bearer ${myProvider.accessTokenUser}',
+        },
+        body: {
+          "email": myProvider.dataUser.email,
+          "password": _passwordController.text,
+          "idCommerce":myProvider.dataCommercesUser[myProvider.selectCommerce].id.toString(),
+        }
+      );
+
+      var jsonResponse = jsonDecode(response.body); 
+      print(jsonResponse); 
+      _passwordController.clear();
+      if (jsonResponse['statusCode'] == 201) {
+        myProvider.selectCommerce = 0;
+        await myProvider.getDataUser(false, true, context);
+        showMessage("Eliminado Correctamente", true);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }else{
+        Navigator.pop(context);
+        showMessage("Contraseña Incorrecta", false);
+        await Future.delayed(Duration(seconds: 1));
+        Navigator.pop(context);
+      }
+    }on SocketException catch (_) {
+      _passwordController.clear();
+      Navigator.pop(context);
+      showMessage("Intentalo de nuevo mas tardes", false);
+      await Future.delayed(Duration(seconds: 1));
+      Navigator.pop(context);
+    }
+  }
+
 
   Future<void> showMessage(_titleMessage, _statusCorrectly) async {
     var size = MediaQuery.of(context).size;

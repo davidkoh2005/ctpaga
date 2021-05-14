@@ -2077,6 +2077,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Future<void> requestPassword(status) async {
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
     return showDialog(
       context: context,
       barrierDismissible: true,
@@ -2090,12 +2091,35 @@ class _ProfilePageState extends State<ProfilePage> {
             children: <Widget>[
               Container(
                 padding: EdgeInsets.all(5),
-                child: Text(
-                  "Ingrese la Contraseña",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontFamily: 'MontserratSemiBold',
-                    fontSize:14
+                child: RichText(
+                  textAlign: TextAlign.justify,
+                    text: TextSpan(
+                    children: [
+                      TextSpan(
+                        text: "Si está seguro de querer eliminar la empresa ",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'MontserratSemiBold',
+                          fontSize:14
+                        )
+                      ),
+                      TextSpan(
+                        text: myProvider.dataCommercesUser[myProvider.selectCommerce].name,
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'MontserratExtraBold',
+                          fontSize:14,
+                        )
+                      ),
+                      TextSpan(
+                        text: ", por favor introduzca su clave:",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontFamily: 'MontserratSemiBold',
+                          fontSize:14
+                        )
+                      ),
+                    ]
                   ),
                 ),
               ),

@@ -1723,7 +1723,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   String _validatePhone(String value) {
     // This is just a regular expression for phone*$
-    String p = r'^(?:(\+)58|0)(?:2(?:12|4[0-9]|5[1-9]|6[0-9]|7[0-8]|8[1-35-8]|9[1-5]|3[45789])|4(?:1[246]|2[46]))\d{7}$';
+    //String p = r'^(?:(\+)58|0)(?:2(?:12|4[0-9]|5[1-9]|6[0-9]|7[0-8]|8[1-35-8]|9[1-5]|3[45789])|4(?:1[246]|2[46]))\d{7}$';
+    String p = r'^(0414|0424|0412|0416|0426)[0-9]{7}$';
     RegExp regExp = new RegExp(p);
 
     if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=9) {
@@ -2148,13 +2149,19 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
                   textInputAction: TextInputAction.done,
-                  onFieldSubmitted: (term){
-                    Navigator.of(context).pop();
-                    FocusScope.of(context).requestFocus(new FocusNode()); 
-                    if(status == 0)
-                      processUpdateEmail();
-                    else
-                      processDeleteCommerce();                   
+                  onFieldSubmitted: (value)async{
+                    if(value.length >4){
+                      Navigator.of(context).pop();
+                      FocusScope.of(context).requestFocus(new FocusNode()); 
+                      if(status == 0)
+                        processUpdateEmail();
+                      else
+                        processDeleteCommerce();   
+                    }else{
+                      showMessage("Ingrese la contraseña correctamente", false);
+                      await Future.delayed(Duration(seconds: 1));
+                      Navigator.pop(context);
+                    }        
                   },
                   cursorColor: colorGreen,
                   style: TextStyle(
@@ -2168,12 +2175,18 @@ class _ProfilePageState extends State<ProfilePage> {
           actions: <Widget>[
             TextButton(
               child: Text('Enviar'),
-              onPressed: () {
-                Navigator.of(context).pop();
-                if(status == 0)
-                  processUpdateEmail();
-                else
-                  processDeleteCommerce(); 
+              onPressed: () async {
+                if(_passwordController.text.length >4){
+                  Navigator.of(context).pop();
+                  if(status == 0)
+                    processUpdateEmail();
+                  else
+                    processDeleteCommerce(); 
+                }else{
+                  showMessage("Ingrese la contraseña correctamente", false);
+                  await Future.delayed(Duration(seconds: 1));
+                  Navigator.pop(context);
+                } 
               },
             ),
           ],

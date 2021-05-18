@@ -40,6 +40,7 @@
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
+	<true/>
 
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Permitir el acceso a la biblioteca de fotos.</string>
@@ -48,26 +49,34 @@
 	<string>Permitir el acceso a la cámara para capturar fotos.</string>
 
 	<key>NSContactsUsageDescription</key>  
-	<string>Esta aplicación requiere acceso a los contactos para funcionar correctamente.</string>  
+	<string>Esta aplicación requiere acceso a los contactos para funcionar correctamente.</string> 
 
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-	<string>whatsapp</string>
+		<string>whatsapp</string>
 	</array>
 
 	<key>NSAppTransportSecurity</key>
 	<dict>
-		<key>NSAllowsArbitraryLoads</key>
-		<true/>
+		<key>NSExceptionDomains</key>
+		<dict>
+			<key>ctpaga.app</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+				<key>NSIncludesSubdomains</key>
+				<true/>
+			</dict>
+		</dict>
 	</dict>
-	
-	<false/>
 
 	<key>NSAllowsArbitraryLoads</key>
 	<true/>
+
 	<key>LSSupportsOpeningDocumentsInPlace</key>
 	<true/>
+
 	<key>UIFileSharingEnabled</key>
-	<true/>
+	<true/> 
 </dict>
 </plist>

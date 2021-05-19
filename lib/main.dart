@@ -231,13 +231,16 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 },
               ),
 
-              Platform.isAndroid? FlatButton(
-                child: Text('Actualizar'),
-                onPressed: () {
-                  Navigator.pop(context);
-                  updateApk();
-                },
-              ): FlatButton(onPressed: null, child: null),
+              Visibility(
+                visible: Platform.isAndroid? true : false,
+                child: FlatButton(
+                  child: Text('Actualizar'),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    updateApk();
+                  },
+                )
+              )
             ],
           ),
         );

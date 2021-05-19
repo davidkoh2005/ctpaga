@@ -11,7 +11,7 @@ import 'package:ctpaga/views/salesReportPage.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
+//import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -31,7 +31,7 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  //final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   Channel _channel;
   User user = User();
   List bankUser = new List(2);
@@ -46,7 +46,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     super.initState();
     initialNotification();
     initialVariable();
-    registerNotification();
+    //registerNotification();
     initialPusher();
   }
 
@@ -55,7 +55,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     super.dispose();
   }
 
-  void registerNotification() async {
+  /* void registerNotification() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _firebaseMessaging.requestNotificationPermissions();
@@ -83,7 +83,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     }).catchError((err) {
       print("print error ${err.message}");
     });
-  }
+  } */
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);

@@ -27,6 +27,7 @@ class _NavbarMainState extends State<NavbarMain> {
         return Stack(
           children: <Widget>[
             Container(
+              color: Colors.white,
               width: size.width,
               height: size.height/7,
               child: Row(
@@ -70,7 +71,7 @@ class _NavbarMainState extends State<NavbarMain> {
             GestureDetector(
               onTap: () => launch("http://$url"),
               child: Padding(
-                padding: EdgeInsets.only(top: 50, left: 30),
+                padding: EdgeInsets.only(top: 35, left: 30),
                 child: Container(
                   child: Image(
                     image: AssetImage("assets/logo/logo.png"),

@@ -27,6 +27,7 @@ class _NavbarState extends State<Navbar> {
     return Stack(
       children: <Widget>[
         Container(
+          color: Colors.white,
           width: size.width,
           height: size.height/7,
           child: Row(

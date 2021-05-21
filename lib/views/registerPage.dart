@@ -1,3 +1,5 @@
+import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/views/policyPrivacy.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
@@ -5,6 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'dart:convert';
@@ -36,22 +39,25 @@ class _RegisterPageState extends State<RegisterPage> {
     return Center(
       child: Scaffold(
         backgroundColor: Colors.white,
-        body: Container(
-          alignment: Alignment.center,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
+        body: SafeArea(
+          child: Container(
+            alignment: Alignment.center,
+            child: SingleChildScrollView(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
                   Image(
-                  image: AssetImage("assets/logo/logo.png"),
-                  width: size.width/2,
-                ),
-                
-                formRegister(), //form Register
-                buttonRegister(), // button Register
-              ]
+                    image: AssetImage("assets/logo/logo.png"),
+                    width: size.width/2,
+                  ),
+                  
+                  formRegister(), //form Register
+                  infoTerms(), //info terms
+                  buttonRegister(), // button Register
+                ]
+              ),
             ),
-          ),
+          )
         ),
       ),
     );
@@ -279,7 +285,7 @@ class _RegisterPageState extends State<RegisterPage> {
 
           _statusError ? Center(
               child: Padding(
-                padding: const EdgeInsets.fromLTRB(10.0, 15.0, 0.0, 50.0),
+                padding: const EdgeInsets.fromLTRB(10.0, 15.0, 0.0, 20.0),
                 child: AutoSizeText(
                   _messageError == null? '' : _messageError,
                   style: TextStyle(
@@ -291,50 +297,90 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
               ),
             )
-          : Padding(padding: EdgeInsets.only(top: 50.0)),
+          : Padding(padding: EdgeInsets.only(top: 20.0)),
         ],
+      ),
+    );
+  }
+
+  Widget infoTerms(){
+    return  Container(
+      padding: EdgeInsets.fromLTRB(30, 0, 30, 30),
+      child: Center(
+        child: RichText(
+          text: TextSpan(
+            text: 'Al hacer clic en la opción de registrarte, aceptas la ',
+            style: TextStyle(
+              color: Colors.black,
+              fontFamily: 'MontserratSemiBold',
+            ),
+            children: <TextSpan>[
+              TextSpan(text: ' Privacidad ',
+                style: TextStyle(
+                  color: Colors.blue,
+                  fontFamily: 'MontserratSemiBold',
+                  fontWeight: FontWeight.bold,
+                  decoration: TextDecoration.underline
+                ),
+                recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.push(context, SlideLeftRoute(page: PolicyPrivacy()));
+                }
+              ),
+              TextSpan(
+                text: 'de Ctpaga.',
+                style: TextStyle(
+                  fontFamily: 'MontserratSemiBold',
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
 
   Widget buttonRegister(){
     var size = MediaQuery.of(context).size;
-    return  GestureDetector(
-      onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
-        _clickButtonRegister(); //process that will be carried out when you press the register button
-      },
-      child: Container(
-        width:size.width - 100,
-        height: size.height / 14,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: colorGreen, 
-            width: 1.0,
-          ),
-          color: colorGreen,
-          borderRadius: BorderRadius.circular(30),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black12,
-              offset: Offset(5, 5),
-              blurRadius: 10,
-            )
-          ],
-        ),
-        child: Center(
-          child: AutoSizeText(
-            'Registrar Cuenta',
-            style: TextStyle(
-              color: Colors.white,
-              fontWeight: FontWeight.w500,
-              fontFamily: 'MontserratSemiBold',
+    return  Padding(
+      padding: EdgeInsets.fromLTRB(5, 5, 5, 20),
+      child: GestureDetector(
+        onTap: () {
+          FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
+          _clickButtonRegister(); //process that will be carried out when you press the register button
+        },
+        child: Container(
+          width:size.width - 100,
+          height: size.height / 14,
+          decoration: BoxDecoration(
+            border: Border.all(
+              color: colorGreen, 
+              width: 1.0,
             ),
-            maxFontSize: 14,
-            minFontSize: 14,
+            color: colorGreen,
+            borderRadius: BorderRadius.circular(30),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black12,
+                offset: Offset(5, 5),
+                blurRadius: 10,
+              )
+            ],
+          ),
+          child: Center(
+            child: AutoSizeText(
+              'Registrar Cuenta',
+              style: TextStyle(
+                color: Colors.white,
+                fontWeight: FontWeight.w500,
+                fontFamily: 'MontserratSemiBold',
+              ),
+              maxFontSize: 14,
+              minFontSize: 14,
+            ),
           ),
         ),
-      ),
+      )
     );
   }
 

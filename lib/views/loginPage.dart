@@ -36,23 +36,25 @@ class _LoginPageState extends State<LoginPage> {
       child: Center(
         child: Scaffold(
           backgroundColor: Colors.white,
-          body: Container(
-            alignment: Alignment.center,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+          body: SafeArea(
+            child: Container(
+              alignment: Alignment.center,
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
                     Image(
-                    image: AssetImage("assets/logo/logo.png"),
-                    width: size.width/2,
-                  ),
-                  formLogin(), //form login
-                  buttonLogin(), //button login
-                  SizedBox(height:20), //separation between two buttons
-                  buttonRegister(), //button Register
-                ]
+                      image: AssetImage("assets/logo/logo.png"),
+                      width: size.width/2,
+                    ),
+                    formLogin(), //form login
+                    buttonLogin(), //button login
+                    SizedBox(height:20), //separation between two buttons
+                    buttonRegister(), //button Register
+                  ]
+                ),
               ),
-            ),
+            )
           ),
         ),
       )

@@ -24,6 +24,7 @@ class _NavbarSalesState extends State<NavbarSales> {
     return Stack(
       children: <Widget>[
         Container(
+          color: Colors.white,
           width: size.width,
           height: size.height/7,
           child: Row(

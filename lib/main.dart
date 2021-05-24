@@ -226,7 +226,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               FlatButton(
                 child: Text('Abrir'),
                 onPressed: () {
-                  Navigator.pop(context);
                   launch(urlApp);
                 },
               ),
@@ -306,17 +305,18 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       progressDownloader = 0;
       statusApp = "Cargando...";
     });
+    
     var dir;
-    if (Platform.isAndroid) {
-      dir = await ExtStorage.getExternalStoragePublicDirectory(
-            ExtStorage.DIRECTORY_DOWNLOADS);
-    }else{
-      dir = (await getApplicationDocumentsDirectory()).path;
-    }
-
-
+    
     PermissionStatus permissionStatus = await _getStoragePermission();
     if (permissionStatus == PermissionStatus.granted) {
+
+      if (Platform.isAndroid) {
+        dir = await ExtStorage.getExternalStoragePublicDirectory(
+              ExtStorage.DIRECTORY_DOWNLOADS);
+      }else{
+        dir = (await getApplicationDocumentsDirectory()).path;
+      }
 
       await deleteFile(File(dir+'/ctpaga.apk'));
 
@@ -355,18 +355,18 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           }
         );
 
+        setState(() {
+          statusApp = "Instalando...";
+        });
+
+        if(!statusInstall && statusObserver == 0){
+          installApp();
+        }
+
       }catch (ex) {
         print(ex.toString());
-        updateApk();
+        showAlert();
       } 
-
-      setState(() {
-        statusApp = "Instalando...";
-      });
-
-      if(!statusInstall && statusObserver == 0){
-        installApp();
-      }
 
     } else {
       showAlert();
@@ -397,7 +397,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         await file.delete();
       }
     } catch (e) {
-      updateApk();
+      showAlert();
     }
   }
 

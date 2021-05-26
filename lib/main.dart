@@ -3,24 +3,14 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:auto_size_text/auto_size_text.dart';
-import 'package:install_plugin/install_plugin.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:url_launcher/url_launcher.dart';
 import 'package:package_info/package_info.dart';
-import 'package:ext_storage/ext_storage.dart';
 import 'package:http/http.dart' as http;
-import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'dart:convert';
-import 'dart:io' show Platform;
 import 'dart:io';
 
 void main() {
@@ -59,15 +49,10 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
-  FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  String versionApp = "", newVersionApp = "" , urlApp, statusApp = "Cargando...", statusProgress = "0%", savePath;
-  int progressDownloader = 0, statusObserver = 0;
-  bool statusInstall = false;
+  String versionApp = "", newVersionApp = "" ;
 
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    initialNotification();
     //changePage();
     checkVersion();
   }
@@ -77,31 +62,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   } 
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) async {
-    setState(() {
-      statusObserver = state.index;
-    });
-    if(state.index == 0 && progressDownloader == 100 && !statusInstall){
-      print("print observer");
-      installApp();
-    }
-  }
-
-  void initialNotification() {
-    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-    var initializationSettingsIOS = new IOSInitializationSettings();
-    var initializationSettings = InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS
-    );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification,);
-  }
-
-  Future selectNotification(String payload) async {
-    if (payload != null) {
-      debugPrint('notification payload: $payload');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +83,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               Container(
                 padding: EdgeInsets.only(top:5, bottom: 5),
                 child: AutoSizeText(
-                  statusApp,
+                  "Cargando...",
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -133,22 +93,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                   maxFontSize: 24,
                   minFontSize: 24,
                 ),
-              ),
-              Visibility(
-                visible: statusApp == 'Descargando...'? true : false,
-                child: Container(
-                  padding: EdgeInsets.only(top:5, bottom: 5),
-                  child: AutoSizeText(
-                    statusProgress,
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'MontserratSemiBold',
-                    ),
-                    maxFontSize: 24,
-                    minFontSize: 24,
-                  ),
-                )
               ),
               CircularProgressIndicator(
                 valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
@@ -183,10 +127,6 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
           if(info.version != jsonResponse['data']['version']){
             versionApp = info.version;
             newVersionApp = jsonResponse['data']['version'];
-            if(Platform.isAndroid)
-              urlApp = jsonResponse['data']['url'];
-            else
-              urlApp = jsonResponse['data']['url_ios'];
             showAlert();
           }else{
             changePage();
@@ -216,202 +156,30 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 fontFamily: 'MontserratSemiBold',
               ),
             ),
-            content: Text(
-              "Versión Actual es $versionApp y la nueva versión es $newVersionApp ",
-              style: TextStyle(
-                fontFamily: 'MontserratSemiBold',
-              ),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children:[
+                Text(
+                  "Versión Actual es $versionApp y la nueva versión es $newVersionApp.",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontFamily: 'MontserratSemiBold',
+                  ),
+                ),
+                SizedBox(height: 20,),
+                Text(
+                  "Por favor Actualice Ctpaga desde tu tienda favorita",
+                  textAlign: TextAlign.justify,
+                  style: TextStyle(
+                    fontFamily: 'MontserratSemiBold',
+                  ),
+                ),
+              ]
             ),
-            actions: <Widget>[
-              FlatButton(
-                child: Text('Abrir'),
-                onPressed: () {
-                  launch(urlApp);
-                },
-              ),
-
-              Visibility(
-                visible: Platform.isAndroid? true : false,
-                child: FlatButton(
-                  child: Text('Actualizar'),
-                  onPressed: () {
-                    Navigator.pop(context);
-                    updateApk();
-                  },
-                )
-              )
-            ],
           ),
         );
       },
     );
-  }
-
-  void _showCompleteNotification() async {
-
-    var android = AndroidNotificationDetails(
-        'Complete Downloaded id',
-        'Complete Downloaded name',
-        'Complete Downloaded description',
-        priority: Priority.High,
-        importance: Importance.Max,
-    );
-
-
-    var iOS = IOSNotificationDetails(presentSound: false);
-
-    var platformChannelSpecifics = NotificationDetails(
-    android, iOS);
-
-    await flutterLocalNotificationsPlugin.show(
-        0, 'Ctpaga', "Descarga Completado", platformChannelSpecifics, payload: "complete"
-      );
-
-    FlutterRingtonePlayer.playNotification();
-
-  }
-
-  Future<void> _showProgressNotification(percentage) async {
-      await Future<void>.delayed(const Duration(seconds: 1), () async {
-        final AndroidNotificationDetails androidPlatformChannelSpecifics =
-            AndroidNotificationDetails('progress channel', 'progress channel',
-                'progress channel description',
-                channelShowBadge: false,
-                importance: Importance.Max,
-                priority: Priority.High,
-                onlyAlertOnce: true,
-                showProgress: true,
-                maxProgress: 100,
-                progress: percentage);
-
-        var iOS = IOSNotificationDetails(presentSound: false);
-        var platformChannelSpecifics = NotificationDetails(androidPlatformChannelSpecifics, iOS);
-        await flutterLocalNotificationsPlugin.show(
-            0,
-            'Ctpaga',
-            'Descargando...',
-            platformChannelSpecifics,
-            payload: 'progress x');
-      });
-  }
-
-  Future<void> _cancelNotification() async {
-    await flutterLocalNotificationsPlugin.cancelAll();
-  }
-
-  updateApk()async{
-    setState(() {
-      statusInstall = false;
-      progressDownloader = 0;
-      statusApp = "Cargando...";
-    });
-    
-    var dir;
-    
-    PermissionStatus permissionStatus = await _getStoragePermission();
-    if (permissionStatus == PermissionStatus.granted) {
-
-      if (Platform.isAndroid) {
-        dir = await ExtStorage.getExternalStoragePublicDirectory(
-              ExtStorage.DIRECTORY_DOWNLOADS);
-      }else{
-        dir = (await getApplicationDocumentsDirectory()).path;
-      }
-
-      await deleteFile(File(dir+'/ctpaga.apk'));
-
-      setState(() {
-        savePath = path.join(dir, 'ctpaga.apk');
-      });
-
-      final Dio _dio = Dio();
-
-      try{
-        setState(() {
-          statusApp = "Descargando...";
-        });
-        await _dio.download(
-          'http://www.ctpaga.app/apk/ctpaga.apk',
-          savePath,
-          onReceiveProgress: (received, total) async {
-            if (total != -1) {
-              if ((received / total * 100).toInt() <99)
-                _showProgressNotification((received / total * 100).toInt());
-
-              setState(() {
-                progressDownloader = (received / total * 100).toInt();
-                statusProgress = (received / total * 100).toStringAsFixed(0) + "%";
-              });
-              if(progressDownloader == 100 && statusObserver == 0){
-                await Future.delayed(Duration(seconds: 2));
-                await _cancelNotification();
-              }
-              else if(progressDownloader == 100 && statusObserver != 0){
-                await Future.delayed(Duration(seconds: 2));
-                await _cancelNotification();
-                _showCompleteNotification();
-              }
-            }
-          }
-        );
-
-        setState(() {
-          statusApp = "Instalando...";
-        });
-
-        if(!statusInstall && statusObserver == 0){
-          installApp();
-        }
-
-      }catch (ex) {
-        print(ex.toString());
-        showAlert();
-      } 
-
-    } else {
-      showAlert();
-    }
-  }
-
-  installApp() async
-  {
-    await _cancelNotification();
-    setState(() {
-      statusInstall = true;
-    });
-
-    await InstallPlugin.installApk(
-      savePath,
-      'ctpaga.ctpaga',
-    ).then((result) {
-      setState(() {
-        statusApp = "Cargando...";
-      });
-      showAlert();
-    });
-  }
-
-  Future<void> deleteFile(File file) async {
-    try {
-      if (await file.exists()) {
-        await file.delete();
-      }
-    } catch (e) {
-      showAlert();
-    }
-  }
-
-  Future<PermissionStatus> _getStoragePermission() async {
-    final PermissionStatus permission = await Permission.storage.status;
-    if (permission != PermissionStatus.granted &&
-        permission != PermissionStatus.denied) {
-      final Map<Permission, PermissionStatus> permissionStatus =
-          await [Permission.storage].request();
-      return permissionStatus[Permission.storage] ??
-          PermissionStatus.undetermined;
-    } else {
-      return permission;
-    }
   }
 
   changePage() async{

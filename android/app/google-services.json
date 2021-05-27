@@ -7,9 +7,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138990743563:android:ab71b7c1206aae7b04570e",
+        "mobilesdk_app_id": "1:138990743563:android:2ee4a1e655c7ab2404570e",
         "android_client_info": {
-          "package_name": "ctpaga.ctpaga"
+          "package_name": "compralotodo.ctpaga"
         }
       },
       "oauth_client": [
@@ -29,6 +29,13 @@
             {
               "client_id": "138990743563-52b3h461s2f0k39344goffsp0ou8reoa.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "138990743563-q62i4p8qi4lqp3s7lbe1ee7rg40t7cve.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "ctpaga.ctpaga"
+              }
             }
           ]
         }

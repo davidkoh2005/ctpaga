@@ -1,4 +1,3 @@
-import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/policyPrivacy.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
@@ -324,7 +323,14 @@ class _RegisterPageState extends State<RegisterPage> {
                 ),
                 recognizer: TapGestureRecognizer()
                 ..onTap = () {
-                  Navigator.push(context, SlideLeftRoute(page: PolicyPrivacy()));
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return PolicyPrivacy(
+                        mdFileName: 'policyPrivacy.md',
+                      );
+                    },
+                  );
                 }
               ),
               TextSpan(

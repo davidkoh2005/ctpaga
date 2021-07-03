@@ -58,7 +58,15 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   void registerNotification() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    _firebaseMessaging.requestNotificationPermissions();
+    _firebaseMessaging.requestNotificationPermissions(
+      const IosNotificationSettings(
+        sound: true, badge: true, alert: true, provisional: true
+      )
+    );
+
+    _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
+      print("Settings registered: $settings");
+    });
 
     _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
       print('onMessage: $message');
@@ -75,6 +83,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     });
 
     _firebaseMessaging.getToken().then((token) {
+      print("print entro token");
       print("token: $token");
       prefs.setString('tokenFCM', token);
       myProvider.getTokenFCM = token;

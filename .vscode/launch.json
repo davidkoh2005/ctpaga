@@ -6,6 +6,7 @@
     "configurations": [
         {
             "name": "ctpaga",
+            "program": "lib/main.dart",
             "request": "launch",
             "type": "dart"
         }

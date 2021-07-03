@@ -83,7 +83,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     });
 
     _firebaseMessaging.getToken().then((token) {
-      print("print entro token");
       print("token: $token");
       prefs.setString('tokenFCM', token);
       myProvider.getTokenFCM = token;

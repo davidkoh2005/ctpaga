@@ -81,7 +81,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                   width:size.width - 100,
                   height: size.height / 20,
                   decoration: BoxDecoration(
-                    color: clickBotton? colorGrey : colorGreen,
+                    color: clickBotton? colorGrey : colorLogo,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Center(
@@ -226,7 +226,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
             } else {
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                 ),
               ); // Otherwise, display a loading indicator.
             }
@@ -336,7 +336,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -354,7 +354,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

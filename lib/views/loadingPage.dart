@@ -125,7 +125,7 @@ class _LoadingPageState extends State<LoadingPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

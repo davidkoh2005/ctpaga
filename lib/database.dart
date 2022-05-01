@@ -32,7 +32,7 @@ class DBctpaga{
 
   initDB() async {
     io.Directory documentsDirectory = await getApplicationDocumentsDirectory();
-    String path = join(documentsDirectory.path, "ctpaga.db");
+    String path = join(documentsDirectory.path, "compralotodo.db");
 
     var db = await openDatabase(path, version: versionDB, 
       onCreate: onCreateFunc,

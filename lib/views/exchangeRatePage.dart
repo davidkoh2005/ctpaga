@@ -182,7 +182,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
-          color: myProvider.selectDateRate == index? colorGreen : colorGrey,
+          color: myProvider.selectDateRate == index? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
@@ -317,14 +317,14 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : Colors.transparent,
+          color: _statusButton? colorLogo : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
           child: AutoSizeText(
             "NUEVA TASA",
             style: TextStyle(
-              color: _statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorLogo,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),

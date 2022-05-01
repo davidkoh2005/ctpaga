@@ -169,7 +169,7 @@ class _ShippingPageState extends State<ShippingPage> {
                 saveDescriptionStatus();
               },
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -350,7 +350,7 @@ class _ShippingPageState extends State<ShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonNew? colorGreen : colorGrey,
+          color: _statusButtonNew? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -383,7 +383,7 @@ class _ShippingPageState extends State<ShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: !myProvider.dataUser.statusShipping? colorGreen : colorGrey,
+          color: !myProvider.dataUser.statusShipping? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -459,7 +459,7 @@ class _ShippingPageState extends State<ShippingPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -477,7 +477,7 @@ class _ShippingPageState extends State<ShippingPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),
@@ -511,7 +511,7 @@ class _ShippingPageState extends State<ShippingPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

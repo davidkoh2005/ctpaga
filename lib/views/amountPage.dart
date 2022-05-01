@@ -142,7 +142,7 @@ class _AmountPageState extends State<AmountPage> {
                         updateAmount(0, false);
                       },
                       textInputAction: TextInputAction.next,
-                      cursorColor: colorGreen,
+                      cursorColor: colorLogo,
                       textAlign: TextAlign.center,
                       decoration: InputDecoration(
                         fillColor: Colors.blue,
@@ -218,7 +218,7 @@ class _AmountPageState extends State<AmountPage> {
             child: AutoSizeText(
               "AGREGAR VENTAS",
               style: TextStyle(
-                color: _statusSalesProducts? colorGreen : Colors.black,
+                color: _statusSalesProducts? colorLogo : Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
               group: myGroup,
@@ -253,7 +253,7 @@ class _AmountPageState extends State<AmountPage> {
             child: AutoSizeText(
               "AGREGAR SERVICIOS",
               style: TextStyle(
-                color: _statusSalesServices? colorGreen : Colors.black,
+                color: _statusSalesServices? colorLogo : Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
               group: myGroup,
@@ -386,7 +386,7 @@ class _AmountPageState extends State<AmountPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
+          color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),

@@ -151,7 +151,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                     minFontSize: 20,
                     maxFontSize: 20,
                   ),
-                  backgroundColor: colorGreen,
+                  backgroundColor: colorLogo,
                 )
               : CircleAvatar(
                   minRadius: size.width / 10,
@@ -206,7 +206,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                         showMessage("No puede mostrar envio porque no tiene tarifa de envio", false);
                     },
                     activeTrackColor: colorGrey,
-                    activeColor: colorGreen
+                    activeColor: colorLogo
                   ),
                 ],
               ),
@@ -235,7 +235,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGrey : colorGreen,
+          color: _statusButton? colorGrey : colorLogo,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
@@ -309,7 +309,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

@@ -159,11 +159,11 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Center(
                                 child: DropdownButton<Commerce>(
                                   value: myProvider.dataCommercesUser[myProvider.selectCommerce],
-                                  icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                                  icon: Icon(Icons.arrow_drop_down, color: colorLogo),
                                   elevation: 16,
                                   underline: Container(
                                     height: 2,
-                                    color: colorGreen,
+                                    color: colorLogo,
                                   ),
                                   onChanged: (Commerce newValue) async{
                                     int count = 0;
@@ -354,7 +354,7 @@ class _ProfilePageState extends State<ProfilePage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopSecond == 0? colorGreen : colorGrey,
+            color: _positionTopSecond == 0? colorLogo : colorGrey,
           ),
           child: Container(
             child: AutoSizeText(
@@ -389,7 +389,7 @@ class _ProfilePageState extends State<ProfilePage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopFirst == 0? colorGreen : colorGrey,
+            color: _positionTopFirst == 0? colorLogo : colorGrey,
           ),
           child: AutoSizeText(
             "\$" ,
@@ -443,7 +443,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       return Container(
                         margin: EdgeInsets.all(15),
                         child:CircularProgressIndicator(
-                          valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                          valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                         ),
                       );
                     },
@@ -613,7 +613,7 @@ class _ProfilePageState extends State<ProfilePage> {
               ),
               Icon(
                 _statusDropdown == _title? Icons.keyboard_arrow_up : Icons.keyboard_arrow_down,
-                color: colorGreen,
+                color: colorLogo,
               ),
             ]
           ),
@@ -661,7 +661,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize:14
                           ),
                         ),
-                        Icon(Icons.arrow_drop_down_sharp, color: colorGreen,),
+                        Icon(Icons.arrow_drop_down_sharp, color: colorLogo,),
                       ],
                     )
                   ),
@@ -694,13 +694,13 @@ class _ProfilePageState extends State<ProfilePage> {
                         fontSize:14
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: colorGreen),
+                        borderSide: BorderSide(color: colorLogo),
                       ),
                     ),
                     onSaved: (String value) => _rifCompany = _selectDocumentCompany+"-"+value,
                     validator: _validateRif,
                     textInputAction: TextInputAction.next,
-                    cursorColor: colorGreen,
+                    cursorColor: colorLogo,
                     style: TextStyle(
                       fontFamily: 'MontserratSemiBold',
                       fontSize:14
@@ -725,7 +725,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _nameCompany = value,
@@ -733,7 +733,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textInputAction: TextInputAction.next,
               focusNode: _nameCompanyFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressCompanyFocus),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14,
@@ -755,7 +755,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _addressCompany = value,
@@ -763,7 +763,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textInputAction: TextInputAction.next,
               focusNode: _addressCompanyFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneCompanyFocus),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -786,7 +786,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _phoneCompany = value,
@@ -794,7 +794,7 @@ class _ProfilePageState extends State<ProfilePage> {
               focusNode: _phoneCompanyFocus,
               textInputAction: TextInputAction.next,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_userCompanyFocus),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -829,7 +829,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             fontSize:14
                           ),
                           focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(color: colorGreen),
+                            borderSide: BorderSide(color: colorLogo),
                           ),
                           prefixText: url+"/",
                           prefixStyle: TextStyle(
@@ -844,7 +844,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           FocusScope.of(context).requestFocus(new FocusNode());
                           verifyUrl(_controllerUser.text).then((_)=> buttonClickSaveCompany());
                         },
-                        cursorColor: colorGreen,
+                        cursorColor: colorLogo,
                         style: TextStyle(
                           fontFamily: 'MontserratSemiBold',
                           fontSize:14
@@ -941,7 +941,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
               ),
               validator: _validateEmail,
@@ -952,7 +952,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 requestPassword(0); 
                 //buttonClickSaveUser();
               },
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -1009,7 +1009,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _name = value,
@@ -1017,7 +1017,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textInputAction: TextInputAction.next,
               focusNode: _nameFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressFocus),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -1039,7 +1039,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _address = value,
@@ -1047,7 +1047,7 @@ class _ProfilePageState extends State<ProfilePage> {
               textInputAction: TextInputAction.next,
               focusNode: _addressFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -1070,7 +1070,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   fontSize:14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _phone = value,
@@ -1081,7 +1081,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 FocusScope.of(context).requestFocus(new FocusNode());
                 buttonClickSaveContact();
               },
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14
@@ -1127,7 +1127,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
                 value: _valueListCountry,
                 isExpanded: true,
-                icon: Icon(Icons.arrow_drop_down, color: colorGreen),
+                icon: Icon(Icons.arrow_drop_down, color: colorLogo),
                 elevation: 16,
                 items: _listCountry.map((String value) {
                   return new DropdownMenuItem<String>(
@@ -1164,7 +1164,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountNameBankingUSD = value,
@@ -1172,7 +1172,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 textInputAction: TextInputAction.next,
                 focusNode: _accountNameBankingUSDFocus,
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingUSDFocus),
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1194,13 +1194,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountNumberBankingUSD = value,
                 validator: (value) => value.length <=7 && value.length >=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingUSDFocus,
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1295,7 +1295,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize:14
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: colorGreen),
+                      borderSide: BorderSide(color: colorLogo),
                     ),
                   ),
                   onSaved: (String value) => _routeBankingUSD = value,
@@ -1303,7 +1303,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   textInputAction: TextInputAction.next,
                   focusNode: _routeBankingUSDFocus,
                   onEditingComplete: () => FocusScope.of(context).requestFocus(_swiftBankingUSDFocus),
-                  cursorColor: colorGreen,
+                  cursorColor: colorLogo,
                   style: TextStyle(
                     fontFamily: 'MontserratSemiBold',
                     fontSize:14
@@ -1330,7 +1330,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       fontSize:14
                     ),
                     focusedBorder: UnderlineInputBorder(
-                      borderSide: BorderSide(color: colorGreen),
+                      borderSide: BorderSide(color: colorLogo),
                     ),
                   ),
                   onSaved: (String value) => _swiftBankingUSD = value,
@@ -1338,7 +1338,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   textInputAction: TextInputAction.next,
                   focusNode: _swiftBankingUSDFocus,
                   onEditingComplete: () => FocusScope.of(context).requestFocus(_addressBankingUSDFocus),
-                  cursorColor: colorGreen,
+                  cursorColor: colorLogo,
                   style: TextStyle(
                     fontFamily: 'MontserratSemiBold',
                     fontSize:14
@@ -1361,7 +1361,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _addressBankingUSD = value,
@@ -1369,7 +1369,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 textInputAction: TextInputAction.next,
                 focusNode: _addressBankingUSDFocus,
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_accountTypeBankingUSDFocus),
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1392,7 +1392,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountTypeBankingUSD = value.toUpperCase(),
@@ -1403,7 +1403,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   buttonClickSaveBanking(); 
                 },
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1437,7 +1437,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountNameBankingBs = value,
@@ -1445,7 +1445,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 textInputAction: TextInputAction.next,
                 focusNode: _accountNameBankingBsFocus,
                 onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1483,7 +1483,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               fontSize:14
                             ),
                           ),
-                          Icon(Icons.arrow_drop_down_sharp, color: colorGreen,),
+                          Icon(Icons.arrow_drop_down_sharp, color: colorLogo,),
                         ],
                       )
                     ),
@@ -1516,7 +1516,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           fontSize:14
                         ),
                         focusedBorder: UnderlineInputBorder(
-                          borderSide: BorderSide(color: colorGreen),
+                          borderSide: BorderSide(color: colorLogo),
                         ),
                       ),
                       onSaved: (String value) => _idCardBankingBs = _selectDocument+"-"+value,
@@ -1524,7 +1524,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       focusNode: _idCardBankingBsFocus,
                       textInputAction: TextInputAction.next,
                       onEditingComplete: () => FocusScope.of(context).requestFocus(_accountNumberBankingBsFocus),
-                      cursorColor: colorGreen,
+                      cursorColor: colorLogo,
                       style: TextStyle(
                         fontFamily: 'MontserratSemiBold',
                         fontSize:14
@@ -1553,13 +1553,13 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountNumberBankingBs = value,
                 validator: (value) => value.length !=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingBsFocus,
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1637,7 +1637,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     fontSize:14
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
                 onSaved: (String value) => _accountTypeBankingBs = value.toUpperCase(),
@@ -1647,7 +1647,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   FocusScope.of(context).requestFocus(new FocusNode());
                   buttonClickSaveBanking(); 
                 },
-                cursorColor: colorGreen,
+                cursorColor: colorLogo,
                 style: TextStyle(
                   fontFamily: 'MontserratSemiBold',
                   fontSize:14
@@ -1800,7 +1800,7 @@ class _ProfilePageState extends State<ProfilePage> {
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            color: colorGreen,
+            color: colorLogo,
             borderRadius: BorderRadius.circular(30),
             ),
           child: Center(
@@ -2041,7 +2041,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -2060,7 +2060,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                             fontSize:14
                           )
@@ -2135,16 +2135,16 @@ class _ProfilePageState extends State<ProfilePage> {
                   decoration: new InputDecoration(
                       labelText: "Contraseña",
                       labelStyle: TextStyle(
-                        color: colorGreen,
+                        color: colorLogo,
                         fontFamily: 'MontserratSemiBold',
                         fontSize: 14,
                       ),
                       icon: new Icon(
                         Icons.lock,
-                        color: colorGreen
+                        color: colorLogo
                       ),
                       focusedBorder: UnderlineInputBorder(
-                        borderSide: BorderSide(color: colorGreen),
+                        borderSide: BorderSide(color: colorLogo),
                       ),
                     ),
                   validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
@@ -2163,7 +2163,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       Navigator.pop(context);
                     }        
                   },
-                  cursorColor: colorGreen,
+                  cursorColor: colorLogo,
                   style: TextStyle(
                     fontFamily: 'MontserratSemiBold',
                     fontSize: 14,
@@ -2300,7 +2300,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

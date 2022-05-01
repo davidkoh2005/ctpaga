@@ -79,7 +79,7 @@ class _DiscountPageState extends State<DiscountPage> {
           "assets/icons/descuento.png",
           width: size.width / 3,
           height: size.width / 3,
-          color: colorGreen,
+          color: colorLogo,
         ),
         Container(
           padding: EdgeInsets.all(40),
@@ -164,14 +164,14 @@ class _DiscountPageState extends State<DiscountPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : Colors.white,
+          color: _statusButton? colorLogo : Colors.white,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
           child: AutoSizeText(
             "CREAR DESCUENTO",
             style: TextStyle(
-              color: _statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorLogo,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),

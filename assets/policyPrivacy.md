@@ -1,4 +1,4 @@
-Esta política de Privacidad hace referencia a la App Ctpaga, la cual usted está contratando. La entidad de contratación se determina en función al país de residencia o de su comercio. El País de residencia es la jurisdicción que se asocia con su cuenta Ctpaga según lo expresado por usted o en función a la evaluación que realice Ctpaga de su residencia a partir de diversos atributos de datos asociados con su cuenta.
+Esta política de Privacidad hace referencia a la App Compralotodo, la cual usted está contratando. La entidad de contratación se determina en función al país de residencia o de su comercio. El País de residencia es la jurisdicción que se asocia con su cuenta Compralotodo según lo expresado por usted o en función a la evaluación que realice Compralotodo de su residencia a partir de diversos atributos de datos asociados con su cuenta.
 
 * Si el país donde reside es Panamá, usted estará formalizando su contrato con Compalotodo.com Inc en Ciudad de Panamá, Panamá.
 
@@ -8,17 +8,17 @@ Esta política de Privacidad hace referencia a la App Ctpaga, la cual usted est�
 
 1. Qué cubre esta Notificación de Privacidad
 
-El propósito de esta Notificación de Privacidad es explicar en qué modo compartimos, usamos y mantenemos segura la información personal que recopilamos y recibimos de usted a través de nuestros sitios web Ctpaga.app, aplicaciones para móvil, herramientas de comercio electrónico, la tienda de aplicaciones u otros servicios.
+El propósito de esta Notificación de Privacidad es explicar en qué modo compartimos, usamos y mantenemos segura la información personal que recopilamos y recibimos de usted a través de nuestros sitios web compralotodo.com, aplicaciones para móvil, herramientas de comercio electrónico, la tienda de aplicaciones u otros servicios.
 
-2. ¿Qué información personal recopila Ctpaga?
+2. ¿Qué información personal recopila Compralotodo?
 
-Es posible que Ctpaga recopile información personal según se describe más abajo a través de: (a) Información personal que usted nos proporcione, (b) Información recopilada automáticamente, (c) Información de facturación, (d) Cookies u otras tecnologías de seguimiento, (e) Datos analíticos de terceros, (f) Datos basados en aplicaciones móviles y (g) Información procedente de la plataforma de aplicaciones y dispositivos. No recopilamos ni utilizamos «información confidencial del consumidor», así como tampoco ofrecemos ni vendemos a terceros datos basados en información confidencial del consumidor.
+Es posible que Compralotodo recopile información personal según se describe más abajo a través de: (a) Información personal que usted nos proporcione, (b) Información recopilada automáticamente, (c) Información de facturación, (d) Cookies u otras tecnologías de seguimiento, (e) Datos analíticos de terceros, (f) Datos basados en aplicaciones móviles y (g) Información procedente de la plataforma de aplicaciones y dispositivos. No recopilamos ni utilizamos «información confidencial del consumidor», así como tampoco ofrecemos ni vendemos a terceros datos basados en información confidencial del consumidor.
 
-3. ¿Qué información recopila Ctpaga en la lista de contactos de dispositivos?
+3. ¿Qué información recopila Compralotodo en la lista de contactos de dispositivos?
 
 Con su consentimiento recopilamos informacion el nombre y apellido (como la que se encuentra en la libreta de contactos de su teléfono móvil) donde permite registrar los pedidos con el nombre del cliente.
 
-4. ¿Cómo utiliza Ctpaga su información personal?
+4. ¿Cómo utiliza Compralotodo su información personal?
 
 Recopilamos información personal sobre usted cuando solicita participar en nuestros Servicios para una variedad de usos por diferentes razones. Por ejemplo, parte de la información que recabamos de usted es necesaria para que podamos prestarle los Servicios; en ocasiones, la ley y la normativa nos exigen que recabemos y procesemos esta información acerca de usted; en otras ocasiones, consideramos que, en aras de nuestros intereses comerciales legítimos, debemos recabar y procesar esta información, teniendo en cuenta sus derechos de privacidad.
 
@@ -26,11 +26,11 @@ Utilizamos la información sobre usted para una serie de fines:
 
 Para proporcionar un servicio solicitado o ejecutar un contrato con usted.
 
-Información personal que usted nos proporciona. Utilizamos esta información personal para proporcionarle nuestro Servicio, responder a las consultas de facturación y mantenerle actualizado con noticias sobre Ctpaga/Compralotodo.com, el Servicio y nuestros socios.
+Información personal que usted nos proporciona. Utilizamos esta información personal para proporcionarle nuestro Servicio, responder a las consultas de facturación y mantenerle actualizado con noticias sobre Compralotodo.com, el Servicio y nuestros socios.
 
 Con su consentimiento, Comunicación de marketing. Para comunicados de marketing nuestros o procedente de cualquiera de nuestros socios en caso de que usted haya dado su consentimiento para ello o si es legal que lo hagamos. Usted puede optar por no recibir ninguno de estos comunicados de marketing siguiendo las instrucciones para cancelar la suscripción que se incluyen en dichos correos electrónicos (cuando corresponda) o cancelando su suscripción aquí. También puede notificárnoslo poniéndose en contacto con nosotros a través de nuestro centro de ayuda.
 
-Testimonios. Mostramos testimonios personales de clientes satisfechos en nuestro sitio, además de otros avales. Con su consentimiento, podemos publicar su testimonio junto con su nombre. Si desea actualizar o eliminar su testimonio, puede escribirnos a saludos@Ctpaga.app.
+Testimonios. Mostramos testimonios personales de clientes satisfechos en nuestro sitio, además de otros avales. Con su consentimiento, podemos publicar su testimonio junto con su nombre. Si desea actualizar o eliminar su testimonio, puede escribirnos a saludos@compralotodo.com.
 
 Notificaciones de cuenta;
 
@@ -42,7 +42,7 @@ Cobro de deudas; o
 
 Según sea necesario para dar servicio a su cuenta o hacer cumplir nuestros términos de servicio y políticas, leyes aplicables, o cualquier otro acuerdo que tengamos con usted.
 
-Podemos contactar usando marcación automática o llamadas y mensajes pregrabados con fines de marketing (e.g. ofertas y promociones) si usted autoriza explícitamente a este tipo de comunicaciones; su autorización a recibir tales llamadas/mensajes no es una condición de compra de ningún producto o servicio de Ctpaga.
+Podemos contactar usando marcación automática o llamadas y mensajes pregrabados con fines de marketing (e.g. ofertas y promociones) si usted autoriza explícitamente a este tipo de comunicaciones; su autorización a recibir tales llamadas/mensajes no es una condición de compra de ningún producto o servicio de Compralotodo.
 
 También podemos recopilar otros números telefónicos suyos y podemos hacer llamadas manuales no relacionadas con el marketing a cualquiera de esos números telefónicos y llamadas de marcación automática no relacionadas con el marketing a cualquier línea fija. Cargos estándares de minutos telefónicos y mensajes de texto pueden aplicar y también pueden incluir cargos por exceso si usted ha excedido los límites de su plan.
 
@@ -86,29 +86,29 @@ El desarrollo y la creación de productos: Podemos procesar la información que 
 
 Tareas de marketing: Con su consentimiento podemos procesar la información que usted nos proporciona, la información que recopilamos de su uso de nuestros Servicios y la información que obtenemos de terceros automáticamente para venderle nuevos productos y servicios mediante el uso de cookies para publicar anuncios para usted o publicando anuncios en nuestras aplicaciones o en nuestros sitios web.
 
-5. ¿Con quién comparte Ctpaga su información personal?
+5. ¿Con quién comparte Compralotodo su información personal?
 
-Ctpaga no comparte con otras personas la información personal que obtiene sobre usted a partir del uso del Servicio, salvo para los fines que se describen en esta Notificación de Privacidad y en relación con: (i) la ejecución de transacciones; (ii) investigación, promociones, sorteos y concursos; (iii) marketing de terceros; (iv) una fusión o venta; (v) información públicamente accesible; (vi) nuestras compañías del grupo y afiliadas u (vii) otras divulgaciones legales.
+Compralotodo no comparte con otras personas la información personal que obtiene sobre usted a partir del uso del Servicio, salvo para los fines que se describen en esta Notificación de Privacidad y en relación con: (i) la ejecución de transacciones; (ii) investigación, promociones, sorteos y concursos; (iii) marketing de terceros; (iv) una fusión o venta; (v) información públicamente accesible; (vi) nuestras compañías del grupo y afiliadas u (vii) otras divulgaciones legales.
 
-6. ¿Cuánto tiempo mantiene Ctpaga su información personal?
+6. ¿Cuánto tiempo mantiene Compralotodo su información personal?
 
 Según se describe a continuación, conservaremos su información durante el tiempo que su cuenta se encuentre activa o según sea necesario para prestarle el Servicio, pero en ningún caso por más tiempo que lo permitido por la ley aplicable.
 
-7. ¿Transfiere Ctpaga su información personal fuera del país?
+7. ¿Transfiere Compralotodo su información personal fuera del país?
 
 Cuando sea necesario, podemos transferir su información personal a nuestros servidores ubicados fuera del país en el que vive ya que nuestros servidores se encuentran en Los Estados Unidos de América
 
-8. ¿Cuánto tiempo mantiene segura Ctpaga su información personal?
+8. ¿Cuánto tiempo mantiene segura Compralotodo su información personal?
 
 Tomamos medidas razonables para poner en marcha salvaguardias físicas, electrónicas y de procedimiento apropiadas para proteger la integridad y la seguridad de la información personal sobre usted, y para prevenir el procesamiento no autorizado o ilegal de información personal, así como la pérdida accidental, destrucción o daños a la información personal. Estas medidas incluyen revisiones internas de nuestra recopilación de datos, prácticas de almacenamiento y de procesamiento y medidas de seguridad (protección con contraseña fuerte y, en ciertas áreas, cifrado SSL estándar de la industria para proteger las transmisiones de datos), así como medidas físicas de seguridad para evitar el acceso no autorizado a sistemas en los que almacenamos datos.
 
 No obstante, las trasmisiones de datos en Internet y métodos de almacenamiento electrónico no son 100 % seguros. En consecuencia, no podemos garantizar la seguridad de la información que nos brinde y, por lo tanto, lo hace bajo su propio riesgo.
 
-Si Ctpaga se entera de una violación de los sistemas de seguridad, podemos intentar notificarlo de manera electrónica para que pueda adoptar las medidas de protección apropiadas. Podemos publicar una comunicación en nuestros sitios web correspondientes si se produce una violación de seguridad. Si esto sucede, necesitará un navegador web que le permita ver los sitios web correspondientes. En estas circunstancias, también podemos enviarle un correo electrónico a la dirección de correo electrónico que nos ha proporcionado. En función del lugar en el cual viva, es posible que tenga el derecho legal de recibir la notificación de una violación de seguridad por escrito. Para recibir una notificación por escrito gratuita ante una violación de seguridad (o para retirar su consentimiento para recibir notificaciones electrónicas), envíe una solicitud a través de nuestro centro de ayuda.
+Si Compralotodo se entera de una violación de los sistemas de seguridad, podemos intentar notificarlo de manera electrónica para que pueda adoptar las medidas de protección apropiadas. Podemos publicar una comunicación en nuestros sitios web correspondientes si se produce una violación de seguridad. Si esto sucede, necesitará un navegador web que le permita ver los sitios web correspondientes. En estas circunstancias, también podemos enviarle un correo electrónico a la dirección de correo electrónico que nos ha proporcionado. En función del lugar en el cual viva, es posible que tenga el derecho legal de recibir la notificación de una violación de seguridad por escrito. Para recibir una notificación por escrito gratuita ante una violación de seguridad (o para retirar su consentimiento para recibir notificaciones electrónicas), envíe una solicitud a través de nuestro centro de ayuda.
 
 9. ¿Cuáles son sus Derechos de Privacidad?
 
-Ctpaga como Controlador de Datos. Si se lo solicita, le proporcionaremos información acerca de si tenemos o procesamos su información personal en nombre de terceros. Puede acceder a la información de su cuenta en Ctpaga y editarla en cualquier momento, iniciando sesión en su cuenta. También puede ponerse en contacto con nosotros a través del centro de ayuda, y le responderemos lo antes posible en un máximo de 30 días.
+Compralotodo como Controlador de Datos. Si se lo solicita, le proporcionaremos información acerca de si tenemos o procesamos su información personal en nombre de terceros. Puede acceder a la información de su cuenta en Compralotodo y editarla en cualquier momento, iniciando sesión en su cuenta. También puede ponerse en contacto con nosotros a través del centro de ayuda, y le responderemos lo antes posible en un máximo de 30 días.
 
 Puede borrar su cuenta aplicable visitando la página de eliminación de cuenta correspondiente; sin embargo, algunos datos personales, principalmente su información de contacto, pueden permanecer en nuestros registros en la medida necesaria para proteger nuestros intereses legales o documentar el cumplimiento de los requisitos reglamentarios, en cada caso únicamente en la medida permitida por ley aplicable.
 
@@ -116,8 +116,8 @@ Si su información personal cambia, o si ya no desea utilizar nuestro Servicio, 
 
 10. Cambios a esta notificación de privacidad
 
-Ctpaga reserva el derecho de revisar, modificar o actualizar esta notificación en cualquier momento. Le notificaremos los cambios significativos en la manera en la cual tratamos su información personal enviándole una notificación a la dirección principal de correo electrónico especificada en su cuenta particular de Ctpaga o mediante la colocación de un aviso destacado en nuestro sitio.
+Compralotodo reserva el derecho de revisar, modificar o actualizar esta notificación en cualquier momento. Le notificaremos los cambios significativos en la manera en la cual tratamos su información personal enviándole una notificación a la dirección principal de correo electrónico especificada en su cuenta particular de Compralotodo o mediante la colocación de un aviso destacado en nuestro sitio.
 
-11. Contacto con Ctpaga
+11. Contacto con Compralotodo
 
-Si tiene alguna duda sobre la privacidad con respecto a Ctpaga, o a este aviso, y si no puede resolverla satisfactoriamente a través del Servicio, le recomendamos cumplimentar una solicitud de ayuda en https://Ctpaga.app o escribirnos por correo electrónico a saludos@ctpaga.app
+Si tiene alguna duda sobre la privacidad con respecto a Compralotodo, o a este aviso, y si no puede resolverla satisfactoriamente a través del Servicio, le recomendamos cumplimentar una solicitud de ayuda en https://compralotodo.com o escribirnos por correo electrónico a saludos@compralotodo.com

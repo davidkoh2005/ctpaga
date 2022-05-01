@@ -114,7 +114,7 @@ class _NavbarMainState extends State<NavbarMain> {
               return Container(
                 margin: EdgeInsets.all(15),
                 child:CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                 ),
               );
             },

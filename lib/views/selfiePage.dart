@@ -79,7 +79,7 @@ class _SelfiePageState extends State<SelfiePage> {
                   width:size.width - 100,
                   height: size.height / 20,
                   decoration: BoxDecoration(
-                    color: clickBotton? colorGrey : colorGreen,
+                    color: clickBotton? colorGrey : colorLogo,
                     borderRadius: BorderRadius.circular(30),
                   ),
                   child: Center(
@@ -182,7 +182,7 @@ class _SelfiePageState extends State<SelfiePage> {
             } else {
               return Center(
                 child: CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                 ),
               ); // Otherwise, display a loading indicator.
             }
@@ -293,7 +293,7 @@ class _SelfiePageState extends State<SelfiePage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -311,7 +311,7 @@ class _SelfiePageState extends State<SelfiePage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

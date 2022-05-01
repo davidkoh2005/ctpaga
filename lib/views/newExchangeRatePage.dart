@@ -89,7 +89,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                 });
               },
               validator: (value) => !_statusRate? 'Debe ingresar un valor Válido' : null,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -126,7 +126,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusRate?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+          color: _statusRate?  _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -211,7 +211,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -259,7 +259,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -277,7 +277,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

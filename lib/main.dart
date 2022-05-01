@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
     return ChangeNotifierProvider( 
       create: (_) => MyProvider(),
       child: MaterialApp(
-        title: 'Ctpaga',
+        title: 'Compralotodo',
         theme: ThemeData(
           primarySwatch: Colors.green,
           visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           Locale('es','ES'),
         ],
         localizationsDelegates: GlobalMaterialLocalizations.delegates,
-        home: MyHomePage(title: 'Ctpaga'),
+        home: MyHomePage(title: 'Compralotodo'),
       )
     );
   }
@@ -95,7 +95,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                 ),
               ),
               CircularProgressIndicator(
-                valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
               ),
             ]
           ),

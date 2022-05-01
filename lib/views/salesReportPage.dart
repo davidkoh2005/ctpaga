@@ -134,7 +134,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopSecond == 0? colorGreen : colorGrey,
+            color: _positionTopSecond == 0? colorLogo : colorGrey,
           ),
           child: Container(
             child: AutoSizeText(
@@ -168,7 +168,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopFirst == 0? colorGreen : colorGrey,
+            color: _positionTopFirst == 0? colorLogo : colorGrey,
           ),
           child: AutoSizeText(
             "\$" ,
@@ -382,7 +382,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
       child: Container(
         padding: EdgeInsets.fromLTRB(20, 5, 20, 5),
         decoration: BoxDecoration(
-          color: _statusButtonDate == index? colorGreen : colorGrey,
+          color: _statusButtonDate == index? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -507,7 +507,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -525,7 +525,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

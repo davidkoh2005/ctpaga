@@ -76,21 +76,21 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressFocus),
               textCapitalization:TextCapitalization.words, 
               decoration: InputDecoration(
-                icon: Icon(Icons.person, color: colorGreen),
+                icon: Icon(Icons.person, color: colorLogo),
                 labelText: 'Nombre y Apellido',
                 labelStyle: TextStyle(
-                  color: colorGreen,
+                  color: colorLogo,
                   fontFamily: 'MontserratSemiBold',
                   fontSize: 14,
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _name = value,
               validator: _validateName,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -105,21 +105,21 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_phoneFocus),
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
-                icon: Icon(Icons.home, color: colorGreen),
+                icon: Icon(Icons.home, color: colorLogo),
                 labelText: 'Dirección',
                 labelStyle: TextStyle(
-                  color: colorGreen,
+                  color: colorLogo,
                   fontFamily: 'MontserratSemiBold',
                   fontSize: 14
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _address = value,
               validator: _validateAddress,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -134,21 +134,21 @@ class _RegisterPageState extends State<RegisterPage> {
               onEditingComplete: () => FocusScope.of(context).requestFocus(_emailFocus),
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
-                icon: Icon(Icons.phone, color: colorGreen),
+                icon: Icon(Icons.phone, color: colorLogo),
                 labelText: 'Teléfono',
                 labelStyle: TextStyle(
-                  color: colorGreen,
+                  color: colorLogo,
                   fontFamily: 'MontserratSemiBold',
                   fontSize: 14,
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               onSaved: (String value) => _phone = value,
               validator: _validatePhone,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -165,22 +165,22 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Email',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                     fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.mail,
-                    color: colorGreen,
+                    color: colorLogo,
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
               ),
               validator: _validateEmail,
               onSaved: (String value) => _email = value.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -198,20 +198,20 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                     fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen
+                      color: colorLogo
                       ),
                     onPressed: () {
                       setState(() {
@@ -220,13 +220,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
               ),
               validator: _validatePassword,
               onSaved: (String value) => _password = value,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -243,20 +243,20 @@ class _RegisterPageState extends State<RegisterPage> {
               decoration: new InputDecoration(
                   labelText: 'Confirmar Contraseña',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                     fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen,
+                      color: colorLogo,
                       ),
                     onPressed: () {
                       setState(() {
@@ -265,7 +265,7 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
               validator: _validatePasswordConfirm,
@@ -275,7 +275,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
                 _clickButtonRegister(); //process that will be carried out when you press the register button
               },
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontSize: 14,
               ),
@@ -360,10 +360,10 @@ class _RegisterPageState extends State<RegisterPage> {
           height: size.height / 14,
           decoration: BoxDecoration(
             border: Border.all(
-              color: colorGreen, 
+              color: colorLogo, 
               width: 1.0,
             ),
-            color: colorGreen,
+            color: colorLogo,
             borderRadius: BorderRadius.circular(30),
             boxShadow: [
               BoxShadow(
@@ -478,7 +478,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -496,7 +496,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

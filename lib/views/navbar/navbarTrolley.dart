@@ -42,7 +42,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                       iconSize: size.width/7,
                       icon: Icon(
                         Icons.keyboard_arrow_left,
-                        color: colorGreen,
+                        color: colorLogo,
                       ),
                       onPressed: (){
                         myProvider.clickButtonMenu = 0;
@@ -90,7 +90,7 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
                                 width: size.width / 17,
                                 height: size.width / 17,
                                 decoration: BoxDecoration(
-                                  color: colorGreen,
+                                  color: colorLogo,
                                   shape: BoxShape.circle,
                                   ),
                                 child: Center(

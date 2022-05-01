@@ -1,9 +1,9 @@
 name: ctpaga
-description: Ctpaga.
+description: compralotodo.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.48+2
+version: 1.0.43+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -97,7 +97,7 @@ flutter:
         - asset: assets/Fonts/Montserrat-ExtraLight.ttf
 
 flutter_icons:
-  image_path: 'assets/logo/logoctpaga.png'
+  image_path: 'assets/logo/logoct.png'
   android: true
   ios: true
 

@@ -81,7 +81,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               onSaved: (value) => _name = value.trim(),
               onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -112,7 +112,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorGreen,
+          color: !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorLogo,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -204,7 +204,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -252,7 +252,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -270,7 +270,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

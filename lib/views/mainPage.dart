@@ -196,7 +196,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
           width:size.width - 100,
           height: size.height / 20,
           decoration: BoxDecoration(
-            color: clickBotton == _index? colorGreen : colorGreyOp,
+            color: clickBotton == _index? colorLogo : colorGreyOp,
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
@@ -241,7 +241,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

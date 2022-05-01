@@ -13,17 +13,19 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-//String url = "192.168.1.116:8000";
+String url = "192.168.1.116:8000";
 
 //TODO: Url Api (AWS)
 //String url = "54.196.181.42";
 
 //TODO: Url Api (hosting)
-String url = "ctpaga.app";
+//String url = "ctpaga.app";
+//String url = "compralotodo.com";
+String nameApp = "Compralotodo"; //Ctpaga 
 
 String urlApi = "http://$url/api/auth/";
 
-Color colorGreen = Color.fromRGBO(0,204,96,1);
+Color colorLogo = Color.fromRGBO(255,162,0,1); // ctpaga: Color.fromRGBO(0,204,96,1);
 Color colorGrey = Color.fromRGBO(182,182,182,1);
 Color colorGreyOp = Color.fromRGBO(182,182,182,0.6);
 Color colorGreyOpacity = Color.fromRGBO(230,230,230,1);
@@ -31,9 +33,9 @@ Color colorGreyLogo = Color.fromRGBO(69, 69, 94, 1);
 Color colorText = Colors.grey;
 Color colorTitleMain = Color.fromRGBO(88, 88, 88, 1);
 
-String phoneCtpaga = "584144664206";
-String messageHelp = "Hola Ctpaga! Necesito ayuda con ";
-String recommend = "¡Chequea *Ctpaga* , un app que te deja vender en línea y por redes sociales rápido y fácil! +🛍%EF%B8%8F+📲 \n\n Bájatela aquí: \n iOS: https://www.google.com \n Android: https://play.google.com/";
+String phoneCt = "584144664206";
+String messageHelp = "Hola $nameApp! Necesito ayuda con ";
+String recommend = "¡Chequea *$nameApp* , un app que te deja vender en línea y por redes sociales rápido y fácil! +🛍%EF%B8%8F+📲 \n\n Bájatela aquí: \n iOS: https://www.google.com \n Android: https://play.google.com/";
 
 List listMenu = [
   {

@@ -114,7 +114,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              color: colorGreen,
+              color: colorLogo,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
@@ -218,7 +218,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              color: colorGreen,
+              color: colorLogo,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
@@ -347,7 +347,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              color: colorGreen,
+              color: colorLogo,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
@@ -530,7 +530,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             alignment: Alignment.center,
             height: size.height / 20,
             decoration: BoxDecoration(
-              color: colorGreen,
+              color: colorLogo,
               borderRadius: BorderRadius.circular(30),
             ),
             child: Center(
@@ -670,7 +670,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )

@@ -95,7 +95,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               validator: _validateName,
               onSaved: (value) => _name = value.trim(),
               onChanged: (value)=> value.trim().length >3? setState(() => _statusName = true ) : setState(() => _statusName = false ),
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -134,7 +134,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 FilteringTextInputFormatter.allow(RegExp("[a-z 0-9]")),
                 FilteringTextInputFormatter.deny(RegExp(r"\s\b|\b\s")),
               ],
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
                   borderSide: BorderSide(color:  Colors.black),
@@ -198,7 +198,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusName && _statusUser?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+          color: _statusName && _statusUser?  _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -319,7 +319,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -367,7 +367,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -385,7 +385,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

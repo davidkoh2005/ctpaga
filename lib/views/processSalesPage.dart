@@ -128,7 +128,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : colorGrey,
+          color: _statusButton? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -159,7 +159,7 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonRegister? colorGreen : colorGrey,
+          color: _statusButtonRegister? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

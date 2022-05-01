@@ -73,7 +73,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
                     color: colorGreyOpacity,
                     shape: StadiumBorder(
                       side: BorderSide(
-                        color: colorGreen,
+                        color: colorLogo,
                         width: 1.0,
                       ),
                     ),
@@ -201,7 +201,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
+          color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

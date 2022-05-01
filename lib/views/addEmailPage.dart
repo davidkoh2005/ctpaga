@@ -96,7 +96,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                   TextSpan(
                     text: "${showTotal()}",
                     style: TextStyle(
-                      color: colorGreen,
+                      color: colorLogo,
                       fontWeight: FontWeight.bold,
                       fontFamily: 'MontserratSemiBold',
                     ),
@@ -138,11 +138,11 @@ class _AddEmailPageState extends State<AddEmailPage> {
               autofocus: false,
               validator: _validateEmail,
               onSaved: (value) => _email = value,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               style: TextStyle(
@@ -195,7 +195,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonSend? colorGreen : colorGrey,
+          color: _statusButtonSend? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
@@ -284,7 +284,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -332,7 +332,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -350,7 +350,7 @@ class _AddEmailPageState extends State<AddEmailPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

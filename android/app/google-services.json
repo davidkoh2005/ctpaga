@@ -1,41 +1,34 @@
 {
   "project_info": {
-    "project_number": "138990743563",
-    "project_id": "ctpaga",
-    "storage_bucket": "ctpaga.appspot.com"
+    "project_number": "54430691879",
+    "project_id": "compralotodo-c2720",
+    "storage_bucket": "compralotodo-c2720.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:138990743563:android:2ee4a1e655c7ab2404570e",
+        "mobilesdk_app_id": "1:54430691879:android:523edf354c0c4671d0d402",
         "android_client_info": {
-          "package_name": "compralotodo.ctpaga"
+          "package_name": "compralotodo.appBusiness"
         }
       },
       "oauth_client": [
         {
-          "client_id": "138990743563-52b3h461s2f0k39344goffsp0ou8reoa.apps.googleusercontent.com",
+          "client_id": "54430691879-qltd4iph5jpttjpdlt5s3jqiehju1js7.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAXv8hYIfL0p_5mjYB6hlZABeagKSlPr2U"
+          "current_key": "AIzaSyAgIePP4nyqKVR0KwdkhrGFrpnn2wgw1jw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "138990743563-52b3h461s2f0k39344goffsp0ou8reoa.apps.googleusercontent.com",
+              "client_id": "54430691879-qltd4iph5jpttjpdlt5s3jqiehju1js7.apps.googleusercontent.com",
               "client_type": 3
-            },
-            {
-              "client_id": "138990743563-q62i4p8qi4lqp3s7lbe1ee7rg40t7cve.apps.googleusercontent.com",
-              "client_type": 2,
-              "ios_info": {
-                "bundle_id": "ctpaga.ctpaga"
-              }
             }
           ]
         }

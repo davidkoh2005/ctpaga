@@ -39,7 +39,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                       iconSize: size.width/7,
                       icon: Icon(
                         Icons.keyboard_arrow_left,
-                        color: colorGreen,
+                        color: colorLogo,
                       ),
                       onPressed: (){
                         myProvider.clickButtonMenu = 0;

@@ -78,22 +78,22 @@ class _LoginPageState extends State<LoginPage> {
               decoration: new InputDecoration(
                 labelText: "Email",
                 labelStyle: TextStyle(
-                  color: colorGreen,
+                  color: colorLogo,
                   fontFamily: 'MontserratSemiBold',
                   fontSize: 14,
                 ),
                 icon: new Icon(
                   Icons.mail,
-                  color: colorGreen,
+                  color: colorLogo,
                 ),
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: colorGreen),
+                  borderSide: BorderSide(color: colorLogo),
                 ),
               ),
               validator: _validateEmail,
               onSaved: (value) => _email = value.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize: 14,
@@ -112,20 +112,20 @@ class _LoginPageState extends State<LoginPage> {
               decoration: new InputDecoration(
                   labelText: "Contraseña",
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                     fontSize: 14,
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen,
+                      color: colorLogo,
                       ),
                     onPressed: () {
                       setState(() {
@@ -134,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
               validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
@@ -144,7 +144,7 @@ class _LoginPageState extends State<LoginPage> {
                 FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
                 clickButtonLogin(); //process that will be carried out when you press the login button
               },
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize: 14,
@@ -181,7 +181,7 @@ class _LoginPageState extends State<LoginPage> {
               child: AutoSizeText(
                 "Olvidé mi contraseña?",
                 style: TextStyle(
-                  color: colorGreen,
+                  color: colorLogo,
                   fontFamily: 'MontserratSemiBold',
                 ),
                 maxFontSize: 14,
@@ -206,10 +206,10 @@ class _LoginPageState extends State<LoginPage> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: colorGreen, 
+            color: colorLogo, 
             width: 1.0,
           ),
-          color: colorGreen,
+          color: colorLogo,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
@@ -250,10 +250,10 @@ class _LoginPageState extends State<LoginPage> {
         height: size.height / 14,
         decoration: BoxDecoration(
           border: Border.all(
-            color: colorGreen, 
+            color: colorLogo, 
             width: 1.0,
           ),
-          color: colorGreen,
+          color: colorLogo,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
             BoxShadow(
@@ -394,7 +394,7 @@ class _LoginPageState extends State<LoginPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -412,7 +412,7 @@ class _LoginPageState extends State<LoginPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

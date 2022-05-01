@@ -117,7 +117,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             onSaved: (value) => _nameContacts = value.trim(),
             onChanged: (value) => value.trim().length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
             textInputAction: TextInputAction.next,
-            cursorColor: colorGreen,
+            cursorColor: colorLogo,
             textAlign: TextAlign.center,
             decoration: InputDecoration(
               focusedBorder: UnderlineInputBorder(
@@ -167,7 +167,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonName? colorGreen : colorGrey,
+          color: _statusButtonName? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -202,7 +202,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : colorGrey,
+          color: _statusButton? colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -315,7 +315,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -333,7 +333,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

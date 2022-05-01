@@ -125,7 +125,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             child: AutoSizeText(
               "https://$url/${myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl}/${myProvider.codeUrl}",
               style: TextStyle(
-                color: colorGreen,
+                color: colorLogo,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -171,10 +171,10 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
         height: size.height / 20,
         decoration: BoxDecoration(
           border: Border.all(
-            color: colorGreen, 
+            color: colorLogo, 
             width: 1.0,
           ),
-          color: _statusButtonNetworks == index? colorGreen : Colors.white,
+          color: _statusButtonNetworks == index? colorLogo : Colors.white,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Row(
@@ -185,13 +185,13 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
               "assets/icons/${_title.replaceAll(' ','-')}.png",
               width: size.width / 15,
               height: size.width / 15,
-              color: _statusButtonNetworks == index? Colors.white : colorGreen,
+              color: _statusButtonNetworks == index? Colors.white : colorLogo,
             ),
             SizedBox(width: 15,),
             AutoSizeText(
               _title,
               style: TextStyle(
-                color: _statusButtonNetworks == index? Colors.white : colorGreen,
+                color: _statusButtonNetworks == index? Colors.white : colorLogo,
                 fontWeight: FontWeight.w500,
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -216,7 +216,7 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonReady? colorGrey : colorGreen,
+          color: _statusButtonReady? colorGrey : colorLogo,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(

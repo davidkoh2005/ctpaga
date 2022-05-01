@@ -89,19 +89,19 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña Actual',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen
+                      color: colorLogo
                       ),
                     onPressed: () {
                       setState(() {
@@ -110,13 +110,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
               ),
               validator: _validatePassword,
               onSaved: (String value) => _passwordCurrent = value,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
             ),
           ),
           Padding(
@@ -129,19 +129,19 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Contraseña Nueva',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen
+                      color: colorLogo
                       ),
                     onPressed: () {
                       setState(() {
@@ -150,13 +150,13 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
               ),
               validator: _validatePassword,
               onSaved: (String value) => _password = value,
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
               ),
@@ -172,20 +172,20 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
               decoration: new InputDecoration(
                   labelText: 'Confirmar Contraseña',
                   labelStyle: TextStyle(
-                    color: colorGreen,
+                    color: colorLogo,
                     fontFamily: 'MontserratSemiBold',
                     fontSize:14,
                   ),
                   icon: new Icon(
                     Icons.lock,
-                    color: colorGreen
+                    color: colorLogo
                   ),
                   suffixIcon: IconButton(
                     icon: Icon(
                       passwordVisible
                       ? Icons.visibility_off
                       : Icons.visibility,
-                      color: colorGreen,
+                      color: colorLogo,
                       ),
                     onPressed: () {
                       setState(() {
@@ -194,11 +194,11 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                     },
                   ),
                   focusedBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(color: colorGreen),
+                    borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
               validator: _validatePasswordConfirm,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               style: TextStyle(
                 fontFamily: 'MontserratSemiBold',
                 fontSize:14,
@@ -222,7 +222,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonSave? colorGrey : colorGreen,
+          color: _statusButtonSave? colorGrey : colorLogo,
           borderRadius: BorderRadius.circular(30),
         ),
         child: Center(
@@ -303,7 +303,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -351,7 +351,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -369,7 +369,7 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

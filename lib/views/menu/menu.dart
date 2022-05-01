@@ -28,7 +28,7 @@ class _MenuPageState extends State<MenuPage> {
       children: <Widget>[
         Expanded(
           child: Container(
-            color: colorGreen.withOpacity(0.8),
+            color: colorLogo.withOpacity(0.8),
             child: ListView.builder(
               itemCount: listMenu.length,
               itemBuilder: (BuildContext context, int index) {
@@ -67,7 +67,7 @@ class _MenuPageState extends State<MenuPage> {
               child: Container(
                 width: 36,
                 height: 110,
-                color: colorGreen.withOpacity(0.8),
+                color: colorLogo.withOpacity(0.8),
                 child: Icon(Icons.chevron_left, size: 30,),
               )
             )
@@ -205,7 +205,7 @@ class _MenuPageState extends State<MenuPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -240,9 +240,9 @@ class _MenuPageState extends State<MenuPage> {
     String url() {
       if(status){
         if (Platform.isIOS) {
-          return "whatsapp://wa.me/$phoneCtpaga/?text=$messageHelp";
+          return "whatsapp://wa.me/$phoneCt/?text=$messageHelp";
         } else {
-          return "whatsapp://send?phone=$phoneCtpaga&text=$messageHelp";
+          return "whatsapp://send?phone=$phoneCt&text=$messageHelp";
         }
       }else{
         if (Platform.isIOS) {
@@ -278,7 +278,7 @@ class _MenuPageState extends State<MenuPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -296,7 +296,7 @@ class _MenuPageState extends State<MenuPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

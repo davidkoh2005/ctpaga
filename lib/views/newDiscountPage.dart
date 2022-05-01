@@ -132,7 +132,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               },
               onEditingComplete: () => FocusScope.of(context).requestFocus(_percentageFocus),
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -183,7 +183,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                     }
                 }); 
               }, 
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 hintText: "50",
@@ -219,7 +219,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _dataDiscount.length == 2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+          color: _dataDiscount.length == 2?  _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -395,7 +395,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -443,7 +443,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -461,7 +461,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

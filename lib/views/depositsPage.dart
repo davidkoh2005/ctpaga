@@ -328,7 +328,7 @@ class _DepositsPageState extends State<DepositsPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopSecond == 0? colorGreen : colorGrey,
+            color: _positionTopSecond == 0? colorLogo : colorGrey,
           ),
           child: Container(
             child: AutoSizeText(
@@ -362,7 +362,7 @@ class _DepositsPageState extends State<DepositsPage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopFirst == 0? colorGreen : colorGrey,
+            color: _positionTopFirst == 0? colorLogo : colorGrey,
           ),
           child: AutoSizeText(
             "\$" ,
@@ -408,7 +408,7 @@ class _DepositsPageState extends State<DepositsPage> {
             padding: EdgeInsets.only(top:5),
             child: Container(
               width: size.width,
-              color: _statusButton.contains(index)? colorGreen : colorGreyOpacity,
+              color: _statusButton.contains(index)? colorLogo : colorGreyOpacity,
               height: 45,
               child: Container(
               ),
@@ -429,7 +429,7 @@ class _DepositsPageState extends State<DepositsPage> {
                   visible: listMenuDeposits[index]['icon'] == ''? false : true,
                   child: Image.asset(
                     listMenuDeposits[index]['icon'],
-                    color: _statusButton.contains(index)? colorGreen : Colors.black,
+                    color: _statusButton.contains(index)? colorLogo : Colors.black,
                   )
                 ),
               ),
@@ -453,7 +453,7 @@ class _DepositsPageState extends State<DepositsPage> {
             alignment: Alignment.centerRight,
             child: Padding(
               padding: EdgeInsets.only(right: 30, top: 15),
-              child: myProvider.listVerification.contains(title)? Icon(Icons.check_circle, color: colorGreen,) :  Icon(Icons.error, color: Colors.red,),
+              child: myProvider.listVerification.contains(title)? Icon(Icons.check_circle, color: colorLogo,) :  Icon(Icons.error, color: Colors.red,),
             )
           ),
         ],

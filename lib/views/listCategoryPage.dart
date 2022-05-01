@@ -70,7 +70,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                     color: colorGreyOpacity,
                     shape: StadiumBorder(
                       side: BorderSide(
-                        color: colorGreen,
+                        color: colorLogo,
                         width: 1.0,
                       ),
                     ),
@@ -82,7 +82,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                           width: size.width / 5,
                           child: Visibility(
                             visible: myProvider.dataCategoriesSelect.contains(myProvider.dataCategories[index].id.toString())? true : false,
-                            child: Icon(Icons.check_circle, color: colorGreen, size: size.width / 8,)
+                            child: Icon(Icons.check_circle, color: colorLogo, size: size.width / 8,)
                           )
                         ),
                         Expanded(
@@ -122,7 +122,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : Colors.transparent,
+          color: _statusButton? colorLogo : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -130,7 +130,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
           child: AutoSizeText(
             "CREAR CATEGORÍA",
             style: TextStyle(
-              color: _statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorLogo,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),

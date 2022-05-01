@@ -143,7 +143,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               },
               onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
               textInputAction: TextInputAction.next,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               decoration: InputDecoration(
                 focusedBorder: UnderlineInputBorder(
@@ -195,7 +195,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 });
               },
               validator: (value) => !_dataShipping.contains("Price")? 'Debe ingresar un precio Válido' : null,
-              cursorColor: colorGreen,
+              cursorColor: colorLogo,
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20,
@@ -232,7 +232,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                       });
                     },
                     activeTrackColor: colorGrey,
-                    activeColor: colorGreen
+                    activeColor: colorLogo
                   ),
                   AutoSizeText(
                     "Envíos gratis",
@@ -264,7 +264,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _dataShipping.length ==2?  _statusButtonSave? colorGrey : colorGreen : colorGrey,
+          color: _dataShipping.length ==2?  _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -445,7 +445,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -493,7 +493,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -511,7 +511,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

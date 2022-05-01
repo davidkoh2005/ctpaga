@@ -37,7 +37,7 @@ class PolicyPrivacy extends StatelessWidget {
                 }
                 return Center(
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 );
               },

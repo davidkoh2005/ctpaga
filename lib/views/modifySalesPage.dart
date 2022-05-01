@@ -143,7 +143,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _quantity.length != 0? _statusButtonSave? colorGrey : colorGreen : colorGrey,
+          color: _quantity.length != 0? _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),

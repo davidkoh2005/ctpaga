@@ -199,7 +199,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopSecond == 0? colorGreen : colorGrey,
+            color: _positionTopSecond == 0? colorLogo : colorGrey,
           ),
           child: Container(
             child: AutoSizeText(
@@ -233,7 +233,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           height: size.width / 7,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(80),
-            color: _positionTopFirst == 0? colorGreen : colorGrey,
+            color: _positionTopFirst == 0? colorLogo : colorGrey,
           ),
           child: AutoSizeText(
             "\$" ,
@@ -306,7 +306,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         validator: _validateName,
                         onSaved: (value) => _name = value.trim(),
                         textInputAction: TextInputAction.next,
-                        cursorColor: colorGreen,
+                        cursorColor: colorLogo,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -401,7 +401,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           });
                         },
                         validator: (value) => !_dataProductsService.contains("Price")? 'Debe ingresar un precio Válido' : null,
-                        cursorColor: colorGreen,
+                        cursorColor: colorLogo,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,
@@ -444,7 +444,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         autofocus: false,
                         focusNode: _descriptionFocus,
                         onSaved: (value) => _description = value.trim(),
-                        cursorColor: colorGreen,
+                        cursorColor: colorLogo,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
                             borderSide: BorderSide(color: Colors.black),
@@ -486,7 +486,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             textCapitalization:TextCapitalization.sentences,
                             autofocus: false,
                             onSaved: (value) => _categories = value.trim(),
-                            cursorColor: colorGreen,
+                            cursorColor: colorLogo,
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
                                 borderSide: BorderSide(color: Colors.black),
@@ -557,7 +557,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                                   });
                                 },
                                 activeTrackColor: colorGrey,
-                                activeColor: colorGreen
+                                activeColor: colorLogo
                               ),
                             ],
                           ),
@@ -601,7 +601,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           keyboardType: TextInputType.number,
                           autofocus: false,
                           onSaved: (value) =>value == ''? _stock = 0 : _stock = int.parse(value),
-                          cursorColor: colorGreen,
+                          cursorColor: colorLogo,
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             fontSize: 25,
@@ -715,7 +715,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               }
                             },
                             activeTrackColor: colorGrey,
-                            activeColor: colorGreen
+                            activeColor: colorLogo
                           ),
                         ],
                       )
@@ -752,7 +752,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           autofocus: false,
                           onSaved: (value) => _postPurchase = value.trim(),
                           validator: (value) => _switchPostPurchase? value.trim().isEmpty? 'Ingrese el contenido del correo': null : null,
-                          cursorColor: colorGreen,
+                          cursorColor: colorLogo,
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
                               borderSide: BorderSide(color: Colors.black),
@@ -803,7 +803,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               return Container(
                 margin: EdgeInsets.all(15),
                 child:CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                 ),
               );
             },
@@ -824,7 +824,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
               return Container(
                 margin: EdgeInsets.all(15),
                 child:CircularProgressIndicator(
-                  valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                  valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                 ),
               );
             },
@@ -1005,7 +1005,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         if(_statusButton)
           return colorGrey;
 
-        return colorGreen;
+        return colorLogo;
     
   }
 
@@ -1254,7 +1254,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 padding: EdgeInsets.all(5),
                 child: Icon(
                   Icons.check_circle,
-                  color: colorGreen,
+                  color: colorLogo,
                   size: size.width / 8,
                 )
               )
@@ -1301,7 +1301,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 Container(
                   padding: EdgeInsets.all(5),
                   child: CircularProgressIndicator(
-                    valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                    valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                   ),
                 ),
                 Container(
@@ -1319,7 +1319,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         TextSpan(
                           text: "...",
                           style: TextStyle(
-                            color: colorGreen,
+                            color: colorLogo,
                             fontFamily: 'MontserratSemiBold',
                           )
                         ),

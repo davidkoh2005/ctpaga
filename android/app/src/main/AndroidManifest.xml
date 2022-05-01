@@ -13,7 +13,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name="io.flutter.app.FlutterApplication"
-        android:label="Ctpaga"
+        android:label="Compralotodo"
         android:icon="@mipmap/ic_launcher"
         android:requestLegacyExternalStorage="true">
         <activity

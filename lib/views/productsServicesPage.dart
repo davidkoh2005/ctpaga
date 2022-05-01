@@ -153,7 +153,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             child: AutoSizeText(
               myProvider.selectProductsServices == 0? "Productos" : "Servicios",
               style: TextStyle(
-                color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorGreen : Colors.black,
+                color: _statusDropdown == "Productos" || _statusDropdown == "Servicios" ? colorLogo : Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
               minFontSize: 17,
@@ -182,7 +182,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             child: AutoSizeText(
               "Categoría",
               style: TextStyle(
-                color: _statusDropdown == "Categoría"? colorGreen : Colors.black,
+                color: _statusDropdown == "Categoría"? colorLogo : Colors.black,
                 fontFamily: 'MontserratSemiBold',
               ),
               minFontSize: 17,
@@ -230,7 +230,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     return Container(
                       margin: EdgeInsets.all(15),
                       child:CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                        valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                       ),
                     );
                   },
@@ -258,7 +258,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               title: AutoSizeText(
                 myProvider.dataProducts[index].name,
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: FontWeight.w700,
                   fontFamily: 'MontserratBold',
                 ),
@@ -268,7 +268,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               subtitle: AutoSizeText(
                 "${myProvider.dataProducts[index].stock} disponibles",
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratMedium',
                 ),
@@ -278,7 +278,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               trailing: AutoSizeText(
                 showPrice(myProvider.dataProducts[index].price, myProvider.dataProducts[index].coin),
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
@@ -322,7 +322,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               title: AutoSizeText(
                 myProvider.dataServices[index].name,
                 style: TextStyle(
-                  color: _indexService.contains(index)? colorGreen : colorText,
+                  color: _indexService.contains(index)? colorLogo : colorText,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
@@ -332,7 +332,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               trailing: AutoSizeText(
                 showPrice(myProvider.dataServices[index].price, myProvider.dataServices[index].coin),
                 style: TextStyle(
-                  color: _indexService.contains(index)? colorGreen : colorText,
+                  color: _indexService.contains(index)? colorLogo : colorText,
                   fontWeight: _indexService.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
@@ -404,7 +404,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               AutoSizeText(
                 myProvider.dataCategories[index].name,
                 style: TextStyle(
-                  color: _selectCategories== index+1? colorGreen : Colors.grey,
+                  color: _selectCategories== index+1? colorLogo : Colors.grey,
                   fontFamily: 'MontserratSemiBold',
                 ),
                 minFontSize: 14,
@@ -440,7 +440,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButton? colorGreen : Colors.transparent,
+          color: _statusButton? colorLogo : Colors.transparent,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -448,7 +448,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
           child: AutoSizeText(
             _statusDropdown == "Categoría"? "CREAR CATEGORÍA" : myProvider.selectProductsServices == 0? "CREAR PRODUCTO" : "CREAR SERVICIO",
             style: TextStyle(
-              color: _statusButton? Colors.white : colorGreen,
+              color: _statusButton? Colors.white : colorLogo,
               fontWeight: FontWeight.w500,
               fontFamily: 'MontserratSemiBold',
             ),
@@ -481,7 +481,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   color: colorGrey, 
                   width: 1.0,
                 ),
-                color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorGreen : colorGrey,
+                color: myProvider.dataPurchase.length != 0? _statusButtonCharge? colorGrey : colorLogo : colorGrey,
                 borderRadius: BorderRadius.circular(30),
                 ),
               child: Center(
@@ -577,7 +577,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     return Container(
                       margin: EdgeInsets.all(15),
                       child:CircularProgressIndicator(
-                        valueColor: new AlwaysStoppedAnimation<Color>(colorGreen),
+                        valueColor: new AlwaysStoppedAnimation<Color>(colorLogo),
                       ),
                     );
                   },
@@ -587,7 +587,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               title: AutoSizeText(
                 _listProductsServicesCategories[index].name,
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
@@ -597,7 +597,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               subtitle: AutoSizeText(
                 myProvider.selectProductsServices == 0? "${_listProductsServicesCategories[index].stock} disponibles" : "",
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),
@@ -607,7 +607,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
               trailing: AutoSizeText(
                 showPrice(_listProductsServicesCategories[index].price, _listProductsServicesCategories[index].coin),
                 style: TextStyle(
-                  color: _indexProduct.contains(index)? colorGreen :  colorText,
+                  color: _indexProduct.contains(index)? colorLogo :  colorText,
                   fontWeight: _indexProduct.contains(index)? FontWeight.bold : FontWeight.normal,
                   fontFamily: 'MontserratSemiBold',
                 ),

@@ -89,7 +89,7 @@ class _NavbarSalesState extends State<NavbarSales> {
           title: Text("Eliminar venta"),
           content: Text("¿Estas seguro que deseas eliminar todos los productos y/o servicios de esta venta?"),
           actions: <Widget>[
-            FlatButton(
+            TextButton(
               child: Text('SÍ'),
               onPressed: () {
                 myProvider.dataPurchase = [];
@@ -98,7 +98,7 @@ class _NavbarSalesState extends State<NavbarSales> {
                 Navigator.pop(context);
               },
             ),
-            FlatButton(
+            TextButton(
               child: Text('NO'),
               onPressed: () => Navigator.pop(context),
             ),

@@ -11,7 +11,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -298,7 +297,7 @@ class _ShippingPageState extends State<ShippingPage> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: <Widget>[
-        Image.asset("assets/icons/delivery.png", width: size.width / 1.5, height: size.width / 1.5),
+        Image.asset("assets/icons/delivery2.png", width: size.width / 1.5, height: size.width / 1.5),
         Visibility(
           visible: !myProvider.dataUser.statusShipping,
           child: Center(
@@ -417,7 +416,7 @@ class _ShippingPageState extends State<ShippingPage> {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"updateUser",
+          Uri.parse(urlApi+"updateUser"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',

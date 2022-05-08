@@ -7,9 +7,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
-import 'package:toast/toast.dart';
 import 'package:share/share.dart';
 import 'dart:io';
 
@@ -308,13 +308,14 @@ class _ShareUrlPageState extends State<ShareUrlPage> {
       Share.share(msg);
     else
       Clipboard.setData(ClipboardData(text: link)).then((result) {
-        Toast.show(
-          "Link Copiado!",
-          context,
-          duration: Toast.LENGTH_LONG,
-          gravity:  Toast.BOTTOM,
-          textColor: Colors.white,
+        Fluttertoast.showToast(
+          msg: "Link Copiado!",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
           backgroundColor: Colors.black,
+          textColor: Colors.white,
+          fontSize: 16.0
         );
       });
   }

@@ -21,7 +21,7 @@ class ShowDataPaidPage extends StatefulWidget {
 
 class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
   String codeUrl;
-  List _listSales = new List();
+  List _listSales = [];
 
   void initState() {
     super.initState();
@@ -46,7 +46,7 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
             }));
 
           response = await http.get(
-            urlApi+"showSales/$parameters",
+            Uri.parse(urlApi+"showSales/$parameters"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

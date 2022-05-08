@@ -197,7 +197,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
 
   saveQuantity()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    List _listPurchase = List();
+    List _listPurchase = [];
 
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
@@ -217,7 +217,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
 
   deleteQuantity()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    List _listPurchase = List();
+    List _listPurchase = [];
 
     setState(() => _statusButtonDelete = true);
     await Future.delayed(Duration(milliseconds: 150));

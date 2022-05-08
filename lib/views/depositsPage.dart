@@ -20,7 +20,7 @@ class _DepositsPageState extends State<DepositsPage> {
   final bool _statusMenuBar;
   final _scrollController = ScrollController();
   bool _statusInfoPayment = false;
-  List _statusButton = new List();
+  List _statusButton = [];
   double _positionTopFirst = 0,
         _positionTopSecond = 35;
 
@@ -221,7 +221,7 @@ class _DepositsPageState extends State<DepositsPage> {
                   bottom: _statusInfoPayment? 0 : -140,
                   child: Container(
                     width: size.width,
-                    height: size.height /3.7, 
+                    height: size.height / 3, 
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
                       color: Colors.white,

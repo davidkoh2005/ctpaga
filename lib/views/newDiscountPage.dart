@@ -29,7 +29,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   bool _statusButtonSave = false, _statusButtonDelete = false;
   String _code;
   int _percentage;
-  List _dataDiscount = new List();
+  List _dataDiscount = [];
 
   @override
   void initState() {
@@ -285,7 +285,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           if(index ==null){
             response = await http.post(
-              urlApi+"newDiscounts",
+              Uri.parse(urlApi+"newDiscounts"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -298,7 +298,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             ); 
           }else{
             response = await http.post(
-              urlApi+"updateDiscounts",
+              Uri.parse(urlApi+"updateDiscounts"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -346,7 +346,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
         response = await http.post(
-          urlApi+"deleteDiscounts",
+          Uri.parse(urlApi+"deleteDiscounts"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',

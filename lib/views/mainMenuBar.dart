@@ -199,7 +199,7 @@ class _MainMenuBarState extends State<MainMenuBar> {
         mainAxisSize :MainAxisSize.max,
         children: <Widget>[
           _buildNavItem("Tasa", "assets/icons/tasa.png", _statusButton,1),
-          _buildNavItem("Divisa" ,"assets/icons/divisa.png",_statusButton, 2),
+          _buildNavItem("Divisa" ,"assets/icons/divisa2.png",_statusButton, 2),
           _buildNavItem("Inicio" ,"assets/icons/home.png",_statusButton, 3),
           _buildNavItem("Banco", "assets/icons/depositos.png", _statusButton, 4),
           _buildNavItem("Transacción", "assets/icons/reporte.png", _statusButton, 5),

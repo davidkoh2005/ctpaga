@@ -36,7 +36,7 @@ class _LoadingPageState extends State<LoadingPage> {
       result = await InternetAddress.lookup('google.com'); //verify network
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"newSales",
+          Uri.parse(urlApi+"newSales"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -80,7 +80,7 @@ class _LoadingPageState extends State<LoadingPage> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               Image(
-                image: AssetImage("assets/logo/logo.png"),
+                image: AssetImage("assets/logo/logo2.png"),
                 width: size.width/1.5,
               ),
               Container(

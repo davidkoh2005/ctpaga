@@ -42,7 +42,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   int _stock, _statusCoin = 0;
   bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false,
       _statusButtonDelete = false;
-  List _dataProductsService = new List();
+  List _dataProductsService = [];
   File _image;
   double _positionTopFirst = 0,
         _positionTopSecond = 35;
@@ -894,11 +894,11 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   }
 
   _getImage(BuildContext context, ImageSource source) async {
-    var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
+    var picture = await ImagePicker().pickImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
     var cropped;
 
     if(picture != null){
-      cropped = await ImageCropper.cropImage(
+      cropped = await ImageCropper().cropImage(
         sourcePath: picture.path,
         aspectRatio:  CropAspectRatio(
           ratioX: 1, ratioY: 1
@@ -1028,7 +1028,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           String base64Image = base64Encode(_image.readAsBytesSync());
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
-              urlApi+"newProducts",
+              Uri.parse(urlApi+"newProducts"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1049,7 +1049,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             ); 
           }else{
             response = await http.post(
-              urlApi+"newServices",
+              Uri.parse(urlApi+"newServices"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1102,7 +1102,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
-              urlApi+"updateProducts",
+              Uri.parse(urlApi+"updateProducts"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1125,7 +1125,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             ); 
           }else{
             response = await http.post(
-              urlApi+"updateServices",
+              Uri.parse(urlApi+"updateServices"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1183,7 +1183,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
 
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
-              urlApi+"deleteProducts",
+              Uri.parse(urlApi+"deleteProducts"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -1196,7 +1196,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             ); 
           }else{
             response = await http.post(
-              urlApi+"deleteServices",
+              Uri.parse(urlApi+"deleteServices"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',

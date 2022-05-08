@@ -8,7 +8,6 @@ import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -46,7 +45,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   Image(
-                    image: AssetImage("assets/logo/logo.png"),
+                    image: AssetImage("assets/logo/logo2.png"),
                     width: size.width/2,
                   ),
                   
@@ -407,7 +406,7 @@ class _RegisterPageState extends State<RegisterPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
-            urlApi+"signup",
+            Uri.parse(urlApi+"signup"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

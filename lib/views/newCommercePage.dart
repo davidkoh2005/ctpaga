@@ -224,7 +224,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"verifyUrl",
+          Uri.parse(urlApi+"verifyUrl"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -269,7 +269,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"createCommerce",
+            Uri.parse(urlApi+"createCommerce"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

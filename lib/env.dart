@@ -13,7 +13,7 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "192.168.1.116:8000";
+String url = "192.168.56.1:8000";
 
 //TODO: Url Api (AWS)
 //String url = "54.196.181.42";
@@ -23,6 +23,7 @@ String url = "192.168.1.116:8000";
 //String url = "compralotodo.com";
 String nameApp = "Compralotodo"; //Ctpaga 
 
+String nameAppApi = "compralotodo"; //Ctpaga 
 String urlApi = "http://$url/api/auth/";
 
 Color colorLogo = Color.fromRGBO(255,162,0,1); // ctpaga: Color.fromRGBO(0,204,96,1);

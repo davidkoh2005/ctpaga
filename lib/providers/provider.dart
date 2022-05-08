@@ -17,7 +17,6 @@ import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
@@ -101,7 +100,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  List _bank = new List(2);
+  List _bank = List.filled(2, Bank());
   List get dataBanksUser =>_bank;
 
   set dataBanksUser(List newBankUser){
@@ -109,7 +108,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _storage = new List();
+  List _storage = [];
   List get dataPicturesUser =>_storage;
 
   set dataPicturesUser(List newStorageUser){
@@ -117,7 +116,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _commerces = new List();
+  List _commerces = [];
   List get dataCommercesUser =>_commerces;
 
   set dataCommercesUser(List newCommercesUser){
@@ -141,7 +140,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  List _listVerification = new List();
+  List _listVerification = [];
   List get listVerification =>_listVerification;
 
   set listVerification(List newListVerification){
@@ -149,7 +148,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _dataCategories = new List();
+  List _dataCategories = [];
   List get dataCategories =>_dataCategories;
 
   set dataCategories(List newListCategories){
@@ -157,7 +156,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _dataCategoriesSelect = new List();
+  List _dataCategoriesSelect = [];
   List get dataCategoriesSelect =>_dataCategoriesSelect;
 
   set dataCategoriesSelect(List newListCategories){
@@ -165,7 +164,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _products = new List();
+  List _products = [];
   List get dataProducts =>_products;
 
   set dataProducts(List newProducts){
@@ -173,7 +172,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _services = new List();
+  List _services = [];
   List get dataServices =>_services;
 
   set dataServices(List newservice){
@@ -181,7 +180,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _productsServicesCategories = new List();
+  List _productsServicesCategories = [];
   List get dataProductsServicesCategories =>_productsServicesCategories;
 
   set dataProductsServicesCategories(List newProductsServices){
@@ -245,7 +244,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  List _shipping = new List();
+  List _shipping = [];
   List get dataShipping =>_shipping;
 
   set dataShipping(List newShipping){
@@ -253,7 +252,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _discount = new List();
+  List _discount = [];
   List get dataDiscount =>_discount;
 
   set dataDiscount(List newDiscount){
@@ -261,7 +260,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _rates = new List();
+  List _rates = [];
   List get dataRates =>_rates;
 
   set dataRates(List newRates){
@@ -269,7 +268,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _ratesSelectToday = new List();
+  List _ratesSelectToday = [];
   List get dataRatesSelectToday =>_ratesSelectToday;
 
   set dataRatesSelectToday(List newRates){
@@ -277,7 +276,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _ratesSelectWeek = new List();
+  List _ratesSelectWeek = [];
   List get dataRatesSelectWeek =>_ratesSelectWeek;
 
   set dataRatesSelectWeek(List newRates){
@@ -285,7 +284,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _ratesSelectMonth = new List();
+  List _ratesSelectMonth = [];
   List get dataRatesSelectMonth =>_ratesSelectMonth;
 
   set dataRatesSelectMonth(List newRates){
@@ -301,7 +300,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  List _listPurchase  = new List();
+  List _listPurchase  = [];
   List get dataPurchase =>_listPurchase ;
 
   set dataPurchase(List newPurchase){
@@ -349,7 +348,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  List _reportSales  = new List();
+  List _reportSales  = [];
   List get dataReportSales =>_reportSales ;
 
   set dataReportSales(List newReport){
@@ -357,7 +356,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List _paid = new List();
+  List _paid = [];
   List get dataPaids =>_paid;
 
   set dataPaids(List newPaid){
@@ -374,7 +373,7 @@ class MyProvider with ChangeNotifier {
   }
   
 
-  List _balance = new List();
+  List _balance = [];
   List get dataBalances =>_balance;
 
   set dataBalances(List newBalance){
@@ -400,12 +399,12 @@ class MyProvider with ChangeNotifier {
 
 
   User user = User();
-  List banksUser = new List(2);
+  List banksUser = List.filled(2, Bank());
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   Picture pictureUser = Picture();
-  List listPicturesUser = new List();
-  List listCommerces = new List();
+  List listPicturesUser = [];
+  List listCommerces = [];
 
   getDataUser(status, loading, context)async{
 
@@ -417,7 +416,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"user",
+          Uri.parse(urlApi+"user"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -590,7 +589,7 @@ class MyProvider with ChangeNotifier {
     if(selectCoinDeposits == null)
       selectCoinDeposits = 1;
 
-    if (dataBanksUser[selectCoinDeposits] != null ){
+    if (dataBanksUser.length >0 && dataBanksUser[selectCoinDeposits] != null ){
       _listVerification.add("Bank");
     }
 
@@ -608,7 +607,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Categories category = Categories();
-  List _listCategories = new List();
+  List _listCategories = [];
 
   getListCategories()async{
     var result, response, jsonResponse;
@@ -618,7 +617,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showCategories",
+          Uri.parse(urlApi+"showCategories"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -656,7 +655,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Product product = Product();
-  List _listProducts = new List();
+  List _listProducts = [];
 
   getListProducts()async{
     var result, response, jsonResponse;
@@ -666,7 +665,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showProducts",
+          Uri.parse(urlApi+"showProducts"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -714,7 +713,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Service service = Service();
-  List _listService = new List();
+  List _listService = [];
 
   getListServices()async{
     var result, response, jsonResponse;
@@ -724,7 +723,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showServices",
+          Uri.parse(urlApi+"showServices"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -771,7 +770,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Shipping shipping = Shipping();
-  List _listShipping = new List();
+  List _listShipping = [];
 
   getListShipping()async{
     var result, response, jsonResponse;
@@ -781,7 +780,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showShipping",
+          Uri.parse(urlApi+"showShipping"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -814,7 +813,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Discounts discounts = Discounts();
-  List _listDiscounts = new List();
+  List _listDiscounts = [];
 
   getListDiscounts()async{
     var result, response, jsonResponse;
@@ -824,7 +823,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showDiscounts",
+          Uri.parse(urlApi+"showDiscounts"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -856,10 +855,10 @@ class MyProvider with ChangeNotifier {
   }
 
   Rate rate = Rate();
-  List _listRates = new List();
-  List _listRatesToday = new List();
-  List _listRatesWeek = new List();
-  List _listRatesMonth = new List();
+  List _listRates = [];
+  List _listRatesToday = [];
+  List _listRatesWeek = [];
+  List _listRatesMonth = [];
 
   getListRates()async{
     List<String> weekDay = <String> ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
@@ -885,7 +884,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showRates",
+          Uri.parse(urlApi+"showRates"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -978,7 +977,7 @@ class MyProvider with ChangeNotifier {
 
 
   Paid paids = Paid();
-  List _listPaids = new List();
+  List _listPaids = [];
 
   getListPaids()async{
     var result, response, jsonResponse;
@@ -988,7 +987,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showPaids",
+          Uri.parse(urlApi+"showPaids"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -1039,7 +1038,7 @@ class MyProvider with ChangeNotifier {
   }
 
   Balance balance = Balance();
-  List _listBalances = new List();
+  List _listBalances = [];
 
   getListBalances()async{
     var result, response, jsonResponse;
@@ -1049,7 +1048,7 @@ class MyProvider with ChangeNotifier {
       result = await InternetAddress.lookup('google.com');
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
         response = await http.post(
-          urlApi+"showBalances",
+          Uri.parse(urlApi+"showBalances"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -1119,7 +1118,7 @@ class MyProvider with ChangeNotifier {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.post(
-            urlApi+"updateUser",
+            Uri.parse(urlApi+"updateUser"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

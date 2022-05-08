@@ -12,9 +12,9 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:pusher_websocket_flutter/pusher.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:web_socket_channel/io.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -31,10 +31,9 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = new FlutterLocalNotificationsPlugin();
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
-  Channel _channel;
+  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance;
   User user = User();
-  List bankUser = new List(2);
+  List bankUser = List.filled(2, Bank());
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   // ignore: unused_field
@@ -58,27 +57,27 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   void registerNotification() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    _firebaseMessaging.requestNotificationPermissions(
-      const IosNotificationSettings(
-        sound: true, badge: true, alert: true, provisional: true
-      )
+    await _firebaseMessaging.requestPermission(
+      alert: true,
+      announcement: false,
+      badge: true,
+      carPlay: false,
+      criticalAlert: false,
+      provisional: false,
+      sound: true,
     );
 
-    _firebaseMessaging.onIosSettingsRegistered.listen((IosNotificationSettings settings) {
-      print("Settings registered: $settings");
+    FirebaseMessaging.onBackgroundMessage(messageHandler);
+ 
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      print('onMessage: $message');
+      showNotification(message.notification.title, message.notification.body);
+      return;
     });
 
-    _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
       print('onMessage: $message');
-      showNotification(message['notification']['title'],message['notification']['body']);
-      return;
-    }, onResume: (Map<String, dynamic> message) {
-      print('onResume: $message');
-      showNotification(message['notification']['title'],message['notification']['body']);
-      return;
-    }, onLaunch: (Map<String, dynamic> message) {
-      print('onLaunch: $message');
-      showNotification(message['notification']['title'],message['notification']['body']);
+      showNotification(message.notification.title, message.notification.body);
       return;
     });
 
@@ -96,6 +95,12 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     _statusCoin = myProvider.coinUsers;
+  }
+
+  Future<void> messageHandler(RemoteMessage message) async {
+    print('onMessage: $message');
+    showNotification(message.notification.title, message.notification.body);
+    return;
   }
 
   // ignore: missing_return
@@ -118,37 +123,25 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
 
     try {
-      PusherOptions options = PusherOptions(
-        host: url.replaceAll(':8000', ''),
-        port: 6001,
-        encrypted: false,
+      var _channel = IOWebSocketChannel.connect(
+        Uri.parse("wss://${url.replaceAll(':8000', '')}"),
       );
-      await Pusher.init("ctpaga20210201",options);
+
+      _channel.stream.listen(
+        (onEvent) {
+          var notification = jsonDecode(onEvent.data);
+          print(onEvent.data);
+
+          if(myProvider.dataUser.id == int.parse(notification['data'])){
+            myProvider.getDataUser(false, false, context);
+          }
+        },
+        onError: (error) => print(error),
+      );
+
     } catch (e) {
       print(e);
     }
-
-    Pusher.connect(
-      onConnectionStateChange: (val){
-        print(val.currentState);
-      },
-      onError: (err) {
-        print(err.message);
-      }
-    );
-
-    _channel = await Pusher.subscribe("channel-ctpaga");
-
-    _channel.bind("event-ctpaga", (onEvent) { 
-      var notification = jsonDecode(onEvent.data);
-      print(onEvent.data);
-
-      if(myProvider.dataUser.id == int.parse(notification['data'])){
-        myProvider.getDataUser(false, false, context);
-      }
-
-    });
-
   }
 
   @override
@@ -322,15 +315,21 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   void initialNotification() {
     var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
+    
     var initializationSettingsIOS = IOSInitializationSettings(
-      requestAlertPermission: true,
-      requestBadgePermission: true,
-      requestSoundPermission: true,
-      onDidReceiveLocalNotification:
-          (int id, String title, String body, String payload) async {});
-    var initializationSettings = InitializationSettings(initializationSettingsAndroid, initializationSettingsIOS
+      onDidReceiveLocalNotification: onDidReceiveLocalNotification);
+    
+    var initializationSettings = InitializationSettings(
+      android: initializationSettingsAndroid, 
+      iOS: initializationSettingsIOS,
     );
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification,);
+
+    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
+  }
+
+  Future onDidReceiveLocalNotification(
+      int id, String title, String body, String payload) async {
+    print('onDidReceiveLocalNotification');
   }
 
   Future selectNotification(String payload) async {
@@ -354,25 +353,30 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
   void showNotification(title, message) async {
 
-    var android = AndroidNotificationDetails(
+    var androidNotificationDetails = AndroidNotificationDetails(
         'Message New id',
         'Message New name',
-        'Message New description',
-        priority: Priority.High,
-        importance: Importance.Max,
+        priority: Priority.max,
+        importance: Importance.max,
+        playSound: true,
     );
 
 
-    var iOS = IOSNotificationDetails(presentSound: false);
+    var iOSNotificationDetails = IOSNotificationDetails(presentSound: false);
 
     var platformChannelSpecifics = NotificationDetails(
-    android, iOS);
+      android: androidNotificationDetails,
+      iOS:iOSNotificationDetails
+    );
 
     await flutterLocalNotificationsPlugin.show(
         0, title, message, platformChannelSpecifics, payload: "true"
       );
 
-    FlutterRingtonePlayer.playNotification();
+    FlutterRingtonePlayer.play(
+      android: AndroidSounds.notification,
+      ios: IosSounds.glass,
+    );
 
   }
 

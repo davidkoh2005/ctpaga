@@ -74,7 +74,7 @@ class _NavbarMainState extends State<NavbarMain> {
                 padding: EdgeInsets.only(top: 35, left: 30),
                 child: Container(
                   child: Image(
-                    image: AssetImage("assets/logo/logo.png"),
+                    image: AssetImage("assets/logo/logo2.png"),
                     width: size.width/3.5,
                   ),
                 )
@@ -126,7 +126,7 @@ class _NavbarMainState extends State<NavbarMain> {
 
     return ClipOval(
       child: Image.asset(
-        "assets/icons/perfil.png",
+        "assets/icons/perfil2.png",
         fit: BoxFit.cover
       ),
     );

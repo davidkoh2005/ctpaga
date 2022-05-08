@@ -30,7 +30,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
   bool _statusButtonSave = false, _switchFree = false, _statusButtonDelete = false;
   int _statusCoin;
   String _description, _descriptionData, _price;
-  List _dataShipping = new List();
+  List _dataShipping = [];
 
   @override
   void initState() {
@@ -334,7 +334,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           if(index == null){
             response = await http.post(
-              urlApi+"newShipping",
+              Uri.parse(urlApi+"newShipping"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -348,7 +348,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
             ); 
           }else{
             response = await http.post(
-              urlApi+"updateShipping",
+              Uri.parse(urlApi+"updateShipping"),
               headers:{
                 'Content-Type': 'application/json',
                 'X-Requested-With': 'XMLHttpRequest',
@@ -397,7 +397,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
       if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
         response = await http.post(
-          urlApi+"deleteShipping",
+          Uri.parse(urlApi+"deleteShipping"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',

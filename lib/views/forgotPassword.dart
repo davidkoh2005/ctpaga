@@ -3,7 +3,6 @@ import 'package:ctpaga/env.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'dart:convert';
 import 'dart:io';
 
@@ -32,7 +31,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Image(
-                  image: AssetImage("assets/logo/logo.png"),
+                  image: AssetImage("assets/logo/logo2.png"),
                   width: size.width/2,
                 ),
                 formEmail(),// form Email
@@ -141,7 +140,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
           response = await http.get(
-            "http://$url/password/create?email=$_email",
+            Uri.parse("http://$url/password/create?email=$_email"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

@@ -152,7 +152,7 @@ class DBctpaga{
 
     List<Map> list = await dbConnection.rawQuery('SELECT * FROM banks');
 
-    List bankUser = new List(2);
+    List bankUser = List.filled(2, Bank());
     Bank bankUserUSD = Bank();
     Bank bankUserBs = Bank();
 
@@ -200,7 +200,7 @@ class DBctpaga{
 
   // Get pictures User
   Future <List<dynamic>> getPicturesUser() async{
-    List listPicturesUser = new List();
+    List listPicturesUser = [];
     listPicturesUser = [];
     var dbConnection = await db;
 
@@ -236,7 +236,7 @@ class DBctpaga{
 
   // Get Commerces User
   Future <List<dynamic>> getCommercesUser() async{
-    List listCommercesUser = new List();
+    List listCommercesUser = [];
     listCommercesUser = [];
     var dbConnection = await db;
 
@@ -273,7 +273,7 @@ class DBctpaga{
 
   // Get Categories User
   Future <List<dynamic>> getCategories(type) async{
-    List listCategories = new List();
+    List listCategories = [];
     listCategories = [];
     var dbConnection = await db;
 
@@ -318,7 +318,7 @@ class DBctpaga{
 
   // Get Products User
   Future <List<dynamic>> getProducts() async{
-    List listProducts = new List();
+    List listProducts = [];
     listProducts = [];
     var dbConnection = await db;
 
@@ -378,7 +378,7 @@ class DBctpaga{
 
   // Get Services User
   Future <List<dynamic>> getServices() async{
-    List listServices = new List();
+    List listServices = [];
     listServices = [];
     var dbConnection = await db;
 
@@ -437,7 +437,7 @@ class DBctpaga{
 
   // Get Shipping User
   Future <List<dynamic>> getShipping() async{
-    List listShipping = new List();
+    List listShipping = [];
     listShipping = [];
     var dbConnection = await db;
 
@@ -492,7 +492,7 @@ class DBctpaga{
 
   // Get Discount User
   Future <List<dynamic>> getDiscounts() async{
-    List listDiscounts = new List();
+    List listDiscounts = [];
     listDiscounts = [];
     var dbConnection = await db;
 
@@ -545,7 +545,7 @@ class DBctpaga{
 
   // Get Rate
   Future <List<dynamic>> getRates() async{
-    List<Rate> listRates = new List();
+    List<Rate> listRates = [];
     listRates = [];
     var dbConnection = await db;
 
@@ -578,7 +578,7 @@ class DBctpaga{
 
   // Get Paids 
   Future <List<dynamic>> getPaids() async{
-    List listPaids = new List();
+    List listPaids = [];
     listPaids = [];
     var dbConnection = await db;
 
@@ -637,7 +637,7 @@ class DBctpaga{
 
   // Get Balances 
   Future <List<dynamic>> getBalances() async{
-    List listBalances = new List();
+    List listBalances = [];
     listBalances = [];
     var dbConnection = await db;
 

@@ -31,7 +31,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
   int _selectCategories = 0, _idSelectCategories=0;
   double _total=0.0;
   bool _statusButton = false, _statusButtonCharge = false;
-  List  _indexProduct = new List(), _indexService = new List(), _listProductsServicesCategories = new List();
+  List  _indexProduct = [], _indexService = [], _listProductsServicesCategories = [];
   var myGroup = AutoSizeGroup();
   var myGroupSubTitle = AutoSizeGroup();
 
@@ -349,7 +349,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   addProductsServices(data){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    List _listSales = new List();
+    List _listSales = [];
     bool _status = false;
     if(myProvider.dataPurchase.length == 0){
       myProvider.dataPurchase.add({
@@ -625,7 +625,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
 
   getListProductsServicesCategories(idCategories, myProvider){
     myProvider.dataProductsServicesCategories = [];
-    List listProductsServicesCategories = new List();
+    List listProductsServicesCategories = [];
     listProductsServicesCategories = [];
 
     if(myProvider.selectProductsServices==0){

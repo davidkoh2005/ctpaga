@@ -12,7 +12,6 @@ import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class NewSalesPage extends StatefulWidget {
   
@@ -230,7 +229,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
       final Map<Permission, PermissionStatus> permissionStatus =
           await [Permission.contacts].request();
       return permissionStatus[Permission.contacts] ??
-          PermissionStatus.undetermined;
+          PermissionStatus.granted;
     } else {
       return permission;
     }

@@ -162,7 +162,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"newRates",
+            Uri.parse(urlApi+"newRates"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

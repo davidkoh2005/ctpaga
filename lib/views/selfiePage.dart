@@ -198,7 +198,7 @@ class _SelfiePageState extends State<SelfiePage> {
     try {
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/Selfie_$now.jpg';
-      await _controller.takePicture(filePath);
+      await _controller.takePicture();
       _onLoading();
       _controller?.dispose();
 
@@ -207,7 +207,7 @@ class _SelfiePageState extends State<SelfiePage> {
       String fileName = filePath.split("/").last;
 
       var response = await http.post(
-        urlApi+"updateUserImg",
+        Uri.parse(urlApi+"updateUserImg"),
         headers:{
           'X-Requested-With': 'XMLHttpRequest',
           'authorization': 'Bearer ${myProvider.accessTokenUser}',

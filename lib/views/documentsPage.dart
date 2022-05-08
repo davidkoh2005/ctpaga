@@ -242,7 +242,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     try {
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/${_title}_$now.jpg';
-      await _controller.takePicture(filePath);
+      await _controller.takePicture();
       _onLoading();
       _controller?.dispose();
 
@@ -250,7 +250,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
       String fileName = filePath.split("/").last;
 
       var response = await http.post(
-        urlApi+"updateUserImg",
+        Uri.parse(urlApi+"updateUserImg"),
         headers:{
           'X-Requested-With': 'XMLHttpRequest',
           'authorization': 'Bearer ${myProvider.accessTokenUser}',

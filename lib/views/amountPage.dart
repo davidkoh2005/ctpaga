@@ -322,7 +322,7 @@ class _AmountPageState extends State<AmountPage> {
   updateAmount(status, value){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     bool _statusDataAmount = false;
-    var _listPurchase = List();
+    var _listPurchase = [];
 
     String result = lowAmount.text;
     result = result.replaceAll("Bs ", "");

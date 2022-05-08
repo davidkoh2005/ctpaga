@@ -116,7 +116,7 @@ class _MenuPageState extends State<MenuPage> {
         result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"logout",
+            Uri.parse(urlApi+"logout"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',

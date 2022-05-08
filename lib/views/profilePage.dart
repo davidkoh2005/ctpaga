@@ -10,8 +10,8 @@ import 'package:ctpaga/env.dart';
 
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:searchable_dropdown/searchable_dropdown.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:search_choices/search_choices.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -66,7 +66,7 @@ class _ProfilePageState extends State<ProfilePage> {
   File _image;
   bool _statusCountry = true, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
-  List bankUser = new List(2);
+  List bankUser = [];
   Bank bankUserUSD = Bank();
   Bank bankUserBs = Bank();
   var urlProfile;
@@ -85,18 +85,19 @@ class _ProfilePageState extends State<ProfilePage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
+    print(myProvider.dataBanksUser[1].idCard);
     //myProvider.statusUrlCommerce = myProvider.dataCommercesUser.length == 0? false : true;
     _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
     setState(() {
       _valueListCountry = myProvider.dataBanksUser[0] == null? 'USA' : myProvider.dataBanksUser[0].country;
       _statusCountry = myProvider.dataBanksUser[0] == null? true: myProvider.dataBanksUser[0].country == 'USA'? true : false;
       _nameBankingUSD = myProvider.dataBanksUser[0] == null? null : myProvider.dataBanksUser[0].bankName; 
-      _nameBankingBs = myProvider.dataBanksUser[1] == null? null : myProvider.dataBanksUser[1].bankName;
+      _nameBankingBs = myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null? null : myProvider.dataBanksUser[1].bankName;
 
       _positionDocumentCompany = myProvider.dataCommercesUser.length == 0? 1 : myProvider.dataCommercesUser[myProvider.selectCommerce].rif.length == 0? 1 : _listDocumentCompany.indexOf(myProvider.dataCommercesUser[myProvider.selectCommerce].rif.substring(0,1).toUpperCase());
       _selectDocumentCompany = _listDocumentCompany[_positionDocumentCompany];
       
-      _positionDocument = myProvider.dataBanksUser[1] == null? 1 : _listDocument.indexOf(myProvider.dataBanksUser[1].idCard.substring(0,1).toUpperCase());
+      _positionDocument = myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null ? 1 : _listDocument.indexOf(myProvider.dataBanksUser[1].idCard.substring(0,1).toUpperCase());
       _selectDocument = _listDocument[_positionDocument];
     });
     
@@ -518,13 +519,13 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   _getImage(BuildContext context, ImageSource source) async {
-    var picture = await ImagePicker().getImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
+    var picture = await ImagePicker().pickImage(source: source,  imageQuality: 50, maxHeight: 600, maxWidth: 900);
     var myProvider = Provider.of<MyProvider>(context, listen: false);
 
     var cropped;
 
     if(picture != null){
-      cropped = await ImageCropper.cropImage(
+      cropped = await ImageCropper().cropImage(
         sourcePath: picture.path,
         aspectRatio:  CropAspectRatio(
           ratioX: 1, ratioY: 1
@@ -553,7 +554,7 @@ class _ProfilePageState extends State<ProfilePage> {
         {
           String base64Image = base64Encode(cropped.readAsBytesSync());
           var response = await http.post(
-            urlApi+"updateUserImg",
+            Uri.parse(urlApi+"updateUserImg"),
             headers:{
               'X-Requested-With': 'XMLHttpRequest',
               'authorization': 'Bearer ${myProvider.accessTokenUser}',
@@ -889,7 +890,7 @@ class _ProfilePageState extends State<ProfilePage> {
         result = await InternetAddress.lookup('google.com');
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           response = await http.post(
-            urlApi+"verifyUrl",
+            Uri.parse(urlApi+"verifyUrl"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -962,7 +963,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
           Align(
             alignment: Alignment.center,
-            child: FlatButton(
+            child: TextButton(
           
               onPressed: () => nextPage(),
               child: AutoSizeText(
@@ -1222,7 +1223,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
-              child: SearchableDropdown.single(
+              child: SearchChoices.single(
                 displayClearIcon: false,
                 items: _statusCountry? listBankUSA.map((result) {
                     return (DropdownMenuItem(
@@ -1426,7 +1427,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountName,
+                initialValue: myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null? '' : myProvider.dataBanksUser[1].accountName,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 decoration: InputDecoration(
@@ -1504,7 +1505,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     padding: EdgeInsets.only(left:10),
                     width: size.width - 175,
                     child: new TextFormField(
-                      initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].idCard.substring(2),
+                      initialValue: myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null? '' : myProvider.dataBanksUser[1].idCard.substring(2),
                       autofocus: false,
                       keyboardType: TextInputType.text,
                       textCapitalization:TextCapitalization.sentences,
@@ -1538,7 +1539,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountNumber,
+                initialValue: myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null? '' : myProvider.dataBanksUser[1].accountNumber,
                 autofocus: false,
                 keyboardType: TextInputType.number,
                 maxLength: 20,
@@ -1581,7 +1582,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 0.0, 30.0, 0.0),
-              child: SearchableDropdown.single(
+              child: SearchChoices.single(
                 displayClearIcon: false,
                 items: listBankBs.map((result) {
                   return (DropdownMenuItem(
@@ -1625,7 +1626,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Padding(
               padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
               child: new TextFormField(
-                initialValue: myProvider.dataBanksUser[1] == null? '' : myProvider.dataBanksUser[1].accountType,
+                initialValue: myProvider.dataBanksUser[1] == null || myProvider.dataBanksUser[1].idCard == null? '' : myProvider.dataBanksUser[1].accountType,
                 autofocus: false,
                 textCapitalization:TextCapitalization.sentences,
                 maxLength: 1,
@@ -1834,7 +1835,7 @@ class _ProfilePageState extends State<ProfilePage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateCommerceUser",
+            Uri.parse(urlApi+"updateCommerceUser"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1880,7 +1881,7 @@ class _ProfilePageState extends State<ProfilePage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser",
+            Uri.parse(urlApi+"updateUser"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1918,7 +1919,7 @@ class _ProfilePageState extends State<ProfilePage> {
           var myProvider = Provider.of<MyProvider>(context, listen: false);
 
           response = await http.post(
-            urlApi+"updateUser",
+            Uri.parse(urlApi+"updateUser"),
             headers:{
               'Content-Type': 'application/json',
               'X-Requested-With': 'XMLHttpRequest',
@@ -1983,7 +1984,7 @@ class _ProfilePageState extends State<ProfilePage> {
           }));
 
         response = await http.get(
-          urlApi+"updateBankUser/$parameters",
+          Uri.parse(urlApi+"updateBankUser/$parameters"),
           headers:{
             'Content-Type': 'application/json',
             'X-Requested-With': 'XMLHttpRequest',
@@ -2203,7 +2204,7 @@ class _ProfilePageState extends State<ProfilePage> {
       try
       {
         var response = await http.post(
-          urlApi+"updateEmailUser",
+          Uri.parse(urlApi+"updateEmailUser"),
           headers:{
             'X-Requested-With': 'XMLHttpRequest',
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
@@ -2245,7 +2246,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try
     {
       var response = await http.post(
-        urlApi+"deleteCommerceUser",
+        Uri.parse(urlApi+"deleteCommerceUser"),
         headers:{
           'X-Requested-With': 'XMLHttpRequest',
           'authorization': 'Bearer ${myProvider.accessTokenUser}',

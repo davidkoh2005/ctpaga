@@ -12,7 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   auto_size_text: ^3.0.0
-  cached_network_image: ^3.1.0
+  cached_network_image: ^3.0.0
   camera:
     git:
       url: https://github.com/flutter/plugins

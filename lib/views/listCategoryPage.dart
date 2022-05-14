@@ -47,7 +47,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
       builder: (context, myProvider, child) {
         return Scrollbar(
           controller: _scrollController, 
-          isAlwaysShown: true,
+          thumbVisibility: true,
           child: ListView.builder(
             controller: _scrollController,
             padding: EdgeInsets.all(10),
@@ -64,6 +64,8 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
                       selectCategory.add(myProvider.dataCategories[index].id.toString());
                       myProvider.dataCategoriesSelect = selectCategory;
                     }
+
+                    _showCategories();
                 },
                 child: Container(
                   child: Card(
@@ -140,6 +142,27 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
         ),
       ),
     );
+  }
+
+  _showCategories(){
+    var myProvider = Provider.of<MyProvider>(context, listen: false);
+    myProvider.getCategoryProduct = '';
+    myProvider.getSelectCategoryProduct = '';
+    if(myProvider.dataCategoriesSelect.length >0){
+      for (var item in myProvider.dataCategories) {
+        if(myProvider.dataCategoriesSelect.contains(item.id.toString())){
+            myProvider.getSelectCategoryProduct += item.id.toString()+', ';
+            myProvider.getCategoryProduct += item.name+', ';
+          }
+      }
+    }
+
+    if(myProvider.getCategoryProduct.length >0){
+      myProvider.getCategoryProduct = myProvider.getCategoryProduct.substring(0, myProvider.getCategoryProduct.length - 2);
+      myProvider.getSelectCategoryProduct = myProvider.getSelectCategoryProduct.substring(0, myProvider.getSelectCategoryProduct.length - 2);
+    }else{
+      myProvider.getSelectCategoryProduct = "";
+    }
   }
 
   nextPage()async{

@@ -18,7 +18,7 @@ class NewCategoryPage extends StatefulWidget {
 
 class _NewCategoryPageState extends State<NewCategoryPage> {
   final _formKeyCategory = new GlobalKey<FormState>();
-  bool _statusButtonSave = false, _statusButton = false;
+  bool _statusButton = false;
   String _name;
   @override
   Widget build(BuildContext context) {
@@ -101,7 +101,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
 
   Widget buttonSave(){
     var size = MediaQuery.of(context).size;
-    return GestureDetector(
+    return InkWell(
       onTap: () => saveCategory(),
       child: Container(
         width:size.width - 100,
@@ -111,7 +111,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: !_statusButton? colorGrey: _statusButtonSave? colorGrey : colorLogo,
+          color: !_statusButton? colorGrey: colorLogo,
           borderRadius: BorderRadius.circular(30),
           ),
         child: Center(
@@ -133,9 +133,6 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   saveCategory()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
-    setState(() => _statusButtonSave = true);
-    await Future.delayed(Duration(milliseconds: 150));
-    setState(() => _statusButtonSave = false);
     if (_formKeyCategory.currentState.validate()) {
       _formKeyCategory.currentState.save();
       try

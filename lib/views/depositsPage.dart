@@ -76,7 +76,7 @@ class _DepositsPageState extends State<DepositsPage> {
                       Expanded(
                         child: Scrollbar(
                           controller: _scrollController, 
-                          isAlwaysShown: true,
+                          thumbVisibility: true,
                           child: SingleChildScrollView(
                             controller: _scrollController, 
                             child: Column(
@@ -172,15 +172,18 @@ class _DepositsPageState extends State<DepositsPage> {
 
                                         Visibility(
                                           visible: myProvider.listVerification.length != 4? true : false,
-                                          child: AutoSizeText(
-                                            "Necesitamos que completes la información marcada en rojo debajo",
-                                            textAlign: TextAlign.center,
-                                            style:  TextStyle(
-                                              color: colorGrey,
-                                              fontFamily: 'MontserratSemiBold',
+                                          child: Padding(
+                                            padding: EdgeInsets.only(left: 2, right: 2) ,
+                                            child: AutoSizeText(
+                                              "Necesitamos que completes la información marcada en rojo debajo",
+                                              textAlign: TextAlign.center,
+                                              style:  TextStyle(
+                                                color: colorGrey,
+                                                fontFamily: 'MontserratSemiBold',
+                                              ),
+                                              maxFontSize: 14,
+                                              minFontSize: 14,
                                             ),
-                                            maxFontSize: 14,
-                                            minFontSize: 14,
                                           )
                                         ),
                                         
@@ -191,7 +194,7 @@ class _DepositsPageState extends State<DepositsPage> {
                                 Align(
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
-                                    padding: EdgeInsets.all(25),
+                                    padding: EdgeInsets.fromLTRB(25, 25, 25, 25),
                                     child: AutoSizeText(
                                       "INFORMACIÓN DEL DEPÓSITO",
                                       style:  TextStyle(
@@ -203,10 +206,17 @@ class _DepositsPageState extends State<DepositsPage> {
                                     ),
                                   ),
                                 ),
-                                dropdownList(0, 'Bank', myProvider),
-                                dropdownList(1, 'Selfie', myProvider),
-                                dropdownList(2, 'Identification', myProvider),
-                                dropdownList(3, 'RIF', myProvider),               
+                                Container(
+                                  padding: EdgeInsets.only(bottom: 60),
+                                  child: Column(
+                                    children: [
+                                      dropdownList(0, 'Bank'+myProvider.selectCoinDeposits.toString(), myProvider),
+                                      dropdownList(1, 'Selfie', myProvider),
+                                      dropdownList(2, 'Identification', myProvider),
+                                      dropdownList(3, 'RIF', myProvider),    
+                                    ],
+                                  ),
+                                )            
                               ],
                             )
                           )
@@ -218,10 +228,10 @@ class _DepositsPageState extends State<DepositsPage> {
                 
                 AnimatedPositioned(
                   duration: Duration(milliseconds:300),
-                  bottom: _statusInfoPayment? 0 : -140,
+                  bottom: _statusInfoPayment? (-size.height + 550) : -size.height + 390 ,
                   child: Container(
                     width: size.width,
-                    height: size.height / 3, 
+                    height: size.height - 350, 
                     alignment: Alignment.bottomCenter,
                     decoration: BoxDecoration(
                       color: Colors.white,
@@ -397,6 +407,7 @@ class _DepositsPageState extends State<DepositsPage> {
 
   dropdownList(index, title, myProvider){
     var size = MediaQuery.of(context).size;
+    print(myProvider.listVerification);
     return GestureDetector(
       onTap: () {
         if(!myProvider.listVerification.contains(title)) 

@@ -210,7 +210,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     if(myProvider.selectProductsServices == 0){
       return Scrollbar(
         controller: _scrollControllerProductsServices, 
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.separated(
           shrinkWrap: true, 
           scrollDirection: Axis.vertical, 
@@ -292,7 +292,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     }else{
       return Scrollbar(
         controller: _scrollControllerProductsServices, 
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.separated(
           shrinkWrap: true, 
           scrollDirection: Axis.vertical, 
@@ -536,7 +536,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
     if(_listProductsServicesCategories.length>0)
       return Scrollbar(
         controller: _scrollControllerCategories, 
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.separated(
           shrinkWrap: true, 
           scrollDirection: Axis.vertical, 

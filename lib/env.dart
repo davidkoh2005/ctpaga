@@ -13,14 +13,14 @@ import 'package:ctpaga/views/loginPage.dart';
 import 'package:flutter/material.dart';
 
 //TODO: Url Api (LocalHost)
-String url = "192.168.56.1:8000";
+//String url = "192.168.1.123:8000";
 
 //TODO: Url Api (AWS)
 //String url = "54.196.181.42";
 
 //TODO: Url Api (hosting)
 //String url = "ctpaga.app";
-//String url = "compralotodo.com";
+String url = "compralotodo.com";
 String nameApp = "Compralotodo"; //Ctpaga 
 
 String nameAppApi = "compralotodo"; //Ctpaga 

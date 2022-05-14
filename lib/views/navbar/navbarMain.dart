@@ -71,7 +71,7 @@ class _NavbarMainState extends State<NavbarMain> {
             GestureDetector(
               onTap: () => launch("http://$url"),
               child: Padding(
-                padding: EdgeInsets.only(top: 35, left: 30),
+                padding: EdgeInsets.only(top: 50, left: 30),
                 child: Container(
                   child: Image(
                     image: AssetImage("assets/logo/logo2.png"),
@@ -106,6 +106,7 @@ class _NavbarMainState extends State<NavbarMain> {
       //removeCache();
       if (urlProfile != null)
       {
+
         return ClipOval(
           child: new CachedNetworkImage(
             imageUrl: "http://"+url+urlProfile,

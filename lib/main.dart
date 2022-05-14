@@ -4,6 +4,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/views/loginPage.dart';
 import 'package:ctpaga/env.dart';
 
+import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -265,6 +266,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       myProvider.clickButtonMenu = 0;
       myProvider.getTokenFCM = prefs.containsKey('tokenFCM')? prefs.getString('tokenFCM') : null;
     }else{
+      DefaultCacheManager().emptyCache();
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));
     }
   }

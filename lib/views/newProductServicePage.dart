@@ -38,7 +38,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   
   // ignore: unused_field
-  String _name, _description, _categories, _price, _selectCategories, _postPurchase;
+  String _name, _description, _categories, _price, _postPurchase;
   int _stock, _statusCoin = 0;
   bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false,
       _statusButtonDelete = false;
@@ -260,7 +260,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         child: SafeArea(
           child: Scrollbar(
             controller: _scrollController, 
-            isAlwaysShown: true,
+            thumbVisibility: true,
             child: SingleChildScrollView(
               controller: _scrollController, 
               child: new Form(
@@ -474,7 +474,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     ),
                     Consumer<MyProvider>(
                       builder: (context, myProvider, child) {
-                        _showCategories();
+                        _controllerCategories..text = myProvider.getCategoryProduct;
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 10.0),
                           child: new TextFormField(
@@ -1041,7 +1041,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "price": _price,
                 "coin": _statusCoin,
                 "description": _description,
-                "categories": _selectCategories,
+                "categories": myProvider.getSelectCategoryProduct,
                 "publish": _switchPublish,
                 "stock": _stock,
                 "postPurchase": _postPurchase,
@@ -1062,7 +1062,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "price": _price,
                 "coin": _statusCoin,
                 "description": _description,
-                "categories": _selectCategories,
+                "categories": myProvider.getSelectCategoryProduct,
                 "publish": _switchPublish,
                 "postPurchase": _postPurchase,
               }),
@@ -1116,7 +1116,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "price": _price,
                 "coin": _statusCoin,
                 "description": _description,
-                "categories": _selectCategories,
+                "categories": myProvider.getSelectCategoryProduct,
                 "publish": _switchPublish,
                 "stock": _stock,
                 "postPurchase": _postPurchase,
@@ -1139,7 +1139,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                 "price": _price,
                 "coin": _statusCoin,
                 "description": _description,
-                "categories": _selectCategories,
+                "categories": myProvider.getSelectCategoryProduct,
                 "publish": _switchPublish,
                 "stock": _stock,
                 "postPurchase": _postPurchase,
@@ -1333,29 +1333,6 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         );
       },
     );
-  }
-
-  _showCategories(){
-    String list="";
-    _selectCategories = "";
-    var myProvider = Provider.of<MyProvider>(context, listen: false);
-    if(myProvider.dataCategoriesSelect.length >0){
-      for (var item in myProvider.dataCategories) {
-        if(myProvider.dataCategoriesSelect.contains(item.id.toString())){
-            _selectCategories += item.id.toString()+', ';
-            list += item.name+', ';
-          }
-      }
-    }
-
-    if(list.length >0){
-      list = list.substring(0, list.length - 2);
-      _selectCategories = _selectCategories.substring(0, _selectCategories.length - 2);
-      _controllerCategories..text = list;
-    }else{
-      _selectCategories = "";
-      _controllerCategories.clear();
-    }
   }
 
   String _validateName(String value) {

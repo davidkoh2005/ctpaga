@@ -85,7 +85,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    print(myProvider.dataBanksUser[1].idCard);
     //myProvider.statusUrlCommerce = myProvider.dataCommercesUser.length == 0? false : true;
     _controllerUser.text = myProvider.dataCommercesUser.length == 0? '' : myProvider.dataCommercesUser[myProvider.selectCommerce].userUrl;
     setState(() {

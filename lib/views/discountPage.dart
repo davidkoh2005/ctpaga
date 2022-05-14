@@ -104,7 +104,7 @@ class _DiscountPageState extends State<DiscountPage> {
     return Container(
       child:Scrollbar(
         controller: _scrollControllerList, 
-        isAlwaysShown: true,
+        thumbVisibility: true,
         child: ListView.separated(
           shrinkWrap: true,
           controller: _scrollControllerList,

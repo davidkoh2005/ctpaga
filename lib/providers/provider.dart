@@ -397,6 +397,22 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
+  String _listCategoryProduct;
+  String get getCategoryProduct =>_listCategoryProduct; 
+  
+  set getCategoryProduct(String newValue) {
+    _listCategoryProduct = newValue; 
+    notifyListeners(); 
+  }
+
+  String _selectCategoryProduct;
+  String get getSelectCategoryProduct =>_selectCategoryProduct; 
+  
+  set getSelectCategoryProduct(String newValue) {
+    _selectCategoryProduct = newValue; 
+    notifyListeners(); 
+  }
+
 
   User user = User();
   List banksUser = List.filled(2, Bank());
@@ -589,8 +605,8 @@ class MyProvider with ChangeNotifier {
     if(selectCoinDeposits == null)
       selectCoinDeposits = 1;
 
-    if (dataBanksUser.length >0 && dataBanksUser[selectCoinDeposits] != null ){
-      _listVerification.add("Bank");
+    if (dataBanksUser.length >0 && dataBanksUser[selectCoinDeposits].idCard != null ){
+      _listVerification.add("Bank"+selectCoinDeposits.toString());
     }
 
     for (var item in dataPicturesUser) {

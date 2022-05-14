@@ -216,7 +216,7 @@ class _ShippingPageState extends State<ShippingPage> {
             child: Expanded(
               child:Scrollbar(
                 controller: _scrollControllerShipping, 
-                isAlwaysShown: true,
+                thumbVisibility: true,
                 child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical, 

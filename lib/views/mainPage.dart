@@ -9,7 +9,6 @@ import 'package:ctpaga/env.dart';
 import 'package:ctpaga/views/salesReportPage.dart';
 
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:auto_size_text/auto_size_text.dart';
@@ -57,29 +56,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   void registerNotification() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    await _firebaseMessaging.requestPermission(
-      alert: true,
-      announcement: false,
-      badge: true,
-      carPlay: false,
-      criticalAlert: false,
-      provisional: false,
-      sound: true,
-    );
-
-    FirebaseMessaging.onBackgroundMessage(messageHandler);
- 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-      print('onMessage: $message');
-      showNotification(message.notification.title, message.notification.body);
-      return;
-    });
-
-    FirebaseMessaging.onMessageOpenedApp.listen((RemoteMessage message) {
-      print('onMessage: $message');
-      showNotification(message.notification.title, message.notification.body);
-      return;
-    });
 
     _firebaseMessaging.getToken().then((token) {
       print("token: $token");
@@ -97,11 +73,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     _statusCoin = myProvider.coinUsers;
   }
 
-  Future<void> messageHandler(RemoteMessage message) async {
-    print('onMessage: $message');
-    showNotification(message.notification.title, message.notification.body);
-    return;
-  }
 
   // ignore: missing_return
   Future<bool> _onBackPressed(){
@@ -350,34 +321,4 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       Navigator.push(context, SlideLeftRoute(page: SalesReportPage(false)));
     }
   }
-
-  void showNotification(title, message) async {
-
-    var androidNotificationDetails = AndroidNotificationDetails(
-        'Message New id',
-        'Message New name',
-        priority: Priority.max,
-        importance: Importance.max,
-        playSound: true,
-    );
-
-
-    var iOSNotificationDetails = IOSNotificationDetails(presentSound: false);
-
-    var platformChannelSpecifics = NotificationDetails(
-      android: androidNotificationDetails,
-      iOS:iOSNotificationDetails
-    );
-
-    await flutterLocalNotificationsPlugin.show(
-        0, title, message, platformChannelSpecifics, payload: "true"
-      );
-
-    FlutterRingtonePlayer.play(
-      android: AndroidSounds.notification,
-      ios: IosSounds.glass,
-    );
-
-  }
-
 }

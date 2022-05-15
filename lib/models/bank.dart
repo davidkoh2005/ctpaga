@@ -1,5 +1,5 @@
 class Bank{
-  String coin, country, accountName, accountNumber, idCard, route, swift, address, bankName, accountType;
+  String? coin, country, accountName, accountNumber, idCard, route, swift, address, bankName, accountType;
 
   Bank({this.coin, this.country, this.accountName, this.accountNumber, this.idCard, this.route, this.swift, this.address, this.bankName, this.accountType});
 

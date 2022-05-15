@@ -7,7 +7,7 @@ import 'package:ctpaga/views/productsServicesPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:numeric_keyboard/numeric_keyboard.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
@@ -24,7 +24,7 @@ class _AmountPageState extends State<AmountPage> {
   final FocusNode _priceFocus = FocusNode();
   final _controllerDescription = TextEditingController();
   // ignore: unused_field
-  String _description, _price='';
+  String? _description, _price='';
   // ignore: unused_field
   bool _statusSalesProducts = false, _statusSalesServices = false,  _statusButtonCharge = false;
   double _total = 0.0;
@@ -137,7 +137,7 @@ class _AmountPageState extends State<AmountPage> {
                       ], 
                       autofocus: false,
                       onEditingComplete: () => FocusScope.of(context).requestFocus(_priceFocus),
-                      onSaved: (value) => _description = value.trim(),
+                      onSaved: (value) => _description = value!.trim(),
                       onChanged: (value){
                         updateAmount(0, false);
                       },
@@ -312,7 +312,7 @@ class _AmountPageState extends State<AmountPage> {
     );
   }
 
-  _onKeyboardTap(String value) {
+  _onKeyboardTap(String? value) {
     setState(() {
       lowAmount.updateValue(updateAmount(2, value));
     });

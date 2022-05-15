@@ -1,7 +1,7 @@
 class Rate{
   // ignore: non_constant_identifier_names
-  int id;
-  String rate, date;
+  int? id;
+  String? rate, date;
 
   // ignore: non_constant_identifier_rates
   Rate({this.id, this.rate,  this.date});

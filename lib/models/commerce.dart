@@ -1,6 +1,6 @@
 class Commerce{
-  int id;
-  String rif, name, address, phone, userUrl;
+  int? id;
+  String? rif, name, address, phone, userUrl;
 
   Commerce({this.id, this.rif, this.name, this.address, this.phone, this.userUrl});
 

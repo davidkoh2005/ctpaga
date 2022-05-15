@@ -20,14 +20,11 @@ import 'dart:async';
 
 class DBctpaga{
 
-  static Database dbInstance;
+  static Database? dbInstance;
   static int versionDB = 17;
 
   Future<Database> get db async{
-    if(dbInstance == null)
-      dbInstance = await initDB();
-
-    return dbInstance;
+    return dbInstance ??= await initDB();
   }
 
   initDB() async {
@@ -122,7 +119,7 @@ class DBctpaga{
   // Add New User
   void addNewUser (User user) async{
     var dbConnection = await db;
-    String query = 'INSERT INTO users (email , name, address, phone, statusShipping, tokenFCM, status) VALUES (\'${user.email}\',\'${user.name}\',\'${user.address}\',\'${user.phone}\',\'${user.statusShipping?1:0}\',\'${user.tokenFCM}\',\'${user.status}\')';
+    String query = 'INSERT INTO users (email , name, address, phone, statusShipping, tokenFCM, status) VALUES (\'${user.email}\',\'${user.name}\',\'${user.address}\',\'${user.phone}\',\'${user.statusShipping!?1:0}\',\'${user.tokenFCM}\',\'${user.status}\')';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawInsert(query);
     });
@@ -131,7 +128,7 @@ class DBctpaga{
   // Update User
   void updateUser (User user) async{
     var dbConnection = await db;
-    String query = 'UPDATE users SET email=\'${user.email}\', name=\'${user.name}\', address=\'${user.address}\', phone=\'${user.phone}\', statusShipping=\'${user.statusShipping?1:0}\', tokenFCM=\'${user.tokenFCM}\', status=\'${user.status}\'  WHERE id=1';
+    String query = 'UPDATE users SET email=\'${user.email}\', name=\'${user.name}\', address=\'${user.address}\', phone=\'${user.phone}\', statusShipping=\'${user.statusShipping!?1:0}\', tokenFCM=\'${user.tokenFCM}\', status=\'${user.status}\'  WHERE id=1';
     await dbConnection.transaction((transaction) async{
       return await transaction.rawQuery(query);
     });
@@ -355,12 +352,12 @@ class DBctpaga{
     List<Map> list = await dbConnection.rawQuery('SELECT * FROM products WHERE id = \'${product.id}\' ');
     
     if(list.length == 0){
-      String query = 'INSERT INTO products (id, commerce_id, url, name, price, coin, description, categories, publish, stock, postPurchase) VALUES ( \'${product.id}\', \'${product.commerce_id}\', \'${product.url}\',\'${product.name}\',\'${product.price}\',\'${product.coin}\',\'${product.description}\',\'${product.categories}\',\'${product.publish?1:0}\',\'${product.stock}\',\'${product.postPurchase}\')';
+      String query = 'INSERT INTO products (id, commerce_id, url, name, price, coin, description, categories, publish, stock, postPurchase) VALUES ( \'${product.id}\', \'${product.commerce_id}\', \'${product.url}\',\'${product.name}\',\'${product.price}\',\'${product.coin}\',\'${product.description}\',\'${product.categories}\',\'${product.publish!?1:0}\',\'${product.stock}\',\'${product.postPurchase}\')';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
     });
     }else{
-      String query = 'UPDATE products SET commerce_id=\'${product.commerce_id}\', url=\'${product.url}\', name=\'${product.name}\', price=\'${product.price}\', coin=\'${product.coin}\', description=\'${product.description}\', categories=\'${product.categories}\', publish=\'${product.publish?1:0}\', stock=\'${product.stock}\', postPurchase=\'${product.postPurchase}\' WHERE id= \'${product.id}\'';
+      String query = 'UPDATE products SET commerce_id=\'${product.commerce_id}\', url=\'${product.url}\', name=\'${product.name}\', price=\'${product.price}\', coin=\'${product.coin}\', description=\'${product.description}\', categories=\'${product.categories}\', publish=\'${product.publish!?1:0}\', stock=\'${product.stock}\', postPurchase=\'${product.postPurchase}\' WHERE id= \'${product.id}\'';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });
@@ -414,12 +411,12 @@ class DBctpaga{
     List<Map> list = await dbConnection.rawQuery('SELECT * FROM services WHERE id = \'${service.id}\' ');
     
     if(list.length == 0){
-      String query = 'INSERT INTO services (id, commerce_id, url, name, price, coin, description, categories, publish, postPurchase) VALUES ( \'${service.id}\', \'${service.commerce_id}\', \'${service.url}\',\'${service.name}\',\'${service.price}\',\'${service.coin}\',\'${service.description}\',\'${service.categories}\',\'${service.publish?1:0}\',\'${service.postPurchase}\')';
+      String query = 'INSERT INTO services (id, commerce_id, url, name, price, coin, description, categories, publish, postPurchase) VALUES ( \'${service.id}\', \'${service.commerce_id}\', \'${service.url}\',\'${service.name}\',\'${service.price}\',\'${service.coin}\',\'${service.description}\',\'${service.categories}\',\'${service.publish!?1:0}\',\'${service.postPurchase}\')';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
     });
     }else{
-      String query = 'UPDATE services SET commerce_id=\'${service.commerce_id}\', url=\'${service.url}\', name=\'${service.name}\', price=\'${service.price}\', coin=\'${service.coin}\', description=\'${service.description}\', categories=\'${service.categories}\', publish=\'${service.publish?1:0}\', postPurchase=\'${service.postPurchase}\' WHERE id= \'${service.id}\'';
+      String query = 'UPDATE services SET commerce_id=\'${service.commerce_id}\', url=\'${service.url}\', name=\'${service.name}\', price=\'${service.price}\', coin=\'${service.coin}\', description=\'${service.description}\', categories=\'${service.categories}\', publish=\'${service.publish!?1:0}\', postPurchase=\'${service.postPurchase}\' WHERE id= \'${service.id}\'';
       await dbConnection.transaction((transaction) async{
         return await transaction.rawInsert(query);
       });

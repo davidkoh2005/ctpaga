@@ -155,7 +155,7 @@ class _DiscountPageState extends State<DiscountPage> {
     var size = MediaQuery.of(context).size;
     
     return GestureDetector(
-      onTap: () => nextPage(NewDiscountPage(null)),
+      onTap: () => nextPage(NewDiscountPage(-1)),
       child: Container(
         width:size.width - 100,
         height: size.height / 20,

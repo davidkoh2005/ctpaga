@@ -1,7 +1,7 @@
 class User{
-  int id, status;
-  String email, name, address, phone, tokenFCM;
-  bool statusShipping;
+  int? id, status;
+  String? email, name, address, phone, tokenFCM;
+  bool? statusShipping;
 
   User({this.id, this.email, this.name, this.address, this.phone, this.statusShipping, this.tokenFCM, this.status});
 

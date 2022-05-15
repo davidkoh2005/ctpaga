@@ -71,7 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   )
               ),
               validator: _validateEmail ,
-              onSaved: (value) => _email = value.trim(),
+              onSaved: (value) => _email = value!.trim(),
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (term){
                 FocusScope.of(context).requestFocus(new FocusNode()); //save the keyboard
@@ -130,8 +130,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   }
 
   void clickButtonSend()async{
-    if (_formKeyForgotPassword.currentState.validate()) {
-      _formKeyForgotPassword.currentState.save();
+    if (_formKeyForgotPassword.currentState!.validate()) {
+      _formKeyForgotPassword.currentState!.save();
       var response, result;
       try
       {
@@ -265,7 +265,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
 
 
-  String _validateEmail(String value) {
+  String? _validateEmail(String? value) {
     value = value.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +

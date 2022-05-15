@@ -21,14 +21,14 @@ class NewDiscountPage extends StatefulWidget {
 
 class _NewDiscountPageState extends State<NewDiscountPage> {
   _NewDiscountPageState(this.index);
-  final int index;
+  final int? index;
   final _formKeyDiscount = new GlobalKey<FormState>();
   final _controllerCode= TextEditingController();
   final _controllerPercentage= TextEditingController();
   final FocusNode _percentageFocus = FocusNode();
   bool _statusButtonSave = false, _statusButtonDelete = false;
-  String _code;
-  int _percentage;
+  String? _code;
+  int? _percentage;
   List _dataDiscount = [];
 
   @override
@@ -45,9 +45,9 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
   initialVariable(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     
-    if(index != null){
-      _controllerCode.text = myProvider.dataDiscount[index].code;
-      _controllerPercentage.text = myProvider.dataDiscount[index].percentage.toString();
+    if(index != -1){
+      _controllerCode.text = myProvider.dataDiscount[index!].code;
+      _controllerPercentage.text = myProvider.dataDiscount[index!].percentage.toString();
       setState(() {
         _dataDiscount.add("Code");
         _dataDiscount.add("Percentage");
@@ -120,7 +120,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               autofocus: false,
               validator: validateCode,
               maxLength: 20,
-              onSaved: (value) => _code = value.trim(),
+              onSaved: (value) => _code = value!.trim(),
               onChanged: (value) {
                 setState(() {
                   if (value.length >3 && !_dataDiscount.contains("Code")){
@@ -171,8 +171,8 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
               ],
               keyboardType: TextInputType.number,
               autofocus: false,
-              validator: (value)=> value.isNotEmpty? (int.parse(value) > 0 && int.parse(value) < 100)? null: 'Debe ingresar el descuento correctamente':'Debe ingresar el descuento correctamente',
-              onSaved: (value) => _percentage = int.parse(value.trim()),
+              validator: (value)=> value!.isNotEmpty? (int.parse(value) > 0 && int.parse(value) < 100)? null: 'Debe ingresar el descuento correctamente':'Debe ingresar el descuento correctamente',
+              onSaved: (value) => _percentage = int.parse(value!.trim()),
               onChanged: (value) {
                 setState(() {
                   _dataDiscount.remove("Percentage");
@@ -276,8 +276,8 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyDiscount.currentState.validate()) {
-      _formKeyDiscount.currentState.save();
+    if (_formKeyDiscount.currentState!.validate()) {
+      _formKeyDiscount.currentState!.save();
       try
       {
         _onLoading();
@@ -305,7 +305,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
                 'authorization': 'Bearer ${myProvider.accessTokenUser}',
               },
               body: jsonEncode({
-                "id": myProvider.dataDiscount[index].id,
+                "id": myProvider.dataDiscount[index!].id,
                 "code": _code,
                 "percentage": _percentage,
               }),
@@ -353,7 +353,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
           },
           body: jsonEncode({
-            "id": myProvider.dataDiscount[index].id,
+            "id": myProvider.dataDiscount[index!].id,
           }),
         );         
 
@@ -361,7 +361,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
         print(jsonResponse); 
         if (jsonResponse['statusCode'] == 201) {
           var dbctpaga = DBctpaga();
-          dbctpaga.deleteDiscounts(myProvider.dataDiscount[index].id);
+          dbctpaga.deleteDiscounts(myProvider.dataDiscount[index!].id);
           myProvider.getListDiscounts();
           
           Navigator.pop(context);
@@ -477,7 +477,7 @@ class _NewDiscountPageState extends State<NewDiscountPage> {
     );
   }
 
-  String validateCode(value){
+  String? validateCode(value){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     value.trim();
     if (value.length <=3){
@@ -497,7 +497,7 @@ class UpperCaseTextFormatter extends TextInputFormatter {
   @override
   TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue) {
     return TextEditingValue(
-      text: newValue.text?.toUpperCase(),
+      text: newValue.text.toUpperCase(),
       selection: newValue.selection,
     );
   }

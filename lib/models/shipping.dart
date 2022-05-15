@@ -1,6 +1,6 @@
 class Shipping{
-  int id, coin;
-  String description, price;
+  int? id, coin;
+  String? description, price;
 
   Shipping({this.id, this.description, this.price, this.coin});
 

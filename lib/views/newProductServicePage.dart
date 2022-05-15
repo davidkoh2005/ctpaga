@@ -7,7 +7,7 @@ import 'package:ctpaga/database.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,12 +38,12 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   
   // ignore: unused_field
-  String _name, _description, _categories, _price, _postPurchase;
-  int _stock, _statusCoin = 0;
-  bool _statusButton = false, _switchPublish = false, _switchPostPurchase = false,
+  String? _name, _description, _categories, _price, _postPurchase;
+  int? _stock, _statusCoin = 0;
+  bool? _statusButton = false, _switchPublish = false, _switchPostPurchase = false,
       _statusButtonDelete = false;
   List _dataProductsService = [];
-  File _image;
+  File? _image;
   double _positionTopFirst = 0,
         _positionTopSecond = 35;
 
@@ -70,12 +70,12 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
   
     if(myProvider.dataSelectProduct != null){
       updatePrice(myProvider.dataSelectProduct.price, myProvider.dataSelectProduct.coin);
-      _controllerName.text = myProvider.dataSelectProduct.name;
-      _controllerDescription.text = myProvider.dataSelectProduct.description == 'null'? '' : myProvider.dataSelectProduct.description;
+      _controllerName.text = myProvider.dataSelectProduct.name!;
+      _controllerDescription.text = myProvider.dataSelectProduct.description == 'null'? '' : myProvider.dataSelectProduct.description!;
       _switchPublish = myProvider.dataSelectProduct.publish;
       _controllerStock.text = myProvider.dataSelectProduct.stock == null? "" : myProvider.dataSelectProduct.stock.toString();
-      _switchPostPurchase = myProvider.dataSelectProduct.postPurchase == null ? false :  myProvider.dataSelectProduct.postPurchase.length >0 ? true : false;
-      _controllerPostPurchase.text = myProvider.dataSelectProduct.postPurchase == null ? "": myProvider.dataSelectProduct.postPurchase;
+      _switchPostPurchase = myProvider.dataSelectProduct.postPurchase == null ? false :  myProvider.dataSelectProduct.postPurchase!.length >0 ? true : false;
+      _controllerPostPurchase.text = myProvider.dataSelectProduct.postPurchase == null ? "": myProvider.dataSelectProduct.postPurchase!;
 
       setState(() {
         _dataProductsService.add("Picture");
@@ -84,11 +84,11 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
       });
     }else if(myProvider.dataSelectService != null){
       updatePrice(myProvider.dataSelectService.price, myProvider.dataSelectService.coin);
-      _controllerName.text = myProvider.dataSelectService.name;
-      _controllerDescription.text = myProvider.dataSelectService.description == 'null'? '' : myProvider.dataSelectService.description;
+      _controllerName.text = myProvider.dataSelectService.name!;
+      _controllerDescription.text = myProvider.dataSelectService.description == 'null'? '' : myProvider.dataSelectService.description!;
       _switchPublish = myProvider.dataSelectService.publish;
-      _switchPostPurchase = myProvider.dataSelectService.postPurchase == null ? false :  myProvider.dataSelectService.postPurchase.length >0 ? true : false;
-      _controllerPostPurchase.text = myProvider.dataSelectService.postPurchase == null ? "": myProvider.dataSelectService.postPurchase;
+      _switchPostPurchase = myProvider.dataSelectService.postPurchase == null ? false :  myProvider.dataSelectService.postPurchase!.length >0 ? true : false;
+      _controllerPostPurchase.text = myProvider.dataSelectService.postPurchase == null ? "": myProvider.dataSelectService.postPurchase!;
 
       setState(() {
         _dataProductsService.add("Picture");
@@ -304,7 +304,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           });
                         },
                         validator: _validateName,
-                        onSaved: (value) => _name = value.trim(),
+                        onSaved: (value) => _name = value!.trim(),
                         textInputAction: TextInputAction.next,
                         cursorColor: colorLogo,
                         textAlign: TextAlign.center,
@@ -443,7 +443,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                         textCapitalization:TextCapitalization.sentences,
                         autofocus: false,
                         focusNode: _descriptionFocus,
-                        onSaved: (value) => _description = value.trim(),
+                        onSaved: (value) => _description = value!.trim(),
                         cursorColor: colorLogo,
                         decoration: InputDecoration(
                           focusedBorder: UnderlineInputBorder(
@@ -485,7 +485,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                             maxLines: 1,
                             textCapitalization:TextCapitalization.sentences,
                             autofocus: false,
-                            onSaved: (value) => _categories = value.trim(),
+                            onSaved: (value) => _categories = value!.trim(),
                             cursorColor: colorLogo,
                             decoration: InputDecoration(
                               focusedBorder: UnderlineInputBorder(
@@ -550,7 +550,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           Column(
                             children: <Widget>[
                               Switch(
-                                value: _switchPublish ,
+                                value: _switchPublish! ,
                                 onChanged: (value) {
                                   setState(() {
                                     _switchPublish = value;
@@ -600,7 +600,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ],
                           keyboardType: TextInputType.number,
                           autofocus: false,
-                          onSaved: (value) =>value == ''? _stock = 0 : _stock = int.parse(value),
+                          onSaved: (value) =>value == ''? _stock = 0 : _stock = int.parse(value!),
                           cursorColor: colorLogo,
                           textAlign: TextAlign.center,
                           style: TextStyle(
@@ -702,7 +702,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           ),
                           
                           Switch(
-                            value: _switchPostPurchase ,
+                            value: _switchPostPurchase! ,
                             onChanged: (value) {
                               setState(() {
                                 _switchPostPurchase = value;
@@ -722,7 +722,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     ),
 
                     Visibility(
-                      visible: _switchPostPurchase,
+                      visible: _switchPostPurchase!,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(15.0, 20.0, 15.0, 0.0),
                         child: Align(
@@ -741,7 +741,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     ),
 
                     Visibility(
-                      visible: _switchPostPurchase,
+                      visible: _switchPostPurchase!,
                       child: Padding(
                         padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 30.0),
                         child: new TextFormField(
@@ -750,8 +750,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           maxLines: 3,
                           textCapitalization:TextCapitalization.sentences,
                           autofocus: false,
-                          onSaved: (value) => _postPurchase = value.trim(),
-                          validator: (value) => _switchPostPurchase? value.trim().isEmpty? 'Ingrese el contenido del correo': null : null,
+                          onSaved: (value) => _postPurchase = value!.trim(),
+                          validator: (value) => _switchPostPurchase!? value!.trim().isEmpty? 'Ingrese el contenido del correo': null : null,
                           cursorColor: colorLogo,
                           decoration: InputDecoration(
                             focusedBorder: UnderlineInputBorder(
@@ -783,7 +783,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: Image.file(
-            _image,
+            _image!,
             width: size.width / 4,
             height: size.width / 4,
             fit: BoxFit.cover
@@ -795,7 +795,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: "http://"+url+myProvider.dataSelectProduct.url,
+            imageUrl: "http://"+url+myProvider.dataSelectProduct.url!,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,
@@ -816,7 +816,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
           child: CachedNetworkImage(
-            imageUrl: url+myProvider.dataSelectService.url,
+            imageUrl: url+myProvider.dataSelectService.url!,
             fit: BoxFit.cover,
             height: size.width / 4,
             width: size.width / 4,
@@ -1016,8 +1016,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
 
-    if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
-      _formKeyProductService.currentState.save();
+    if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
+      _formKeyProductService.currentState!.save();
       try
       {
         _onLoading();
@@ -1086,8 +1086,8 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         Navigator.pop(context);
         showMessage("Sin conexión a internet",false);
       }
-    }else if (_formKeyProductService.currentState.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
-      _formKeyProductService.currentState.save();
+    }else if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
+      _formKeyProductService.currentState!.save();
       try
       {
         _onLoading();
@@ -1335,7 +1335,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     );
   }
 
-  String _validateName(String value) {
+  String? _validateName(String? value) {
     // This is just a regular expression for name 
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);

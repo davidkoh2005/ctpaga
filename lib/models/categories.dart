@@ -1,7 +1,7 @@
 class Categories{
   // ignore: non_constant_identifier_names
-  int id, commerce_id, type;
-  String name;
+  int? id, commerce_id, type;
+  String? name;
 
   // ignore: non_constant_identifier_names
   Categories({this.id, this.name, this.commerce_id, this.type});

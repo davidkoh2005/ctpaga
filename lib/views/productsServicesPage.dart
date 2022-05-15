@@ -1,4 +1,6 @@
 import 'package:ctpaga/animation/slideRoute.dart';
+import 'package:ctpaga/models/product.dart';
+import 'package:ctpaga/models/service.dart';
 import 'package:ctpaga/views/menu/menu.dart';
 import 'package:ctpaga/views/navbar/navbarTrolley.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
@@ -9,7 +11,7 @@ import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -250,7 +252,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     myProvider.dataCategoriesSelect = myProvider.dataProducts[index].categories.split(",");
 
                   myProvider.dataSelectProduct = myProvider.dataProducts[index];
-                  myProvider.dataSelectService = null;
+                  myProvider.dataSelectService = Service();
 
                   nextPage(NewProductServicePage());
                 }
@@ -315,7 +317,7 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                     myProvider.dataCategoriesSelect = myProvider.dataServices[index].categories.split(",");
                   
                   myProvider.dataSelectService = myProvider.dataServices[index];
-                  myProvider.dataSelectProduct = null;
+                  myProvider.dataSelectProduct = Product();
                   nextPage(NewProductServicePage());
                 }
               },
@@ -561,10 +563,10 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
                   myProvider.dataCategoriesSelect = _listProductsServicesCategories[index].categories.split(",");
                   if(myProvider.selectProductsServices == 0){
                     myProvider.dataSelectProduct = _listProductsServicesCategories[index];
-                    myProvider.dataSelectService = null;
+                    myProvider.dataSelectService = Service();
                   }else{
                     myProvider.dataSelectService = _listProductsServicesCategories[index];
-                    myProvider.dataSelectProduct = null;
+                    myProvider.dataSelectProduct = Product();
                   }
                   nextPage(NewProductServicePage());
                 }
@@ -671,8 +673,8 @@ class _ProductsServicesPageState extends State<ProductsServicesPage> {
       setState(() {_statusButtonCharge = false;});
     }else if(_statusButton){
       var myProvider = Provider.of<MyProvider>(context, listen: false);
-      myProvider.dataSelectProduct = null;
-      myProvider.dataSelectService = null;
+      myProvider.dataSelectProduct = Product();
+      myProvider.dataSelectService = Service();
       myProvider.dataCategoriesSelect = [];
       await Future.delayed(Duration(milliseconds: 150));
       setState(() {_statusButton = false;});

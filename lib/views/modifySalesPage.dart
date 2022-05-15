@@ -14,7 +14,7 @@ class ModifySalesPage extends StatefulWidget {
 
 class _ModifySalesPageState extends State<ModifySalesPage> {
   // ignore: unused_field
-  String _name, _quantity;
+  String? _name, _quantity;
   bool _statusButtonSave = false, _statusButtonDelete =false;
 
 
@@ -84,7 +84,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
                   Container(
                     padding: const EdgeInsets.fromLTRB(15.0, 30.0, 15.0, 30.0),
                     child: AutoSizeText(
-                      _quantity.length == 0? "0" : _quantity,
+                      _quantity!.length == 0? "0" : _quantity!,
                       style: TextStyle(
                         color: colorText,
                         fontWeight: FontWeight.w800,
@@ -110,9 +110,9 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
       onKeyboardTap: _onKeyboardTap,
       textColor: Colors.black54,
       rightButtonFn: () {
-        if(_quantity.length >0){
+        if(_quantity!.length >0){
           setState(() {
-            _quantity = _quantity.substring(0, _quantity.length - 1);
+            _quantity = _quantity!.substring(0, _quantity!.length - 1);
 
           });
         }
@@ -124,9 +124,9 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
     );
   }
 
-  _onKeyboardTap(String value) {
+  _onKeyboardTap(String? value) {
     setState(() {
-      _quantity = _quantity + value;
+      _quantity = _quantity! + value;
     });
   }
 
@@ -143,7 +143,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _quantity.length != 0? _statusButtonSave? colorGrey : colorLogo : colorGrey,
+          color: _quantity!.length != 0? _statusButtonSave? colorGrey : colorLogo : colorGrey,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -203,10 +203,10 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
 
-    if(int.parse(_quantity)>0){
+    if(int.parse(_quantity!)>0){
       for (var item in myProvider.dataPurchase) {
         if(item['data'].id == myProvider.dataPurchase[myProvider.positionModify]['data'].id && item['type'] == myProvider.dataPurchase[myProvider.positionModify]['type'] ){
-          item['quantity'] = int.parse(_quantity);
+          item['quantity'] = int.parse(_quantity!);
         }
         _listPurchase.add(item);
       }

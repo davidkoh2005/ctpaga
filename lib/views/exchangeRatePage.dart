@@ -5,7 +5,7 @@ import 'package:ctpaga/views/newExchangeRatePage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter/material.dart';
@@ -160,10 +160,8 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     switch (myProvider.selectDateRate) {
       case 0:
         return "TASA:  HOY ${formatter.format(_today)}";
-        break;
       case 1:
         return "TASA:  FECHA ${formatter.format(_firstDay)} - ${formatter.format(_lastDay)} ";
-        break;
       default:
         formatterMonth = new DateFormat('MMMM','es_ES');
         return "TASA:  MES ${formatterMonth.format(_today).toUpperCase()}";

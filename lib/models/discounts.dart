@@ -1,6 +1,6 @@
 class Discounts{
-  int id, percentage;
-  String code;
+  int? id, percentage;
+  String? code;
 
   Discounts({this.id, this.code, this.percentage});
 

@@ -3,7 +3,7 @@ import 'package:ctpaga/views/navbar/navbar.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_masked_text/flutter_masked_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
@@ -22,7 +22,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
   final FocusNode _rateFocus = FocusNode();
   var lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   bool _statusButtonSave = false, _statusRate = false;
-  String _rate;
+  String? _rate;
 
   @override
   Widget build(BuildContext context) {
@@ -78,7 +78,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
               keyboardType: TextInputType.number,
               autofocus: false,
               focusNode: _rateFocus,
-              onSaved: (value) => _rate = value,
+              onSaved: (value) => _rate = value!,
               onChanged: (value) {
                 setState(() {
                   if (!value.contains("0,0")){
@@ -152,10 +152,10 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyRate.currentState.validate()) {
-      _formKeyRate.currentState.save();
-      if(!_rate.contains(",00"))
-        _rate = _rate.substring(0, _rate.length - 2);
+    if (_formKeyRate.currentState!.validate()) {
+      _formKeyRate.currentState!.save();
+      if(!_rate!.contains(",00"))
+        _rate = _rate!.substring(0, _rate!.length - 2);
       try
       {
         _onLoading();
@@ -293,7 +293,7 @@ class _NewExchangeRatePageState extends State<NewExchangeRatePage> {
     );
   }
 
-  String validateDescription(value){
+  String? validateDescription(value){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     value.trim();
     if (value.length <=3){

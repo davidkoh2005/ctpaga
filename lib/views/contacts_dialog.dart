@@ -13,11 +13,11 @@ class SelectionDialogContacts extends StatefulWidget {
   final List<Contact> favoriteElements;
 
   SelectionDialogContacts(this.elements, this.favoriteElements, {
-    Key key,
-    this.showCountryOnly,
-    this.emptySearchBuilder,
+    Key? key,
+    required this.showCountryOnly,
+    required this.emptySearchBuilder,
     InputDecoration searchDecoration = const InputDecoration(),
-    this.searchStyle,
+    required this.searchStyle,
   }) :
         assert(searchDecoration != null, 'searchDecoration must not be null!'),
         this.searchDecoration = searchDecoration.copyWith(prefixIcon: Icon(Icons.search)),
@@ -29,7 +29,7 @@ class SelectionDialogContacts extends StatefulWidget {
 
 class _SelectionDialogState extends State<SelectionDialogContacts> {
   /// this is useful for filtering purpose
-  List<Contact> filteredElements;
+  late List<Contact> filteredElements;
 
   @override
   Widget build(BuildContext context) => SimpleDialog(
@@ -68,7 +68,7 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
                   ? [_buildEmptySearchWidget(context)]
                   : filteredElements.map(
                       (e) => SimpleDialogOption(
-                    key: Key(e.displayName),
+                    key: Key(e.displayName!),
                     child: _buildOption(e),
                     onPressed: () {
                       _selectItem(e);
@@ -87,15 +87,15 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
         mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           Flexible(
-            child: (e.avatar != null && e.avatar.length > 0)
-                ? CircleAvatar(backgroundImage: MemoryImage(e.avatar))
+            child: (e.avatar != null && e.avatar!.length > 0)
+                ? CircleAvatar(backgroundImage: MemoryImage(e.avatar!))
                 : CircleAvatar(child: Text(e.initials())),
           ),
           SizedBox(width: 15.0),
           Expanded(
             flex: 4,
             child: Text(
-              e.displayName,
+              e.displayName!,
               overflow: TextOverflow.fade,
             ),
           ),
@@ -123,7 +123,7 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
     setState(() {
       filteredElements = widget.elements
           .where((e) =>
-          e.displayName.contains(s))
+          e.displayName!.contains(s))
           .toList();
     });
   }

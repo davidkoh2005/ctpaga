@@ -4,8 +4,8 @@ import 'package:ctpaga/views/mainPage.dart';
 import 'package:ctpaga/providers/provider.dart';
 import 'package:ctpaga/env.dart';
 
-import 'package:flutter_masked_text/flutter_masked_text.dart';
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:flutter_masked_text2/flutter_masked_text2.dart';
 import 'package:provider/provider.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
@@ -21,8 +21,8 @@ class AddEmailPage extends StatefulWidget {
 class _AddEmailPageState extends State<AddEmailPage> {
   final _formKeyPaid = new GlobalKey<FormState>();
   bool _statusButtonSend = false;
-  String _email;
-  double _total;
+  String? _email;
+  double? _total;
 
   void initState() {
     super.initState();
@@ -169,15 +169,15 @@ class _AddEmailPageState extends State<AddEmailPage> {
       priceDouble = double.parse(item['data'].price);
       priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
-        _total+=(priceDouble * varRate);
+        _total= _total!+(priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)
-        _total+=(priceDouble / varRate);
+        _total= _total!+(priceDouble / varRate);
       else
-        _total+=(priceDouble);
+        _total= _total!+(priceDouble);
 
     }
 
-    lowPurchase.updateValue(_total);
+    lowPurchase.updateValue(_total!);
 
     return "${lowPurchase.text}";
   } 
@@ -219,8 +219,8 @@ class _AddEmailPageState extends State<AddEmailPage> {
     setState(() => _statusButtonSend = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSend = false);
-    if (_formKeyPaid.currentState.validate() && myProvider.statusUrlCommerce) {
-      _formKeyPaid.currentState.save();
+    if (_formKeyPaid.currentState!.validate() && myProvider.statusUrlCommerce) {
+      _formKeyPaid.currentState!.save();
       try
       {
         _onLoading();
@@ -365,8 +365,8 @@ class _AddEmailPageState extends State<AddEmailPage> {
     );
   }
 
-  String _validateEmail(String value) {
-    value = value.trim().toLowerCase();
+  String? _validateEmail(String? value) {
+    value = value!.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +

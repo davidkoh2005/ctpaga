@@ -53,7 +53,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final _controllerUser = TextEditingController();
   final _passwordController = TextEditingController();
 
-  String _statusDropdown = "",
+  String? _statusDropdown = "",
          _rifCompany, _nameCompany, _addressCompany, _phoneCompany, _userCompany,
         _email, _name, _address, _phone,
         // ignore: unused_field
@@ -63,7 +63,7 @@ class _ProfilePageState extends State<ProfilePage> {
   List _listDocument = ["R","J","G","C","V","E", "P"], _listDocumentCompany = ["R","J","G","C","V","E", "P"];
   int _statusCoin = 1 , _positionDocument = 1 , _positionDocumentCompany = 1;
   // ignore: unused_field
-  File _image;
+  File? _image;
   bool _statusCountry = true, _statusClickUSD = false, _statusClickBs = false;
   User user = User();
   List bankUser = [];
@@ -697,7 +697,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderSide: BorderSide(color: colorLogo),
                       ),
                     ),
-                    onSaved: (String value) => _rifCompany = _selectDocumentCompany+"-"+value,
+                    onSaved: (String? value) => _rifCompany = _selectDocumentCompany+"-"+value!,
                     validator: _validateRif,
                     textInputAction: TextInputAction.next,
                     cursorColor: colorLogo,
@@ -728,7 +728,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _nameCompany = value,
+              onSaved: (String? value) => _nameCompany = value,
               validator: (value) => value.isEmpty? 'Ingrese el nombre de la empresa válido' : null,
               textInputAction: TextInputAction.next,
               focusNode: _nameCompanyFocus,
@@ -758,7 +758,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _addressCompany = value,
+              onSaved: (String? value) => _addressCompany = value,
               validator: _validateAddress,
               textInputAction: TextInputAction.next,
               focusNode: _addressCompanyFocus,
@@ -789,7 +789,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _phoneCompany = value,
+              onSaved: (String? value) => _phoneCompany = value,
               validator: _validatePhone,
               focusNode: _phoneCompanyFocus,
               textInputAction: TextInputAction.next,
@@ -839,7 +839,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           ),
                         ),
                         validator: _validateUrl,
-                        onSaved: (String value) => _userCompany = value,
+                        onSaved: (String? value) => _userCompany = value,
                         onFieldSubmitted: (term){
                           FocusScope.of(context).requestFocus(new FocusNode());
                           verifyUrl(_controllerUser.text).then((_)=> buttonClickSaveCompany());
@@ -945,7 +945,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
               ),
               validator: _validateEmail,
-              onSaved: (String value) => _email = value.toLowerCase().trim(),
+              onSaved: (String? value) => _email = value!.toLowerCase().trim(),
               textInputAction: TextInputAction.done,
               onFieldSubmitted: (term){
                 FocusScope.of(context).requestFocus(new FocusNode());
@@ -1012,7 +1012,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _name = value,
+              onSaved: (String? value) => _name = value,
               validator: _validateName,
               textInputAction: TextInputAction.next,
               focusNode: _nameFocus,
@@ -1042,7 +1042,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _address = value,
+              onSaved: (String? value) => _address = value,
               validator: _validateAddress,
               textInputAction: TextInputAction.next,
               focusNode: _addressFocus,
@@ -1073,7 +1073,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   borderSide: BorderSide(color: colorLogo),
                 ),
               ),
-              onSaved: (String value) => _phone = value,
+              onSaved: (String? value) => _phone = value,
               validator: _validatePhone,
               focusNode: _phoneFocus,
               textInputAction: TextInputAction.done,
@@ -1129,13 +1129,13 @@ class _ProfilePageState extends State<ProfilePage> {
                 isExpanded: true,
                 icon: Icon(Icons.arrow_drop_down, color: colorLogo),
                 elevation: 16,
-                items: _listCountry.map((String value) {
+                items: _listCountry.map((String? value) {
                   return new DropdownMenuItem<String>(
                     value: value,
                     child: new Text(value),
                   );
                 }).toList(),
-                onChanged: (String value) {                  
+                onChanged: (String? value) {                  
                   setState(() {
                     if(value == "USA")
                       _statusCountry = true;
@@ -1167,7 +1167,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountNameBankingUSD = value,
+                onSaved: (String? value) => _accountNameBankingUSD = value,
                 validator: _validateName,
                 textInputAction: TextInputAction.next,
                 focusNode: _accountNameBankingUSDFocus,
@@ -1197,7 +1197,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountNumberBankingUSD = value,
+                onSaved: (String? value) => _accountNumberBankingUSD = value,
                 validator: (value) => value.length <=7 && value.length >=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingUSDFocus,
                 cursorColor: colorLogo,
@@ -1298,7 +1298,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderSide: BorderSide(color: colorLogo),
                     ),
                   ),
-                  onSaved: (String value) => _routeBankingUSD = value,
+                  onSaved: (String? value) => _routeBankingUSD = value,
                   validator: (value) => value.length != 9 && _statusCountry? "Ingrese numero de ruta o aba válido" : null ,
                   textInputAction: TextInputAction.next,
                   focusNode: _routeBankingUSDFocus,
@@ -1333,7 +1333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       borderSide: BorderSide(color: colorLogo),
                     ),
                   ),
-                  onSaved: (String value) => _swiftBankingUSD = value,
+                  onSaved: (String? value) => _swiftBankingUSD = value,
                   validator: (value) => (!(value.length >=8 && value.length <=11)) && _statusCountry? "Ingrese el Swift válido": null,
                   textInputAction: TextInputAction.next,
                   focusNode: _swiftBankingUSDFocus,
@@ -1364,7 +1364,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _addressBankingUSD = value,
+                onSaved: (String? value) => _addressBankingUSD = value,
                 validator: _validateAddress,
                 textInputAction: TextInputAction.next,
                 focusNode: _addressBankingUSDFocus,
@@ -1395,7 +1395,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountTypeBankingUSD = value.toUpperCase(),
+                onSaved: (String? value) => _accountTypeBankingUSD = value.toUpperCase(),
                 validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
                 textInputAction: TextInputAction.done,
                 focusNode: _accountTypeBankingUSDFocus,
@@ -1440,7 +1440,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountNameBankingBs = value,
+                onSaved: (String? value) => _accountNameBankingBs = value,
                 validator: _validateName,
                 textInputAction: TextInputAction.next,
                 focusNode: _accountNameBankingBsFocus,
@@ -1519,7 +1519,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderSide: BorderSide(color: colorLogo),
                         ),
                       ),
-                      onSaved: (String value) => _idCardBankingBs = _selectDocument+"-"+value,
+                      onSaved: (String? value) => _idCardBankingBs = _selectDocument+"-"+value,
                       validator: _validateIdCard,
                       focusNode: _idCardBankingBsFocus,
                       textInputAction: TextInputAction.next,
@@ -1556,7 +1556,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountNumberBankingBs = value,
+                onSaved: (String? value) => _accountNumberBankingBs = value,
                 validator: (value) => value.length !=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingBsFocus,
                 cursorColor: colorLogo,
@@ -1640,7 +1640,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String value) => _accountTypeBankingBs = value.toUpperCase(),
+                onSaved: (String? value) => _accountTypeBankingBs = value.toUpperCase(),
                 validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
                 textInputAction: TextInputAction.done,
                 onEditingComplete: (){
@@ -1676,7 +1676,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese el RIF correctamente';
   }
 
-  String _validateEmail(String value) {
+  String? _validateEmail(String? value) {
     value = value.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
@@ -1696,7 +1696,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese un email válido';
   }
 
-  String _validateName(String value) {
+  String? _validateName(String? value) {
     // This is just a regular expression for name
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
@@ -1710,9 +1710,9 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese nombre y apellido válido';
   }
 
-  String _validateAddress(String value) {
+  String? _validateAddress(String? value) {
 
-    if (value.length >=3) {
+    if (value!.length >=3) {
       // So, the address is valid
       return null;
     }
@@ -1721,13 +1721,13 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese una dirección válido';
   }
 
-  String _validatePhone(String value) {
+  String? _validatePhone(String? value) {
     // This is just a regular expression for phone*$
     //String p = r'^(?:(\+)58|0)(?:2(?:12|4[0-9]|5[1-9]|6[0-9]|7[0-8]|8[1-35-8]|9[1-5]|3[45789])|4(?:1[246]|2[46]))\d{7}$';
     String p = r'^(0414|0424|0412|0416|0426)[0-9]{7}$';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=9) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=9) {
       // So, the phone is valid
       return null;
     }
@@ -1736,10 +1736,10 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese un número de teléfono válido';
   }
 
-  String _validateUrl(String value) {
+  String? _validateUrl(String? value) {
     // This is just a regular expression for userUrl*$
 
-    if (value.length >=4) {
+    if (value!.length >=4) {
       // So, the userUrl is valid
       return null;
     }
@@ -1748,7 +1748,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return 'Ingrese un usuario correctamente';
   }
   
-  String _validateIdCard(value){
+  String? _validateIdCard(value){
     value = _selectDocument+"-"+value;
 
     // This is just a regular expression for RIF
@@ -1824,8 +1824,8 @@ class _ProfilePageState extends State<ProfilePage> {
   void buttonClickSaveCompany()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     await verifyUrl(_controllerUser.text);
-    if (_formKeyCompany.currentState.validate() && myProvider.statusUrlCommerce) {
-      _formKeyCompany.currentState.save();
+    if (_formKeyCompany.currentState!.validate() && myProvider.statusUrlCommerce) {
+      _formKeyCompany.currentState!.save();
       _onLoading();
       var result, response, jsonResponse;
       try {
@@ -1870,8 +1870,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void buttonClickSaveUser()async{
-    if (_formKeyUser.currentState.validate()) {
-      _formKeyUser.currentState.save();
+    if (_formKeyUser.currentState!.validate()) {
+      _formKeyUser.currentState!.save();
       _onLoading();
       var result, response, jsonResponse;
        try {
@@ -1908,8 +1908,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void buttonClickSaveContact()async{
-    if (_formKeyContact.currentState.validate()) {
-      _formKeyContact.currentState.save();
+    if (_formKeyContact.currentState!.validate()) {
+      _formKeyContact.currentState!.save();
       _onLoading();
       var result, response, jsonResponse;
        try {
@@ -1949,13 +1949,13 @@ class _ProfilePageState extends State<ProfilePage> {
 
   void buttonClickSaveBanking(){
     if(_statusCoin == 0){
-      if (_formKeyBankingUSD.currentState.validate()) {
-        _formKeyBankingUSD.currentState.save();
+      if (_formKeyBankingUSD.currentState!.validate()) {
+        _formKeyBankingUSD.currentState!.save();
         saveDataBanking();
       }
     }else{
-      if (_formKeyBankingBs.currentState.validate()) {
-        _formKeyBankingBs.currentState.save();
+      if (_formKeyBankingBs.currentState!.validate()) {
+        _formKeyBankingBs.currentState!.save();
         saveDataBanking();
       }
     }
@@ -2197,8 +2197,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   processUpdateEmail()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    if (_formKeyUser.currentState.validate()) {
-      _formKeyUser.currentState.save();
+    if (_formKeyUser.currentState!.validate()) {
+      _formKeyUser.currentState!.save();
       _onLoading();
       try
       {

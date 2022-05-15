@@ -21,7 +21,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
   final _formKeyCommerce = new GlobalKey<FormState>();
   final _controllerUser = TextEditingController();
   bool _statusButtonSave = false, _statusName = false, _statusUser = false, _statusUrl=false;
-  String _name, _userUrl;
+  String? _name, _userUrl;
 
   @override
   Widget build(BuildContext context) {
@@ -93,7 +93,7 @@ class _NewCommercePageState extends State<NewCommercePage> {
               textCapitalization:TextCapitalization.words,
               autofocus: false,
               validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
+              onSaved: (value) => _name = value!.trim(),
               onChanged: (value)=> value.trim().length >3? setState(() => _statusName = true ) : setState(() => _statusName = false ),
               cursorColor: colorLogo,
               textAlign: TextAlign.center,
@@ -159,8 +159,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
                  _statusUser = false;
                  _statusUrl = false;
               }),
-              onSaved: (value) => _userUrl = value.trim(),
-              validator: (value) => value.trim().length <=3? "Ingrese un usuario correctamente": null,
+              onSaved: (value) => _userUrl = value!.trim(),
+              validator: (value) => value!.trim().length <=3? "Ingrese un usuario correctamente": null,
             ),
           ),
 
@@ -262,8 +262,8 @@ class _NewCommercePageState extends State<NewCommercePage> {
     setState(() => _statusButtonSave = true);
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButtonSave = false);
-    if (_formKeyCommerce.currentState.validate() && myProvider.statusUrlCommerce) {
-      _formKeyCommerce.currentState.save();
+    if (_formKeyCommerce.currentState!.validate() && myProvider.statusUrlCommerce) {
+      _formKeyCommerce.currentState!.save();
       try
       {
         result = await InternetAddress.lookup('google.com'); //verify network
@@ -401,12 +401,12 @@ class _NewCommercePageState extends State<NewCommercePage> {
     );
   }
 
-  String _validateName(String value) {
+  String? _validateName(String? value) {
     // This is just a regular expression for name
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
       return null;
     }

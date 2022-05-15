@@ -1,8 +1,8 @@
 class Product{
   // ignore: non_constant_identifier_names
-  int id, commerce_id, coin, stock;
-  String name, url, price, description, categories, postPurchase;
-  bool publish;
+  int? id, commerce_id, coin, stock;
+  String? name, url, price, description, categories, postPurchase;
+  bool? publish;
 
   // ignore: non_constant_identifier_names
   Product({this.id, this.commerce_id, this.url, this.name, this.price, this.coin, this.description, this.categories, this.publish, this.stock, this.postPurchase});

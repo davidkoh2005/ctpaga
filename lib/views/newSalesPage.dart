@@ -378,7 +378,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
       return listName[0].substring(0, 1);
   }
 
-  String _validateName(String value) {
+  String _validateName(String? value) {
     // This is just a regular expression for name
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);

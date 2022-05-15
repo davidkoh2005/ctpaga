@@ -29,7 +29,7 @@ void main() async {
 
 Future<void> messageHandler(RemoteMessage message) async {
   print('onMessage: $message');
-  showNotification(message.notification.title, message.notification.body);
+  showNotification(message.notification!.title, message.notification!.body);
   return;
 }
 
@@ -108,7 +108,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  MyHomePage({Key key, this.title}) : super(key: key);
+  MyHomePage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
@@ -257,14 +257,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     await Future.delayed(Duration(seconds: 2));
     if(prefs.containsKey('access_token')){
       myProvider.coinUsers = 0;
-      myProvider.accessTokenUser = prefs.getString('access_token');
-      myProvider.selectCommerce = prefs.getInt('selectCommerce');
-      myProvider.descriptionShipping = prefs.getString('descriptionShipping');
+      myProvider.accessTokenUser = prefs.getString('access_token')!;
+      myProvider.selectCommerce = prefs.getInt('selectCommerce')!;
+      myProvider.descriptionShipping = prefs.getString('descriptionShipping')!;
       myProvider.getDataUser(true, false, context);
       myProvider.dataPurchase = [];
       myProvider.statusButtonMenu = false;
       myProvider.clickButtonMenu = 0;
-      myProvider.getTokenFCM = prefs.containsKey('tokenFCM')? prefs.getString('tokenFCM') : null;
+      myProvider.getTokenFCM = (prefs.containsKey('tokenFCM')? prefs.getString('tokenFCM') : null)!;
     }else{
       DefaultCacheManager().emptyCache();
       Navigator.pushReplacement(context, SlideLeftRoute(page: LoginPage()));

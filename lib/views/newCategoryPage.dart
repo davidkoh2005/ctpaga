@@ -19,7 +19,7 @@ class NewCategoryPage extends StatefulWidget {
 class _NewCategoryPageState extends State<NewCategoryPage> {
   final _formKeyCategory = new GlobalKey<FormState>();
   bool _statusButton = false;
-  String _name;
+  String? _name;
   @override
   Widget build(BuildContext context) {
 
@@ -77,7 +77,7 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
               autofocus: false,
               maxLength: 50,
               validator: _validateName,
-              onSaved: (value) => _name = value.trim(),
+              onSaved: (value) => _name = value!.trim(),
               onChanged: (value) => value.length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
               textInputAction: TextInputAction.next,
               cursorColor: colorLogo,
@@ -133,8 +133,8 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
   saveCategory()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     var response, result;
-    if (_formKeyCategory.currentState.validate()) {
-      _formKeyCategory.currentState.save();
+    if (_formKeyCategory.currentState!.validate()) {
+      _formKeyCategory.currentState!.save();
       try
       {
         _onLoading();
@@ -282,12 +282,12 @@ class _NewCategoryPageState extends State<NewCategoryPage> {
     );
   }
 
-  String _validateName(String value) {
+  String? _validateName(String? value) {
     // This is just a regular expression for name
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
       return null;
     }

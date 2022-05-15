@@ -37,7 +37,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   Bank bankUserBs = Bank();
   // ignore: unused_field
   int clickBotton = 0, _statusCoin = 0;
-  DateTime currentBackPressTime;
+  DateTime? currentBackPressTime;
 
   @override
   void initState() {
@@ -59,7 +59,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
     _firebaseMessaging.getToken().then((token) {
       print("token: $token");
-      prefs.setString('tokenFCM', token);
+      prefs.setString('tokenFCM', token!);
       myProvider.getTokenFCM = token;
       if(token != myProvider.dataUser.tokenFCM || myProvider.getTokenFCM != token)
         myProvider.updateToken(token, context);
@@ -81,7 +81,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
       myProvider.statusButtonMenu = false;
     }else{
       DateTime now = DateTime.now();
-      if (currentBackPressTime == null || now.difference(currentBackPressTime) > Duration(seconds: 2)) {
+      if (currentBackPressTime == null || now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
         currentBackPressTime = now;
         Fluttertoast.showToast(msg: "Presiona dos veces para salir de la aplicación");
         return Future.value(false);

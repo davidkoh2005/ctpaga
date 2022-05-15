@@ -28,56 +28,56 @@ class MyProvider with ChangeNotifier {
   //call function BD    
   var dbctpaga = DBctpaga();
 
-  String _accessToken;
-  String get accessTokenUser =>_accessToken; 
+  String? _accessToken;
+  String get accessTokenUser =>_accessToken!; 
   
   set accessTokenUser(String newToken) {
     _accessToken = newToken; 
     notifyListeners(); 
   }
 
-  bool _statusButtonMenu;
-  bool get statusButtonMenu =>_statusButtonMenu; 
+  bool? _statusButtonMenu;
+  bool get statusButtonMenu =>_statusButtonMenu!; 
   
   set statusButtonMenu(bool newStatus) {
     _statusButtonMenu = newStatus; 
     notifyListeners(); 
   }
 
-  int _clickButtonMenu;
-  int get clickButtonMenu =>_clickButtonMenu; 
+  int? _clickButtonMenu;
+  int get clickButtonMenu =>_clickButtonMenu!; 
   
   set clickButtonMenu(int newClick) {
     _clickButtonMenu = newClick; 
     notifyListeners(); 
   }
 
-  bool _statusRemoveShopping;
-  bool get statusRemoveShopping =>_statusRemoveShopping; 
+  bool? _statusRemoveShopping;
+  bool get statusRemoveShopping =>_statusRemoveShopping!; 
   
   set statusRemoveShopping(bool newShopping) {
     _statusRemoveShopping = newShopping; 
     notifyListeners(); 
   }
 
-  int _positionModify;
-  int get positionModify =>_positionModify; 
+  int? _positionModify;
+  int get positionModify =>_positionModify!; 
   
   set positionModify(int newPosition) {
     _positionModify = newPosition; 
     notifyListeners(); 
   }
 
-  int _typePositionModify;
-  int get typePositionModify =>_typePositionModify; 
+  int? _typePositionModify;
+  int get typePositionModify =>_typePositionModify!; 
   
   set typePositionModify(int newTypePosition) {
     _typePositionModify = newTypePosition; 
     notifyListeners(); 
   }
 
-  String _codUrl;
-  String get codeUrl =>_codUrl; 
+  String? _codUrl;
+  String get codeUrl =>_codUrl!; 
   
   set codeUrl(String newCode) {
     _codUrl = newCode; 
@@ -92,8 +92,8 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int _coinUser;
-  int get coinUsers =>_coinUser; 
+  int? _coinUser;
+  int get coinUsers =>_coinUser!; 
   
   set coinUsers(int newCoin) {
     _coinUser = newCoin; 
@@ -124,16 +124,16 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int _selectCommerce;
-  int get selectCommerce =>_selectCommerce; 
+  int? _selectCommerce;
+  int get selectCommerce =>_selectCommerce!; 
   
   set selectCommerce(int newSelectCommerce) {
     _selectCommerce = newSelectCommerce; 
     notifyListeners(); 
   }
 
-  int _selectCoinDeposits;
-  int get selectCoinDeposits =>_selectCoinDeposits; 
+  int? _selectCoinDeposits;
+  int get selectCoinDeposits =>_selectCoinDeposits!; 
   
   set selectCoinDeposits(int newSelectCoinDeposits) {
     _selectCoinDeposits = newSelectCoinDeposits; 
@@ -204,40 +204,40 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int _selectProductsServicesInt;
-  int get selectProductsServices =>_selectProductsServicesInt; 
+  int? _selectProductsServicesInt;
+  int get selectProductsServices =>_selectProductsServicesInt!; 
   
   set selectProductsServices(int newSelect) {
     _selectProductsServicesInt = newSelect; 
     notifyListeners(); 
   }
 
-  double _statusTrolley;
-  double get statusTrolleyAnimation =>_statusTrolley; 
+  double? _statusTrolley;
+  double get statusTrolleyAnimation =>_statusTrolley!; 
   
   set statusTrolleyAnimation(double newValue) {
     _statusTrolley = newValue; 
     notifyListeners(); 
   }
 
-  bool _statusDolar;
-  bool get statusDolar =>_statusDolar; 
+  bool? _statusDolar;
+  bool get statusDolar =>_statusDolar!; 
   
   set statusDolar(bool newStatus) {
     _statusDolar = newStatus; 
     notifyListeners(); 
   }
 
-  bool _statusBs;
-  bool get statusBs =>_statusBs; 
+  bool? _statusBs;
+  bool get statusBs =>_statusBs!; 
   
   set statusBs(bool newStatus) {
     _statusBs = newStatus; 
     notifyListeners(); 
   }
 
-  String _descriptionShipping;
-  String get descriptionShipping =>_descriptionShipping; 
+  String? _descriptionShipping;
+  String get descriptionShipping =>_descriptionShipping!; 
   
   set descriptionShipping(String newDescription) {
     _descriptionShipping = newDescription; 
@@ -292,8 +292,8 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  int _selectDate;
-  int get selectDateRate =>_selectDate; 
+  int? _selectDate;
+  int get selectDateRate =>_selectDate!; 
   
   set selectDateRate(int newSelect) {
     _selectDate = newSelect; 
@@ -308,31 +308,31 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _statusUrl;
-  bool get statusUrlCommerce =>_statusUrl; 
+  bool? _statusUrl;
+  bool get statusUrlCommerce =>_statusUrl!; 
   
   set statusUrlCommerce(bool newStatus) {
     _statusUrl = newStatus; 
     notifyListeners(); 
   }
 
-  String _nameClient;
-  String get nameClient =>_nameClient; 
+  String? _nameClient;
+  String get nameClient =>_nameClient!; 
   
   set nameClient(String newName) {
     _nameClient = newName; 
     notifyListeners(); 
   }
 
-  String _initialsClient;
-  String get initialsClient =>_initialsClient; 
+  String? _initialsClient;
+  String get initialsClient =>_initialsClient!; 
   
   set initialsClient(String newValue) {
     _initialsClient = newValue; 
     notifyListeners(); 
   }
 
-  List<int> _avatarClient;
+  late List<int> _avatarClient;
   List<int> get avatarClient =>_avatarClient; 
   
   set avatarClient(List<int> newAvatar) {
@@ -340,8 +340,8 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  double _totalSales;
-  double get totalSales =>_totalSales; 
+  double? _totalSales;
+  double get totalSales =>_totalSales!; 
   
   set totalSales(double newTotalSales) {
     _totalSales = newTotalSales; 
@@ -381,32 +381,32 @@ class MyProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  bool _statusShipping;
-  bool get statusShipping =>_statusShipping; 
+  bool? _statusShipping;
+  bool get statusShipping =>_statusShipping!; 
   
   set statusShipping(bool newStatus) {
     _statusShipping = newStatus; 
     notifyListeners(); 
   }
 
-  String _tokenFCM;
-  String get getTokenFCM =>_tokenFCM; 
+  String? _tokenFCM;
+  String get getTokenFCM =>_tokenFCM!; 
   
   set getTokenFCM(String newValue) {
     _tokenFCM = newValue; 
     notifyListeners(); 
   }
 
-  String _listCategoryProduct;
-  String get getCategoryProduct =>_listCategoryProduct; 
+  String? _listCategoryProduct;
+  String get getCategoryProduct =>_listCategoryProduct!; 
   
   set getCategoryProduct(String newValue) {
     _listCategoryProduct = newValue; 
     notifyListeners(); 
   }
 
-  String _selectCategoryProduct;
-  String get getSelectCategoryProduct =>_selectCategoryProduct; 
+  String? _selectCategoryProduct;
+  String get getSelectCategoryProduct =>_selectCategoryProduct!; 
   
   set getSelectCategoryProduct(String newValue) {
     _selectCategoryProduct = newValue; 
@@ -458,7 +458,7 @@ class MyProvider with ChangeNotifier {
 
           dataUser = user;
 
-          if(dataUser.status >0)
+          if(dataUser.status! >0)
             removeSession(context, true);
           else{
             
@@ -576,7 +576,7 @@ class MyProvider with ChangeNotifier {
         }
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.length >0){
         dataUser = await dbctpaga.getUser();
         dataBanksUser = await dbctpaga.getBanksUser();
         dataPicturesUser = await dbctpaga.getPicturesUser();
@@ -885,9 +885,9 @@ class MyProvider with ChangeNotifier {
     _listRatesToday = [];
     _listRatesWeek = [];
     _listRatesMonth = [];
-    dataRatesSelectToday = null;
-    dataRatesSelectMonth = null;
-    dataRatesSelectWeek = null;
+    dataRatesSelectToday = [];
+    dataRatesSelectMonth = [];
+    dataRatesSelectWeek = [];
 
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
@@ -956,9 +956,9 @@ class MyProvider with ChangeNotifier {
     _listRatesToday = [];
     _listRatesWeek = [];
     _listRatesMonth = [];
-    dataRatesSelectToday = null;
-    dataRatesSelectMonth = null;
-    dataRatesSelectWeek = null;
+    dataRatesSelectToday = [];
+    dataRatesSelectMonth = [];
+    dataRatesSelectWeek = [];
     _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
     int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
     _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
@@ -1046,7 +1046,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser != ''){
         dataPaids = await dbctpaga.getPaids();
       }
 
@@ -1165,8 +1165,8 @@ class MyProvider with ChangeNotifier {
     prefs.remove('selectCommerce');
     prefs.remove('statusShipping');
     prefs.remove('descriptionShipping');
-    accessTokenUser = null;
-    dataUser = null;
+    accessTokenUser = '';
+    dataUser = User();
     dataBanksUser = [];
     dataPicturesUser = [];
     dataCategoriesSelect=[];

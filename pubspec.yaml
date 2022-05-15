@@ -6,7 +6,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.44+2
 
 environment:
-  sdk: ">=2.7.0 <3.0.0"
+  sdk: ">=2.13.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -27,7 +27,7 @@ dependencies:
   flutter_localizations:
     sdk: flutter
   flutter_markdown: ^0.6.10
-  flutter_masked_text: ^0.8.0
+  flutter_masked_text2: ^0.9.1
   flutter_ringtone_player: ^3.1.1
   fluttertoast: ^8.0.9
   firebase_core: ^1.10.0

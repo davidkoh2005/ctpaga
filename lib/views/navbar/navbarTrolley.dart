@@ -137,9 +137,9 @@ class _NavbarTrolleyState extends State<NavbarTrolley> {
   }
 
   showCount(myProvider){
-    int count = 0;
+    int? count = 0;
     for (var item in myProvider.dataPurchase) {
-      count += item['quantity'];
+      count = (count! + item!['quantity']) as int?;
     }
 
     return count.toString();

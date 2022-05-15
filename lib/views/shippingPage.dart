@@ -225,6 +225,7 @@ class _ShippingPageState extends State<ShippingPage> {
                   padding: EdgeInsets.fromLTRB(30, 0.0, 30, 30),
                   itemCount: myProvider.dataShipping.length,
                   itemBuilder:  (BuildContext ctxt, int index) {
+                    print(myProvider.dataShipping[index].description);
                     return GestureDetector(
                       onTap: () =>Navigator.push(context, SlideLeftRoute(page: NewShippingPage(index))),
                       child: Padding(
@@ -262,7 +263,7 @@ class _ShippingPageState extends State<ShippingPage> {
           ),
           Padding(
             padding: EdgeInsets.only(bottom: 30, top: 30),
-            child: newShipping()
+            child: newShipping(myProvider)
           ),
         ],
       )
@@ -337,10 +338,16 @@ class _ShippingPageState extends State<ShippingPage> {
     );
   }
 
-  Widget newShipping(){
+  Widget newShipping(myProvider){
     var size = MediaQuery.of(context).size;
     return GestureDetector(
-      onTap: () => nextPage(NewShippingPage(null)),
+      onTap: () {
+          if(myProvider.dataRates.length != 0)
+            nextPage(NewShippingPage(null));
+          else{
+            sendError();
+          }
+      },
       child: Container(
         width:size.width - 100,
         height: size.height / 20,
@@ -401,6 +408,12 @@ class _ShippingPageState extends State<ShippingPage> {
     );
   }
 
+  sendError() async {
+    showMessage("Debe ingresar una tasa para poder crear tarifa de envios", false);
+    await Future.delayed(Duration(seconds: 2));
+    Navigator.pop(context);
+  }
+
   saveDescriptionStatus()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -437,6 +450,8 @@ class _ShippingPageState extends State<ShippingPage> {
     } on SocketException catch (_) {
       Navigator.pop(context);
       showMessage("Sin conexión a internet", false);
+      await Future.delayed(Duration(seconds: 2));
+      Navigator.pop(context);
     } 
   }
 

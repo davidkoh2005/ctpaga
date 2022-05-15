@@ -474,7 +474,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                     ),
                     Consumer<MyProvider>(
                       builder: (context, myProvider, child) {
-                        _controllerCategories..text = myProvider.getCategoryProduct;
+                        _controllerCategories.text = myProvider.getCategoryProduct;
                         return Padding(
                           padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 10.0),
                           child: new TextFormField(

@@ -144,7 +144,10 @@ class _SelfiePageState extends State<SelfiePage> {
               // If the Future is complete, display the preview.
               return Stack(
                 children: [
-                  CameraPreview(_controller),
+                  Container(
+                    width: size.width,
+                    child:CameraPreview(_controller) ,
+                  ),
 
                   Align(
                     alignment: Alignment.topCenter,

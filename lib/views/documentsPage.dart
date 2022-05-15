@@ -163,7 +163,10 @@ class _DocumentsPageState extends State<DocumentsPage> {
               // If the Future is complete, display the preview.
               return Stack(
                 children: [
-                  CameraPreview(_controller),
+                  Container(
+                    width: size.width,
+                    child:CameraPreview(_controller) ,
+                  ),
                   Container(
                     padding: EdgeInsets.only(top:100, bottom: 100),
                     child: Container(

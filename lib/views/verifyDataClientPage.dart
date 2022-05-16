@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:ctpaga/animation/slideRoute.dart';
 import 'package:ctpaga/views/processSalesPage.dart';
 import 'package:ctpaga/views/navbar/navbar.dart';
@@ -16,7 +18,7 @@ class VerifyDataClientPage extends StatefulWidget {
 }
 
 class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
-  double _total;
+  double? _total;
   int _totalProducts=0;
   bool _statusButton = false;
 
@@ -156,7 +158,7 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
               : CircleAvatar(
                   minRadius: size.width / 10,
                   maxRadius: size.width / 10,
-                  backgroundImage: MemoryImage(myProvider.avatarClient),
+                  backgroundImage: MemoryImage(Uint8List.fromList(myProvider.avatarClient)),
                 )
             ),
             Container(
@@ -268,17 +270,17 @@ class _VerifyDataClientPageState extends State<VerifyDataClientPage> {
       priceDouble = double.parse(item['data'].price);
       priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
-        _total+=(priceDouble * varRate);
+        _total= _total! +(priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)
-        _total+=(priceDouble / varRate);
+        _total= _total! +(priceDouble / varRate);
       else
-        _total+=(priceDouble);
+        _total= _total! +(priceDouble);
 
-      _totalProducts = _totalProducts! + item['quantity'];
+      _totalProducts = _totalProducts + item['quantity'] as int;
 
     }
 
-    lowPurchase.updateValue(_total);
+    lowPurchase.updateValue(_total!);
 
     return "${lowPurchase.text}";
   }  

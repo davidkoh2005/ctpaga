@@ -15,7 +15,7 @@ class ForgotPassword extends StatefulWidget {
 class _ForgotPasswordState extends State<ForgotPassword> {
   final _formKeyForgotPassword = new GlobalKey<FormState>();
   final FocusNode _emailFocus = FocusNode(); 
-  String _email;
+  String? _email;
 
   @override
   Widget build(BuildContext context) {
@@ -266,7 +266,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
 
 
   String? _validateEmail(String? value) {
-    value = value.trim().toLowerCase();
+    value = value!.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +

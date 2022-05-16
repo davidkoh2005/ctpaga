@@ -42,7 +42,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   @override
   void initState() {
     super.initState();
-    initialNotification();
     initialVariable();
     registerNotification();
     initialPusher();
@@ -75,10 +74,11 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
 
 
   // ignore: missing_return
-  Future<bool> _onBackPressed(){
+  _onBackPressed(){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     if(myProvider.statusButtonMenu){
       myProvider.statusButtonMenu = false;
+      return Future.value(true);
     }else{
       DateTime now = DateTime.now();
       if (currentBackPressTime == null || now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
@@ -118,7 +118,7 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
   @override
   Widget build(BuildContext context) {
     return WillPopScope(
-      onWillPop: _onBackPressed,
+      onWillPop: () => _onBackPressed(),
       child: Scaffold(
         backgroundColor: Colors.white,
         body: Stack(
@@ -282,25 +282,6 @@ class _MainPageState extends State<MainPage> with WidgetsBindingObserver{
     }
 
     return true;
-  }
-
-  void initialNotification() {
-    var initializationSettingsAndroid = new AndroidInitializationSettings('app_icon');
-    
-    var initializationSettingsIOS = IOSInitializationSettings(
-      onDidReceiveLocalNotification: onDidReceiveLocalNotification);
-    
-    var initializationSettings = InitializationSettings(
-      android: initializationSettingsAndroid, 
-      iOS: initializationSettingsIOS,
-    );
-
-    flutterLocalNotificationsPlugin.initialize(initializationSettings, onSelectNotification: selectNotification);
-  }
-
-  Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
-    print('onDidReceiveLocalNotification');
   }
 
   Future selectNotification(String payload) async {

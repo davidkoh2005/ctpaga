@@ -68,7 +68,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     else
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
   
-    if(myProvider.dataSelectProduct != null){
+    if(myProvider.dataSelectProduct.id == null){
       updatePrice(myProvider.dataSelectProduct.price, myProvider.dataSelectProduct.coin);
       _controllerName.text = myProvider.dataSelectProduct.name!;
       _controllerDescription.text = myProvider.dataSelectProduct.description == 'null'? '' : myProvider.dataSelectProduct.description!;
@@ -82,7 +82,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         _dataProductsService.add("Name");
         _dataProductsService.add("Price");
       });
-    }else if(myProvider.dataSelectService != null){
+    }else if(myProvider.dataSelectService.id != null){
       updatePrice(myProvider.dataSelectService.price, myProvider.dataSelectService.coin);
       _controllerName.text = myProvider.dataSelectService.name!;
       _controllerDescription.text = myProvider.dataSelectService.description == 'null'? '' : myProvider.dataSelectService.description!;
@@ -141,7 +141,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: <Widget>[
-                    myProvider.selectProductsServices== 0? myProvider.dataSelectProduct != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
+                    myProvider.selectProductsServices== 0? myProvider.dataSelectProduct.id != null? Navbar('Modificar Producto', true) : Navbar('Nuevo Producto', true) : myProvider.dataSelectService.id != null? Navbar('Modificar Servicio', true) : Navbar('Nuevo Servicio', true),
                     Expanded(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -154,7 +154,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                               children: <Widget>[
                                 buttonNewProductService(),
                                 Visibility(
-                                  visible: myProvider.dataSelectProduct != null || myProvider.dataSelectService != null? true : false,
+                                  visible: myProvider.dataSelectProduct.id != null || myProvider.dataSelectService.id != null? true : false,
                                   child: Padding(
                                     padding: EdgeInsets.only(top:20),
                                     child: buttonDeleteProductService()
@@ -260,7 +260,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         child: SafeArea(
           child: Scrollbar(
             controller: _scrollController, 
-            thumbVisibility: true,
+            trackVisibility: true,
             child: SingleChildScrollView(
               controller: _scrollController, 
               child: new Form(
@@ -336,9 +336,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
                           else
                             lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
 
-                          if(myProvider.dataSelectProduct != null)
+                          if(myProvider.dataSelectProduct.id != null)
                             updatePrice(myProvider.dataSelectProduct.price, myProvider.dataSelectProduct.coin);
-                          else if(myProvider.dataSelectService != null)
+                          else if(myProvider.dataSelectService.id != null)
                             updatePrice(myProvider.dataSelectService.price, myProvider.dataSelectService.coin);
                         },
                         child: Align(
@@ -790,7 +790,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           ),
         )
       );
-    }else if(myProvider.dataSelectProduct != null){
+    }else if(myProvider.dataSelectProduct.id != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
@@ -811,7 +811,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           ),
         )
       );
-    }if(myProvider.dataSelectService != null){
+    }if(myProvider.dataSelectService.id != null){
       return GestureDetector(
         onTap: () => _showSelectionDialog(context),
         child: ClipOval(
@@ -908,14 +908,16 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         maxHeight: 700,
         cropStyle: CropStyle.circle,
         compressFormat: ImageCompressFormat.jpg,
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: "Editar Foto",
-          backgroundColor: Colors.black,
-          toolbarWidgetColor: Colors.black,
-        ),
-        iosUiSettings: IOSUiSettings(
-          title: 'Editar Foto',
-        )
+        uiSettings:[
+          AndroidUiSettings(
+            toolbarTitle: "Editar Foto",
+            backgroundColor: Colors.black,
+            toolbarWidgetColor: Colors.black,
+          ),
+          IOSUiSettings(
+            title: 'Editar Foto',
+          )
+        ],
       );
 
       if(cropped != null){
@@ -952,7 +954,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         ),
         child: Center(
           child: AutoSizeText(
-            myProvider.selectProductsServices == 0? myProvider.dataSelectProduct != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
+            myProvider.selectProductsServices == 0? myProvider.dataSelectProduct.id != null ? "GUARDAR PRODUCTO" : "CREAR PRODUCTO" : myProvider.dataSelectService.id != null ? "GUARDAR SERVICIO" : "CREAR SERVICIO",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w500,
@@ -978,7 +980,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
             color: colorGrey, 
             width: 1.0,
           ),
-          color: _statusButtonDelete? colorGrey : Colors.red,
+          color: _statusButtonDelete!? colorGrey : Colors.red,
           borderRadius: BorderRadius.circular(30),
 
         ),
@@ -1002,7 +1004,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     if(_dataProductsService.length <3)
         return colorGrey;
       else
-        if(_statusButton)
+        if(_statusButton!)
           return colorGrey;
 
         return colorLogo;
@@ -1016,7 +1018,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     await Future.delayed(Duration(milliseconds: 150));
     setState(() => _statusButton = false);
 
-    if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct == null && myProvider.dataSelectService == null)) {
+    if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct.id == null && myProvider.dataSelectService.id == null)) {
       _formKeyProductService.currentState!.save();
       try
       {
@@ -1025,7 +1027,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
 
-          String base64Image = base64Encode(_image.readAsBytesSync());
+          String base64Image = base64Encode(_image!.readAsBytesSync());
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
               Uri.parse(urlApi+"newProducts"),
@@ -1086,7 +1088,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         Navigator.pop(context);
         showMessage("Sin conexión a internet",false);
       }
-    }else if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct != null || myProvider.dataSelectService != null)) {
+    }else if (_formKeyProductService.currentState!.validate() && (myProvider.dataSelectProduct.id != null || myProvider.dataSelectService.id != null)) {
       _formKeyProductService.currentState!.save();
       try
       {
@@ -1096,9 +1098,9 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
           String base64Image;
           if(_image != null)
-            base64Image = base64Encode(_image.readAsBytesSync());
+            base64Image = base64Encode(_image!.readAsBytesSync());
           else
-            base64Image = myProvider.dataSelectProduct.url;
+            base64Image = myProvider.dataSelectProduct.url!;
 
           if(myProvider.selectProductsServices == 0){
             response = await http.post(
@@ -1215,11 +1217,11 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
           if (jsonResponse['statusCode'] == 201) {
             var dbctpaga = DBctpaga();
             if(myProvider.selectProductsServices == 0){
-              dbctpaga.deleteProduct(myProvider.dataSelectProduct.id);
+              dbctpaga.deleteProduct(myProvider.dataSelectProduct.id!);
               await myProvider.getListProducts();
             }
             else{
-              dbctpaga.deleteService(myProvider.dataSelectService.id);
+              dbctpaga.deleteService(myProvider.dataSelectService.id!);
               await myProvider.getListServices();
             }
             
@@ -1340,7 +1342,7 @@ class _NewProductServicePageState extends State<NewProductServicePage> {
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
       _name = value;
       return null;

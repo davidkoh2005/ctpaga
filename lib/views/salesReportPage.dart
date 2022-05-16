@@ -29,7 +29,7 @@ class _SalesReportPageState extends State<SalesReportPage> {
   var formatter = new DateFormat('dd/M/yyyy');
   var formatterDay = new DateFormat('EEEE');
   var formatterMonth = new DateFormat('MMMM');
-  DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
+  DateTime? _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   int _statusCoin = 1, _statusButtonDate = 0;
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
   DateTime _initialDate = DateTime.now();
@@ -41,10 +41,10 @@ class _SalesReportPageState extends State<SalesReportPage> {
   void initState() {
     super.initState();
     initializeDateFormatting();
-    _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
-    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
-    _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
-    _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+    _today = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day);
+    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow!));
+    _firstDay = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day-indexWeekDay);
+    _lastDay = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day+(6-indexWeekDay));
   }
 
   @override
@@ -297,11 +297,11 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Future<Null> _selectDateInitial(BuildContext context) async {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
         context: context,
-        initialDate: _dateNow,
-        firstDate: DateTime(_dateNow.year,_dateNow.month-2,1),
-        lastDate: _dateNow,
+        initialDate: _dateNow!,
+        firstDate: DateTime(_dateNow!.year,_dateNow!.month-2,1),
+        lastDate: _dateNow!,
         helpText: "Seleccionar la Fecha Inicial:"
       );
     if (picked != null && picked != DateTime.now())
@@ -319,12 +319,12 @@ class _SalesReportPageState extends State<SalesReportPage> {
 
   Future<Null> _selectDateFinal(BuildContext context) async {
     var myProvider = Provider.of<MyProvider>(context, listen: false);
-    final DateTime picked = await showDatePicker(
+    final DateTime? picked = await showDatePicker(
       context: context,
         locale : const Locale("es","ES"),
-      initialDate: _dateNow,
-      firstDate: DateTime(_dateNow.year,_dateNow.month-2,1),
-      lastDate: _dateNow,
+      initialDate: _dateNow!,
+      firstDate: DateTime(_dateNow!.year,_dateNow!.month-2,1),
+      lastDate: _dateNow!,
       helpText: "Seleccionar la Fecha Final:"
       );
     if (picked != null && picked != DateTime.now())
@@ -339,14 +339,12 @@ class _SalesReportPageState extends State<SalesReportPage> {
   showDate(){
     switch (_statusButtonDate) {
       case 0:
-        return "VENTAS:  HOY ${formatter.format(_today)}";
-        break;
+        return "VENTAS:  HOY ${formatter.format(_today!)}";
       case 1:
-        return "VENTAS:  FECHA ${formatter.format(_firstDay)} - ${formatter.format(_lastDay)} ";
-        break;
+        return "VENTAS:  FECHA ${formatter.format(_firstDay!)} - ${formatter.format(_lastDay!)} ";
       case 2:
         formatterMonth = new DateFormat('MMMM', 'es_ES');
-        return "VENTAS:  MES ${formatterMonth.format(_today).toUpperCase()}";
+        return "VENTAS:  MES ${formatterMonth.format(_today!).toUpperCase()}";
       default:
         formatterMonth = new DateFormat('MMMM', 'es_ES');
         return "VENTAS: ${controllerInitialDate.text} al ${controllerFinalDate.text}";
@@ -372,8 +370,8 @@ class _SalesReportPageState extends State<SalesReportPage> {
       onTap: () {
         setState(() {
           _statusButtonDate = index;
-          _initialDate = _dateNow;
-          _finalDate = _dateNow;
+          _initialDate = _dateNow!;
+          _finalDate = _dateNow!;
         });
         controllerInitialDate.clear();
         controllerFinalDate.clear();

@@ -29,7 +29,7 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   var formatterMonth = new DateFormat('MMMM');
   var formatterTable = new DateFormat('dd/M/yyyy hh:mm aaa');
 
-  DateTime _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
+  DateTime? _dateNow = DateTime.now(), _today, _firstDay, _lastDay;
   bool _statusButton =false;
 
   @override
@@ -37,10 +37,10 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
     super.initState();
     initializeDateFormatting();
     initialVariable();
-    _today = DateTime(_dateNow.year, _dateNow.month, _dateNow.day);
-    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow));
-    _firstDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day-indexWeekDay);
-    _lastDay = DateTime(_dateNow.year, _dateNow.month, _dateNow.day+(6-indexWeekDay));
+    _today = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day);
+    int indexWeekDay =  weekDay.indexOf(formatterDay.format(_dateNow!));
+    _firstDay = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day-indexWeekDay);
+    _lastDay = DateTime(_dateNow!.year, _dateNow!.month, _dateNow!.day+(6-indexWeekDay));
   }
 
   @override
@@ -159,12 +159,12 @@ class _ExchangeRatePageState extends State<ExchangeRatePage> {
   showDate(myProvider){
     switch (myProvider.selectDateRate) {
       case 0:
-        return "TASA:  HOY ${formatter.format(_today)}";
+        return "TASA:  HOY ${formatter.format(_today!)}";
       case 1:
-        return "TASA:  FECHA ${formatter.format(_firstDay)} - ${formatter.format(_lastDay)} ";
+        return "TASA:  FECHA ${formatter.format(_firstDay!)} - ${formatter.format(_lastDay!)} ";
       default:
         formatterMonth = new DateFormat('MMMM','es_ES');
-        return "TASA:  MES ${formatterMonth.format(_today).toUpperCase()}";
+        return "TASA:  MES ${formatterMonth.format(_today!).toUpperCase()}";
     }
   }
 

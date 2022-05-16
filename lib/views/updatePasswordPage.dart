@@ -19,7 +19,7 @@ class UpdatePasswordPage extends StatefulWidget {
 class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   final _formKeyChangePassword = new GlobalKey<FormState>();
   bool _statusButtonSave = false, passwordVisible = true;
-  String _passwordCurrent, _password;
+  String? _passwordCurrent, _password;
 
   void initState() {
     super.initState();
@@ -385,9 +385,9 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
   }
 
 
-  String _validatePassword(String? value) {
+  String? _validatePassword(String? value) {
     String errorValidate = 'La contraseña es inválida, debe tener:';
-    if (value.isEmpty) {
+    if (value!.isEmpty) {
       // The form is empty
       return 'Ingrese una contraseña válido';
     }
@@ -428,8 +428,8 @@ class _UpdatePasswordPageState extends State<UpdatePasswordPage> {
 
   }
 
-  String _validatePasswordConfirm(String? value) {
-    if(value.isNotEmpty){
+  String? _validatePasswordConfirm(String? value) {
+    if(value!.isNotEmpty){
       if (_password == value){
         return null;
       }

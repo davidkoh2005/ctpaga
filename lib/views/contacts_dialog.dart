@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 /// selection dialog used for selection of the country code
 class SelectionDialogContacts extends StatefulWidget {
   final List<Contact> elements;
-  final bool showCountryOnly;
-  final InputDecoration searchDecoration;
-  final TextStyle searchStyle;
-  final WidgetBuilder emptySearchBuilder;
+  final bool? showCountryOnly;
+  final InputDecoration? searchDecoration;
+  final TextStyle? searchStyle;
+  final WidgetBuilder? emptySearchBuilder;
 
   /// elements passed as favorite
   final List<Contact> favoriteElements;
 
   SelectionDialogContacts(this.elements, this.favoriteElements, {
     Key? key,
-    required this.showCountryOnly,
-    required this.emptySearchBuilder,
+    this.showCountryOnly,
+    this.emptySearchBuilder,
     InputDecoration searchDecoration = const InputDecoration(),
-    required this.searchStyle,
+    this.searchStyle,
   }) :
-        assert(searchDecoration != null, 'searchDecoration must not be null!'),
+        assert(true, 'searchDecoration must not be null!'), //change true to searchDecoration != null
         this.searchDecoration = searchDecoration.copyWith(prefixIcon: Icon(Icons.search)),
         super(key: key);
 
@@ -105,9 +105,9 @@ class _SelectionDialogState extends State<SelectionDialogContacts> {
   }
 
   Widget _buildEmptySearchWidget(BuildContext context) {
-    if (widget.emptySearchBuilder != null) {
+/*     if (widget.emptySearchBuilder != null) {
       return widget.emptySearchBuilder(context);
-    }
+    } */
 
     return Center(child: Text('No hay contactos en su agenda'));
   }

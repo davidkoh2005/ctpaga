@@ -12,7 +12,6 @@ import 'package:camera/camera.dart';
 import 'dart:convert';
 import 'dart:io';
 
-List<CameraDescription> cameras;
 
 class SelfiePage extends StatefulWidget {
 
@@ -21,8 +20,8 @@ class SelfiePage extends StatefulWidget {
 }
 
 class _SelfiePageState extends State<SelfiePage> {
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  CameraController? _controller;
+  Future<void>? _initializeControllerFuture;
   bool isCameraReady = false, showCapturedPhoto = false , clickBotton = false, clickCamera = false;
 
   @override
@@ -32,14 +31,14 @@ class _SelfiePageState extends State<SelfiePage> {
 
   @override
   void dispose() {
-    _controller?.dispose();
+    _controller!.dispose();
     super.dispose();
   }
 
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
     _controller = CameraController(cameras[1],ResolutionPreset.high);
-    _initializeControllerFuture = _controller.initialize();
+    _initializeControllerFuture = _controller!.initialize();
     if (!mounted) {
       return;
     }
@@ -146,7 +145,7 @@ class _SelfiePageState extends State<SelfiePage> {
                 children: [
                   Container(
                     width: size.width,
-                    child:CameraPreview(_controller) ,
+                    child:CameraPreview(_controller!) ,
                   ),
 
                   Align(
@@ -201,9 +200,9 @@ class _SelfiePageState extends State<SelfiePage> {
     try {
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/Selfie_$now.jpg';
-      await _controller.takePicture();
+      await _controller!.takePicture();
       _onLoading();
-      _controller?.dispose();
+      _controller!.dispose();
 
 
       String base64Image = base64Encode(File(filePath).readAsBytesSync());

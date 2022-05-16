@@ -91,7 +91,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               validator: _validateEmail,
-              onSaved: (value) => _email = value.toLowerCase().trim(),
+              onSaved: (value) => _email = value!.toLowerCase().trim(),
               textInputAction: TextInputAction.next,
               cursorColor: colorLogo,
               style: TextStyle(
@@ -279,8 +279,8 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-  String _validateEmail(String? value) {
-    value = value.trim().toLowerCase();
+  String? _validateEmail(String? value) {
+    value = value!.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +
@@ -345,7 +345,7 @@ class _LoginPageState extends State<LoginPage> {
             myProvider.statusButtonMenu = false;
             myProvider.clickButtonMenu = 0;
             myProvider.dataShipping = [];
-            myProvider.getTokenFCM = null;
+            myProvider.getTokenFCM = '';
           } else if(jsonResponse['statusCode'] == 400){
             setState(() {
               _passwordController.clear();

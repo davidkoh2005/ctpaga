@@ -32,7 +32,7 @@ class PolicyPrivacy extends StatelessWidget {
                     styleSheet: MarkdownStyleSheet(
                       textAlign: WrapAlignment.spaceBetween,
                     ),
-                    data: snapshot.data,
+                    data: snapshot.data as String,
                   );
                 }
                 return Center(

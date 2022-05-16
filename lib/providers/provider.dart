@@ -132,7 +132,7 @@ class MyProvider with ChangeNotifier {
     notifyListeners(); 
   }
 
-  int? _selectCoinDeposits;
+  int? _selectCoinDeposits = 1;
   int get selectCoinDeposits =>_selectCoinDeposits!; 
   
   set selectCoinDeposits(int newSelectCoinDeposits) {
@@ -602,8 +602,6 @@ class MyProvider with ChangeNotifier {
   verifyStatusDeposits(){
     _listVerification = [];
 
-    if(selectCoinDeposits == null)
-      selectCoinDeposits = 1;
 
     if (dataBanksUser.length >0 && dataBanksUser[selectCoinDeposits].idCard != null ){
       _listVerification.add("Bank"+selectCoinDeposits.toString());
@@ -664,7 +662,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataCategories = await dbctpaga.getCategories(selectProductsServices);
       }
     }
@@ -721,7 +719,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataProducts = await dbctpaga.getProducts();
       }
 
@@ -778,7 +776,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataServices = await dbctpaga.getServices();
       }
 
@@ -821,7 +819,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataShipping = await dbctpaga.getShipping();
       }
 
@@ -863,7 +861,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataDiscount = await dbctpaga.getDiscounts();
       }
 
@@ -942,7 +940,7 @@ class MyProvider with ChangeNotifier {
         } 
       }
     } on SocketException catch (_) {
-      if(accessTokenUser != null){
+      if(accessTokenUser.isNotEmpty){
         dataRates = await dbctpaga.getRates();
       }
     }

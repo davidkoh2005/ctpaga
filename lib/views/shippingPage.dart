@@ -28,7 +28,7 @@ class _ShippingPageState extends State<ShippingPage> {
   final _scrollControllerShipping = ScrollController();
   final _controllerDescription= TextEditingController();
   bool _statusButtonNew = false;
-  String _description;
+  String? _description;
 
   @override
   void initState() {
@@ -75,7 +75,7 @@ class _ShippingPageState extends State<ShippingPage> {
                     child: Navbar("Envíos", false)
                   ),
                   statusSend(myProvider),
-                  myProvider.dataUser.statusShipping? 
+                  myProvider.dataUser.statusShipping!? 
                     formShipping(myProvider) 
                   :  
                   Expanded(
@@ -216,7 +216,7 @@ class _ShippingPageState extends State<ShippingPage> {
             child: Expanded(
               child:Scrollbar(
                 controller: _scrollControllerShipping, 
-                thumbVisibility: true,
+                trackVisibility: true,
                 child: ListView.separated(
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical, 
@@ -343,7 +343,7 @@ class _ShippingPageState extends State<ShippingPage> {
     return GestureDetector(
       onTap: () {
           if(myProvider.dataRates.length != 0)
-            nextPage(NewShippingPage(null));
+            nextPage(NewShippingPage(-1));
           else{
             sendError();
           }
@@ -417,8 +417,8 @@ class _ShippingPageState extends State<ShippingPage> {
   saveDescriptionStatus()async{
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setString('descriptionShipping', _description);
-    myProvider.descriptionShipping = _description;
+    prefs.setString('descriptionShipping', _description!);
+    myProvider.descriptionShipping = _description!;
   }
 
   saveStatus()async{
@@ -436,7 +436,7 @@ class _ShippingPageState extends State<ShippingPage> {
             'authorization': 'Bearer ${myProvider.accessTokenUser}',
           },
           body: jsonEncode({
-            'statusShipping': !myProvider.dataUser.statusShipping,
+            'statusShipping': !myProvider.dataUser.statusShipping!,
           }),
         ); 
 

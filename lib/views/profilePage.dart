@@ -165,9 +165,9 @@ class _ProfilePageState extends State<ProfilePage> {
                                     height: 2,
                                     color: colorLogo,
                                   ),
-                                  onChanged: (Commerce newValue) async{
+                                  onChanged: (Commerce? newValue) async{
                                     int count = 0;
-                                    if(myProvider.dataCommercesUser[myProvider.selectCommerce].id != newValue.id){
+                                    if(myProvider.dataCommercesUser[myProvider.selectCommerce].id != newValue!.id){
                                       for( var i = 0 ; i <= myProvider.dataCommercesUser.length; i++ ) {
                                         if(myProvider.dataCommercesUser[i].id == newValue.id){
                                           count = i;
@@ -411,11 +411,11 @@ class _ProfilePageState extends State<ProfilePage> {
     var size = MediaQuery.of(context).size;
     return Consumer<MyProvider>(
       builder: (context, myProvider, child) {
-        if(myProvider.dataPicturesUser != null && myProvider.dataPicturesUser.length != 0){
+        if(myProvider.dataPicturesUser.isNotEmpty && myProvider.dataPicturesUser.length != 0){
           //DefaultCacheManager().removeFile(url+"/storage/Users/${myProvider.dataUser.id}/Profile.jpg");
           //DefaultCacheManager().emptyCache();
 
-          if(myProvider.dataPicturesUser != null){
+          if(myProvider.dataPicturesUser.isNotEmpty){
             if(urlProfile != null)
               if(urlProfile.indexOf('/storage/Users/')<0){
                 DefaultCacheManager().emptyCache();
@@ -534,14 +534,16 @@ class _ProfilePageState extends State<ProfilePage> {
         maxHeight: 700,
         cropStyle: CropStyle.circle,
         compressFormat: ImageCompressFormat.jpg,
-        androidUiSettings: AndroidUiSettings(
-          toolbarTitle: "Editar Foto",
-          backgroundColor: Colors.black,
-          toolbarWidgetColor: Colors.black,
-        ),
-        iosUiSettings: IOSUiSettings(
-          title: 'Editar Foto',
-        )
+        uiSettings:[
+          AndroidUiSettings(
+            toolbarTitle: "Editar Foto",
+            backgroundColor: Colors.black,
+            toolbarWidgetColor: Colors.black,
+          ),
+          IOSUiSettings(
+            title: 'Editar Foto',
+          )
+        ],
       );
 
       if(cropped != null){
@@ -665,7 +667,7 @@ class _ProfilePageState extends State<ProfilePage> {
                       ],
                     )
                   ),
-                  onSelected: (value) => setState(() => _selectDocumentCompany = value),
+                  onSelected: (value) => setState(() => _selectDocumentCompany = value as String),
                   itemBuilder: (BuildContext bc) {
                     return _listDocumentCompany.map((document) =>
                       PopupMenuItem(
@@ -729,7 +731,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ),
               ),
               onSaved: (String? value) => _nameCompany = value,
-              validator: (value) => value.isEmpty? 'Ingrese el nombre de la empresa válido' : null,
+              validator: (value) => value!.isEmpty? 'Ingrese el nombre de la empresa válido' : null,
               textInputAction: TextInputAction.next,
               focusNode: _nameCompanyFocus,
               onEditingComplete: () => FocusScope.of(context).requestFocus(_addressCompanyFocus),
@@ -929,7 +931,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 10.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.email,
+              initialValue: myProvider.dataUser.email!.isEmpty? '' : myProvider.dataUser.email,
               autofocus: false,
               maxLines: 1,
               keyboardType: TextInputType.emailAddress,
@@ -998,7 +1000,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null ? '' : myProvider.dataUser.name,
+              initialValue: myProvider.dataUser.name == null ? '' : myProvider.dataUser.name,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -1028,7 +1030,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 0.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.address,
+              initialValue: myProvider.dataUser.address == null? '' : myProvider.dataUser.address,
               autofocus: false,
               textCapitalization:TextCapitalization.sentences,
               decoration: InputDecoration(
@@ -1058,7 +1060,7 @@ class _ProfilePageState extends State<ProfilePage> {
           Padding(
             padding: const EdgeInsets.fromLTRB(30.0, 10.0, 30.0, 30.0),
             child: new TextFormField(
-              initialValue: myProvider.dataUser == null? '' : myProvider.dataUser.phone,
+              initialValue: myProvider.dataUser.phone == null? '' : myProvider.dataUser.phone,
               autofocus: false,
               keyboardType: TextInputType.phone,
               maxLength: 20,
@@ -1132,7 +1134,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 items: _listCountry.map((String? value) {
                   return new DropdownMenuItem<String>(
                     value: value,
-                    child: new Text(value),
+                    child: new Text(value!),
                   );
                 }).toList(),
                 onChanged: (String? value) {                  
@@ -1198,7 +1200,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 onSaved: (String? value) => _accountNumberBankingUSD = value,
-                validator: (value) => value.length <=7 && value.length >=20? "Ingrese numero de cuenta válido" : null ,
+                validator: (value) => value!.length <=7 && value.length >=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingUSDFocus,
                 cursorColor: colorLogo,
                 style: TextStyle(
@@ -1230,11 +1232,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           ClipOval(
-                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                            child: Image.asset(result['img']!, width: size.width / 8, height: size.width / 8),
                           ),
                           SizedBox(width: 20),
                           Expanded(child: AutoSizeText(
-                            result['title'],
+                            result['title']!,
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
                               fontSize:14
@@ -1252,11 +1254,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           ClipOval(
-                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                            child: Image.asset(result['img']!, width: size.width / 8, height: size.width / 8),
                           ),
                           SizedBox(width: 20),
                           Expanded(child: AutoSizeText(
-                            result['title'],
+                            result['title']!,
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
                               fontSize:14
@@ -1299,7 +1301,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                   onSaved: (String? value) => _routeBankingUSD = value,
-                  validator: (value) => value.length != 9 && _statusCountry? "Ingrese numero de ruta o aba válido" : null ,
+                  validator: (value) => value!.length != 9 && _statusCountry? "Ingrese numero de ruta o aba válido" : null ,
                   textInputAction: TextInputAction.next,
                   focusNode: _routeBankingUSDFocus,
                   onEditingComplete: () => FocusScope.of(context).requestFocus(_swiftBankingUSDFocus),
@@ -1395,8 +1397,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String? value) => _accountTypeBankingUSD = value.toUpperCase(),
-                validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
+                onSaved: (String? value) => _accountTypeBankingUSD = value!.toUpperCase(),
+                validator: (value) => value!.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
                 textInputAction: TextInputAction.done,
                 focusNode: _accountTypeBankingUSDFocus,
                 onEditingComplete: (){
@@ -1487,7 +1489,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         ],
                       )
                     ),
-                    onSelected: (value) => setState(() => _selectDocument = value),
+                    onSelected: (value) => setState(() => _selectDocument = value as String),
                     itemBuilder: (BuildContext bc) {
                       return _listDocument.map((document) =>
                         PopupMenuItem(
@@ -1519,7 +1521,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           borderSide: BorderSide(color: colorLogo),
                         ),
                       ),
-                      onSaved: (String? value) => _idCardBankingBs = _selectDocument+"-"+value,
+                      onSaved: (String? value) => _idCardBankingBs = _selectDocument+"-"+value!,
                       validator: _validateIdCard,
                       focusNode: _idCardBankingBsFocus,
                       textInputAction: TextInputAction.next,
@@ -1557,7 +1559,7 @@ class _ProfilePageState extends State<ProfilePage> {
                   ),
                 ),
                 onSaved: (String? value) => _accountNumberBankingBs = value,
-                validator: (value) => value.length !=20? "Ingrese numero de cuenta válido" : null ,
+                validator: (value) => value!.length !=20? "Ingrese numero de cuenta válido" : null ,
                 focusNode: _accountNumberBankingBsFocus,
                 cursorColor: colorLogo,
                 style: TextStyle(
@@ -1589,11 +1591,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
                           ClipOval(
-                            child: Image.asset(result['img'], width: size.width / 8, height: size.width / 8),
+                            child: Image.asset(result['img']!, width: size.width / 8, height: size.width / 8),
                           ),
                           SizedBox(width: 20),
                           Expanded(child: AutoSizeText(
-                            result['title'],
+                            result['title']!,
                             style: TextStyle(
                               fontFamily: 'MontserratSemiBold',
                               fontSize:14
@@ -1640,8 +1642,8 @@ class _ProfilePageState extends State<ProfilePage> {
                     borderSide: BorderSide(color: colorLogo),
                   ),
                 ),
-                onSaved: (String? value) => _accountTypeBankingBs = value.toUpperCase(),
-                validator: (value) => value.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
+                onSaved: (String? value) => _accountTypeBankingBs = value!.toUpperCase(),
+                validator: (value) => value!.toUpperCase() == 'C' || value.toUpperCase() == 'A'? null : "Ingrese tipo de cuenta válido",
                 textInputAction: TextInputAction.done,
                 onEditingComplete: (){
                   FocusScope.of(context).requestFocus(new FocusNode());
@@ -1662,7 +1664,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
   }
   
-  String _validateRif(value){
+  String? _validateRif(value){
     value = _selectDocumentCompany+"-"+value;
     // This is just a regular expression for RIF
     String p = r'^[c|e|g|j|p|v|C|E|G|J|P|V][-][0-9]+';
@@ -1677,7 +1679,7 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   String? _validateEmail(String? value) {
-    value = value.trim().toLowerCase();
+    value = value!.trim().toLowerCase();
     // This is just a regular expression for email addresses
     String p = "[a-zA-Z0-9\+\.\_\%\-\+]{1,256}" +
         "\\@" +
@@ -1701,7 +1703,7 @@ class _ProfilePageState extends State<ProfilePage> {
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
       return null;
     }
@@ -2147,7 +2149,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         borderSide: BorderSide(color: colorLogo),
                       ),
                     ),
-                  validator: (value) => value.isEmpty? 'Ingrese una contraseña válida': null,
+                  validator: (value) => value!.isEmpty? 'Ingrese una contraseña válida': null,
                   textInputAction: TextInputAction.done,
                   onFieldSubmitted: (value)async{
                     if(value.length >4){

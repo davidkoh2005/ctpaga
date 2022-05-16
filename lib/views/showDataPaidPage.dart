@@ -20,7 +20,7 @@ class ShowDataPaidPage extends StatefulWidget {
 }
 
 class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
-  String codeUrl;
+  String? codeUrl;
   List _listSales = [];
 
   void initState() {
@@ -612,13 +612,10 @@ class _ShowDataPaidPageState extends State<ShowDataPaidPage> {
   showStatus(status){
     switch(status) { 
       case 0: { return "PRODUCTOS NO RETIRADO"; } 
-      break; 
      
       case 1: { return "PRODUCTOS RETIRADO"; } 
-      break; 
      
-      case 2: { return "PRODUCTOS ENTREGADO"; } 
-      break;     
+      case 2: { return "PRODUCTOS ENTREGADO"; }    
     } 
   }
 

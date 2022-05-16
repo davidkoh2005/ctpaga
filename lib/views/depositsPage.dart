@@ -76,7 +76,7 @@ class _DepositsPageState extends State<DepositsPage> {
                       Expanded(
                         child: Scrollbar(
                           controller: _scrollController, 
-                          thumbVisibility: true,
+                          trackVisibility: true,
                           child: SingleChildScrollView(
                             controller: _scrollController, 
                             child: Column(

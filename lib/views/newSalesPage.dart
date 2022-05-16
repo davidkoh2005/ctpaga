@@ -22,10 +22,10 @@ class NewSalesPage extends StatefulWidget {
 class _NewSalesPageState extends State<NewSalesPage> {
   final _controllerName = TextEditingController();
   bool _statusButton = false, _statusButtonName = false;
-  String _nameContacts, _initialsContacts;
+  String? _nameContacts, _initialsContacts;
   List<int> _avatarContacts = [];
   List<Contact> contacts = [];
-  Iterable<Contact> _contacts;
+  Iterable<Contact>? _contacts;
 
   @override
   void initState() {
@@ -113,7 +113,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
             autofocus: false,
             maxLength: 50,
             validator: _validateName,
-            onSaved: (value) => _nameContacts = value.trim(),
+            onSaved: (value) => _nameContacts = value!.trim(),
             onChanged: (value) => value.trim().length >=3? setState(() => _statusButton = true): setState(() => _statusButton = false) ,
             textInputAction: TextInputAction.next,
             cursorColor: colorLogo,
@@ -259,7 +259,7 @@ class _NewSalesPageState extends State<NewSalesPage> {
           context: context,
           builder: (_) =>
               SelectionDialogContacts(
-                _contacts.toList(),
+                _contacts!.toList(),
                 favoriteElements,
                 showCountryOnly: false,
                 emptySearchBuilder: null,
@@ -356,15 +356,15 @@ class _NewSalesPageState extends State<NewSalesPage> {
     setState(() =>_statusButton = true);
 
     if(_controllerName.text == _nameContacts){
-      myProvider.nameClient = _nameContacts;
+      myProvider.nameClient = _nameContacts!;
       myProvider.avatarClient = _avatarContacts;
-      myProvider.initialsClient = _initialsContacts;
+      myProvider.initialsClient = _initialsContacts!;
     }else{
       myProvider.nameClient = _controllerName.text;
       myProvider.avatarClient = [];
       myProvider.initialsClient = initialsClient(_controllerName.text.trim());
     }
-    myProvider.statusShipping = myProvider.user.statusShipping;
+    myProvider.statusShipping = myProvider.user.statusShipping!;
     await Future.delayed(Duration(milliseconds: 150));
     Navigator.push(context, SlideLeftRoute(page: VerifyDataClientPage()));
   }
@@ -378,12 +378,12 @@ class _NewSalesPageState extends State<NewSalesPage> {
       return listName[0].substring(0, 1);
   }
 
-  String _validateName(String? value) {
+  String? _validateName(String? value) {
     // This is just a regular expression for name
     String p = '[a-zA-Z]';
     RegExp regExp = new RegExp(p);
 
-    if (value.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
+    if (value!.isNotEmpty && regExp.hasMatch(value) && value.length >=3) {
       // So, the name is valid
       return null;
     }

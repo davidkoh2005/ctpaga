@@ -11,8 +11,6 @@ import 'package:camera/camera.dart';
 import 'dart:convert';
 import 'dart:io';
 
-List<CameraDescription> cameras;
-
 class DocumentsPage extends StatefulWidget {
   DocumentsPage(this._title);
   final String _title;
@@ -23,8 +21,8 @@ class DocumentsPage extends StatefulWidget {
 class _DocumentsPageState extends State<DocumentsPage> {
   _DocumentsPageState(this._title);
   String _title;
-  CameraController _controller;
-  Future<void> _initializeControllerFuture;
+  CameraController? _controller;
+  Future<void>? _initializeControllerFuture;
   bool isCameraReady = false, clickBotton = false, clickCamera = false;
 
   @override
@@ -41,7 +39,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
   Future<void> _initializeCamera() async {
     final cameras = await availableCameras();
     _controller = CameraController(cameras[0],ResolutionPreset.high);
-    _initializeControllerFuture = _controller.initialize();
+    _initializeControllerFuture = _controller!.initialize();
     if (!mounted) {
       return;
     }
@@ -165,7 +163,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                 children: [
                   Container(
                     width: size.width,
-                    child:CameraPreview(_controller) ,
+                    child:CameraPreview(_controller!) ,
                   ),
                   Container(
                     padding: EdgeInsets.only(top:100, bottom: 100),
@@ -245,7 +243,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
     try {
       final Directory extDir = await getApplicationDocumentsDirectory();
       final String filePath = '${extDir.path}/${_title}_$now.jpg';
-      await _controller.takePicture();
+      await _controller!.takePicture();
       _onLoading();
       _controller?.dispose();
 

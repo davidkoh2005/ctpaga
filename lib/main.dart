@@ -48,11 +48,11 @@ void initialNotification() {
 }
 
  Future onDidReceiveLocalNotification(
-      int id, String title, String body, String payload) async {
+      int? id, String? title, String? body, String? payload) async {
     print('onDidReceiveLocalNotification');
   }
 
-Future selectNotification(String payload) async {
+Future selectNotification(String? payload) async {
     
 }
 
@@ -127,7 +127,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
+    WidgetsBinding.instance!.removeObserver(this);
     super.dispose();
   } 
 

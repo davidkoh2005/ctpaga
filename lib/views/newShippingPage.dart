@@ -28,8 +28,8 @@ class _NewShippingPageState extends State<NewShippingPage> {
   final FocusNode _priceFocus = FocusNode();
   var lowPrice = MoneyMaskedTextController(initialValue: 0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: '\$ ', );
   bool _statusButtonSave = false, _switchFree = false, _statusButtonDelete = false;
-  int _statusCoin;
-  String _description, _descriptionData, _price;
+  int? _statusCoin;
+  String? _description, _descriptionData, _price;
   List _dataShipping = [];
 
   @override
@@ -55,7 +55,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
       lowPrice = MoneyMaskedTextController(initialValue:0, decimalSeparator: ',', thousandSeparator: '.',  leftSymbol: 'Bs ', );
     }
     
-    if(index != null){
+    if(index != -1){
       if(myProvider.dataShipping[index].price == "FREE")
         setState(() => _switchFree = true);
       else
@@ -89,7 +89,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               children: <Widget>[
                 buttonSave(),
                 Visibility(
-                  visible: index==null? false: true,
+                  visible: index== -1? false: true,
                   child: Padding(
                     padding: EdgeInsets.only(top:20),
                     child: buttonDelete()
@@ -131,7 +131,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
               textCapitalization:TextCapitalization.words,
               autofocus: false,
               validator: validateDescription,
-              onSaved: (value) => _description = value.trim(),
+              onSaved: (value) => _description = value!.trim(),
               onChanged: (value) {
                 setState(() {
                   if (value.length >3 && !_dataShipping.contains("Description")){
@@ -269,7 +269,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
           ),
         child: Center(
           child: AutoSizeText(
-            index == null? "CREAR TARIFA" : "GUARDAR TARIFA",
+            index == -1? "CREAR TARIFA" : "GUARDAR TARIFA",
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.w500,
@@ -332,7 +332,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
         _onLoading();
         result = await InternetAddress.lookup('google.com'); //verify network
         if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-          if(index == null){
+          if(index == -1){
             response = await http.post(
               Uri.parse(urlApi+"newShipping"),
               headers:{
@@ -527,7 +527,7 @@ class _NewShippingPageState extends State<NewShippingPage> {
     );
   }
 
-  String validateDescription(value){
+  String? validateDescription(value){
     var myProvider = Provider.of<MyProvider>(context, listen: false);
     value.trim();
     if (value.length <=3){

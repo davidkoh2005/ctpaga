@@ -47,7 +47,7 @@ class _ListCategoryPageState extends State<ListCategoryPage> {
       builder: (context, myProvider, child) {
         return Scrollbar(
           controller: _scrollController, 
-          thumbVisibility: true,
+          trackVisibility: true,
           child: ListView.builder(
             controller: _scrollController,
             padding: EdgeInsets.all(10),

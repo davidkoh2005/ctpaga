@@ -191,15 +191,15 @@ class _ProcessSalesPageState extends State<ProcessSalesPage> {
       priceDouble = double.parse(item['data'].price);
       priceDouble *= item['quantity'];
       if(item['data'].coin == 0 && myProvider.coinUsers == 1)
-        _total+=(priceDouble * varRate);
+        _total= _total! + (priceDouble * varRate);
       else if(item['data'].coin == 1 && myProvider.coinUsers == 0)
-        _total+=(priceDouble / varRate);
+        _total= _total! + (priceDouble / varRate);
       else
-        _total+=(priceDouble);
+        _total= _total! + (priceDouble);
 
     }
 
-    lowPurchase.updateValue(_total);
+    lowPurchase.updateValue(_total!);
 
     return "${lowPurchase.text}";
   }  

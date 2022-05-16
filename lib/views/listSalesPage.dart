@@ -53,7 +53,7 @@ class _ListSalesPageState extends State<ListSalesPage> {
       height: myProvider.dataPurchase.length < 8? (myProvider.dataPurchase.length*(size.height-120)/7) : size.height-230,
       child: Scrollbar(
         controller: _scrollController, 
-        thumbVisibility: true,
+        trackVisibility: true,
         child: ListView.builder(
           shrinkWrap: true,
           controller: _scrollController,

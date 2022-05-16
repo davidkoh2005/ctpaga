@@ -126,7 +126,7 @@ class _ModifySalesPageState extends State<ModifySalesPage> {
 
   _onKeyboardTap(String? value) {
     setState(() {
-      _quantity = _quantity! + value;
+      _quantity = _quantity! + value!;
     });
   }
 
